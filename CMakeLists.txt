@@ -20,7 +20,9 @@ add_definitions(-DSFML_STATIC)
 # end SFML
 
 set(PROJECT_SOURCES
-        client/src/main.cpp client/src/tournament_page.cpp)
+        client/src/main.cpp
+        client/src/tournament_screens.cpp
+        client/src/ui_functions.cpp)
 
 add_executable(war_of_ages ${PROJECT_SOURCES})
 

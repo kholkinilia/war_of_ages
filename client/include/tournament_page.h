@@ -1,6 +1,0 @@
-#ifndef WAR_OF_AGES_TOURNAMENT_PAGE_H
-#define WAR_OF_AGES_TOURNAMENT_PAGE_H
-
-/// definitions
-
-#endif//WAR_OF_AGES_TOURNAMENT_PAGE_H

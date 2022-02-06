@@ -1,34 +1,34 @@
 #include <SFML/Graphics.hpp>
 #include <TGUI/Backend/SFML-Graphics.hpp>
-#include <TGUI/Loading/ImageLoader.hpp>
-#include <TGUI/TGUI.hpp>
+#include "../include/tournament_screens.h"
+namespace war_of_ages {
 
-/*
- *
- * JUST A SAMPLE CODE, WILL BE REMOVED
- *
- */
+void screens_init(tgui::Gui& gui) {
+    // Widgets of every screen are defined here
 
-void bye() {
-    exit(0);
+    // Ilya's screens
+
+    tournament_screen_init(gui);
+    tournament_creation_screen_init(gui);
+    tournament_join_screen_init(gui);
+
+    // end Ilya's screens
+}
+
 }
 
 int main() {
-    sf::RenderWindow window{sf::VideoMode::getFullscreenModes()[0], "TGUI example - SFML_GRAPHICS backend", sf::Style::Fullscreen};
+    sf::RenderWindow window{sf::VideoMode::getFullscreenModes()[0], "War of Ages", sf::Style::Fullscreen};
     tgui::Gui gui(window);
+
+    war_of_ages::screens_init(gui);
+
+    gui.get("tournament_join_screen_group")->setVisible(true); // TODO: replace with main screen when implemented
 
     sf::Texture t;
     t.loadFromFile("../client/resources/pictures/fullHD_kittens.jpg");
     sf::Sprite s;
     s.setTexture(t);
-
-    tgui::Theme theme{"../client/resources/tgui_themes/Black.txt"};
-    tgui::Button::Ptr exit_button = tgui::Button::create("__EXITEXITEXIT__");
-    exit_button->setPosition("30%", "50%");
-    exit_button->setSize("40%", "10%");
-    exit_button->onPress(bye);
-    exit_button->setRenderer(theme.getRenderer("Button"));
-    gui.add(exit_button);
 
     while (window.isOpen()) {
         sf::Event event{};
