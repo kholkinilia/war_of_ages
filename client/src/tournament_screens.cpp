@@ -93,4 +93,4 @@ void tournament_screen_init(tgui::Gui &gui) {
     gui.get(TOURNAMENT_SCREEN)->setVisible(false);
 }
 
-} // namespace war_of_ages
+}  // namespace war_of_ages
