@@ -3,7 +3,7 @@
 #include "../include/screens.h"
 namespace war_of_ages {
 
-void screens_init(tgui::Gui& gui) {
+void screens_init(tgui::Gui &gui) {
     // Widgets of every screen are defined here
 
     // Ilya's screens
@@ -15,7 +15,7 @@ void screens_init(tgui::Gui& gui) {
     // end Ilya's screens
 }
 
-}
+}  // namespace war_of_ages
 
 int main() {
     sf::RenderWindow window{sf::VideoMode::getFullscreenModes()[0], "War of Ages", sf::Style::Fullscreen};
@@ -23,7 +23,7 @@ int main() {
 
     war_of_ages::screens_init(gui);
 
-    gui.get(TOURNAMENT_JOIN_SCREEN)->setVisible(true); // TODO: replace with main screen when implemented
+    gui.get(TOURNAMENT_JOIN_SCREEN)->setVisible(true);  // TODO: replace with main screen when implemented
 
     sf::Texture t;
     t.loadFromFile("../client/resources/pictures/fullHD_kittens.jpg");

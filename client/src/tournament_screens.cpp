@@ -1,8 +1,8 @@
 #include "../include/tournament_screens.h"
-#include "../include/ui_functions.h"
 #include <SFML/Graphics.hpp>
 #include <TGUI/Backend/SFML-Graphics.hpp>
 #include <TGUI/TGUI.hpp>
+#include "../include/ui_functions.h"
 
 namespace war_of_ages {
 
@@ -12,7 +12,7 @@ void tournament_join_screen_init(tgui::Gui &gui) {
     tgui::Button::Ptr create_tournament_button = tgui::Button::create("Создать турнир");
     create_tournament_button->setTextSize(30);
     create_tournament_button->onPress(
-            [&] { show_screen(gui, TOURNAMENT_CREATION_SCREEN, TOURNAMENT_JOIN_SCREEN); });
+        [&] { show_screen(gui, TOURNAMENT_CREATION_SCREEN, TOURNAMENT_JOIN_SCREEN); });
     tournament_join_screen_group->add(create_tournament_button);
 
     tgui::EditBox::Ptr tournament_key_box = tgui::EditBox::create();
@@ -27,20 +27,17 @@ void tournament_join_screen_init(tgui::Gui &gui) {
 
     tgui::Button::Ptr return_back_button = tgui::Button::create("Назад");
     return_back_button->setTextSize(30);
-    return_back_button->onPress(exit, 0); // TODO: set valid screen view function
+    return_back_button->onPress(exit, 0);  // TODO: set valid screen view function
     tournament_join_screen_group->add(return_back_button);
 
-    std::vector<tgui::Widget::Ptr> widgets{create_tournament_button,
-                                           tournament_key_box,
-                                           join_tournament_button,
-                                           return_back_button};
+    std::vector<tgui::Widget::Ptr> widgets{create_tournament_button, tournament_key_box,
+                                           join_tournament_button, return_back_button};
 
     place_widgets(widgets);
 
     gui.add(tournament_join_screen_group, TOURNAMENT_JOIN_SCREEN);
     gui.get(TOURNAMENT_JOIN_SCREEN)->setVisible(false);
 }
-
 
 void tournament_creation_screen_init(tgui::Gui &gui) {
     auto tournament_creation_screen_group = tgui::Group::create();
@@ -60,19 +57,17 @@ void tournament_creation_screen_init(tgui::Gui &gui) {
     tgui::Button::Ptr create_tournament_button = tgui::Button::create("Создать турнир");
     create_tournament_button->setTextSize(30);
     create_tournament_button->onPress(
-            [&] { show_screen(gui, TOURNAMENT_SCREEN, TOURNAMENT_CREATION_SCREEN); });
+        [&] { show_screen(gui, TOURNAMENT_SCREEN, TOURNAMENT_CREATION_SCREEN); });
     tournament_creation_screen_group->add(create_tournament_button);
 
     tgui::Button::Ptr return_back_button = tgui::Button::create("Назад");
     return_back_button->setTextSize(30);
     return_back_button->onPress(
-            [&] { show_screen(gui, TOURNAMENT_JOIN_SCREEN, TOURNAMENT_CREATION_SCREEN); });
+        [&] { show_screen(gui, TOURNAMENT_JOIN_SCREEN, TOURNAMENT_CREATION_SCREEN); });
     tournament_creation_screen_group->add(return_back_button);
 
-    std::vector<tgui::Widget::Ptr> widgets{tournament_name_box,
-                                           participants_number_box,
-                                           create_tournament_button,
-                                           return_back_button};
+    std::vector<tgui::Widget::Ptr> widgets{tournament_name_box, participants_number_box,
+                                           create_tournament_button, return_back_button};
 
     place_widgets(widgets);
 
@@ -87,8 +82,7 @@ void tournament_screen_init(tgui::Gui &gui) {
 
     tgui::Button::Ptr return_back_button = tgui::Button::create("Назад");
     return_back_button->setTextSize(30);
-    return_back_button->onPress(
-            [&] { show_screen(gui, TOURNAMENT_JOIN_SCREEN, TOURNAMENT_SCREEN); });
+    return_back_button->onPress([&] { show_screen(gui, TOURNAMENT_JOIN_SCREEN, TOURNAMENT_SCREEN); });
     tournament_screen_group->add(return_back_button);
 
     std::vector<tgui::Widget::Ptr> widgets{return_back_button};
@@ -99,5 +93,4 @@ void tournament_screen_init(tgui::Gui &gui) {
     gui.get(TOURNAMENT_SCREEN)->setVisible(false);
 }
 
-
-}
+}  // namespace war_of_ages
