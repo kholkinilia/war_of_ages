@@ -12,7 +12,7 @@ link_directories(client/ext/lib)
 set(PROJECT_SOURCES
         client/src/main.cpp
         client/src/tournament_screens.cpp
-        client/src/ui_functions.cpp
+        client/src/ui_functions.cpp)
 
 add_executable(war_of_ages ${PROJECT_SOURCES})
 
