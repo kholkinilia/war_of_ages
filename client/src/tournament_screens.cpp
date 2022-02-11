@@ -4,7 +4,6 @@
 #include <TGUI/Backend/SFML-Graphics.hpp>
 #include <TGUI/TGUI.hpp>
 
-
 namespace war_of_ages {
 
 void tournament_join_screen_init(tgui::Gui &gui) {
@@ -13,7 +12,7 @@ void tournament_join_screen_init(tgui::Gui &gui) {
     tgui::Button::Ptr create_tournament_button = tgui::Button::create("Создать турнир");
     create_tournament_button->setTextSize(30);
     create_tournament_button->onPress(
-            [&] { show_screen(gui, "tournament_creation_screen_group", "tournament_join_screen_group"); });
+            [&] { show_screen(gui, TOURNAMENT_CREATION_SCREEN, TOURNAMENT_JOIN_SCREEN); });
     tournament_join_screen_group->add(create_tournament_button);
 
     tgui::EditBox::Ptr tournament_key_box = tgui::EditBox::create();
@@ -38,8 +37,8 @@ void tournament_join_screen_init(tgui::Gui &gui) {
 
     place_widgets(widgets);
 
-    gui.add(tournament_join_screen_group, "tournament_join_screen_group");
-    gui.get("tournament_join_screen_group")->setVisible(false);
+    gui.add(tournament_join_screen_group, TOURNAMENT_JOIN_SCREEN);
+    gui.get(TOURNAMENT_JOIN_SCREEN)->setVisible(false);
 }
 
 
@@ -61,13 +60,13 @@ void tournament_creation_screen_init(tgui::Gui &gui) {
     tgui::Button::Ptr create_tournament_button = tgui::Button::create("Создать турнир");
     create_tournament_button->setTextSize(30);
     create_tournament_button->onPress(
-            [&] { show_screen(gui, "tournament_screen_group", "tournament_creation_screen_group"); });
+            [&] { show_screen(gui, TOURNAMENT_SCREEN, TOURNAMENT_CREATION_SCREEN); });
     tournament_creation_screen_group->add(create_tournament_button);
 
     tgui::Button::Ptr return_back_button = tgui::Button::create("Назад");
     return_back_button->setTextSize(30);
     return_back_button->onPress(
-            [&] { show_screen(gui, "tournament_join_screen_group", "tournament_creation_screen_group"); });
+            [&] { show_screen(gui, TOURNAMENT_JOIN_SCREEN, TOURNAMENT_CREATION_SCREEN); });
     tournament_creation_screen_group->add(return_back_button);
 
     std::vector<tgui::Widget::Ptr> widgets{tournament_name_box,
@@ -77,8 +76,8 @@ void tournament_creation_screen_init(tgui::Gui &gui) {
 
     place_widgets(widgets);
 
-    gui.add(tournament_creation_screen_group, "tournament_creation_screen_group");
-    gui.get("tournament_creation_screen_group")->setVisible(false);
+    gui.add(tournament_creation_screen_group, TOURNAMENT_CREATION_SCREEN);
+    gui.get(TOURNAMENT_CREATION_SCREEN)->setVisible(false);
 }
 
 void tournament_screen_init(tgui::Gui &gui) {
@@ -89,15 +88,15 @@ void tournament_screen_init(tgui::Gui &gui) {
     tgui::Button::Ptr return_back_button = tgui::Button::create("Назад");
     return_back_button->setTextSize(30);
     return_back_button->onPress(
-            [&] { show_screen(gui, "tournament_join_screen_group", "tournament_screen_group"); });
+            [&] { show_screen(gui, TOURNAMENT_JOIN_SCREEN, TOURNAMENT_SCREEN); });
     tournament_screen_group->add(return_back_button);
 
     std::vector<tgui::Widget::Ptr> widgets{return_back_button};
 
     place_widgets(widgets);
 
-    gui.add(tournament_screen_group, "tournament_screen_group");
-    gui.get("tournament_screen_group")->setVisible(false);
+    gui.add(tournament_screen_group, TOURNAMENT_SCREEN);
+    gui.get(TOURNAMENT_SCREEN)->setVisible(false);
 }
 
 

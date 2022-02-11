@@ -1,6 +1,6 @@
 #include <SFML/Graphics.hpp>
 #include <TGUI/Backend/SFML-Graphics.hpp>
-#include "../include/tournament_screens.h"
+#include "../include/screens.h"
 namespace war_of_ages {
 
 void screens_init(tgui::Gui& gui) {
@@ -23,7 +23,7 @@ int main() {
 
     war_of_ages::screens_init(gui);
 
-    gui.get("tournament_join_screen_group")->setVisible(true); // TODO: replace with main screen when implemented
+    gui.get(TOURNAMENT_JOIN_SCREEN)->setVisible(true); // TODO: replace with main screen when implemented
 
     sf::Texture t;
     t.loadFromFile("../client/resources/pictures/fullHD_kittens.jpg");

@@ -1,28 +1,18 @@
-cmake_minimum_required(VERSION 3.21)
+cmake_minimum_required(VERSION 3.20)
 project(war_of_ages CXX)
 
 set(CMAKE_CXX_STANDARD 17)
 
-# TGUI trying to find without exact paths:
-
-# set(CMAKE_PREFIX_PATH ./cmake_modules)
-set(TGUI_DIR D:/Soft/Lib/TGUI-0.10) # this is not good 100%, needs to be replaced with a decent alternative
-find_package(TGUI COMPONENTS tgui)
-
-# include_directories(D:/Soft/Lib/TGUI-0.10/include)
-# link_directories(D:/Soft/Lib/TGUI-0.10/lib)
-
-# end TGUI
-
-# SFML
 find_package(SFML 2.5 COMPONENTS system window graphics audio REQUIRED)
 add_definitions(-DSFML_STATIC)
-# end SFML
+
+include_directories(client/ext/include)
+link_directories(client/ext/lib)
 
 set(PROJECT_SOURCES
         client/src/main.cpp
         client/src/tournament_screens.cpp
-        client/src/ui_functions.cpp)
+        client/src/ui_functions.cpp client/include/screens.h)
 
 add_executable(war_of_ages ${PROJECT_SOURCES})
 
@@ -32,4 +22,4 @@ if(MINGW)
 endif()
 
 target_link_libraries(war_of_ages sfml-system sfml-window sfml-graphics sfml-audio)
-target_link_libraries(war_of_ages tgui)
+target_link_libraries(war_of_ages tgui-d)
