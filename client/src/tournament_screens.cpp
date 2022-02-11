@@ -101,4 +101,4 @@ void tournament_screen_init(tgui::Gui &gui) {
 }
 
 
-}
+} // namespace war_of_ages
