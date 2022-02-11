@@ -5,4 +5,4 @@ class tournament {
     // definitions
 };
 
-#endif//WAR_OF_AGES_TOURNAMENT_H
+#endif  // WAR_OF_AGES_TOURNAMENT_H
