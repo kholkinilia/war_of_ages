@@ -17,11 +17,7 @@ void tournament_screen_init(tgui::Gui &gui);
 
 struct tournament {
 private:
-    enum class result {
-        NONE,
-        VICTORY,
-        DEFEAT
-    };
+    enum class result { NONE, VICTORY, DEFEAT };
     static inline const int WIN_POINTS = 1;
     int part_number = 0;
     std::vector<tgui::String> participants;
@@ -40,7 +36,7 @@ public:
 
     void remove_participant(const tgui::String &handle);
 
-    void update_grid(const tgui::Grid::Ptr& grid);
+    void update_grid(const tgui::Grid::Ptr &grid);
 };
 
 }  // namespace war_of_ages

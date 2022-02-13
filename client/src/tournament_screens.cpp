@@ -13,7 +13,7 @@ void tournament_join_screen_init(tgui::Gui &gui) {
     tgui::Button::Ptr create_tournament_button = tgui::Button::create("Создать турнир");
     create_tournament_button->setTextSize(30);
     create_tournament_button->onPress(
-            [&] { show_screen(gui, TOURNAMENT_CREATION_SCREEN, TOURNAMENT_JOIN_SCREEN); });
+        [&] { show_screen(gui, TOURNAMENT_CREATION_SCREEN, TOURNAMENT_JOIN_SCREEN); });
     tournament_join_screen_group->add(create_tournament_button);
 
     tgui::EditBox::Ptr tournament_key_box = tgui::EditBox::create();
@@ -58,13 +58,13 @@ void tournament_creation_screen_init(tgui::Gui &gui) {
     tgui::Button::Ptr create_tournament_button = tgui::Button::create("Создать турнир");
     create_tournament_button->setTextSize(30);
     create_tournament_button->onPress(
-            [&] { show_screen(gui, TOURNAMENT_SCREEN, TOURNAMENT_CREATION_SCREEN); });
+        [&] { show_screen(gui, TOURNAMENT_SCREEN, TOURNAMENT_CREATION_SCREEN); });
     tournament_creation_screen_group->add(create_tournament_button);
 
     tgui::Button::Ptr return_back_button = tgui::Button::create("Назад");
     return_back_button->setTextSize(30);
     return_back_button->onPress(
-            [&] { show_screen(gui, TOURNAMENT_JOIN_SCREEN, TOURNAMENT_CREATION_SCREEN); });
+        [&] { show_screen(gui, TOURNAMENT_JOIN_SCREEN, TOURNAMENT_CREATION_SCREEN); });
     tournament_creation_screen_group->add(return_back_button);
 
     std::vector<tgui::Widget::Ptr> widgets{tournament_name_box, participants_number_box,
@@ -120,7 +120,7 @@ void tournament::add_participant(const tgui::String &handle) {
     participants.push_back(handle);
     id[handle] = part_number;
     part_number++;
-    for (auto &participant_results: match_results) {
+    for (auto &participant_results : match_results) {
         participant_results.emplace_back(result::NONE);
     }
     match_results.emplace_back(part_number);
@@ -145,14 +145,14 @@ void tournament::remove_participant(const tgui::String &handle) {
             sum[i] -= WIN_POINTS;
         }
     }
-    for (auto &cur_handle: participants) {
+    for (auto &cur_handle : participants) {
         if (id[cur_handle] > remove_id) {
             id[cur_handle]--;
         }
     }
     id.erase(participants[remove_id]);
     participants.erase(participants.begin() + remove_id);
-    for (auto &part_results: match_results) {
+    for (auto &part_results : match_results) {
         part_results.erase(part_results.begin() + remove_id);
     }
     match_results.erase(match_results.begin() + remove_id);
@@ -176,15 +176,10 @@ void tournament::update_grid(const tgui::Grid::Ptr &grid) {
     static const tgui::Color BLANK_CELL_BACKGROUND_COLOR = tgui::Color(50, 50, 50);
     static const tgui::Color TEXT_COLOR = tgui::Color::White;
     static const std::map<result, std::string> result_text{
-            {result::NONE,    "."},
-            {result::VICTORY, "V"},
-            {result::DEFEAT,  "D"}
-    };
-    static const std::map<result, tgui::Color> result_color{
-            {result::NONE,    REGULAR_BACKGROUND_COLOR},
-            {result::VICTORY, tgui::Color(0, 100, 0)},
-            {result::DEFEAT,  tgui::Color(100, 0, 0)}
-    };
+        {result::NONE, "."}, {result::VICTORY, "V"}, {result::DEFEAT, "D"}};
+    static const std::map<result, tgui::Color> result_color{{result::NONE, REGULAR_BACKGROUND_COLOR},
+                                                            {result::VICTORY, tgui::Color(0, 100, 0)},
+                                                            {result::DEFEAT, tgui::Color(100, 0, 0)}};
     // end table parameters
 
     grid->removeAllWidgets();
@@ -217,7 +212,7 @@ void tournament::update_grid(const tgui::Grid::Ptr &grid) {
         grid->addWidget(number, i + 1, 1);
     }
 
-    for (int i = 0; i < part_number; i++) { // TODO: make it not be a copy-paste
+    for (int i = 0; i < part_number; i++) {  // TODO: make it not be a copy-paste
         tgui::Label::Ptr number = tgui::Label::create(std::to_string(i + 1));
         format_label(number, SQUARE_SIZE, THICK_BORDER_WIDTH, REGULAR_BACKGROUND_COLOR);
         grid->addWidget(number, 0, i + 2);
@@ -231,7 +226,8 @@ void tournament::update_grid(const tgui::Grid::Ptr &grid) {
 
     for (int i = 0; i < part_number; i++) {
         for (int j = 0; j < part_number; j++) {
-            if (i == j) continue;
+            if (i == j)
+                continue;
             tgui::Label::Ptr cur_result = tgui::Label::create(result_text.at(match_results[i][j]));
             format_label(cur_result, SQUARE_SIZE, REGULAR_BORDER_WIDTH, result_color.at(match_results[i][j]));
             grid->addWidget(cur_result, i + 1, j + 2);
