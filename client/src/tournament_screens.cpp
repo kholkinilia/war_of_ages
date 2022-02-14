@@ -119,13 +119,13 @@ void tournament::add_participant(const tgui::String &handle) {
     }
     participants.push_back(handle);
     id[handle] = part_number;
-    part_number++;
     for (auto &participant_results : match_results) {
         participant_results.emplace_back(result::NONE);
     }
-    match_results.emplace_back(part_number);
+    match_results.emplace_back(part_number + 1);
     sum.emplace_back(0);
     place.emplace_back(0);
+    part_number++;
     update_places_lock_held();
 }
 
@@ -145,19 +145,20 @@ void tournament::remove_participant(const tgui::String &handle) {
             sum[i] -= WIN_POINTS;
         }
     }
+    for (auto &part_results : match_results) {
+        part_results.erase(part_results.begin() + remove_id);
+    }
     for (auto &cur_handle : participants) {
         if (id[cur_handle] > remove_id) {
             id[cur_handle]--;
         }
     }
     id.erase(participants[remove_id]);
-    participants.erase(participants.begin() + remove_id);
-    for (auto &part_results : match_results) {
-        part_results.erase(part_results.begin() + remove_id);
-    }
     match_results.erase(match_results.begin() + remove_id);
     sum.erase(sum.begin() + remove_id);
     place.erase(place.begin() + remove_id);
+    participants.erase(participants.begin() + remove_id);
+    part_number--;
     update_places_lock_held();
 }
 
