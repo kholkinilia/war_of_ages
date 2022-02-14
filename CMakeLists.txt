@@ -11,7 +11,7 @@ add_definitions(-DSFML_STATIC)
 set(CLIENT_PROJECT_SOURCES
         client/src/main.cpp
         client/src/tournament_screens.cpp
-        client/src/ui_functions.cpp)
+        client/src/ui_functions.cpp client/src/tournament.cpp)
 
 # set(SERVER_PROJECT_SOURCES
 #        server/src/main.cpp
