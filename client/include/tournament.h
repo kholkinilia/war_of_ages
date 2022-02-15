@@ -5,7 +5,6 @@
 #include <TGUI/Backend/SFML-Graphics.hpp>
 #include <TGUI/TGUI.hpp>
 #include <mutex>
-#include "screen_defines.h"
 
 namespace war_of_ages {
 
@@ -20,6 +19,7 @@ private:
     std::vector<int> sum;
     std::vector<int> place;
     std::mutex m;
+    bool is_grid_updated = true;
 
     void update_places_lock_held();
 
@@ -30,7 +30,7 @@ public:
 
     void remove_participant(const tgui::String &handle);
 
-    void update_grid(const tgui::Grid::Ptr &grid);
+    void update_grid(const tgui::Grid::Ptr grid);
 };
 
 }  // namespace war_of_ages

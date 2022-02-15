@@ -1,6 +1,10 @@
 #include <SFML/Graphics.hpp>
 #include <TGUI/Backend/SFML-Graphics.hpp>
+#include "../include/client.h"
+#include "../include/screen_defines.h"
 #include "../include/screens.h"
+#include "../include/ui_functions.h"
+
 namespace war_of_ages {
 
 void screens_init(tgui::Gui &gui) {
@@ -23,7 +27,11 @@ int main() {
 
     war_of_ages::screens_init(gui);
 
-    gui.get(TOURNAMENT_JOIN_SCREEN)->setVisible(true);  // TODO: replace with main screen when implemented
+    war_of_ages::client_state state(
+        "handle",
+        war_of_ages::screen::TOURNAMENT_JOINING);  // TODO: replace with main screen when implemented
+
+    gui.get(state.get_cur_screen_id())->setVisible(true);
 
     sf::Texture t;
     t.loadFromFile("../client/resources/pictures/fullHD_kittens.jpg");
@@ -38,6 +46,8 @@ int main() {
             if (event.type == sf::Event::Closed)
                 window.close();
         }
+
+        war_of_ages::update_widgets(gui, state);
 
         window.clear();
         window.draw(s);

@@ -38,6 +38,7 @@ void tournament::add_participant(const tgui::String &handle) {
     sum.emplace_back(0);
     place.emplace_back(0);
     part_number++;
+    is_grid_updated = false;
     update_places_lock_held();
 }
 
@@ -46,6 +47,7 @@ void tournament::add_result(const tgui::String &winner, const tgui::String &lose
     match_results[id[winner]][id[loser]] = result::VICTORY;
     match_results[id[loser]][id[winner]] = result::DEFEAT;
     sum[id[winner]] += WIN_POINTS;
+    is_grid_updated = false;
     update_places_lock_held();
 }
 
@@ -71,13 +73,16 @@ void tournament::remove_participant(const tgui::String &handle) {
     place.erase(place.begin() + remove_id);
     participants.erase(participants.begin() + remove_id);
     part_number--;
+    is_grid_updated = false;
     update_places_lock_held();
 }
 
-void tournament::update_grid(const tgui::Grid::Ptr &grid) {
+void tournament::update_grid(const tgui::Grid::Ptr grid) {
     // TODO: think of improving performance (should be easy)
-
     std::unique_lock lock(m);
+    if (is_grid_updated) {
+        return;
+    }
     // table parameters
     static const int HANDLE_WIDTH = 300;
     static const int SQUARE_SIZE = 50;
@@ -172,6 +177,8 @@ void tournament::update_grid(const tgui::Grid::Ptr &grid) {
         format_label(part_place, SQUARE_SIZE, THICK_BORDER_WIDTH, REGULAR_BACKGROUND_COLOR);
         grid->addWidget(part_place, i + 1, part_number + 3);
     }
+
+    is_grid_updated = true;
 }
 
 }  // namespace war_of_ages

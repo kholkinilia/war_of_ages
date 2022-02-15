@@ -5,7 +5,6 @@
 #include <TGUI/Backend/SFML-Graphics.hpp>
 #include <TGUI/TGUI.hpp>
 #include <mutex>
-#include "screen_defines.h"
 
 namespace war_of_ages {
 

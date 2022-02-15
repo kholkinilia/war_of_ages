@@ -3,7 +3,7 @@ project(war_of_ages CXX)
 
 set(CMAKE_CXX_STANDARD 17)
 
-find_package(TGUI 0.10 COMPONENTS tgui REQUIRED)
+find_package(TGUI 0.10 COMPONENTS tgui)
 
 find_package(SFML 2.5 COMPONENTS system window graphics audio REQUIRED)
 add_definitions(-DSFML_STATIC)
@@ -11,7 +11,10 @@ add_definitions(-DSFML_STATIC)
 set(CLIENT_PROJECT_SOURCES
         client/src/main.cpp
         client/src/tournament_screens.cpp
-        client/src/ui_functions.cpp client/src/tournament.cpp)
+        client/src/ui_functions.cpp
+        client/src/tournament.cpp
+        client/src/client.cpp
+        client/src/screens.cpp)
 
 # set(SERVER_PROJECT_SOURCES
 #        server/src/main.cpp
