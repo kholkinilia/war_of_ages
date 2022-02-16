@@ -18,7 +18,9 @@ set(CLIENT_PROJECT_SOURCES
 
 # set(SERVER_PROJECT_SOURCES
 #        server/src/main.cpp
-#        server/src/tournament.cpp)
+#        server/src/tournament.cpp
+#        server/src/game_state.cpp
+#        server/src/unit.cpp)
 
 add_executable(war_of_ages ${CLIENT_PROJECT_SOURCES})
 # add_executable(war_of_ages_server ${SERVER_PROJECT_SOURCES})
