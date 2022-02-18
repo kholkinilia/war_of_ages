@@ -31,7 +31,9 @@ void tournament_join_screen_init(tgui::Gui &gui) {
 
     tgui::Button::Ptr return_back_button = tgui::Button::create("Назад");
     return_back_button->setTextSize(30);
-    return_back_button->onPress(exit, 0);  // TODO: set valid screen view function
+    return_back_button->onPress([&] {
+        show_screen(gui, screen_id.at(screen::START_SCREEN), screen_id.at(screen::TOURNAMENT_JOINING));
+    });  // TODO: set valid screen view function
     tournament_join_screen_group->add(return_back_button);
 
     std::vector<tgui::Widget::Ptr> widgets{create_tournament_button, tournament_key_box,
