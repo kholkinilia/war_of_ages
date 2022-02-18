@@ -23,11 +23,12 @@ private:
     int remaining_hp;
     int last_beat;
     int position;
+
 public:
     explicit unit(unit_type type_);
 
     // TODO: void update(player opponent, int direction);
-    void attack(unit& enemy);
+    void attack(unit &enemy);
     void decrease_hp(int damage);
 };
 
