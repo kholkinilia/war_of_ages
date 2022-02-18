@@ -4,6 +4,5 @@
 
 namespace war_of_ages {
 void settings_screen_init(tgui::Gui &gui) {
-
 }
-}
+}  // namespace war_of_ages
