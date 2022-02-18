@@ -22,7 +22,7 @@ void screens_init(tgui::Gui &gui) {
 
     start_screen_init(gui);
     multiplayer_screen_init(gui);
-    // settings_screen_init(gui); FIXME: uncomment when settings screen done
+    settings_screen_init(gui);
 
     // end Vakhtang's screens
 }
@@ -35,9 +35,7 @@ int main() {
 
     war_of_ages::screens_init(gui);
 
-    war_of_ages::client_state state(
-        "handle",
-        war_of_ages::screen::START_SCREEN);  // TODO: replace with main screen when implemented
+    war_of_ages::client_state state("handle", war_of_ages::screen::START_SCREEN);
 
     gui.get(state.get_cur_screen_id())->setVisible(true);
 
