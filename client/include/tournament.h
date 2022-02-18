@@ -30,7 +30,7 @@ public:
 
     void remove_participant(const tgui::String &handle);
 
-    void update_grid(const tgui::Grid::Ptr grid);
+    void update_grid(const tgui::Grid::Ptr &grid);
 };
 
 }  // namespace war_of_ages

@@ -77,7 +77,7 @@ void tournament::remove_participant(const tgui::String &handle) {
     update_places_lock_held();
 }
 
-void tournament::update_grid(const tgui::Grid::Ptr grid) {
+void tournament::update_grid(const tgui::Grid::Ptr &grid) {
     // TODO: think of improving performance (should be easy)
     std::unique_lock lock(m);
     if (is_grid_updated) {
