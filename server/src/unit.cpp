@@ -19,12 +19,19 @@ unit_stats get_unit_stats(unit_type type) {
 unit::unit(unit_type type_) : type(type_) {
 }
 
-void unit::attack(unit &enemy) {
+void unit::attack(unit &enemy) const {
     enemy.decrease_hp(get_unit_stats(type).damage);
 }
 
 void unit::decrease_hp(int damage) {
     remaining_hp -= damage;
+}
+
+bool unit::is_alive() const {
+    return remaining_hp >= 0;
+}
+
+void unit::update(unit &enemy, int dt) {
 }
 
 }  // namespace war_of_ages

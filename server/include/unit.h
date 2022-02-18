@@ -2,6 +2,7 @@
 #define WAR_OF_AGES_UNIT_H
 
 #include <map>
+#include "player.h"
 
 namespace war_of_ages {
 
@@ -19,6 +20,8 @@ unit_stats get_unit_stats(unit_type type);
 
 struct unit {
 private:
+    const static inline int SPEED = 1;
+
     unit_type type;
     int remaining_hp;
     int last_beat;
@@ -27,9 +30,10 @@ private:
 public:
     explicit unit(unit_type type_);
 
-    // TODO: void update(player opponent, int direction);
-    void attack(unit &enemy);
+    void update(unit& enemy, int dt);
+    void attack(unit &enemy) const;
     void decrease_hp(int damage);
+    [[nodiscard]] bool is_alive() const;
 };
 
 }  // namespace war_of_ages
