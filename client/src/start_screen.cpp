@@ -39,6 +39,15 @@ void start_screen_init(tgui::Gui &gui) {
                                            statistics_button, exit_button};
     place_widgets(widgets);
 
+    tgui::Theme settings_icon_theme("../client/resources/tgui_themes/settings_icon.txt");
+    tgui::Button::Ptr settings_screen_button = tgui::Button::create();
+    settings_screen_button->setRenderer(settings_icon_theme.getRenderer("Button"));
+    settings_screen_button->setSize("4.5%", "8%");
+    settings_screen_button->setPosition("90%", "5%");
+    settings_screen_button->onPress(
+        [&gui]() { show_screen(gui, screen_id.at(screen::SETTINGS), screen_id.at(screen::START_SCREEN)); });
+    start_screen_group->add(settings_screen_button);
+
     gui.add(start_screen_group, screen_id.at(screen::START_SCREEN));
     gui.get(screen_id.at(screen::START_SCREEN))->setVisible(false);
 }
