@@ -14,7 +14,10 @@ set(CLIENT_PROJECT_SOURCES
         client/src/ui_functions.cpp
         client/src/tournament.cpp
         client/src/client.cpp
-        client/src/screens.cpp)
+        client/src/screens.cpp
+        client/src/start_screen.cpp
+        client/src/settings_screen.cpp
+        client/src/multiplayer_screen.cpp)
 
 # set(SERVER_PROJECT_SOURCES
 #        server/src/main.cpp

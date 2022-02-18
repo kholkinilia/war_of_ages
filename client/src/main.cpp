@@ -17,6 +17,14 @@ void screens_init(tgui::Gui &gui) {
     tournament_join_screen_init(gui);
 
     // end Ilya's screens
+
+    // Vakhtang's screens
+
+    start_screen_init(gui);
+    multiplayer_screen_init(gui);
+    // settings_screen_init(gui); FIXME: uncomment when settings screen done
+
+    // end Vakhtang's screens
 }
 
 }  // namespace war_of_ages
@@ -29,7 +37,7 @@ int main() {
 
     war_of_ages::client_state state(
         "handle",
-        war_of_ages::screen::TOURNAMENT_JOINING);  // TODO: replace with main screen when implemented
+        war_of_ages::screen::START_SCREEN);  // TODO: replace with main screen when implemented
 
     gui.get(state.get_cur_screen_id())->setVisible(true);
 
