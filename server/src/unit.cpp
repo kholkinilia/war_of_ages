@@ -16,7 +16,7 @@ unit_stats::unit_stats(int initial_hp_,
       width(width_) {
 }
 
-unit_stats get_unit_stats(unit_type type) {
+unit_stats unit::get_stats(unit_type type) {
     const static std::map<unit_type, unit_stats> stats{
         {unit_type::PEASANT, unit_stats(50, 500, 0, 25, 25, 50)},
         {unit_type::ARCHER, unit_stats(70, 1000, 100, 30, 50, 50)},
@@ -28,7 +28,7 @@ unit::unit(unit_type type) : m_type(type) {
 }
 
 void unit::attack(unit &enemy) const {
-    enemy.decrease_hp(get_unit_stats(m_type).damage);
+    enemy.decrease_hp(unit::get_stats(m_type).damage);
 }
 
 void unit::decrease_hp(int damage) {
@@ -41,6 +41,14 @@ bool unit::is_alive() const {
 
 void unit::update(unit &enemy, int dt) {
     // TODO: implement
+}
+
+int unit::position() const {
+    return m_position;
+}
+
+int unit::remaining_hp() const {
+    return m_remaining_hp;
 }
 
 }  // namespace war_of_ages

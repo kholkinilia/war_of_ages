@@ -22,15 +22,13 @@ struct unit_stats {
                int width_);
 };
 
-unit_stats get_unit_stats(unit_type type);
-
 struct unit {
 private:
     const static inline int SPEED = 1;
 
     unit_type m_type;
     int m_remaining_hp;
-    int m_last_beat;
+    int m_time_left;
     int m_position;
 
 public:
@@ -43,6 +41,8 @@ public:
 
     [[nodiscard]] int position() const;
     [[nodiscard]] int remaining_hp() const;
+
+    static unit_stats get_stats(unit_type type);
 };
 
 }  // namespace war_of_ages

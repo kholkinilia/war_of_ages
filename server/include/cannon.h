@@ -13,8 +13,6 @@ struct cannon_stats {
     cannon_stats(int cost_, int cooldown_);
 };
 
-cannon_stats get_cannon_stats(cannon_type type);
-
 struct cannon {
 private:
     cannon_type m_type;
@@ -29,6 +27,8 @@ public:
     int type();
     int x();
     int y();
+
+    static cannon_stats get_stats(cannon_type type);
 };
 
 }  // namespace war_of_ages
