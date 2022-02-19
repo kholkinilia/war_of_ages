@@ -1,11 +1,11 @@
 #ifndef WAR_OF_AGES_PLAYER_H
 #define WAR_OF_AGES_PLAYER_H
 
-#include "bullet.h"
-#include "unit.h"
-#include "cannon.h"
 #include <deque>
 #include <vector>
+#include "bullet.h"
+#include "cannon.h"
+#include "unit.h"
 
 namespace war_of_ages {
 struct player {
