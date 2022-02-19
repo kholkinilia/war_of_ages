@@ -10,7 +10,7 @@ enum cannon_type { STONE_LEVEL_1, STONE_LEVEL_2, STONE_LEVEL_3 };  // STONE -- a
 struct cannon_stats {
     int cost;
     int cooldown;
-    cannon_stats(int cost_, int cooldown);
+    cannon_stats(int cost_, int cooldown_);
 };
 
 cannon_stats get_cannon_stats(cannon_type type);
