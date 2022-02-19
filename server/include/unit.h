@@ -30,7 +30,7 @@ private:
 public:
     explicit unit(unit_type type_);
 
-    void update(unit& enemy, int dt);
+    void update(unit &enemy, int dt);
     void attack(unit &enemy) const;
     void decrease_hp(int damage);
     [[nodiscard]] bool is_alive() const;

@@ -17,10 +17,11 @@ private:
     int m_type;
     int m_time_left;
     int m_floor;
+
 public:
-    void update(unit& enemy, int dt);
+    void update(unit &enemy, int dt);
 };
 
-}
+}  // namespace war_of_ages
 
 #endif  // WAR_OF_AGES_CANNON_H

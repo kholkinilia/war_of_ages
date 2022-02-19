@@ -3,7 +3,6 @@
 namespace war_of_ages {
 
 void game_state::update(int dt) {
-
 }
 
-}
+}  // namespace war_of_ages
