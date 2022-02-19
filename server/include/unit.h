@@ -22,10 +22,10 @@ struct unit {
 private:
     const static inline int SPEED = 1;
 
-    unit_type type;
-    int remaining_hp;
-    int last_beat;
-    int position;
+    unit_type m_type;
+    int m_remaining_hp;
+    int m_last_beat;
+    int m_position;
 
 public:
     explicit unit(unit_type type_);
@@ -34,6 +34,9 @@ public:
     void attack(unit &enemy) const;
     void decrease_hp(int damage);
     [[nodiscard]] bool is_alive() const;
+
+    [[nodiscard]] int position() const;
+    [[nodiscard]] int remaining_hp() const;
 };
 
 }  // namespace war_of_ages
