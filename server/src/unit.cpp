@@ -6,12 +6,14 @@ unit_stats::unit_stats(int initial_hp_,
                        int attack_cooldown_ms_,
                        int attack_radius_pxls_,
                        int damage_,
-                       int cost_)
+                       int cost_,
+                       int width_)
     : initial_hp(initial_hp_),
       attack_cooldown_ms(attack_cooldown_ms_),
       attack_radius_pxls(attack_radius_pxls_),
       damage(damage_),
-      cost(cost_) {
+      cost(cost_),
+      width(width_) {
 }
 
 unit_stats get_unit_stats(unit_type type) {

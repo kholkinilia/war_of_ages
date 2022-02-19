@@ -5,16 +5,19 @@
 
 namespace war_of_ages {
 
+enum cannon_type { STONE_LEVEL_1, STONE_LEVEL_2, STONE_LEVEL_3 };  // STONE -- age
+
 struct cannon_stats {
     int cost;
     int cooldown;
+    cannon_stats(int cost_, int cooldown);
 };
 
-cannon_stats get_cannon_stats(int type);
+cannon_stats get_cannon_stats(cannon_type type);
 
 struct cannon {
 private:
-    int m_type;
+    cannon_type m_type;
     int m_time_left;
     int m_x;
     int m_y;
