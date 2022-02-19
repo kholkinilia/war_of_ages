@@ -5,7 +5,7 @@
 
 namespace war_of_ages {
 
-enum cannon_type { STONE_LEVEL_1, STONE_LEVEL_2, STONE_LEVEL_3 };  // STONE -- age
+enum class cannon_type { STONE_LEVEL_1, STONE_LEVEL_2, STONE_LEVEL_3 };  // STONE -- age
 
 struct cannon_stats {
     int cost;
