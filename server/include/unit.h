@@ -28,7 +28,7 @@ private:
     int m_position;
 
 public:
-    explicit unit(unit_type type_);
+    explicit unit(unit_type type);
 
     void update(unit &enemy, int dt);
     void attack(unit &enemy) const;

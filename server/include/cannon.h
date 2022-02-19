@@ -16,9 +16,12 @@ struct cannon {
 private:
     int m_type;
     int m_time_left;
-    int m_floor;
+    int m_x;
+    int m_y;
 
 public:
+    cannon(int type, int x, int y);
+
     void update(unit &enemy, int dt);
 };
 
