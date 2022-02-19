@@ -5,7 +5,7 @@
 
 namespace war_of_ages {
 
-enum class cannon_type { STONE_LEVEL_1, STONE_LEVEL_2, STONE_LEVEL_3 };  // STONE -- age
+enum class cannon_type { STONE_LEVEL_1, STONE_LEVEL_2, STONE_LEVEL_3, NONE };  // STONE -- age
 
 struct cannon_stats {
     int cost;
@@ -21,7 +21,7 @@ private:
     int m_y;
 
 public:
-    cannon(int type, int x, int y);
+    cannon(cannon_type type, int x, int y);
 
     void update(unit &enemy, int dt);
     cannon_type type();
