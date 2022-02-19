@@ -1,8 +1,11 @@
-//
-// Created by evm on 19.02.2022.
-//
+#ifndef WAR_OF_AGES_GAME_CONSTANTS_H
+#define WAR_OF_AGES_GAME_CONSTANTS_H
 
-#ifndef WAR_OF_AGES_GAME_STATS_H
-#define WAR_OF_AGES_GAME_STATS_H
+const int NUM_OF_AGES = 4;
+const int UNITS_PER_AGE = 3;
+const int MAX_CANNON_SLOTS = 3;
+const int UNITS_QUEUE_SIZE = 5;
 
-#endif //WAR_OF_AGES_GAME_STATS_H
+const int INITIAL_MONEY = 200;
+
+#endif  // WAR_OF_AGES_GAME_CONSTANTS_H
