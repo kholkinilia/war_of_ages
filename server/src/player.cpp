@@ -18,7 +18,7 @@ namespace war_of_ages {
     return m_money;
 }
 
-[[nodiscard]] std::queue<unit> player::units() const {
+[[nodiscard]] std::deque<unit> player::units() const {
     return m_units;
 }
 
@@ -26,18 +26,16 @@ namespace war_of_ages {
     return m_bullets;
 }
 
-// TODO: uncomment when "cannon.h" is done
-/*[[nodiscard]] std::vector<cannon> player::cannons() const {
+[[nodiscard]] std::vector<cannon> player::cannons() const {
     return m_cannons;
-}*/
+}
 
-[[nodiscard]] std::queue<int> player::units_to_train() const {
+[[nodiscard]] std::deque<int> player::units_to_train() const {
     return m_units_to_train;
 }
 
 [[nodiscard]] bool player::is_alive() const {
     assert(!m_units.empty());
-    // TODO: write when unit's getters are done
-    // return m_units[0].hp() > 0
+    return m_units.front().is_alive();
 }
 }  // namespace war_of_ages
