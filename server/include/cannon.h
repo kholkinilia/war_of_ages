@@ -24,7 +24,7 @@ public:
     cannon(int type, int x, int y);
 
     void update(unit &enemy, int dt);
-    int type();
+    cannon_type type();
     int x();
     int y();
 
