@@ -19,16 +19,16 @@ set(CLIENT_PROJECT_SOURCES
         client/src/settings_screen.cpp
         client/src/multiplayer_screen.cpp)
 
-# set(SERVER_PROJECT_SOURCES
-#        server/src/main.cpp
-#        server/src/tournament.cpp
-#        server/src/game_state.cpp
-#        server/src/player.cpp
-#        server/src/unit.cpp
-#        server/src/bullet.cpp)
+set(SERVER_PROJECT_SOURCES
+        server/src/main.cpp
+        server/src/tournament.cpp
+        server/src/game_state.cpp
+        server/src/player.cpp
+        server/src/unit.cpp
+        server/src/bullet.cpp)
 
 add_executable(war_of_ages ${CLIENT_PROJECT_SOURCES})
-# add_executable(war_of_ages_server ${SERVER_PROJECT_SOURCES})
+add_executable(war_of_ages_server ${SERVER_PROJECT_SOURCES})
 
 set(NETWORKING_LIBS)
 if (WIN32 AND NOT MSVC AND NOT BORLAND)
