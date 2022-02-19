@@ -1,35 +1,52 @@
 #include "../include/player.h"
+#include <algorithm>
 #include <cassert>
 
 namespace war_of_ages {
 
-player::player() noexcept {
-    // TODO: implement;
-}
-
-void player::update(std::vector<unit> &enemies, int time) {
+void player::update(const std::deque<unit> &enemies, int time) {
     // TODO: implement
 }
 
 void player::buy_unit(int unit_level) {
-    // TODO: implement
+    assert(0 <= unit_level && unit_level < UNITS_PER_AGE);
+    std::unique_lock l(m_mutex);
+    assert(m_units_to_train.size() < UNITS_QUEUE_SIZE);
+    auto type = static_cast<unit_type>(static_cast<int>(m_age) * UNITS_PER_AGE + unit_level);
+    int cost = unit::get_stats(type).cost;
+    assert(m_money >= cost);
+    m_money -= cost;
+    m_units_to_train.emplace_back(type);
 }
 
-void player::buy_cannon(int cannon_type) {
-    // TODO: implement
+void player::buy_cannon(int cannon_level, int slot) {
+    assert(0 <= cannon_level && cannon_level < CANNONS_PER_AGE);
+    std::unique_lock l(m_mutex);
+    assert(0 <= slot && slot < m_cannons.size());
+    auto type = static_cast<cannon_type>(static_cast<int>(m_age) * CANNONS_PER_AGE + cannon_level);
+    int cost = cannon::get_stats(type).cost;
+    assert(m_money >= cost);
+    m_money -= cost;
+    m_cannons[cannon_level] =
+        cannon{type, CANNONS_SLOTS_COORD_X[cannon_level], CANNONS_SLOTS_COORD_Y[cannon_level]};
 }
 
 void player::buy_cannon_slot() {
     std::unique_lock l(m_mutex);
     assert(m_cannons.size() < MAX_CANNON_SLOTS);
-    // TODO: implement
+    int cost = CANNONS_SLOTS_COSTS[m_cannons.size()];
+    assert(m_money >= cost);
+    m_money -= cost;
+    m_cannons.emplace_back(cannon_type::NONE, CANNONS_SLOTS_COORD_X[m_cannons.size()],
+                           CANNONS_SLOTS_COORD_Y[m_cannons.size()]);
 }
 
 void player::sell_cannon(int slot) {
     std::unique_lock l(m_mutex);
-    assert(0 < slot && slot < m_cannons.size());
-    auto &cann = m_cannons[slot];
-    // TODO: implement
+    assert(m_cannons.at(slot).type() != cannon_type::NONE);
+    m_money += cannon::get_stats(m_cannons[slot].type()).cost;
+    m_cannons[slot] = cannon{cannon_type::NONE, CANNONS_SLOTS_COORD_X[m_cannons.size()],
+                             CANNONS_SLOTS_COORD_Y[m_cannons.size()]};
 }
 
 void player::use_ult() {
@@ -37,12 +54,18 @@ void player::use_ult() {
 }
 
 void player::clear_dead_objects() {
-    // TODO: implement
+    std::unique_lock l(m_mutex);
+    m_bullets.erase(std::remove_if(m_bullets.begin(), m_bullets.end(),
+                                   [](const bullet &bullet_) { return !bullet_.is_alive(); }),
+                    m_bullets.end());
+    m_units.erase(
+        std::remove_if(m_units.begin(), m_units.end(), [](const unit &unit_) { return !unit_.is_alive(); }),
+        m_units.end());
 }
 
 // Getters
 
-[[nodiscard]] int player::age() const {
+[[nodiscard]] age_type player::age() const {
     std::unique_lock l(m_mutex);
     return m_age;
 }
@@ -72,7 +95,7 @@ void player::clear_dead_objects() {
     return m_cannons;
 }
 
-[[nodiscard]] std::deque<int> player::units_to_train() const {
+[[nodiscard]] std::deque<unit> player::units_to_train() const {
     std::unique_lock l(m_mutex);
     return m_units_to_train;
 }
