@@ -18,9 +18,9 @@ unit_stats::unit_stats(int initial_hp_,
 
 unit_stats get_unit_stats(unit_type type) {
     const static std::map<unit_type, unit_stats> stats{
-        {unit_type::PEASANT, unit_stats(50, 500, 0, 25, 25)},
-        {unit_type::ARCHER, unit_stats(70, 1000, 100, 30, 50)},
-        {unit_type::KNIGHT, unit_stats(100, 1500, 0, 40, 100)}};
+        {unit_type::PEASANT, unit_stats(50, 500, 0, 25, 25, 50)},
+        {unit_type::ARCHER, unit_stats(70, 1000, 100, 30, 50, 50)},
+        {unit_type::KNIGHT, unit_stats(100, 1500, 0, 40, 100, 100)}};
     return stats.at(type);
 }
 
