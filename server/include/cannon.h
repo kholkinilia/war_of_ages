@@ -23,6 +23,9 @@ public:
     cannon(int type, int x, int y);
 
     void update(unit &enemy, int dt);
+    int type();
+    int x();
+    int y();
 };
 
 }  // namespace war_of_ages
