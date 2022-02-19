@@ -13,7 +13,7 @@
 namespace war_of_ages {
 
 struct player {
-    void update(const std::deque<unit> &enemies, int time);  // need all enemies for ult
+    void update(std::deque<unit> &enemies, int time);  // need all enemies for ult
     void buy_unit(int unit_level);  // unit_level in [0, NUM_OF_UNITS_IN_AGE), unit_type = NUM_OF_AGES *
                                     // m_age + unit_level ???
     void buy_cannon(int cannon_type, int slot);  // the same remark

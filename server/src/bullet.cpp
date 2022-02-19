@@ -24,7 +24,7 @@ bullet::bullet(age_type age_ult, int x_start, int y_start, int x_target, int y_t
     m_vx /= scale, m_vy /= scale;
 }
 
-void bullet::update(const std::deque<unit> &enemies, int dt) {
+void bullet::update(std::deque<unit> &enemies, int dt) {
     // TODO: implement
 }
 
@@ -55,8 +55,12 @@ void bullet::update(const std::deque<unit> &enemies, int dt) {
 }
 
 [[nodiscard]] bullet_stats bullet::get_stats(bullet_type type) {
-    return {};
-    // TODO: return stats
+    // TODO: pass values
+    const static bullet_stats stats[NUM_OF_CANNONS + NUM_OF_AGES] = {
+        {0, 0}, {0, 0}, {0, 0}, {0, 0}, {0, 0}, {0, 0}, {0, 0}, {0, 0},
+        {0, 0}, {0, 0}, {0, 0}, {0, 0}, {0, 0}, {0, 0}, {0, 0}, {0, 0},
+    };
+    return stats[static_cast<int>(type)];
 }
 
 }  // namespace war_of_ages

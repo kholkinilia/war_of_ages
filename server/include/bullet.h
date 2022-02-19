@@ -23,7 +23,7 @@ struct bullet {
     bullet(cannon_type type, int x_start, int y_start, int x_target, int y_target) noexcept;
     bullet(age_type age_, int x_start, int y_start, int x_target, int y_target) noexcept;
 
-    void update(const std::deque<unit> &enemies, int dt);
+    void update(std::deque<unit> &enemies, int dt);
 
     // Getters
 
