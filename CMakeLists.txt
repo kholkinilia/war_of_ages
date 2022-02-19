@@ -42,7 +42,8 @@ if (BUILD_SERVER)
             server/src/game_state.cpp
             server/src/player.cpp
             server/src/unit.cpp
-            server/src/bullet.cpp)
+            server/src/bullet.cpp
+            server/src/cannon.cpp)
     add_executable(war_of_ages_server ${SERVER_PROJECT_SOURCES})
     target_link_libraries(war_of_ages_server ${NETWORKING_LIBS})
 endif ()
