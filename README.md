@@ -7,3 +7,4 @@ Just a clone of a well-known game [Age fo War](https://igroutka.ru/flesh-igry/28
 * 3/3 Tournament screens are clickable.
 * Tournament struct is implemented.
 * CI is set to automatically format files (hopefully).
+* Game classes are defined (can be updated)
