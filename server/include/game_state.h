@@ -1,12 +1,12 @@
 #ifndef WAR_OF_AGES_GAME_STATE_H
 #define WAR_OF_AGES_GAME_STATE_H
 
-#include "../include/player.h"
 #include <vector>
+#include "../include/player.h"
 
 namespace war_of_ages {
 
-enum class command {}; // TODO: think of a decent commands format
+enum class command {};  // TODO: think of a decent commands format
 
 struct game_state {
 private:
