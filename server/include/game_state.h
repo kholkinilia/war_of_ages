@@ -2,15 +2,18 @@
 #define WAR_OF_AGES_GAME_STATE_H
 
 #include "../include/player.h"
+#include <vector>
 
 namespace war_of_ages {
+
+enum class command {}; // TODO: think of a decent commands format
 
 struct game_state {
 private:
     player p1, p2;
 
 public:
-    void update(int dt);
+    void update(std::vector<command> p1_commands, std::vector<command> p2_commands, int dt);
 };
 
 }  // namespace war_of_ages
