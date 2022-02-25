@@ -2,6 +2,7 @@
 #include <algorithm>
 #include <map>
 #include <optional>
+#include "../include/game_constants.h"
 
 namespace war_of_ages {
 
@@ -77,7 +78,7 @@ int unit::is_in(int x, int y) const noexcept {
 }
 
 int unit::dist(unit &enemy) const noexcept {
-    return std::max(0, position() - enemy.position());
+    return std::max(0, (FIELD_LENGTH_PXLS - enemy.position() - 1) - position());
 }
 
 unit_type unit::type() const noexcept {
