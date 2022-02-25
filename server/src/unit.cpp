@@ -1,7 +1,7 @@
 #include "../include/unit.h"
 #include <algorithm>
-#include <map>
 #include <optional>
+#include <unordered_map>
 #include "../include/game_constants.h"
 
 namespace war_of_ages {
@@ -25,10 +25,10 @@ unit_stats::unit_stats(int initial_hp_,
 }
 
 unit_stats unit::get_stats(unit_type type) noexcept {
-    const static std::map<unit_type, unit_stats> stats{
+    const static std::unordered_map<unit_type, unit_stats> stats{
         {unit_type::PEASANT, unit_stats(50, 500, 0, 25, 25, 50, 100, 0.01)},
         {unit_type::ARCHER, unit_stats(70, 1000, 100, 30, 50, 50, 100, 0.01)},
-        {unit_type::KNIGHT, unit_stats(100, 1500, 0, 40, 100, 100, 100, 0.05)}};
+        {unit_type::CHARIOT, unit_stats(100, 1500, 0, 40, 100, 100, 100, 0.05)}};
     return stats.at(type);
 }
 

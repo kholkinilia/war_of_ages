@@ -3,7 +3,7 @@
 
 #include <deque>
 #include "age.h"
-#include "cannon.h"
+//#include "cannon.h"
 #include "unit.h"
 
 namespace war_of_ages {
@@ -14,14 +14,15 @@ enum class bullet_type {
     STONE_ULT,
 };
 
-struct bullet_stats {
+struct bullet_stats {  // FIXME: get rid of type and stats (i've just added a constructor DECLARATION)
     int speed;
     int damage;
 };
 
 struct bullet {
-    bullet(cannon_type type, int x_start, int y_start, int x_target, int y_target) noexcept;
-    bullet(age_type age_, int x_start, int y_start, int x_target, int y_target) noexcept;
+    //    bullet(cannon_type type, int x_start, int y_start, int x_target, int y_target) noexcept;
+    //    bullet(age_type age_, int x_start, int y_start, int x_target, int y_target) noexcept;
+    bullet(double speed, int damage, int x_start, int y_start, int x_target, int y_target);
 
     void update(std::deque<unit> &enemies, int dt);
 

@@ -1,12 +1,11 @@
 #ifndef WAR_OF_AGES_UNIT_H
 #define WAR_OF_AGES_UNIT_H
 
-#include <map>
 #include <optional>
 
 namespace war_of_ages {
 
-enum class unit_type { PEASANT, ARCHER, KNIGHT };
+enum class unit_type { PEASANT, ARCHER, CHARIOT };
 
 struct unit_stats {
     int initial_hp;

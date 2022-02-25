@@ -4,25 +4,29 @@
 
 namespace war_of_ages {
 
-bullet::bullet(cannon_type type, int x_start, int y_start, int x_target, int y_target) noexcept
-    : m_type(static_cast<bullet_type>(type)),
-      m_x(x_start),
-      m_y(y_start),
-      m_vx{x_target - x_start},
-      m_vy{y_target - y_start} {
-    double scale = sqrt(pow(m_vx, 2) + pow(m_vy, 2));
-    m_vx /= scale, m_vy /= scale;
+bullet::bullet(double speed, int damage, int x_start, int y_start, int x_target, int y_target) {
+    // TODO: implement
 }
 
-bullet::bullet(age_type age_ult, int x_start, int y_start, int x_target, int y_target) noexcept
-    : m_type(static_cast<bullet_type>(NUM_OF_CANNONS + static_cast<int>(age_ult))),
-      m_x(x_start),
-      m_y(y_start),
-      m_vx{x_target - x_start},
-      m_vy{y_target - y_start} {
-    double scale = sqrt(pow(m_vx, 2) + pow(m_vy, 2));
-    m_vx /= scale, m_vy /= scale;
-}
+// bullet::bullet(cannon_type type, int x_start, int y_start, int x_target, int y_target) noexcept
+//     : m_type(static_cast<bullet_type>(type)),
+//       m_x(x_start),
+//       m_y(y_start),
+//       m_vx{x_target - x_start},
+//       m_vy{y_target - y_start} {
+//     double scale = sqrt(pow(m_vx, 2) + pow(m_vy, 2));
+//     m_vx /= scale, m_vy /= scale;
+// }
+
+// bullet::bullet(age_type age_ult, int x_start, int y_start, int x_target, int y_target) noexcept
+//     : m_type(static_cast<bullet_type>(NUM_OF_CANNONS + static_cast<int>(age_ult))),
+//       m_x(x_start),
+//       m_y(y_start),
+//       m_vx{x_target - x_start},
+//       m_vy{y_target - y_start} {
+//     double scale = sqrt(pow(m_vx, 2) + pow(m_vy, 2));
+//     m_vx /= scale, m_vy /= scale;
+// }
 
 void bullet::update(std::deque<unit> &enemies, int dt) {
     // TODO: implement
@@ -62,5 +66,4 @@ void bullet::update(std::deque<unit> &enemies, int dt) {
     };
     return stats[static_cast<int>(type)];
 }
-
 }  // namespace war_of_ages
