@@ -2,6 +2,7 @@
 #define WAR_OF_AGES_UNIT_H
 
 #include <map>
+#include <optional>
 
 namespace war_of_ages {
 
@@ -13,36 +14,41 @@ struct unit_stats {
     int attack_radius_pxls;
     int damage;
     int cost;
-    int width;
+    int width_pxls;
+    int height_pxls;
+    double speed;  // TODO: think of making speed an integer
     unit_stats(int initial_hp_,
                int attack_cooldown_ms_,
                int attack_radius_pxls_,
                int damage_,
                int cost_,
-               int width_);
+               int width_,
+               int height_,
+               double speed_);
 };
 
 struct unit {
 private:
-    const static inline int SPEED = 1;
-
     unit_type m_type;
     int m_remaining_hp;
-    int m_time_left;
-    int m_position;
+    int m_time_left = 0;
+    int m_position = 0;
 
 public:
     explicit unit(unit_type type);
 
-    void update(unit &enemy, int dt);
-    void attack(unit &enemy) const;
-    void decrease_hp(int damage);
-    [[nodiscard]] bool is_alive() const;
+    void update(unit &enemy, const std::optional<unit> &next_alied_unit, int dt) noexcept;
+    void attack(unit &enemy) noexcept;
+    void decrease_hp(int damage) noexcept;
+    [[nodiscard]] bool is_alive() const noexcept;
+    [[nodiscard]] int is_in(int x, int y) const noexcept;
+    [[nodiscard]] int dist(unit &enemy) const noexcept;
 
-    [[nodiscard]] int position() const;
-    [[nodiscard]] int remaining_hp() const;
+    [[nodiscard]] int position() const noexcept;
+    [[nodiscard]] int remaining_hp() const noexcept;
+    [[nodiscard]] unit_type type() const noexcept;
 
-    static unit_stats get_stats(unit_type type);
+    static unit_stats get_stats(unit_type type) noexcept;
 };
 
 }  // namespace war_of_ages

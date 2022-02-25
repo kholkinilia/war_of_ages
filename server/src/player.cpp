@@ -4,16 +4,18 @@
 
 namespace war_of_ages {
 
-void player::update(std::deque<unit> &enemies, int time) {
-    for (auto &unit_ : m_units) {
-        unit_.update(enemies.back(), /* FIXME: pass dt */ 0);
-    }
-    for (auto &bullet_ : m_bullets) {
-        bullet_.update(enemies, /* FIXME: pass dt */ 0);
-    }
-    for (auto &cannon_ : m_cannons) {
-        cannon_.update(enemies.back(), /* FIXME: pass dt */ 0);
-    }
+void player::update(player &enemy, int time) {
+    // FIXME: take scoped_lock and update properly
+
+    //    for (auto &unit_ : m_units) {
+    //        unit_.update(enemies.back(), /* FIXME: pass dt */ 0);
+    //    }
+    //    for (auto &bullet_ : m_bullets) {
+    //        bullet_.update(enemies, /* FIXME: pass dt */ 0);
+    //    }
+    //    for (auto &cannon_ : m_cannons) {
+    //        cannon_.update(enemies.back(), /* FIXME: pass dt */ 0);
+    //    }
 }
 
 void player::buy_unit(int unit_level) {

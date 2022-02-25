@@ -3,17 +3,20 @@
 
 #include <vector>
 #include "../include/player.h"
+#include "game_commands.h"
 
 namespace war_of_ages {
-
-enum class command {};  // TODO: think of a decent commands format
 
 struct game_state {
 private:
     player p1, p2;
 
+    static void apply_commands(player &p, const std::vector<game_command> &commands);
+
 public:
-    void update(std::vector<command> p1_commands, std::vector<command> p2_commands, int dt);
+    void update(const std::vector<game_command> &p1_commands,
+                const std::vector<game_command> &p2_commands,
+                int dt);
 };
 
 }  // namespace war_of_ages
