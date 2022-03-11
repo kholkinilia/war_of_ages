@@ -37,11 +37,12 @@ private:
     age_type m_age = age_type::STONE;
     int m_exp = 0;
     int m_money = INITIAL_MONEY;
-    int m_last_ult = 0;
+    double m_ult_cooldown = ULT_COOLDOWN;
     std::deque<unit> m_units = {};
     std::vector<bullet> m_bullets = {};
     std::vector<cannon> m_cannons = {
         cannon{cannon_type::NONE, CANNONS_SLOTS_COORD_X[0], CANNONS_SLOTS_COORD_Y[0]}};
+    double m_training_time_left = 0.0;
     std::deque<unit> m_units_to_train = {};
 
     mutable std::mutex m_mutex;

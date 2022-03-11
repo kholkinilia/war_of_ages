@@ -17,7 +17,16 @@ void player::update(player &enemy, double dt) {
     for (auto &cannon_ : m_cannons) {
         cannon_.update(enemies.back(), dt);
     }
-    // TODO: train units from m_units_to_train
+    m_ult_cooldown = std::max(m_ult_cooldown - dt, 0.0);
+    m_training_time_left = std::max(m_training_time_left - dt, 0.0);
+    if (m_training_time_left == 0.0 && !m_units_to_train.empty()) {
+        m_units.push_front(m_units_to_train[0]);
+        std::swap(m_units[0], m_units[1]);
+        m_units_to_train.pop_front();
+        if (!m_units_to_train.empty()) {
+            m_training_time_left = unit::get_stats(m_units_to_train[0].type()).time_to_train_s;
+        }
+    }
 }
 
 void player::buy_unit(int unit_level) {
@@ -27,12 +36,16 @@ void player::buy_unit(int unit_level) {
         return;
     }
     auto type = static_cast<unit_type>(static_cast<int>(m_age) * UNITS_PER_AGE + unit_level);
-    int cost = unit::get_stats(type).cost;
+    auto stats = unit::get_stats(type);
+    int cost = stats.cost;
     if (m_money < cost) {
         return;
     }
     m_money -= cost;
     m_units_to_train.emplace_back(type);
+    if (m_units_to_train.empty()) {
+        m_training_time_left = stats.time_to_train_s;
+    }
 }
 
 void player::buy_cannon(int cannon_level, int slot) {
@@ -73,6 +86,10 @@ void player::sell_cannon(int slot) {
 
 void player::use_ult() {
     std::unique_lock l(m_mutex);
+    if (m_ult_cooldown != 0.0) {
+        return;
+    }
+    m_ult_cooldown = ULT_COOLDOWN;
     const int bullets_amount = 20;
     for (int i = 0; i < bullets_amount; ++i) {
         m_bullets.emplace_back(static_cast<bullet_type>(NUM_OF_CANNONS + static_cast<int>(m_age)),

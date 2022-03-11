@@ -21,6 +21,8 @@ const int CANNONS_SLOTS_COSTS[] = {0, 500, 5000};     // IDK, these are random v
 const int FIELD_HEIGHT_PXLS = 1080;  // IDK, random value
 const int FIELD_LENGTH_PXLS = 2300;
 
+const double ULT_COOLDOWN = 60.0;
+
 }  // namespace war_of_ages
 
 #endif  // WAR_OF_AGES_GAME_CONSTANTS_H
