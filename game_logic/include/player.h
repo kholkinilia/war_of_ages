@@ -12,6 +12,19 @@
 
 namespace war_of_ages {
 
+struct player_snapshot {
+    std::deque<unit> units;
+    std::vector<bullet> bullets;
+    std::vector<cannon> cannons;
+    std::deque<unit> units_to_train;
+
+    age_type age;
+    int exp;
+    int money;
+    double m_ult_cooldown;
+    double m_training_time_left;
+};
+
 struct player {
     void update(player &enemy, double dt);  // need all enemies for ult
     void buy_unit(int unit_level);  // unit_level in [0, NUM_OF_UNITS_IN_AGE), unit_type = NUM_OF_AGES *
@@ -32,6 +45,7 @@ struct player {
     [[nodiscard]] std::vector<cannon> cannons() const;  // The same remark
     [[nodiscard]] std::deque<unit> units_to_train() const;
     [[nodiscard]] bool is_alive() const;
+    [[nodiscard]] player_snapshot snapshot() const;
 
 private:
     age_type m_age = age_type::STONE;

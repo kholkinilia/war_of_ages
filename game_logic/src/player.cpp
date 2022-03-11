@@ -151,4 +151,10 @@ void player::clear_dead_objects() {
     assert(!m_units.empty());  // at least tower exists, we don't clear it even if it's dead
     return m_units.front().is_alive();
 }
+
+[[nodiscard]] player_snapshot player::snapshot() const {
+    std::unique_lock l(m_mutex);
+    return {m_units, m_bullets, m_cannons,      m_units_to_train,    m_age,
+            m_exp,   m_money,   m_ult_cooldown, m_training_time_left};
+}
 }  // namespace war_of_ages
