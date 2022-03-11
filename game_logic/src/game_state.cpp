@@ -37,4 +37,8 @@ void game_state::apply_commands(player &p, const std::vector<game_command> &comm
     }
 }
 
+std::pair<player_snapshot, player_snapshot> game_state::snapshot_players() {
+    return {p1.snapshot(), p2.snapshot()};
+}
+
 }  // namespace war_of_ages

@@ -14,7 +14,7 @@ struct cannon_stats {
     int cost;
     double cooldown_s;
     int attack_radius_pxls;
-    cannon_stats(bullet_type bullut_type_, int cost_, double cooldown_s_, int attack_radius_pxls_);
+    cannon_stats(bullet_type bullet_type_, int cost_, double cooldown_s_, int attack_radius_pxls_);
 };
 
 struct cannon {
