@@ -13,8 +13,13 @@ enum class bullet_type {
     STONE_ULT,
 };
 
+struct bullet_stats {
+    int speed;
+    int damage;
+};
+
 struct bullet {
-    bullet(bullet_type type, int speed, int damage, int x_start, int y_start, int x_target, int y_target);
+    bullet(bullet_type type, int x_start, int y_start, int x_target, int y_target);
 
     void update(std::deque<unit> &enemies, double dt);
 
@@ -26,6 +31,8 @@ struct bullet {
     [[nodiscard]] int vx() const noexcept;
     [[nodiscard]] int vy() const noexcept;
     [[nodiscard]] bool is_alive() const noexcept;
+
+    [[nodiscard]] static bullet_stats get_stats(bullet_type type);
 
 private:
     bullet_type m_type;
