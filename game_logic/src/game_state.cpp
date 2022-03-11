@@ -31,6 +31,8 @@ void game_state::apply_commands(player &p, const std::vector<game_command> &comm
                 p.sell_cannon(cmd.m_param[0]);
             case command::BUY_CANNON_SLOT:
                 p.buy_cannon_slot();
+            case command::USE_ULT:
+                p.use_ult();
         }
     }
 }

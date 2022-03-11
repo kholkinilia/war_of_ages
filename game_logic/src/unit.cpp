@@ -37,7 +37,7 @@ unit::unit(unit_type type) : m_type(type), m_remaining_hp(get_stats(type).initia
 
 void unit::attack(unit &enemy) noexcept {
     enemy.decrease_hp(unit::get_stats(m_type).damage);
-    m_time_left += get_stats(m_type).attack_cooldown_ms;
+    m_time_left = get_stats(m_type).attack_cooldown_ms;
 }
 
 void unit::decrease_hp(int damage) noexcept {

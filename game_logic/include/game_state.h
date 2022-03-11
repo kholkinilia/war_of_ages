@@ -2,7 +2,7 @@
 #define WAR_OF_AGES_GAME_STATE_H
 
 #include <vector>
-#include "../include/player.h"
+#include "player.h"
 #include "game_commands.h"
 
 namespace war_of_ages {

@@ -33,11 +33,10 @@ std::optional<bullet> cannon::update(unit &enemy, int dt) noexcept {
     m_time_left -= dt;
     int dist = FIELD_LENGTH_PXLS - enemy.position() - 1 - m_x;
     if (dist <= get_stats(m_type).attack_radius_pxls && m_time_left <= 0) {
-        m_time_left += get_stats(m_type).cooldown_ms;
+        m_time_left = get_stats(m_type).cooldown_ms;
         return bullet(get_stats(m_type).bullet_speed, get_stats(m_type).damage, m_x, m_y, enemy.position(),
                       unit::get_stats(enemy.type()).height_pxls / 2);
     }
-    m_time_left = std::max(0, m_time_left);
     return {};
 }
 

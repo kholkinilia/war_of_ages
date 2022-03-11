@@ -39,11 +39,11 @@ if (BUILD_SERVER)
     set(SERVER_PROJECT_SOURCES
             server/src/main.cpp
             server/src/tournament.cpp
-            server/src/game_state.cpp
-            server/src/player.cpp
-            server/src/unit.cpp
-            server/src/bullet.cpp
-            server/src/cannon.cpp)
+            game_logic/src/game_state.cpp
+            game_logic/src/player.cpp
+            game_logic/src/unit.cpp
+            game_logic/src/bullet.cpp
+            game_logic/src/cannon.cpp)
     add_executable(war_of_ages_server ${SERVER_PROJECT_SOURCES})
     target_link_libraries(war_of_ages_server ${NETWORKING_LIBS})
 endif ()

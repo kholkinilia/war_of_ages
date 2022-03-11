@@ -4,10 +4,11 @@
 #include <vector>
 
 enum class command {
-    BUY_UNIT,        // m_param[0] = level;
-    BUY_CANNON,      // m_param[0] = level; m_param[1] = slot;
-    SELL_CANNON,     // m_param[0] = slot;
-    BUY_CANNON_SLOT  // NO PARAMS
+    BUY_UNIT,         // m_param[0] = level;
+    BUY_CANNON,       // m_param[0] = level; m_param[1] = slot;
+    SELL_CANNON,      // m_param[0] = slot;
+    BUY_CANNON_SLOT,  // NO PARAMS
+    USE_ULT           // NO PARAMS
 };
 
 struct game_command {
