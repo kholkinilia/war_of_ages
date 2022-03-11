@@ -1,7 +1,7 @@
 #include "../include/bullet.h"
+#include <cassert>
 #include "../include/game_constants.h"
 #include "cmath"
-#include <cassert>
 
 namespace war_of_ages {
 
@@ -14,7 +14,7 @@ bullet::bullet(bullet_type type, int speed, int damage, int x_start, int y_start
       m_vx{x_target - x_start},
       m_vy{y_target - y_start} {
     double scale = sqrt(pow(m_vx, 2) + pow(m_vy, 2));
-    m_vx = static_cast<int>(m_vx / scale), m_vy =  static_cast<int>(m_vy / scale);
+    m_vx = static_cast<int>(m_vx / scale), m_vy = static_cast<int>(m_vy / scale);
 }
 
 void bullet::update(std::deque<unit> &enemies, double dt) {
