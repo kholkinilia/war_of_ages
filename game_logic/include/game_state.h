@@ -16,7 +16,7 @@ private:
 public:
     void update(const std::vector<game_command> &p1_commands,
                 const std::vector<game_command> &p2_commands,
-                int dt);
+                double dt);
 };
 
 }  // namespace war_of_ages

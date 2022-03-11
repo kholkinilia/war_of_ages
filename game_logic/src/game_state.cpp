@@ -8,7 +8,7 @@ namespace war_of_ages {
 
 void game_state::update(const std::vector<game_command> &p1_commands,
                         const std::vector<game_command> &p2_commands,
-                        int dt) {
+                        double dt) {
     p1.update(p2, dt);
     p2.update(p1, dt);
 
