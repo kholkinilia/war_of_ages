@@ -18,6 +18,7 @@ const int CANNONS_SLOTS_COORD_X[] = {0, 0, 0};
 const int CANNONS_SLOTS_COORD_Y[] = {200, 300, 400};  // IDK, these are random values
 const int CANNONS_SLOTS_COSTS[] = {0, 500, 5000};     // IDK, these are random values
 
+const int FIELD_HEIGHT_PXLS = 1080;  // IDK, random value
 const int FIELD_LENGTH_PXLS = 2300;
 
 }  // namespace war_of_ages
