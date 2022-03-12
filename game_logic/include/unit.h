@@ -8,35 +8,39 @@ namespace war_of_ages {
 enum class unit_type { PEASANT, ARCHER, CHARIOT };
 
 struct unit_stats {
+    double time_to_train_s;
     int initial_hp;
-    int attack_cooldown_ms;
+    double attack_cooldown_s;
     int attack_radius_pxls;
     int damage;
     int cost;
     int width_pxls;
     int height_pxls;
-    double speed;  // TODO: think of making speed an integer
-    unit_stats(int initial_hp_,
-               int attack_cooldown_ms_,
+    int speed;
+    unit_stats(double time_to_train_s_,
+               int initial_hp_,
+               double attack_cooldown_s_,
                int attack_radius_pxls_,
                int damage_,
                int cost_,
                int width_,
                int height_,
-               double speed_);
+               int speed_);
 };
 
 struct unit {
 private:
     unit_type m_type;
     int m_remaining_hp;
-    int m_time_left = 0;
+    double m_time_left_to_attack = 0;
     int m_position = 0;
+
+    void move(double dt, int bound_position);
 
 public:
     explicit unit(unit_type type);
 
-    void update(unit &enemy, const std::optional<unit> &next_alied_unit, int dt) noexcept;
+    void update(unit &enemy, const std::optional<unit> &next_alied_unit, double dt) noexcept;
     void attack(unit &enemy) noexcept;
     void decrease_hp(int damage) noexcept;
     [[nodiscard]] bool is_alive() const noexcept;

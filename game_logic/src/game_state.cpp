@@ -8,7 +8,7 @@ namespace war_of_ages {
 
 void game_state::update(const std::vector<game_command> &p1_commands,
                         const std::vector<game_command> &p2_commands,
-                        int dt) {
+                        double dt) {
     p1.update(p2, dt);
     p2.update(p1, dt);
 
@@ -35,6 +35,10 @@ void game_state::apply_commands(player &p, const std::vector<game_command> &comm
                 p.use_ult();
         }
     }
+}
+
+std::pair<player_snapshot, player_snapshot> game_state::snapshot_players() {
+    return {p1.snapshot(), p2.snapshot()};
 }
 
 }  // namespace war_of_ages

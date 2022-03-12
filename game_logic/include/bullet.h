@@ -3,7 +3,6 @@
 
 #include <deque>
 #include "age.h"
-//#include "cannon.h"
 #include "unit.h"
 
 namespace war_of_ages {
@@ -14,31 +13,31 @@ enum class bullet_type {
     STONE_ULT,
 };
 
-struct bullet_stats {  // FIXME: get rid of type and stats (i've just added a constructor DECLARATION)
+struct bullet_stats {
     int speed;
     int damage;
 };
 
 struct bullet {
-    //    bullet(cannon_type type, int x_start, int y_start, int x_target, int y_target) noexcept;
-    //    bullet(age_type age_, int x_start, int y_start, int x_target, int y_target) noexcept;
-    bullet(double speed, int damage, int x_start, int y_start, int x_target, int y_target);
+    bullet(bullet_type type, int x_start, int y_start, int x_target, int y_target);
 
-    void update(std::deque<unit> &enemies, int dt);
+    void update(std::deque<unit> &enemies, double dt);
 
     // Getters
 
-    [[nodiscard]] bullet_type type() const;
-    [[nodiscard]] int x() const;
-    [[nodiscard]] int y() const;
-    [[nodiscard]] int vx() const;
-    [[nodiscard]] int vy() const;
-    [[nodiscard]] bool is_alive() const;
+    [[nodiscard]] bullet_type type() const noexcept;
+    [[nodiscard]] int x() const noexcept;
+    [[nodiscard]] int y() const noexcept;
+    [[nodiscard]] int vx() const noexcept;
+    [[nodiscard]] int vy() const noexcept;
+    [[nodiscard]] bool is_alive() const noexcept;
 
     [[nodiscard]] static bullet_stats get_stats(bullet_type type);
 
 private:
     bullet_type m_type;
+    int m_speed;
+    int m_damage;
     int m_x, m_y;
     int m_vx, m_vy;
     bool m_is_alive = true;

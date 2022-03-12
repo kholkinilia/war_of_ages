@@ -7,28 +7,27 @@
 
 namespace war_of_ages {
 
-enum class cannon_type { STONE_LEVEL_1, STONE_LEVEL_2, STONE_LEVEL_3, NONE };  // STONE -- age
+enum class cannon_type { STONE_LEVEL_1, STONE_LEVEL_2, STONE_LEVEL_3, NONE };
 
 struct cannon_stats {
+    bullet_type b_type;
     int cost;
-    int cooldown_ms;
+    double cooldown_s;
     int attack_radius_pxls;
-    int damage;
-    double bullet_speed;  // TODO: think of making speed an integer
-    cannon_stats(int cost_, int cooldown_ms_, int attack_radius_pxls_, int damage_, double bullet_speed_);
+    cannon_stats(bullet_type bullet_type_, int cost_, double cooldown_s_, int attack_radius_pxls_);
 };
 
 struct cannon {
 private:
     cannon_type m_type;
-    int m_time_left = 0;
+    double m_time_left_to_attack = 0;
     int m_x;
     int m_y;
 
 public:
     cannon(cannon_type type, int x, int y);
 
-    std::optional<bullet> update(unit &enemy, int dt) noexcept;
+    std::optional<bullet> update(unit &enemy, double dt) noexcept;
     [[nodiscard]] cannon_type type() const noexcept;
     [[nodiscard]] int x() const noexcept;
     [[nodiscard]] int y() const noexcept;

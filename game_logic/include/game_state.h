@@ -2,8 +2,8 @@
 #define WAR_OF_AGES_GAME_STATE_H
 
 #include <vector>
-#include "player.h"
 #include "game_commands.h"
+#include "player.h"
 
 namespace war_of_ages {
 
@@ -16,7 +16,8 @@ private:
 public:
     void update(const std::vector<game_command> &p1_commands,
                 const std::vector<game_command> &p2_commands,
-                int dt);
+                double dt);
+    std::pair<player_snapshot, player_snapshot> snapshot_players();
 };
 
 }  // namespace war_of_ages
