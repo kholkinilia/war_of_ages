@@ -7,10 +7,7 @@
 
 namespace war_of_ages {
 
-
-sf::Sprite sprite_supplier::create_sprite_instance(const std::string &filename,
-                                                   int width,
-                                                   int height) {
+sf::Sprite sprite_supplier::create_sprite_instance(const std::string &filename, int width, int height) {
     auto *texture = new sf::Texture();
     texture->loadFromFile(filename);
     sf::Sprite result(*texture);
@@ -63,7 +60,7 @@ sprite_supplier::sprite_supplier() {
 
     for (auto &[u_type, filename] : unit_texture_file) {
         unit_sprite[u_type] = create_sprite_instance(filename, unit::get_stats(u_type).width_pxls,
-                                              unit::get_stats(u_type).height_pxls);
+                                                     unit::get_stats(u_type).height_pxls);
     }
 
     for (auto &[c_type, filename] : cannon_texture_file) {
@@ -71,7 +68,8 @@ sprite_supplier::sprite_supplier() {
     }
 
     for (auto &[cs_type, filename] : cannon_slots_texture_file) {
-        cannon_slots_sprite[cs_type] = create_sprite_instance(filename, CANNON_SLOT_WIDTH, CANNON_SLOT_HEIGHT);
+        cannon_slots_sprite[cs_type] =
+            create_sprite_instance(filename, CANNON_SLOT_WIDTH, CANNON_SLOT_HEIGHT);
     }
 
     for (auto &[b_type, filename] : bullet_texture_file) {

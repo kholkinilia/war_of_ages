@@ -24,6 +24,6 @@ constexpr int CANNON_HEIGHT = 300;
 constexpr int BULLET_WIDTH = 40;
 constexpr int BULLET_HEIGHT = 40;
 
-}
+}  // namespace war_of_ages
 
 #endif  // WAR_OF_AGES_GAME_OBJECT_SIZE_CONSTANTS_H
