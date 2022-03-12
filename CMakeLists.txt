@@ -29,7 +29,8 @@ if (BUILD_CLIENT)
             client/src/screens.cpp
             client/src/start_screen.cpp
             client/src/settings_screen.cpp
-            client/src/multiplayer_screen.cpp client/src/sprite_supplier.cpp client/src/sprite_supplier.h)
+            client/src/multiplayer_screen.cpp
+            client/src/sprite_supplier.cpp)
     add_executable(war_of_ages ${CLIENT_PROJECT_SOURCES})
     target_link_libraries(war_of_ages sfml-system sfml-window sfml-graphics sfml-audio)
     target_link_libraries(war_of_ages tgui)
