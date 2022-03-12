@@ -16,8 +16,8 @@ if (WIN32 AND NOT MSVC AND NOT BORLAND)
     set(NETWORKING_LIBS "ws2_32")
 endif ()
 
-set(BUILD_CLIENT False)
-set(BUILD_SERVER True)
+set(BUILD_CLIENT True)
+set(BUILD_SERVER False)
 
 if (BUILD_CLIENT)
     set(CLIENT_PROJECT_SOURCES
@@ -29,7 +29,7 @@ if (BUILD_CLIENT)
             client/src/screens.cpp
             client/src/start_screen.cpp
             client/src/settings_screen.cpp
-            client/src/multiplayer_screen.cpp)
+            client/src/multiplayer_screen.cpp client/src/sprite_supplier.cpp client/src/sprite_supplier.h)
     add_executable(war_of_ages ${CLIENT_PROJECT_SOURCES})
     target_link_libraries(war_of_ages sfml-system sfml-window sfml-graphics sfml-audio)
     target_link_libraries(war_of_ages tgui)
