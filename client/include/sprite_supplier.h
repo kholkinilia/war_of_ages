@@ -5,7 +5,7 @@
 #include "../../game_logic/include/unit.h"
 #include "../../game_logic/include/cannon.h"
 #include "../../game_logic/include/bullet.h"
-#include <map>
+#include <unordered_map>
 #include <string>
 #include <vector>
 #include <SFML/Graphics.hpp>
@@ -13,41 +13,44 @@
 
 namespace war_of_ages {
 
-enum class direction {
-    LEFT,
-    RIGHT
-};
-
+// TODO: make different suppliers for different types (maybe?)
 struct sprite_supplier {
 private:
-    inline const static std::map<age_type, std::string> tower_texture_file {
-        {age_type::STONE, "../resources/game/towers/stone/tower.png"}
-    };
-    inline const static std::map<unit_type, std::string> unit_texture_file {
-        {unit_type::PEASANT, "../resources/game/towers/stone/peasant.png"},
-        {unit_type::ARCHER, "../resources/game/towers/stone/archer.png"},
-        {unit_type::CHARIOT, "../resources/game/towers/stone/chariot.png"}
-    };
-    inline const static std::map<cannon_type, std::string> cannon_texture_file {
-        {cannon_type::STONE_LEVEL_1, "../resources/game/cannons/stone/level_1.png"},
-        {cannon_type::STONE_LEVEL_2, "../resources/game/cannons/stone/level_2.png"},
-        {cannon_type::STONE_LEVEL_3, "../resources/game/cannons/stone/level_3.png"},
-    };
-    inline const static std::map<int, std::string> cannon_slots_texture_file {
-        {1, "../resources/game/cannon_slots/stone/level_1.png"},
-        {2, "../resources/game/cannon_slots/stone/level_2.png"},
-        {3, "../resources/game/cannon_slots/stone/level_3.png"},
-    };
-    inline const static std::map<bullet_type, std::string> bullet_texture_file {
-        {bullet_type::STONE_LEVEL_1, "../resources/game/bullets/stone/level_1.png"},
-        {bullet_type::STONE_LEVEL_2, "../resources/game/bullets/stone/level_2.png"},
-        {bullet_type::STONE_LEVEL_3, "../resources/game/bullets/stone/level_3.png"},
-        {bullet_type::STONE_ULT, "../resources/game/bullets/stone/ult.png"},
-    };
+
+    static std::unordered_map<age_type, sf::Sprite> background_sprite;
+    static std::unordered_map<age_type, sf::Sprite> road_sprite;
+    static std::unordered_map<age_type, sf::Sprite> tower_sprite;
+    static std::map<std::pair<age_type, int>, sf::Sprite> cannon_slots_sprite; // TODO: add hash
+    static std::unordered_map<unit_type, sf::Sprite> unit_sprite;
+    static std::unordered_map<cannon_type, sf::Sprite> cannon_sprite;
+    static std::unordered_map<bullet_type, sf::Sprite> bullet_sprite;
+
+    sprite_supplier();
 
 public:
+    enum class direction {
+        LEFT,
+        RIGHT
+    };
 
+    sf::Sprite get_background_sprite(age_type a_type);
+    sf::Sprite get_road_sprite(age_type a_type);
+    sf::Sprite get_tower_sprite(age_type a_type, direction dir);
+    sf::Sprite get_cannon_slot_sprite(age_type a_type, direction dir);
+    sf::Sprite get_unit_sprite(unit_type u_type, direction dir);
+    sf::Sprite get_cannon_sprite(cannon_type c_type, direction dir);
+    sf::Sprite get_bullet_sprite(bullet_type b_type, direction dir);
+
+    sprite_supplier(const sprite_supplier&) = delete;
+    sprite_supplier(sprite_supplier &&) = default;
+    sprite_supplier &operator=(const sprite_supplier&) = delete;
+    sprite_supplier &operator=(sprite_supplier&&) = default;
+
+    ~sprite_supplier() = default;
+
+    static sprite_supplier* get_instance();
 };
+
 
 }
 
