@@ -34,7 +34,7 @@ public:
     sprite_supplier &operator=(const sprite_supplier&) = delete;
     sprite_supplier &operator=(sprite_supplier&&) = default;
 
-    ~sprite_supplier() = default;
+    ~sprite_supplier();
 
     [[nodiscard]] static sprite_supplier* get_instance();
 
@@ -42,9 +42,12 @@ private:
     std::unordered_map<age_type, sf::Sprite> background_sprite;
     std::unordered_map<age_type, sf::Sprite> road_sprite;
     std::unordered_map<age_type, sf::Sprite> tower_sprite;
-    std::map<std::pair<age_type, int>, sf::Sprite> cannon_slots_sprite; // TODO: add hash
+
+    // TODO: add hash
+    std::map<std::pair<age_type, int>, sf::Sprite> cannon_slots_sprite;
+
     std::unordered_map<unit_type, sf::Sprite> unit_sprite;
-    std::unordered_map<cannon_type, sf::Sprite> cannon_sprite;
+    std::unordered_map<cannon_type,sf::Sprite> cannon_sprite;
     std::unordered_map<bullet_type, sf::Sprite> bullet_sprite;
 
     sprite_supplier();

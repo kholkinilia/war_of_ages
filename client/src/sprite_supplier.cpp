@@ -7,13 +7,14 @@
 
 namespace war_of_ages {
 
-sf::Sprite sprite_supplier::create_sprite_instance(const std::string &texture_filename,
+
+sf::Sprite sprite_supplier::create_sprite_instance(const std::string &filename,
                                                    int width,
                                                    int height) {
-    sf::Texture texture;
-    texture.loadFromFile(texture_filename);
-    sf::Sprite result(texture);
-    result.setScale(1. * width / texture.getSize().x, 1. * height / texture.getSize().y);
+    auto *texture = new sf::Texture();
+    texture->loadFromFile(filename);
+    sf::Sprite result(*texture);
+    result.setScale(1. * width / texture->getSize().x, 1. * height / texture->getSize().y);
     return result;
 }
 
@@ -57,7 +58,7 @@ sprite_supplier::sprite_supplier() {
     }
 
     for (auto &[a_type, filename] : tower_texture_file) {
-        background_sprite[a_type] = create_sprite_instance(filename, TOWER_WIDTH, TOWER_HEIGHT);
+        tower_sprite[a_type] = create_sprite_instance(filename, TOWER_WIDTH, TOWER_HEIGHT);
     }
 
     for (auto &[u_type, filename] : unit_texture_file) {
@@ -120,6 +121,36 @@ sf::Sprite sprite_supplier::get_cannon_sprite(cannon_type c_type, sprite_supplie
 
 sf::Sprite sprite_supplier::get_bullet_sprite(bullet_type b_type) {
     return bullet_sprite[b_type];
+}
+
+sprite_supplier::~sprite_supplier() {
+    for (auto &[a_type, sprite] : background_sprite) {
+        delete sprite.getTexture();
+    }
+
+    for (auto &[a_type, sprite] : road_sprite) {
+        delete sprite.getTexture();
+    }
+
+    for (auto &[a_type, sprite] : tower_sprite) {
+        delete sprite.getTexture();
+    }
+
+    for (auto &[u_type, sprite] : unit_sprite) {
+        delete sprite.getTexture();
+    }
+
+    for (auto &[c_type, sprite] : cannon_sprite) {
+        delete sprite.getTexture();
+    }
+
+    for (auto &[cs_type, sprite] : cannon_slots_sprite) {
+        delete sprite.getTexture();
+    }
+
+    for (auto &[b_type, sprite] : bullet_sprite) {
+        delete sprite.getTexture();
+    }
 }
 
 }  // namespace war_of_ages
