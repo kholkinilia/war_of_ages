@@ -15,31 +15,19 @@ namespace war_of_ages {
 
 // TODO: make different suppliers for different types (maybe?)
 struct sprite_supplier {
-private:
-
-    static std::unordered_map<age_type, sf::Sprite> background_sprite;
-    static std::unordered_map<age_type, sf::Sprite> road_sprite;
-    static std::unordered_map<age_type, sf::Sprite> tower_sprite;
-    static std::map<std::pair<age_type, int>, sf::Sprite> cannon_slots_sprite; // TODO: add hash
-    static std::unordered_map<unit_type, sf::Sprite> unit_sprite;
-    static std::unordered_map<cannon_type, sf::Sprite> cannon_sprite;
-    static std::unordered_map<bullet_type, sf::Sprite> bullet_sprite;
-
-    sprite_supplier();
-
 public:
-    enum class direction {
+    enum class player_side {
         LEFT,
         RIGHT
     };
 
     sf::Sprite get_background_sprite(age_type a_type);
     sf::Sprite get_road_sprite(age_type a_type);
-    sf::Sprite get_tower_sprite(age_type a_type, direction dir);
-    sf::Sprite get_cannon_slot_sprite(age_type a_type, direction dir);
-    sf::Sprite get_unit_sprite(unit_type u_type, direction dir);
-    sf::Sprite get_cannon_sprite(cannon_type c_type, direction dir);
-    sf::Sprite get_bullet_sprite(bullet_type b_type, direction dir);
+    sf::Sprite get_tower_sprite(age_type a_type, player_side side);
+    sf::Sprite get_cannon_slot_sprite(std::pair<age_type, int> cs_type, player_side side);
+    sf::Sprite get_unit_sprite(unit_type u_type, player_side side);
+    sf::Sprite get_cannon_sprite(cannon_type c_type, player_side side);
+    sf::Sprite get_bullet_sprite(bullet_type b_type);
 
     sprite_supplier(const sprite_supplier&) = delete;
     sprite_supplier(sprite_supplier &&) = default;
@@ -48,7 +36,22 @@ public:
 
     ~sprite_supplier() = default;
 
-    static sprite_supplier* get_instance();
+    [[nodiscard]] static sprite_supplier* get_instance();
+
+private:
+    std::unordered_map<age_type, sf::Sprite> background_sprite;
+    std::unordered_map<age_type, sf::Sprite> road_sprite;
+    std::unordered_map<age_type, sf::Sprite> tower_sprite;
+    std::map<std::pair<age_type, int>, sf::Sprite> cannon_slots_sprite; // TODO: add hash
+    std::unordered_map<unit_type, sf::Sprite> unit_sprite;
+    std::unordered_map<cannon_type, sf::Sprite> cannon_sprite;
+    std::unordered_map<bullet_type, sf::Sprite> bullet_sprite;
+
+    sprite_supplier();
+
+    static inline sprite_supplier *supplier = nullptr;
+    static sf::Sprite create_sprite_instance(const std::string& filename, int width, int height);
+    static sf::Sprite reflect_if_needed(sf::Sprite sprite, player_side side);
 };
 
 

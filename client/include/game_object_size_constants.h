@@ -3,23 +3,26 @@
 
 namespace war_of_ages {
 
-const int BACKGROUND_WIDTH = 1920;
-const int BACKGROUND_HEIGHT = 1080;
+// TODO: Timur will make those constants decent (they are almost random now)
 
-const int ROAD_WIDTH = 2500;
-const int ROAD_HEIGHT = 500;
+constexpr int BACKGROUND_WIDTH = 1920;
+constexpr int BACKGROUND_HEIGHT = 1080;
 
-const int TOWER_WIDTH = 1920;
-const int TOWER_HEIGHT = 1920;
+constexpr int ROAD_WIDTH = 2500;
+constexpr int ROAD_HEIGHT = 500;
 
-const int CANNON_SLOT_WIDTH = 300;
-const int CANNON_SLOT_HEIGHT = 300;
+constexpr int TOWER_WIDTH = 500;
+constexpr int TOWER_HEIGHT = 300;
 
-const int CANNON_WIDTH = 300;
-const int CANNON_HEIGHT = 300;
+constexpr int CANNON_SLOT_WIDTH = 300;
+constexpr int CANNON_SLOT_HEIGHT = 300;
 
-//const int BACKGROUND_WIDTH = 1920;
+constexpr int CANNON_WIDTH = 300;
+constexpr int CANNON_HEIGHT = 300;
 
+// TODO: remove bullet constants, when bullet's size is implemented
+constexpr int BULLET_WIDTH = 40;
+constexpr int BULLET_HEIGHT = 40;
 
 }
 
