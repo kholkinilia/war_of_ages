@@ -4,7 +4,7 @@
 
 namespace war_of_ages {
 
-void player::update(player &enemy, double dt) {
+void player::update(player &enemy, float dt) {
     std::scoped_lock l(m_mutex, enemy.m_mutex);
     auto &enemies = enemy.m_units;
     for (auto it = m_units.begin() + 1; it != m_units.end(); ++it) {
@@ -17,8 +17,8 @@ void player::update(player &enemy, double dt) {
     for (auto &cannon_ : m_cannons) {
         cannon_.update(enemies.back(), dt);
     }
-    m_ult_cooldown = std::max(m_ult_cooldown - dt, 0.0);
-    m_training_time_left = std::max(m_training_time_left - dt, 0.0);
+    m_ult_cooldown = std::max(m_ult_cooldown - dt, 0.0f);
+    m_training_time_left = std::max(m_training_time_left - dt, 0.0f);
     if (m_training_time_left == 0.0 && !m_units_to_train.empty()) {
         m_units.push_front(m_units_to_train[0]);
         std::swap(m_units[0], m_units[1]);
@@ -26,6 +26,10 @@ void player::update(player &enemy, double dt) {
         if (!m_units_to_train.empty()) {
             m_training_time_left = unit::get_stats(m_units_to_train[0].type()).time_to_train_s;
         }
+    }
+    int age_num = static_cast<int>(m_age);
+    if (age_num + 1 != NUM_OF_AGES && m_exp >= NEXT_AGE_EXP[age_num]) {
+        m_age = static_cast<age_type>(age_num + 1);
     }
 }
 
@@ -86,15 +90,16 @@ void player::sell_cannon(int slot) {
 
 void player::use_ult() {
     std::unique_lock l(m_mutex);
-    if (m_ult_cooldown != 0.0) {
+    if (m_ult_cooldown != 0) {
         return;
     }
     m_ult_cooldown = ULT_COOLDOWN;
     const int bullets_amount = 20;
     for (int i = 0; i < bullets_amount; ++i) {
-        m_bullets.emplace_back(static_cast<bullet_type>(NUM_OF_CANNONS + static_cast<int>(m_age)),
-                               FIELD_LENGTH_PXLS / bullets_amount * i, FIELD_HEIGHT_PXLS,
-                               FIELD_LENGTH_PXLS / bullets_amount * i, 0);
+        m_bullets.emplace_back(
+            static_cast<bullet_type>(NUM_OF_CANNONS + static_cast<int>(m_age)),
+            vec2f{FIELD_LENGTH_PXLS / bullets_amount * static_cast<float>(i), FIELD_HEIGHT_PXLS},
+            vec2f{FIELD_LENGTH_PXLS / bullets_amount * static_cast<float>(i), 0});
     }
 }
 
