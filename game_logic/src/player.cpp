@@ -4,7 +4,6 @@
 
 namespace war_of_ages {
 
-// TODO: update money and xp
 void player::update(player &enemy, float dt) {
     std::scoped_lock l(m_mutex, enemy.m_mutex);
     auto &enemies = enemy.m_units;
@@ -21,6 +20,15 @@ void player::update(player &enemy, float dt) {
             m_bullets.push_back(bullet_.value());
         }
     }
+
+    for (const auto &unit_ : enemies) {
+        if (!unit_.is_alive()) {
+            int cost = unit::get_stats(unit_.type()).cost;
+            m_money += 1.5f * cost;
+            m_exp += (1.0f + (FIELD_LENGTH_PXLS - unit_.position()) / FIELD_LENGTH_PXLS) * cost;
+        }
+    }
+
     m_ult_cooldown = std::max(m_ult_cooldown - dt, 0.0f);
     m_training_time_left = std::max(m_training_time_left - dt, 0.0f);
     if (m_training_time_left == 0.0 && !m_units_to_train.empty()) {
