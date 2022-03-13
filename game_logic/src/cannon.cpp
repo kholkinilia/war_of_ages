@@ -14,7 +14,7 @@ cannon_stats cannon::get_stats(cannon_type type) {
     return stats.at(type);
 }
 
-cannon::cannon(cannon_type type, int x, int y) : m_type(type), m_x(x), m_y(y) {
+cannon::cannon(cannon_type type, vec2f muzzle_position) : m_type(type), m_muzzle_position(muzzle_position) {
 }
 
 std::optional<bullet> cannon::update(unit &enemy, float dt) noexcept {
@@ -22,12 +22,11 @@ std::optional<bullet> cannon::update(unit &enemy, float dt) noexcept {
         return {};
     }
     m_time_left_to_attack -= dt;
-    int dist = FIELD_LENGTH_PXLS - enemy.position() - 1 - m_x;
+    float dist = FIELD_LENGTH_PXLS - enemy.position() - 1 - m_muzzle_position.x;
     if (dist <= get_stats(m_type).attack_radius_pxls && m_time_left_to_attack <= 0) {
         m_time_left_to_attack = get_stats(m_type).cooldown_s;
-        return bullet(cannon::get_stats(m_type).b_type, {1.f * m_x, 1.f * m_y},
-                      {1.f * FIELD_LENGTH_PXLS - enemy.position() - 1 - m_x,
-                       1.f * unit::get_stats(enemy.type()).height_pxls / 2});
+        return bullet(cannon::get_stats(m_type).b_type, m_muzzle_position,
+                      {FIELD_LENGTH_PXLS - enemy.position() - 1, unit::get_stats(enemy.type()).size.y / 2});
     }
     return {};
 }
@@ -36,12 +35,8 @@ cannon_type cannon::type() const noexcept {
     return m_type;
 }
 
-int cannon::x() const noexcept {
-    return m_x;
-}
-
-int cannon::y() const noexcept {
-    return m_y;
+vec2f cannon::muzzle_position() const noexcept {
+    return m_muzzle_position;
 }
 
 }  // namespace war_of_ages

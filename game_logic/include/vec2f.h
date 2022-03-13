@@ -10,6 +10,7 @@ struct vec2f : public sf::Vector2f {
     vec2f() noexcept;
     vec2f(const sf::Vector2f &vec) noexcept;
     vec2f(float x, float y) noexcept;
+    vec2f(int x, int y) noexcept;
 
     [[nodiscard]] vec2f normalize() const noexcept;
 };

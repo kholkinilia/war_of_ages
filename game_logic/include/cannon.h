@@ -13,24 +13,21 @@ struct cannon_stats {
     bullet_type b_type;
     int cost;
     float cooldown_s;
-    int attack_radius_pxls;
+    float attack_radius_pxls;
 };
 
-// FIXME: make coords vec2f (ctrl-f: '.f')
 struct cannon {
 private:
     cannon_type m_type;
     float m_time_left_to_attack = 0;
-    int m_x;
-    int m_y;
+    vec2f m_muzzle_position;
 
 public:
-    cannon(cannon_type type, int x, int y);
+    cannon(cannon_type type, vec2f muzzle_position);
 
     std::optional<bullet> update(unit &enemy, float dt) noexcept;
     [[nodiscard]] cannon_type type() const noexcept;
-    [[nodiscard]] int x() const noexcept;
-    [[nodiscard]] int y() const noexcept;
+    [[nodiscard]] vec2f muzzle_position() const noexcept;
 
     static cannon_stats get_stats(cannon_type type);
 };
