@@ -74,8 +74,9 @@ sprite_supplier::sprite_supplier() {
     }
 
     for (auto &[b_type, filename] : bullet_texture_file) {
-        // TODO: replace with bullet size, when implemented
-        bullet_sprite[b_type] = create_sprite_instance(filename, BULLET_WIDTH, BULLET_HEIGHT);
+        bullet_sprite[b_type] =
+            create_sprite_instance(filename, static_cast<int>(bullet::get_stats(b_type).size.x),
+                                   static_cast<int>(bullet::get_stats(b_type).size.y));
     }
 }
 

@@ -20,10 +20,6 @@ constexpr int CANNON_SLOT_HEIGHT = 300;
 constexpr int CANNON_WIDTH = 300;
 constexpr int CANNON_HEIGHT = 300;
 
-// TODO: remove bullet constants, when bullet's size is implemented
-constexpr int BULLET_WIDTH = 40;
-constexpr int BULLET_HEIGHT = 40;
-
 }  // namespace war_of_ages
 
 #endif  // WAR_OF_AGES_GAME_OBJECT_SIZE_CONSTANTS_H
