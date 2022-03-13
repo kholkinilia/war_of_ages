@@ -49,8 +49,9 @@ struct bullet {
     [[nodiscard]] vec2f pos() const noexcept;
     [[nodiscard]] vec2f dir() const noexcept;
     [[nodiscard]] bool is_alive() const noexcept;
+    [[nodiscard]] bullet_stats stats() const noexcept;
 
-    [[nodiscard]] static bullet_stats get_stats(bullet_type type);
+    [[nodiscard]] static const bullet_stats &get_stats(bullet_type type);
 
 private:
     bullet_type m_type;

@@ -30,8 +30,7 @@ void bullet::update(std::deque<unit> &enemies, float dt) {
         return;
     }
     auto enemy = std::find_if(enemies.rbegin(), enemies.rend(), [this](const unit &u) {
-        return detect_collision(m_pos, get_stats(m_type).size, {u.position(), 0.0f},
-                                unit::get_stats(u.type()).size);
+        return detect_collision(m_pos, stats().size, {u.position(), 0.0f}, unit::get_stats(u.type()).size);
     });
     if (enemy != enemies.rend()) {
         enemy->decrease_hp(m_damage);
@@ -57,7 +56,11 @@ void bullet::update(std::deque<unit> &enemies, float dt) {
     return m_is_alive;
 }
 
-[[nodiscard]] bullet_stats bullet::get_stats(bullet_type type) {
+[[nodiscard]] bullet_stats bullet::stats() const noexcept {
+    return get_stats(m_type);
+}
+
+[[nodiscard]] const bullet_stats &bullet::get_stats(bullet_type type) {
     const static bullet_stats stats[NUM_OF_CANNONS + NUM_OF_AGES] = {
         {10, 400, {50, 50}},   {20, 400, {50, 50}},   {30, 400, {50, 50}},   {60, 400, {50, 50}},
         {120, 400, {50, 50}},  {180, 400, {50, 50}},  {360, 400, {50, 50}},  {720, 400, {50, 50}},
