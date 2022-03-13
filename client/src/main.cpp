@@ -30,6 +30,7 @@ void screens_init(tgui::Gui &gui) {
 
     opponent_waiting_screen_init(gui);
     game_screen_init(gui);
+    pause_screen_init(gui);
 
     // end Timur's screens
 }
@@ -42,7 +43,7 @@ int main() {
 
     war_of_ages::screens_init(gui);
 
-    war_of_ages::client_state state("handle", war_of_ages::screen::GAME_SCREEN);
+    war_of_ages::client_state state("handle", war_of_ages::screen::START_SCREEN);
 
     gui.get(state.get_cur_screen_id())->setVisible(true);
 

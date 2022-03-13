@@ -79,13 +79,13 @@ void game_screen_init(tgui::Gui &gui) {
         std::cout << "PLUS UNIT" << std::endl;
     });
 
-    auto settings_button = tgui::BitmapButton::create();
-    settings_button->setImage("../client/resources/pictures/blue_settings_icon.png");
-    settings_button->setImageScaling(1.05);
-    settings_button->setPosition(tgui::String("3%"), tgui::String("5%"));
-    settings_button->setSize(tgui::String(70), tgui::String(70));
-    settings_button->onPress(
-        [&gui]() { show_screen(gui, screen_id.at(screen::SETTINGS), screen_id.at(screen::GAME_SCREEN)); });
+    auto pause_button = tgui::BitmapButton::create();
+    pause_button->setImage("../client/resources/pictures/blue_settings_icon.png");
+    pause_button->setImageScaling(1.05);
+    pause_button->setPosition(tgui::String("3%"), tgui::String("5%"));
+    pause_button->setSize(tgui::String(70), tgui::String(70));
+    pause_button->onPress(
+        [&gui]() { show_screen(gui, screen_id.at(screen::PAUSE), screen_id.at(screen::GAME_SCREEN)); });
 
     game_screen_group->add(panel, screen_id.at(screen::GAME_SCREEN));
     game_screen_group->add(autobattle_button, screen_id.at(screen::GAME_SCREEN));
@@ -93,7 +93,7 @@ void game_screen_init(tgui::Gui &gui) {
     game_screen_group->add(plus_place_cannon_button, screen_id.at(screen::GAME_SCREEN));
     game_screen_group->add(plus_cannon_button, screen_id.at(screen::GAME_SCREEN));
     game_screen_group->add(plus_unit_button, screen_id.at(screen::GAME_SCREEN));
-    game_screen_group->add(settings_button, screen_id.at(screen::GAME_SCREEN));
+    game_screen_group->add(pause_button, screen_id.at(screen::GAME_SCREEN));
     gui.add(game_screen_group, screen_id.at(screen::GAME_SCREEN));
     gui.get(screen_id.at(screen::GAME_SCREEN))->setVisible(false);
 }

@@ -31,7 +31,8 @@ if (BUILD_CLIENT)
             client/src/settings_screen.cpp
             client/src/wait_screen.cpp
             client/src/game_screen.cpp
-            client/src/multiplayer_screen.cpp)
+            client/src/multiplayer_screen.cpp
+            client/src/pause_screen.cpp)
     add_executable(war_of_ages ${CLIENT_PROJECT_SOURCES})
     target_link_libraries(war_of_ages sfml-system sfml-window sfml-graphics sfml-audio)
     target_link_libraries(war_of_ages tgui)

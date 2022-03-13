@@ -8,7 +8,9 @@ void start_screen_init(tgui::Gui &gui) {
 
     tgui::Button::Ptr singleplayer_button = tgui::Button::create("Одиночная игра");
     singleplayer_button->setTextSize(30);
-    // TODO: onPress: start game with bot
+    singleplayer_button->onPress([&gui]() {
+        show_screen(gui, screen_id.at(screen::GAME_SCREEN), screen_id.at(screen::START_SCREEN));
+    });
     start_screen_group->add(singleplayer_button);
 
     tgui::Button::Ptr multiplayer_button = tgui::Button::create("Мультиплеер");

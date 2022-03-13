@@ -12,7 +12,15 @@ void opponent_waiting_screen_init(tgui::Gui &gui) {
     t.loadFromFile("../client/resources/pictures/loading.png");
     auto loading = tgui::Picture::create(t);
     opponent_waiting_screen_group->add(loading, "image");
-    std::vector<tgui::Widget::Ptr> widgets = {loading};
+
+    auto return_button = tgui::Button::create("В главное меню");
+    return_button->setTextSize(30);
+    return_button->onPress([&gui]() {
+        show_screen(gui, screen_id.at(screen::START_SCREEN), screen_id.at(screen::WAIT_OPPONENT));
+    });
+    opponent_waiting_screen_group->add(return_button);
+
+    std::vector<tgui::Widget::Ptr> widgets = {loading, return_button};
     place_widgets(widgets);
     gui.add(opponent_waiting_screen_group, screen_id.at(screen::WAIT_OPPONENT));
     gui.get(screen_id.at(screen::WAIT_OPPONENT))->setVisible(false);

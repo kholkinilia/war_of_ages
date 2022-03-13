@@ -11,7 +11,8 @@ enum class screen {
     SETTINGS,
     MULTIPLAYER,
     WAIT_OPPONENT,
-    GAME_SCREEN
+    GAME_SCREEN,
+    PAUSE
 };
 
 inline const std::map<screen, tgui::String> screen_id{{screen::TOURNAMENT_CREATION, "tournament_creation"},
@@ -21,7 +22,8 @@ inline const std::map<screen, tgui::String> screen_id{{screen::TOURNAMENT_CREATI
                                                       {screen::SETTINGS, "settings"},
                                                       {screen::MULTIPLAYER, "multiplayer"},
                                                       {screen::WAIT_OPPONENT, "wait_opponent"},
-                                                      {screen::GAME_SCREEN, "game_screen"}};
+                                                      {screen::GAME_SCREEN, "game_screen"},
+                                                      {screen::PAUSE, "pause_screen"},};
 
 }  // namespace war_of_ages
 #endif  // WAR_OF_AGES_SCREEN_DEFINES_H

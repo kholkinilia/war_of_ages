@@ -8,6 +8,7 @@
 #include "tournament_screens.h"
 #include "wait_screen.h"
 #include "game_screen.h"
+#include "pause_screen.h"
 
 namespace war_of_ages {
 
