@@ -7,9 +7,9 @@ namespace war_of_ages {
 void player::update(player &enemy, float dt) {
     std::scoped_lock l(m_mutex, enemy.m_mutex);
     auto &enemies = enemy.m_units;
-    for (auto it = m_units.begin() + 1; it != m_units.end(); ++it) {
+    for (auto it = m_units.rbegin(); it + 1 != m_units.rend(); ++it) {
         auto &unit_ = *it;
-        unit_.update(enemies.back(), (it + 1 != m_units.end() ? *(it + 1) : std::optional<unit>{}), dt);
+        unit_.update(enemies.back(), (it + 1 != m_units.rend() ? *(it + 1) : std::optional<unit>{}), dt);
     }
     for (auto &bullet_ : m_bullets) {
         bullet_.update(enemies, dt);
@@ -26,10 +26,6 @@ void player::update(player &enemy, float dt) {
         if (!m_units_to_train.empty()) {
             m_training_time_left = unit::get_stats(m_units_to_train[0].type()).time_to_train_s;
         }
-    }
-    int age_num = static_cast<int>(m_age);
-    if (age_num + 1 != NUM_OF_AGES && m_exp >= NEXT_AGE_EXP[age_num]) {
-        m_age = static_cast<age_type>(age_num + 1);
     }
 }
 
@@ -100,6 +96,14 @@ void player::use_ult() {
             static_cast<bullet_type>(NUM_OF_CANNONS + static_cast<int>(m_age)),
             vec2f{FIELD_LENGTH_PXLS / bullets_amount * static_cast<float>(i), FIELD_HEIGHT_PXLS},
             vec2f{FIELD_LENGTH_PXLS / bullets_amount * static_cast<float>(i), 0});
+    }
+}
+
+void player::upgrade_age() {
+    std::unique_lock l(m_mutex);
+    int age_num = static_cast<int>(m_age);
+    if (age_num + 1 != NUM_OF_AGES && m_exp >= NEXT_AGE_EXP[age_num]) {
+        m_age = static_cast<age_type>(age_num + 1);
     }
 }
 
