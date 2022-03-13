@@ -9,6 +9,9 @@ void multiplayer_screen_init(tgui::Gui &gui) {
     tgui::Button::Ptr random_game_button = tgui::Button::create("Случайная игра");
     random_game_button->setTextSize(30);
     // TODO: onPress: search game & switch to waiting screen if success
+    random_game_button->onPress([&gui]() {
+        show_screen(gui, screen_id.at(screen::WAIT_OPPONENT), screen_id.at(screen::MULTIPLAYER));
+    });
     multiplayer_screen_group->add(random_game_button);
 
     tgui::EditBox::Ptr room_id_editbox = tgui::EditBox::create();
@@ -20,6 +23,9 @@ void multiplayer_screen_init(tgui::Gui &gui) {
     tgui::Button::Ptr join_room_button = tgui::Button::create("Присоединиться");
     join_room_button->setTextSize(30);
     // TODO: onPress: try join to room with given id (key)
+    join_room_button->onPress([&gui]() {
+        show_screen(gui, screen_id.at(screen::WAIT_OPPONENT), screen_id.at(screen::MULTIPLAYER));
+    });
     multiplayer_screen_group->add(join_room_button);
 
     tgui::Button::Ptr return_back_button = tgui::Button::create("Назад");
