@@ -50,8 +50,9 @@ public:
     [[nodiscard]] float position() const noexcept;
     [[nodiscard]] int remaining_hp() const noexcept;
     [[nodiscard]] unit_type type() const noexcept;
+    [[nodiscard]] const unit_stats &stats() const noexcept;
 
-    static unit_stats get_stats(unit_type type) noexcept;
+    [[nodiscard]] const static unit_stats &get_stats(unit_type type) noexcept;
 };
 
 }  // namespace war_of_ages
