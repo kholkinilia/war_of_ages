@@ -23,9 +23,10 @@ void player::update(player &enemy, float dt) {
 
     for (const auto &unit_ : enemies) {
         if (!unit_.is_alive()) {
-            int cost = unit::get_stats(unit_.type()).cost;
-            m_money += 1.5f * cost;
-            m_exp += (1.0f + (FIELD_LENGTH_PXLS - unit_.position()) / FIELD_LENGTH_PXLS) * cost;
+            int cost = unit_.stats().cost;
+            m_money += static_cast<int>(1.5f * static_cast<float>(cost));
+            m_exp += static_cast<int>((1.0f + (FIELD_LENGTH_PXLS - unit_.position()) / FIELD_LENGTH_PXLS) *
+                                      static_cast<float>(cost));
         }
     }
 
@@ -36,7 +37,7 @@ void player::update(player &enemy, float dt) {
         std::swap(m_units[0], m_units[1]);
         m_units_to_train.pop_front();
         if (!m_units_to_train.empty()) {
-            m_training_time_left = unit::get_stats(m_units_to_train[0].type()).time_to_train_s;
+            m_training_time_left = m_units_to_train[0].stats().time_to_train_s;
         }
     }
 }
@@ -71,7 +72,7 @@ void player::buy_cannon(int cannon_level, int slot) {
     }
     m_money -= cost;
     m_cannons[cannon_level] =
-        cannon{type, CANNONS_SLOTS_COORD_X[cannon_level], CANNONS_SLOTS_COORD_Y[cannon_level]};
+        cannon{type, {CANNONS_SLOTS_COORD_X[cannon_level], CANNONS_SLOTS_COORD_Y[cannon_level]}};
 }
 
 void player::buy_cannon_slot() {
@@ -84,16 +85,19 @@ void player::buy_cannon_slot() {
         return;
     }
     m_money -= cost;
-    m_cannons.emplace_back(cannon_type::NONE, CANNONS_SLOTS_COORD_X[m_cannons.size()],
-                           CANNONS_SLOTS_COORD_Y[m_cannons.size()]);
+    m_cannons.emplace_back(cannon_type::NONE, vec2f{CANNONS_SLOTS_COORD_X[m_cannons.size()],
+                                                    CANNONS_SLOTS_COORD_Y[m_cannons.size()]});
 }
 
 void player::sell_cannon(int slot) {
     std::unique_lock l(m_mutex);
-    assert(m_cannons.at(slot).type() != cannon_type::NONE);
-    m_money += cannon::get_stats(m_cannons[slot].type()).cost;
-    m_cannons[slot] = cannon{cannon_type::NONE, CANNONS_SLOTS_COORD_X[m_cannons.size()],
-                             CANNONS_SLOTS_COORD_Y[m_cannons.size()]};
+    if (m_cannons.at(slot).type() == cannon_type::NONE) {
+        return;
+    }
+    m_money += m_cannons[slot].stats().cost;
+    m_cannons[slot] =
+        cannon{cannon_type::NONE,
+               {CANNONS_SLOTS_COORD_X[m_cannons.size()], CANNONS_SLOTS_COORD_Y[m_cannons.size()]}};
 }
 
 void player::use_ult() {
@@ -107,7 +111,7 @@ void player::use_ult() {
         m_bullets.emplace_back(
             static_cast<bullet_type>(NUM_OF_CANNONS + static_cast<int>(m_age)),
             vec2f{FIELD_LENGTH_PXLS / bullets_amount * static_cast<float>(i), FIELD_HEIGHT_PXLS},
-            vec2f{FIELD_LENGTH_PXLS / bullets_amount * static_cast<float>(i), 0});
+            vec2f{FIELD_LENGTH_PXLS / bullets_amount * static_cast<float>(i), 0.0f});
     }
 }
 

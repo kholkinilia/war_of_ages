@@ -49,13 +49,15 @@ struct bullet {
     [[nodiscard]] vec2f pos() const noexcept;
     [[nodiscard]] vec2f dir() const noexcept;
     [[nodiscard]] bool is_alive() const noexcept;
+    [[nodiscard]] const bullet_stats &stats() const noexcept;
 
-    [[nodiscard]] static bullet_stats get_stats(bullet_type type);
+    [[nodiscard]] static const bullet_stats &get_stats(bullet_type type);
 
 private:
+    [[nodiscard]] int damage() const noexcept;
+    [[nodiscard]] float speed() const noexcept;
+
     bullet_type m_type;
-    int m_damage;
-    float m_speed;
     vec2f m_pos;
     vec2f m_dir;
     bool m_is_alive = true;

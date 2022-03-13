@@ -28,8 +28,9 @@ public:
     std::optional<bullet> update(unit &enemy, float dt) noexcept;
     [[nodiscard]] cannon_type type() const noexcept;
     [[nodiscard]] vec2f muzzle_position() const noexcept;
+    [[nodiscard]] const cannon_stats &stats() const noexcept;
 
-    static cannon_stats get_stats(cannon_type type);
+    [[nodiscard]] const static cannon_stats &get_stats(cannon_type type) noexcept;
 };
 
 }  // namespace war_of_ages

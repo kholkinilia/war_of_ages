@@ -91,4 +91,8 @@ void unit::move(float dt, float bound_position) {
     m_position += std::min(dt * get_stats(m_type).speed, dist);
 }
 
+const unit_stats &unit::stats() const noexcept {
+    return get_stats(m_type);
+}
+
 }  // namespace war_of_ages
