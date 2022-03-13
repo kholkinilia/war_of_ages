@@ -1,10 +1,10 @@
 #ifndef WAR_OF_AGES_GAME_STATE_H
 #define WAR_OF_AGES_GAME_STATE_H
 
+#include <memory>
 #include <vector>
 #include "game_commands.h"
 #include "player.h"
-#include <memory>
 
 namespace war_of_ages {
 

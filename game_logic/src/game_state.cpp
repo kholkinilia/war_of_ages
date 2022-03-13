@@ -1,8 +1,8 @@
 #include "../include/game_state.h"
+#include <memory>
 #include <vector>
 #include "../include/game_commands.h"
 #include "../include/player.h"
-#include <memory>
 
 namespace war_of_ages {
 
@@ -12,10 +12,10 @@ void game_state::update(const std::vector<std::unique_ptr<game_command>> &p1_com
     p1.update(p2, dt);
     p2.update(p1, dt);
 
-    for (auto &command: p1_commands) {
+    for (auto &command : p1_commands) {
         command->apply(p1);
     }
-    for (auto &command: p2_commands) {
+    for (auto &command : p2_commands) {
         command->apply(p2);
     }
 

@@ -33,6 +33,7 @@ struct player {
     void buy_cannon_slot();
     void sell_cannon(int slot);
     void use_ult();
+    void upgrade_age();
     void clear_dead_objects();
 
     // Getters
