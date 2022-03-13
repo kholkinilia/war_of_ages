@@ -15,7 +15,7 @@ private:
 public:
     void update(const std::vector<std::unique_ptr<game_command>> &p1_commands,
                 const std::vector<std::unique_ptr<game_command>> &p2_commands,
-                double dt);
+                float dt);
     std::pair<player_snapshot, player_snapshot> snapshot_players();
 };
 

@@ -17,7 +17,7 @@ cannon_stats cannon::get_stats(cannon_type type) {
 cannon::cannon(cannon_type type, int x, int y) : m_type(type), m_x(x), m_y(y) {
 }
 
-std::optional<bullet> cannon::update(unit &enemy, double dt) noexcept {
+std::optional<bullet> cannon::update(unit &enemy, float dt) noexcept {
     m_time_left_to_attack -= dt;
     int dist = FIELD_LENGTH_PXLS - enemy.position() - 1 - m_x;
     if (dist <= get_stats(m_type).attack_radius_pxls && m_time_left_to_attack <= 0) {

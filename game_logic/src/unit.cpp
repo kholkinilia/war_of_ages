@@ -6,9 +6,9 @@
 
 namespace war_of_ages {
 
-unit_stats::unit_stats(double time_to_train_s_,
+unit_stats::unit_stats(float time_to_train_s_,
                        int initial_hp_,
-                       double attack_cooldown_s_,
+                       float attack_cooldown_s_,
                        int attack_radius_pxls_,
                        int damage_,
                        int cost_,
@@ -51,7 +51,7 @@ bool unit::is_alive() const noexcept {
     return m_remaining_hp >= 0;
 }
 
-void unit::update(unit &enemy, const std::optional<unit> &next_allied_unit, double dt) noexcept {
+void unit::update(unit &enemy, const std::optional<unit> &next_allied_unit, float dt) noexcept {
     if (get_stats(m_type).attack_radius_pxls <= dist(enemy)) {
         m_time_left_to_attack -= dt;
         if (m_time_left_to_attack <= 0) {
@@ -85,12 +85,12 @@ unit_type unit::type() const noexcept {
     return m_type;
 }
 
-void unit::move(double dt, int bound_position) {
+void unit::move(float dt, int bound_position) {
     int dist = bound_position - m_position;
     if (dist <= 0) {
         return;
     }
-    m_position += static_cast<int>(std::min(dt * get_stats(m_type).speed, 1. * dist));
+    m_position += static_cast<int>(std::min(dt * get_stats(m_type).speed, 1.f * dist));
 }
 
 }  // namespace war_of_ages

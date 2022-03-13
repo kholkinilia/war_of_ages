@@ -49,6 +49,11 @@ public:
     void apply(player &p) final;
 };
 
+struct upgrade_age_command : game_command {
+public:
+    void apply(player& p) final;
+};
+
 }  // namespace war_of_ages
 
 #endif  // WAR_OF_AGES_GAME_COMMANDS_H

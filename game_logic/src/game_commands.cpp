@@ -23,6 +23,10 @@ void use_ult_command::apply(player &p) {
     p.use_ult();
 }
 
+void upgrade_age_command::apply(player &p) {
+    p.upgrade_age();
+}
+
 // TODO: think of getting rid of constructors
 buy_unit_command::buy_unit_command(int level_) : level(level_) {
 }
