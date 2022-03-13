@@ -1,10 +1,9 @@
 #include "../include/game_screen.h"
 #include <SFML/Graphics.hpp>
 #include <TGUI/Backend/SFML-Graphics.hpp>
+#include <iostream>
 #include "../include/screen_defines.h"
 #include "../include/ui_functions.h"
-
-#include <iostream>
 
 namespace war_of_ages {
 void game_screen_init(tgui::Gui &gui) {
@@ -39,45 +38,35 @@ void game_screen_init(tgui::Gui &gui) {
     autobattle_button->setImageScaling(1.05);
     autobattle_button->setPosition(tgui::String("95%"), tgui::String("5%"));
     autobattle_button->setSize(70, 70);
-    autobattle_button->onPress([]() {
-        std::cout << "AUTOBATTLE" << std::endl;
-    });
+    autobattle_button->onPress([]() { std::cout << "AUTOBATTLE" << std::endl; });
 
     auto new_era_button = tgui::BitmapButton::create();
     new_era_button->setImage("../client/resources/pictures/new_era.jpg");
     new_era_button->setImageScaling(1.05);
     new_era_button->setPosition(tgui::String("90%"), tgui::String("5%"));
     new_era_button->setSize(tgui::String(70), tgui::String(70));
-    new_era_button->onPress([]() {
-        std::cout << "NEW ERA" << std::endl;
-    });
+    new_era_button->onPress([]() { std::cout << "NEW ERA" << std::endl; });
 
     auto plus_place_cannon_button = tgui::BitmapButton::create();
     plus_place_cannon_button->setImage("../client/resources/pictures/plus_embrasure.jpg");
     plus_place_cannon_button->setImageScaling(1.05);
     plus_place_cannon_button->setPosition(tgui::String("85%"), tgui::String("5%"));
     plus_place_cannon_button->setSize(tgui::String(70), tgui::String(70));
-    plus_place_cannon_button->onPress([]() {
-        std::cout << "PLUS PLACE CANNON" << std::endl;
-    });
+    plus_place_cannon_button->onPress([]() { std::cout << "PLUS PLACE CANNON" << std::endl; });
 
     auto plus_cannon_button = tgui::BitmapButton::create();
     plus_cannon_button->setImage("../client/resources/pictures/plus_cannon.jpg");
     plus_cannon_button->setImageScaling(1.05);
     plus_cannon_button->setPosition(tgui::String("80%"), tgui::String("5%"));
     plus_cannon_button->setSize(tgui::String(70), tgui::String(70));
-    plus_cannon_button->onPress([]() {
-        std::cout << "PLUS CANNON" << std::endl;
-    });
+    plus_cannon_button->onPress([]() { std::cout << "PLUS CANNON" << std::endl; });
 
     auto plus_unit_button = tgui::BitmapButton::create();
     plus_unit_button->setImage("../client/resources/pictures/plus_unit.jpg");
     plus_unit_button->setImageScaling(1.05);
     plus_unit_button->setPosition(tgui::String("75%"), tgui::String("5%"));
     plus_unit_button->setSize(tgui::String(70), tgui::String(70));
-    plus_unit_button->onPress([]() {
-        std::cout << "PLUS UNIT" << std::endl;
-    });
+    plus_unit_button->onPress([]() { std::cout << "PLUS UNIT" << std::endl; });
 
     auto settings_button = tgui::BitmapButton::create();
     settings_button->setImage("../client/resources/pictures/blue_settings_icon.png");
@@ -97,4 +86,4 @@ void game_screen_init(tgui::Gui &gui) {
     gui.add(game_screen_group, screen_id.at(screen::GAME_SCREEN));
     gui.get(screen_id.at(screen::GAME_SCREEN))->setVisible(false);
 }
-}
+}  // namespace war_of_ages

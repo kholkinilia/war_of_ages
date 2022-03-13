@@ -18,4 +18,4 @@ void opponent_waiting_screen_init(tgui::Gui &gui) {
     gui.get(screen_id.at(screen::WAIT_OPPONENT))->setVisible(false);
 }
 
-}
+}  // namespace war_of_ages
