@@ -1,12 +1,18 @@
 #include "../include/bullet.h"
+#include <algorithm>
 #include <cassert>
 #include "../include/game_constants.h"
 #include "cmath"
+#include <SFML/System/Vector2.hpp>
 
 namespace war_of_ages {
 
 bullet::bullet(bullet_type type, int x_start, int y_start, int x_target, int y_target)
-    : m_type{type}, m_x{x_start}, m_y{y_start}, m_vx{x_target - x_start}, m_vy{y_target - y_start} {
+    : m_type{type},
+      m_x{x_start},
+      m_y{y_start},
+      m_vx{static_cast<double>(x_target - x_start)},
+      m_vy{static_cast<double>(y_target - y_start)} {
     double scale = sqrt(pow(m_vx, 2) + pow(m_vy, 2));
     m_vx = static_cast<int>(m_vx / scale), m_vy = static_cast<int>(m_vy / scale);
     auto stats = bullet::get_stats(m_type);
@@ -20,13 +26,11 @@ void bullet::update(std::deque<unit> &enemies, double dt) {
         m_is_alive = false;
         return;
     }
-    for (auto it = enemies.rbegin(); it != enemies.rend(); ++it) {
-        auto &enemy = *it;
-        if (enemy.is_in(m_x, m_y)) {
-            enemy.decrease_hp(m_damage);
-            m_is_alive = false;
-            break;
-        }
+    auto enemy =
+        std::find_if(enemies.rbegin(), enemies.rend(), [this](const unit &u) { return u.is_in(m_x, m_y); });
+    if (enemy != enemies.rend()) {
+        enemy->decrease_hp(m_damage);
+        m_is_alive = false;
     }
 }
 
@@ -44,11 +48,11 @@ void bullet::update(std::deque<unit> &enemies, double dt) {
     return m_y;
 }
 
-[[nodiscard]] int bullet::vx() const noexcept {
+[[nodiscard]] double bullet::vx() const noexcept {
     return m_vx;
 }
 
-[[nodiscard]] int bullet::vy() const noexcept {
+[[nodiscard]] double bullet::vy() const noexcept {
     return m_vy;
 }
 

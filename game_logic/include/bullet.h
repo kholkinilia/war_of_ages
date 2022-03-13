@@ -28,8 +28,8 @@ struct bullet {
     [[nodiscard]] bullet_type type() const noexcept;
     [[nodiscard]] int x() const noexcept;
     [[nodiscard]] int y() const noexcept;
-    [[nodiscard]] int vx() const noexcept;
-    [[nodiscard]] int vy() const noexcept;
+    [[nodiscard]] double vx() const noexcept;
+    [[nodiscard]] double vy() const noexcept;
     [[nodiscard]] bool is_alive() const noexcept;
 
     [[nodiscard]] static bullet_stats get_stats(bullet_type type);
@@ -39,7 +39,7 @@ private:
     int m_speed;
     int m_damage;
     int m_x, m_y;
-    int m_vx, m_vy;
+    double m_vx, m_vy;
     bool m_is_alive = true;
 };
 }  // namespace war_of_ages
