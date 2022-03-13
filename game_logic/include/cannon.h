@@ -16,6 +16,7 @@ struct cannon_stats {
     int attack_radius_pxls;
 };
 
+// FIXME: make coords vec2f (ctrl-f: '.f')
 struct cannon {
 private:
     cannon_type m_type;

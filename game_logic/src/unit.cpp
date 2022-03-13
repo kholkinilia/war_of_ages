@@ -30,7 +30,8 @@ unit_stats unit::get_stats(unit_type type) noexcept {
     const static std::unordered_map<unit_type, unit_stats> stats{
         {unit_type::PEASANT, unit_stats(2, 50, 0.5, 0, 25, 25, 100, 200, 5)},
         {unit_type::ARCHER, unit_stats(3, 70, 1, 100, 30, 50, 100, 200, 5)},
-        {unit_type::CHARIOT, unit_stats(4, 100, 1.5, 0, 40, 100, 200, 160, 10)}};
+        {unit_type::CHARIOT, unit_stats(4, 100, 1.5, 0, 40, 100, 200, 160, 10)},
+        {unit_type::STONE_TOWER, unit_stats(0, 5000, 0, 0, 0, 0, 0, 0, 0)}};
     return stats.at(type);
 }
 
@@ -50,16 +51,16 @@ bool unit::is_alive() const noexcept {
     return m_remaining_hp >= 0;
 }
 
-void unit::update(unit &enemy, const std::optional<unit> &next_alied_unit, double dt) noexcept {
+void unit::update(unit &enemy, const std::optional<unit> &next_allied_unit, double dt) noexcept {
     if (get_stats(m_type).attack_radius_pxls <= dist(enemy)) {
         m_time_left_to_attack -= dt;
         if (m_time_left_to_attack <= 0) {
             attack(enemy);
         }
-    } else if (!next_alied_unit) {
+    } else if (!next_allied_unit) {
         move(dt, FIELD_LENGTH_PXLS - enemy.position() + 1);
     } else {
-        move(dt, next_alied_unit->position() - get_stats(next_alied_unit->type()).width_pxls + 1);
+        move(dt, next_allied_unit->position() - get_stats(next_allied_unit->type()).width_pxls + 1);
     }
 }
 
@@ -77,7 +78,7 @@ int unit::is_in(int x, int y) const noexcept {
 }
 
 int unit::dist(unit &enemy) const noexcept {
-    return std::max(0, (FIELD_LENGTH_PXLS - enemy.position() - 1) - position());
+    return std::max(0.f, (FIELD_LENGTH_PXLS - enemy.position() - 1) - position());
 }
 
 unit_type unit::type() const noexcept {

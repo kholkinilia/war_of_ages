@@ -5,7 +5,8 @@
 
 namespace war_of_ages {
 
-enum class unit_type { PEASANT, ARCHER, CHARIOT };
+// TODO: make tower a different struct
+enum class unit_type { PEASANT, ARCHER, CHARIOT, STONE_TOWER };
 
 struct unit_stats {
     double time_to_train_s;
@@ -28,6 +29,8 @@ struct unit_stats {
                int speed_);
 };
 
+
+// FIXME: make coords vec2f (ctrl-f: '.f')
 struct unit {
 private:
     unit_type m_type;
