@@ -29,7 +29,6 @@ struct unit_stats {
                int speed_);
 };
 
-
 // FIXME: make coords vec2f (ctrl-f: '.f')
 struct unit {
 private:

@@ -24,7 +24,7 @@ std::optional<bullet> cannon::update(unit &enemy, float dt) noexcept {
         m_time_left_to_attack = get_stats(m_type).cooldown_s;
         return bullet(cannon::get_stats(m_type).b_type, {1.f * m_x, 1.f * m_y},
                       {1.f * FIELD_LENGTH_PXLS - enemy.position() - 1 - m_x,
-                      1.f * unit::get_stats(enemy.type()).height_pxls / 2});
+                       1.f * unit::get_stats(enemy.type()).height_pxls / 2});
     }
     return {};
 }
