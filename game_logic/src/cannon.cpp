@@ -8,14 +8,10 @@ namespace war_of_ages {
 
 cannon_stats cannon::get_stats(cannon_type type) {
     const static std::unordered_map<cannon_type, cannon_stats> stats{
-        {cannon_type::STONE_LEVEL_1, cannon_stats(bullet_type::STONE_LEVEL_1, 500, 2, 700)},
-        {cannon_type::STONE_LEVEL_2, cannon_stats(bullet_type::STONE_LEVEL_2, 1000, 1.75, 1000)},
-        {cannon_type::STONE_LEVEL_3, cannon_stats(bullet_type::STONE_LEVEL_3, 3000, 1.5, 1200)}};
+        {cannon_type::STONE_LEVEL_1, cannon_stats{bullet_type::STONE_LEVEL_1, 500, 2, 700}},
+        {cannon_type::STONE_LEVEL_2, cannon_stats{bullet_type::STONE_LEVEL_2, 1000, 1.75, 1000}},
+        {cannon_type::STONE_LEVEL_3, cannon_stats{bullet_type::STONE_LEVEL_3, 3000, 1.5, 1200}}};
     return stats.at(type);
-}
-
-cannon_stats::cannon_stats(bullet_type b_type_, int cost_, double cooldown_s_, int attack_radius_pxls_)
-    : b_type(b_type_), cost(cost_), cooldown_s(cooldown_s_), attack_radius_pxls(attack_radius_pxls_) {
 }
 
 cannon::cannon(cannon_type type, int x, int y) : m_type(type), m_x(x), m_y(y) {

@@ -2,18 +2,53 @@
 #define WAR_OF_AGES_GAME_COMMANDS_H
 
 #include <vector>
+#include "player.h"
 
-enum class command {
-    BUY_UNIT,         // m_param[0] = level;
-    BUY_CANNON,       // m_param[0] = level; m_param[1] = slot;
-    SELL_CANNON,      // m_param[0] = slot;
-    BUY_CANNON_SLOT,  // NO PARAMS
-    USE_ULT           // NO PARAMS
-};
+namespace war_of_ages {
 
 struct game_command {
-    command m_command;
-    std::vector<int> m_param;
+    virtual void apply(player& p) = 0;
+    virtual ~game_command() = default;
 };
+
+struct buy_unit_command : game_command {
+private:
+    int level;
+
+public:
+    explicit buy_unit_command(int level_);
+    void apply(player& p) final;
+};
+
+struct buy_cannon_command : game_command {
+private:
+    int level;
+    int slot;
+
+public:
+    explicit buy_cannon_command(int level_, int slot_);
+    void apply(player& p) final;
+};
+
+struct sell_cannon_command : game_command {
+private:
+    int slot;
+
+public:
+    explicit sell_cannon_command(int slot_);
+    void apply(player& p) final;
+};
+
+struct buy_cannon_slot_command : game_command {
+public:
+    void apply(player& p) final;
+};
+
+struct use_ult_command : game_command {
+public:
+    void apply(player& p) final;
+};
+
+}
 
 #endif  // WAR_OF_AGES_GAME_COMMANDS_H
