@@ -18,22 +18,20 @@ namespace war_of_ages {
 
 bullet::bullet(bullet_type type, const vec2f &start, const vec2f &target) noexcept
     : m_type{type}, m_pos{start}, m_dir{target.normalize()} {
-    auto stats = bullet::get_stats(m_type);
-    m_speed = stats.speed, m_damage = stats.damage;
 }
 
 void bullet::update(std::deque<unit> &enemies, float dt) {
     assert(m_is_alive);  // otherwise, it must be deleted by player::clear_dead_objects()
-    m_pos += m_dir * m_speed * dt;
+    m_pos += m_dir * speed() * dt;
     if (m_pos.y <= 0) {
         m_is_alive = false;
         return;
     }
     auto enemy = std::find_if(enemies.rbegin(), enemies.rend(), [this](const unit &u) {
-        return detect_collision(m_pos, stats().size, {u.position(), 0.0f}, unit::get_stats(u.type()).size);
+        return detect_collision(m_pos, stats().size, {u.position(), 0.0f}, u.stats().size);
     });
     if (enemy != enemies.rend()) {
-        enemy->decrease_hp(m_damage);
+        enemy->decrease_hp(damage());
         m_is_alive = false;
     }
 }
@@ -56,7 +54,7 @@ void bullet::update(std::deque<unit> &enemies, float dt) {
     return m_is_alive;
 }
 
-[[nodiscard]] bullet_stats bullet::stats() const noexcept {
+[[nodiscard]] const bullet_stats &bullet::stats() const noexcept {
     return get_stats(m_type);
 }
 
@@ -68,5 +66,13 @@ void bullet::update(std::deque<unit> &enemies, float dt) {
         {50, 250, {50, 50}},   {600, 250, {50, 50}},  {5400, 250, {50, 50}}, {30900, 250, {50, 50}},
     };
     return stats[static_cast<int>(type)];
+}
+
+[[nodiscard]] int bullet::damage() const noexcept {
+    return stats().damage;
+}
+
+[[nodiscard]] float bullet::speed() const noexcept {
+    return stats().speed;
 }
 }  // namespace war_of_ages
