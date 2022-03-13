@@ -70,7 +70,7 @@ int unit::remaining_hp() const noexcept {
     return m_remaining_hp;
 }
 
-int unit::is_in(vec2f point) const noexcept {
+bool unit::is_in(vec2f point) const noexcept {
     return m_position - get_stats(m_type).size.x < point.x && point.x <= m_position && 0 <= point.y &&
            point.y < get_stats(m_type).size.y;
 }

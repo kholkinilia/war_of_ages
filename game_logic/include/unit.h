@@ -44,7 +44,7 @@ public:
     void attack(unit &enemy) noexcept;
     void decrease_hp(int damage) noexcept;
     [[nodiscard]] bool is_alive() const noexcept;
-    [[nodiscard]] int is_in(vec2f point) const noexcept;
+    [[nodiscard]] bool is_in(vec2f point) const noexcept;
     [[nodiscard]] float dist(unit &enemy) const noexcept;
 
     [[nodiscard]] float position() const noexcept;
