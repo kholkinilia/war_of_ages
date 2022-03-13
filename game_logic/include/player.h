@@ -56,7 +56,7 @@ private:
     std::deque<unit> m_units = {unit{unit_type::STONE_TOWER}};
     std::vector<bullet> m_bullets = {};
     std::vector<cannon> m_cannons = {
-        cannon{cannon_type::NONE, CANNONS_SLOTS_COORD_X[0], CANNONS_SLOTS_COORD_Y[0]}};
+        cannon{cannon_type::NONE, {CANNONS_SLOTS_COORD_X[0], CANNONS_SLOTS_COORD_Y[0]}}};
     float m_training_time_left = 0.0;
     std::deque<unit> m_units_to_train = {};
 

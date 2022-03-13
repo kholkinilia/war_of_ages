@@ -5,6 +5,17 @@
 
 namespace war_of_ages {
 
+// TODO: maybe move this function somewhere else?
+[[nodiscard]] static bool detect_collision(const vec2f &pos1,
+                                           const vec2f &size1,
+                                           const vec2f &pos2,
+                                           const vec2f &size2) noexcept {
+    /// AABB - AABB collision
+    bool collisionX = pos1.x + size1.x >= pos2.x && pos2.x + size2.x >= pos1.x;
+    bool collisionY = pos1.y + size1.y >= pos2.y && pos2.y + size2.y >= pos1.y;
+    return collisionX && collisionY;
+}
+
 bullet::bullet(bullet_type type, const vec2f &start, const vec2f &target) noexcept
     : m_type{type}, m_pos{start}, m_dir{target.normalize()} {
     auto stats = bullet::get_stats(m_type);
@@ -18,8 +29,10 @@ void bullet::update(std::deque<unit> &enemies, float dt) {
         m_is_alive = false;
         return;
     }
-    auto enemy = std::find_if(enemies.rbegin(), enemies.rend(),
-                              [this](const unit &u) { return u.is_in(m_pos.x, m_pos.y); });
+    auto enemy = std::find_if(enemies.rbegin(), enemies.rend(), [this](const unit &u) {
+        return detect_collision(m_pos, get_stats(m_type).size, {u.position(), 0.0f},
+                                unit::get_stats(u.type()).size);
+    });
     if (enemy != enemies.rend()) {
         enemy->decrease_hp(m_damage);
         m_is_alive = false;
