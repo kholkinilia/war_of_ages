@@ -85,11 +85,9 @@ sf::Sprite sprite_supplier::reflect_if_needed(sf::Sprite sprite, sprite_supplier
     return sprite;
 }
 
-sprite_supplier *sprite_supplier::get_instance() {
-    if (supplier == nullptr) {
-        supplier = new sprite_supplier();
-    }
-    return supplier;
+sprite_supplier &sprite_supplier::get_instance() {
+    static sprite_supplier instance;
+    return instance;
 }
 
 sf::Sprite sprite_supplier::get_background_sprite(age_type a_type) {

@@ -33,7 +33,7 @@ public:
 
     ~sprite_supplier();
 
-    [[nodiscard]] static sprite_supplier *get_instance();
+    [[nodiscard]] static sprite_supplier &get_instance();
 
 private:
     std::unordered_map<age_type, sf::Sprite> background_sprite;
@@ -49,7 +49,6 @@ private:
 
     sprite_supplier();
 
-    static inline sprite_supplier *supplier = nullptr;
     static sf::Sprite create_sprite_instance(const std::string &filename, int width, int height);
     static sf::Sprite reflect_if_needed(sf::Sprite sprite, player_side side);
 };
