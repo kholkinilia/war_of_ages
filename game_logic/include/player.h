@@ -21,8 +21,8 @@ struct player_snapshot {
     age_type age;
     int exp;
     int money;
-    double m_ult_cooldown;
-    double m_training_time_left;
+    float m_ult_cooldown;
+    float m_training_time_left;
 };
 
 struct player {
@@ -53,7 +53,7 @@ private:
     int m_exp = 0;
     int m_money = INITIAL_MONEY;
     float m_ult_cooldown = ULT_COOLDOWN;
-    std::deque<unit> m_units = {};
+    std::deque<unit> m_units = {unit{unit_type::STONE_TOWER}};
     std::vector<bullet> m_bullets = {};
     std::vector<cannon> m_cannons = {
         cannon{cannon_type::NONE, CANNONS_SLOTS_COORD_X[0], CANNONS_SLOTS_COORD_Y[0]}};
