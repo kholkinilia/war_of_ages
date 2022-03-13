@@ -24,7 +24,7 @@ unit_stats::unit_stats(float time_to_train_s_,
       speed(speed_) {
 }
 
-unit_stats unit::get_stats(unit_type type) noexcept {
+const unit_stats &unit::get_stats(unit_type type) noexcept {
     const static std::unordered_map<unit_type, unit_stats> stats{
         {unit_type::PEASANT, unit_stats(2, 50, 0.5, 0, 25, 25, {100, 200}, 5)},
         {unit_type::ARCHER, unit_stats(3, 70, 1, 100, 30, 50, {100, 200}, 5)},

@@ -6,7 +6,7 @@
 
 namespace war_of_ages {
 
-cannon_stats cannon::get_stats(cannon_type type) {
+const cannon_stats &cannon::get_stats(cannon_type type) noexcept {
     const static std::unordered_map<cannon_type, cannon_stats> stats{
         {cannon_type::STONE_LEVEL_1, cannon_stats{bullet_type::STONE_LEVEL_1, 500, 2, 700}},
         {cannon_type::STONE_LEVEL_2, cannon_stats{bullet_type::STONE_LEVEL_2, 1000, 1.75, 1000}},
