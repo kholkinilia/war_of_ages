@@ -4,21 +4,25 @@
 
 namespace war_of_ages {
 
-void player::update(player &enemy, double dt) {
+// TODO: update money and xp
+void player::update(player &enemy, float dt) {
     std::scoped_lock l(m_mutex, enemy.m_mutex);
     auto &enemies = enemy.m_units;
-    for (auto it = m_units.begin() + 1; it != m_units.end(); ++it) {
+    for (auto it = m_units.rbegin(); it + 1 != m_units.rend(); ++it) {
         auto &unit_ = *it;
-        unit_.update(enemies.back(), (it + 1 != m_units.end() ? *(it + 1) : std::optional<unit>{}), dt);
+        unit_.update(enemies.back(), (it + 1 != m_units.rend() ? *(it + 1) : std::optional<unit>{}), dt);
     }
     for (auto &bullet_ : m_bullets) {
         bullet_.update(enemies, dt);
     }
     for (auto &cannon_ : m_cannons) {
-        cannon_.update(enemies.back(), dt);
+        auto bullet_ = cannon_.update(enemies.back(), dt);
+        if (bullet_.has_value()) {
+            m_bullets.push_back(bullet_.value());
+        }
     }
-    m_ult_cooldown = std::max(m_ult_cooldown - dt, 0.0);
-    m_training_time_left = std::max(m_training_time_left - dt, 0.0);
+    m_ult_cooldown = std::max(m_ult_cooldown - dt, 0.0f);
+    m_training_time_left = std::max(m_training_time_left - dt, 0.0f);
     if (m_training_time_left == 0.0 && !m_units_to_train.empty()) {
         m_units.push_front(m_units_to_train[0]);
         std::swap(m_units[0], m_units[1]);
@@ -86,16 +90,27 @@ void player::sell_cannon(int slot) {
 
 void player::use_ult() {
     std::unique_lock l(m_mutex);
-    if (m_ult_cooldown != 0.0) {
+    if (m_ult_cooldown != 0) {
         return;
     }
     m_ult_cooldown = ULT_COOLDOWN;
     const int bullets_amount = 20;
     for (int i = 0; i < bullets_amount; ++i) {
-        m_bullets.emplace_back(static_cast<bullet_type>(NUM_OF_CANNONS + static_cast<int>(m_age)),
-                               FIELD_LENGTH_PXLS / bullets_amount * i, FIELD_HEIGHT_PXLS,
-                               FIELD_LENGTH_PXLS / bullets_amount * i, 0);
+        m_bullets.emplace_back(
+            static_cast<bullet_type>(NUM_OF_CANNONS + static_cast<int>(m_age)),
+            vec2f{FIELD_LENGTH_PXLS / bullets_amount * static_cast<float>(i), FIELD_HEIGHT_PXLS},
+            vec2f{FIELD_LENGTH_PXLS / bullets_amount * static_cast<float>(i), 0});
     }
+}
+
+void player::upgrade_age() {
+    std::unique_lock l(m_mutex);
+    int age_num = static_cast<int>(m_age);
+    if (age_num + 1 == NUM_OF_AGES || m_exp < NEXT_AGE_EXP[age_num]) {
+        return;
+    }
+    m_age = static_cast<age_type>(age_num + 1);
+    // TODO: update tower's hp
 }
 
 void player::clear_dead_objects() {
@@ -103,6 +118,7 @@ void player::clear_dead_objects() {
     m_bullets.erase(std::remove_if(m_bullets.begin(), m_bullets.end(),
                                    [](const bullet &bullet_) { return !bullet_.is_alive(); }),
                     m_bullets.end());
+    // FIXME: remove '+1' when implemented tower class
     // DO NOT CLEAR TOWER!
     m_units.erase(std::remove_if(m_units.begin() + 1, m_units.end(),
                                  [](const unit &unit_) { return !unit_.is_alive(); }),

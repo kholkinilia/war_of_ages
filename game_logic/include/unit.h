@@ -5,21 +5,22 @@
 
 namespace war_of_ages {
 
-enum class unit_type { PEASANT, ARCHER, CHARIOT };
+// TODO: make tower a different struct
+enum class unit_type { PEASANT, ARCHER, CHARIOT, STONE_TOWER };
 
 struct unit_stats {
-    double time_to_train_s;
+    float time_to_train_s;
     int initial_hp;
-    double attack_cooldown_s;
+    float attack_cooldown_s;
     int attack_radius_pxls;
     int damage;
     int cost;
     int width_pxls;
     int height_pxls;
     int speed;
-    unit_stats(double time_to_train_s_,
+    unit_stats(float time_to_train_s_,
                int initial_hp_,
-               double attack_cooldown_s_,
+               float attack_cooldown_s_,
                int attack_radius_pxls_,
                int damage_,
                int cost_,
@@ -28,19 +29,20 @@ struct unit_stats {
                int speed_);
 };
 
+// FIXME: make coords vec2f (ctrl-f: '.f')
 struct unit {
 private:
     unit_type m_type;
     int m_remaining_hp;
-    double m_time_left_to_attack = 0;
+    float m_time_left_to_attack = 0;
     int m_position = 0;
 
-    void move(double dt, int bound_position);
+    void move(float dt, int bound_position);
 
 public:
     explicit unit(unit_type type);
 
-    void update(unit &enemy, const std::optional<unit> &next_alied_unit, double dt) noexcept;
+    void update(unit &enemy, const std::optional<unit> &next_alied_unit, float dt) noexcept;
     void attack(unit &enemy) noexcept;
     void decrease_hp(int damage) noexcept;
     [[nodiscard]] bool is_alive() const noexcept;

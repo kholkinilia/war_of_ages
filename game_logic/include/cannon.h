@@ -12,22 +12,22 @@ enum class cannon_type { STONE_LEVEL_1, STONE_LEVEL_2, STONE_LEVEL_3, NONE };
 struct cannon_stats {
     bullet_type b_type;
     int cost;
-    double cooldown_s;
+    float cooldown_s;
     int attack_radius_pxls;
-    cannon_stats(bullet_type bullet_type_, int cost_, double cooldown_s_, int attack_radius_pxls_);
 };
 
+// FIXME: make coords vec2f (ctrl-f: '.f')
 struct cannon {
 private:
     cannon_type m_type;
-    double m_time_left_to_attack = 0;
+    float m_time_left_to_attack = 0;
     int m_x;
     int m_y;
 
 public:
     cannon(cannon_type type, int x, int y);
 
-    std::optional<bullet> update(unit &enemy, double dt) noexcept;
+    std::optional<bullet> update(unit &enemy, float dt) noexcept;
     [[nodiscard]] cannon_type type() const noexcept;
     [[nodiscard]] int x() const noexcept;
     [[nodiscard]] int y() const noexcept;

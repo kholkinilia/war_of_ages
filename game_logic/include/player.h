@@ -21,18 +21,19 @@ struct player_snapshot {
     age_type age;
     int exp;
     int money;
-    double m_ult_cooldown;
-    double m_training_time_left;
+    float m_ult_cooldown;
+    float m_training_time_left;
 };
 
 struct player {
-    void update(player &enemy, double dt);  // need all enemies for ult
+    void update(player &enemy, float dt);  // need all enemies for ult
     void buy_unit(int unit_level);  // unit_level in [0, NUM_OF_UNITS_IN_AGE), unit_type = NUM_OF_AGES *
                                     // m_age + unit_level ???
-    void buy_cannon(int cannon_type, int slot);  // the same remark
+    void buy_cannon(int cannon_level, int slot);  // the same remark
     void buy_cannon_slot();
     void sell_cannon(int slot);
     void use_ult();
+    void upgrade_age();
     void clear_dead_objects();
 
     // Getters
@@ -51,12 +52,12 @@ private:
     age_type m_age = age_type::STONE;
     int m_exp = 0;
     int m_money = INITIAL_MONEY;
-    double m_ult_cooldown = ULT_COOLDOWN;
-    std::deque<unit> m_units = {};
+    float m_ult_cooldown = ULT_COOLDOWN;
+    std::deque<unit> m_units = {unit{unit_type::STONE_TOWER}};
     std::vector<bullet> m_bullets = {};
     std::vector<cannon> m_cannons = {
         cannon{cannon_type::NONE, CANNONS_SLOTS_COORD_X[0], CANNONS_SLOTS_COORD_Y[0]}};
-    double m_training_time_left = 0.0;
+    float m_training_time_left = 0.0;
     std::deque<unit> m_units_to_train = {};
 
     mutable std::mutex m_mutex;
