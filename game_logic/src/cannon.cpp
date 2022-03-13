@@ -26,8 +26,7 @@ std::optional<bullet> cannon::update(unit &enemy, float dt) noexcept {
     if (dist <= get_stats(m_type).attack_radius_pxls && m_time_left_to_attack <= 0) {
         m_time_left_to_attack = get_stats(m_type).cooldown_s;
         return bullet(cannon::get_stats(m_type).b_type, m_muzzle_position,
-                      {FIELD_LENGTH_PXLS - enemy.position() - 1,
-                       unit::get_stats(enemy.type()).size.y / 2});
+                      {FIELD_LENGTH_PXLS - enemy.position() - 1, unit::get_stats(enemy.type()).size.y / 2});
     }
     return {};
 }
