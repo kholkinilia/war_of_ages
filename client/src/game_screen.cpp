@@ -10,13 +10,15 @@ namespace war_of_ages {
 void game_screen_init(tgui::Gui &gui) {
     auto game_screen_group = tgui::Group::create();
     auto panel = tgui::ScrollablePanel::create();
-    auto background = tgui::Picture::create(*(sprite_supplier::get_instance().get_background_sprite(age_type::STONE).getTexture()));
+    auto background = tgui::Picture::create(
+        *(sprite_supplier::get_instance().get_background_sprite(age_type::STONE).getTexture()));
     background->setSize(1920 * 2, 1080);
     background->setPosition(0, 0);
     panel->add(background, screen_id.at(screen::GAME_SCREEN));
     panel->setVerticalScrollbarPolicy(tgui::Scrollbar::Policy::Never);
 
-    auto road = tgui::Picture::create(*(sprite_supplier::get_instance().get_road_sprite(age_type::STONE).getTexture()));
+    auto road = tgui::Picture::create(
+        *(sprite_supplier::get_instance().get_road_sprite(age_type::STONE).getTexture()));
     road->setSize(1920 * 2, 200);
     road->setPosition(0, 880);
     panel->add(road, screen_id.at(screen::GAME_SCREEN));
