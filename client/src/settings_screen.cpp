@@ -36,7 +36,7 @@ void settings_screen_init(tgui::Gui &gui) {
     return_back_button->setRenderer(black_theme.getRenderer("Button"));
     return_back_button->setTextSize(30);
     return_back_button->onPress(
-        [&gui]() { show_screen(gui, screen_id.at(screen::START_SCREEN), screen_id.at(screen::SETTINGS)); });
+        [&gui]() { show_screen(gui, screen::START_SCREEN, screen::SETTINGS); });
     return_back_button->setPosition("30%", "70%");
     return_back_button->setSize("40%", "10%");
     settings_screen_group->add(return_back_button);

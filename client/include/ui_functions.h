@@ -5,12 +5,13 @@
 #include <TGUI/Backend/SFML-Graphics.hpp>
 #include <TGUI/TGUI.hpp>
 #include <vector>
+#include "../include/client.h"
 
 namespace war_of_ages {
 
 void place_widgets(std::vector<tgui::Widget::Ptr> &widgets, int width = 40, int height = 10, int space = 5);
 
-void show_screen(tgui::Gui &gui, const tgui::String &new_screen_group, const tgui::String &prev_screen_group);
+void show_screen(tgui::Gui &gui, war_of_ages::screen new_screen, war_of_ages::screen prev_screen);
 
 tgui::Layout2d get_layout(int width_percent, int height_percent);
 

@@ -22,4 +22,8 @@ std::shared_ptr<tournament> client_state::get_cur_tournament() const {
     return cur_tournament;
 }
 
+void client_state::set_cur_screen(screen s) {
+    cur_screen = s;
+}
+
 }  // namespace war_of_ages

@@ -21,14 +21,17 @@ private:
     std::shared_ptr<tournament> cur_tournament;
 
 public:
-    explicit client_state(tgui::String handle_, screen cur_screen_);
-    [[nodiscard]] tgui::String get_handle() const;
+    explicit client_state(tgui::String handle_ = "handle", screen cur_screen_ = screen::START_SCREEN);
 
+    [[nodiscard]] tgui::String get_handle() const;
     [[nodiscard]] tgui::String get_cur_screen_id() const;
     [[nodiscard]] screen get_cur_screen() const;
-
     [[nodiscard]] std::shared_ptr<tournament> get_cur_tournament() const;
+
+    void set_cur_screen(screen s);
 };
+
+extern client_state current_state;
 
 }  // namespace war_of_ages
 

@@ -35,7 +35,10 @@ void screens_init(tgui::Gui &gui) {
     // end Timur's screens
 }
 
+war_of_ages::client_state current_state;
+
 }  // namespace war_of_ages
+
 
 int main() {
     sf::RenderWindow window{sf::VideoMode::getFullscreenModes()[0], "War of Ages", sf::Style::Fullscreen};
@@ -43,9 +46,8 @@ int main() {
 
     war_of_ages::screens_init(gui);
 
-    war_of_ages::client_state state("handle", war_of_ages::screen::START_SCREEN);
 
-    gui.get(state.get_cur_screen_id())->setVisible(true);
+    gui.get(war_of_ages::current_state.get_cur_screen_id())->setVisible(true);
 
     sf::Texture t;
     t.loadFromFile("../client/resources/pictures/fullHD_kittens.jpg");
@@ -61,7 +63,7 @@ int main() {
                 window.close();
         }
 
-        war_of_ages::update_widgets(gui, state);
+        war_of_ages::update_widgets(gui, war_of_ages::current_state);
 
         window.clear();
         window.draw(s);

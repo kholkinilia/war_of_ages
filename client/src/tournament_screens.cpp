@@ -15,7 +15,7 @@ void tournament_join_screen_init(tgui::Gui &gui) {
     tgui::Button::Ptr create_tournament_button = tgui::Button::create("Создать турнир");
     create_tournament_button->setTextSize(30);
     create_tournament_button->onPress([&] {
-        show_screen(gui, screen_id.at(screen::TOURNAMENT_CREATION), screen_id.at(screen::TOURNAMENT_JOINING));
+        show_screen(gui, screen::TOURNAMENT_CREATION, screen::TOURNAMENT_JOINING);
     });
     tournament_join_screen_group->add(create_tournament_button);
 
@@ -32,7 +32,7 @@ void tournament_join_screen_init(tgui::Gui &gui) {
     tgui::Button::Ptr return_back_button = tgui::Button::create("Назад");
     return_back_button->setTextSize(30);
     return_back_button->onPress([&] {
-        show_screen(gui, screen_id.at(screen::START_SCREEN), screen_id.at(screen::TOURNAMENT_JOINING));
+        show_screen(gui, screen::START_SCREEN, screen::TOURNAMENT_JOINING);
     });
     tournament_join_screen_group->add(return_back_button);
 
@@ -63,14 +63,14 @@ void tournament_creation_screen_init(tgui::Gui &gui) {
     tgui::Button::Ptr create_tournament_button = tgui::Button::create("Создать турнир");
     create_tournament_button->setTextSize(30);
     create_tournament_button->onPress([&] {
-        show_screen(gui, screen_id.at(screen::TOURNAMENT_MAIN), screen_id.at(screen::TOURNAMENT_CREATION));
+        show_screen(gui, screen::TOURNAMENT_MAIN, screen::TOURNAMENT_CREATION);
     });
     tournament_creation_screen_group->add(create_tournament_button);
 
     tgui::Button::Ptr return_back_button = tgui::Button::create("Назад");
     return_back_button->setTextSize(30);
     return_back_button->onPress([&] {
-        show_screen(gui, screen_id.at(screen::TOURNAMENT_JOINING), screen_id.at(screen::TOURNAMENT_CREATION));
+        show_screen(gui, screen::TOURNAMENT_JOINING, screen::TOURNAMENT_CREATION);
     });
     tournament_creation_screen_group->add(return_back_button);
 
@@ -98,7 +98,7 @@ void tournament_screen_init(tgui::Gui &gui) {
     return_back_button->setSize({"30%", "10%"});
     return_back_button->setPosition({"5%", "20%"});
     return_back_button->onPress([&] {
-        show_screen(gui, screen_id.at(screen::TOURNAMENT_JOINING), screen_id.at(screen::TOURNAMENT_MAIN));
+        show_screen(gui, screen::TOURNAMENT_JOINING, screen::TOURNAMENT_MAIN);
     });
     tournament_screen_group->add(return_back_button);
 

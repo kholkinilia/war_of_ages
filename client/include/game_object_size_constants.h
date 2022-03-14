@@ -9,7 +9,7 @@ constexpr int BACKGROUND_WIDTH = 1920;
 constexpr int BACKGROUND_HEIGHT = 1080;
 
 constexpr int ROAD_WIDTH = 2500;
-constexpr int ROAD_HEIGHT = 500;
+constexpr int ROAD_HEIGHT = 200;
 
 constexpr int TOWER_WIDTH = 500;
 constexpr int TOWER_HEIGHT = 400;

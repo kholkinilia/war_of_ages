@@ -26,10 +26,11 @@ void place_widgets(std::vector<tgui::Widget::Ptr> &widgets, int width, int heigh
 }
 
 void show_screen(tgui::Gui &gui,
-                 const tgui::String &new_screen_group,
-                 const tgui::String &prev_screen_group) {
-    gui.get(prev_screen_group)->setVisible(false);
-    gui.get(new_screen_group)->setVisible(true);
+                 war_of_ages::screen new_screen,
+                 war_of_ages::screen prev_screen) {
+    gui.get(screen_id.at(prev_screen))->setVisible(false);
+    gui.get(screen_id.at(new_screen))->setVisible(true);
+    war_of_ages::current_state.set_cur_screen(new_screen);
 }
 
 tgui::Layout2d get_layout(int width_percent, int height_percent) {
