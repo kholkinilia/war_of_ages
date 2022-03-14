@@ -59,8 +59,8 @@ sprite_supplier::sprite_supplier() {
     }
 
     for (auto &[u_type, filename] : unit_texture_file) {
-        unit_sprite[u_type] = create_sprite_instance(filename, unit::get_stats(u_type).size.x,
-                                                     unit::get_stats(u_type).size.y);
+        unit_sprite[u_type] =
+            create_sprite_instance(filename, unit::get_stats(u_type).size.x, unit::get_stats(u_type).size.y);
     }
 
     for (auto &[c_type, filename] : cannon_texture_file) {
