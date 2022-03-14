@@ -39,13 +39,11 @@ war_of_ages::client_state current_state;
 
 }  // namespace war_of_ages
 
-
 int main() {
     sf::RenderWindow window{sf::VideoMode::getFullscreenModes()[0], "War of Ages", sf::Style::Fullscreen};
     tgui::Gui gui(window);
 
     war_of_ages::screens_init(gui);
-
 
     gui.get(war_of_ages::current_state.get_cur_screen_id())->setVisible(true);
 

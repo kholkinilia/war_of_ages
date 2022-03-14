@@ -8,23 +8,18 @@ void start_screen_init(tgui::Gui &gui) {
 
     tgui::Button::Ptr singleplayer_button = tgui::Button::create("Одиночная игра");
     singleplayer_button->setTextSize(30);
-    singleplayer_button->onPress([&gui]() {
-        show_screen(gui, screen::GAME_SCREEN, screen::START_SCREEN);
-    });
+    singleplayer_button->onPress([&gui]() { show_screen(gui, screen::GAME_SCREEN, screen::START_SCREEN); });
     start_screen_group->add(singleplayer_button);
 
     tgui::Button::Ptr multiplayer_button = tgui::Button::create("Мультиплеер");
     multiplayer_button->setTextSize(30);
-    multiplayer_button->onPress([&gui]() {
-        show_screen(gui, screen::MULTIPLAYER, screen::START_SCREEN);
-    });
+    multiplayer_button->onPress([&gui]() { show_screen(gui, screen::MULTIPLAYER, screen::START_SCREEN); });
     start_screen_group->add(multiplayer_button);
 
     tgui::Button::Ptr tournament_button = tgui::Button::create("Турниры");
     tournament_button->setTextSize(30);
-    tournament_button->onPress([&gui]() {
-        show_screen(gui, screen::TOURNAMENT_JOINING, screen::START_SCREEN);
-    });
+    tournament_button->onPress(
+        [&gui]() { show_screen(gui, screen::TOURNAMENT_JOINING, screen::START_SCREEN); });
     start_screen_group->add(tournament_button);
 
     tgui::Button::Ptr statistics_button = tgui::Button::create("Статистика");
@@ -46,8 +41,7 @@ void start_screen_init(tgui::Gui &gui) {
     settings_screen_button->setRenderer(settings_icon_theme.getRenderer("Button"));
     settings_screen_button->setSize("4.5%", "8%");
     settings_screen_button->setPosition("90%", "5%");
-    settings_screen_button->onPress(
-        [&gui]() { show_screen(gui, screen::SETTINGS, screen::START_SCREEN); });
+    settings_screen_button->onPress([&gui]() { show_screen(gui, screen::SETTINGS, screen::START_SCREEN); });
     start_screen_group->add(settings_screen_button);
 
     gui.add(start_screen_group, screen_id.at(screen::START_SCREEN));

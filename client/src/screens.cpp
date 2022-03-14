@@ -14,8 +14,9 @@ void update_widgets(tgui::Gui &gui, const client_state &state) {
         }
         case screen::GAME_SCREEN: {
             gui.get(screen_id.at(screen::GAME_SCREEN))
-            ->cast<tgui::Group>()
-            ->get(screen_id.at(screen::GAME_SCREEN))->setVisible(rand() % 2);
+                ->cast<tgui::Group>()
+                ->get(screen_id.at(screen::GAME_SCREEN))
+                ->setVisible(rand() % 2);
         }
         default:
             break;

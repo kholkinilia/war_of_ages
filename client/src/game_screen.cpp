@@ -16,7 +16,6 @@ const int HP_SIZE = 96;
 const int BAR_HEIGHT = 20;
 const int BAR_Y = 216;
 
-
 void game_screen_init(tgui::Gui &gui) {
     auto game_screen_group = tgui::Group::create();
     auto panel = tgui::ScrollablePanel::create();
@@ -91,8 +90,7 @@ void game_screen_init(tgui::Gui &gui) {
     pause_button->setImageScaling(1.05);
     pause_button->setPosition(DELTA_X, BUTTON_Y);
     pause_button->setSize(BUTTON_SIZE, BUTTON_SIZE);
-    pause_button->onPress(
-        [&gui]() { show_screen(gui, screen::PAUSE, screen::GAME_SCREEN); });
+    pause_button->onPress([&gui]() { show_screen(gui, screen::PAUSE, screen::GAME_SCREEN); });
 
     game_screen_group->add(panel);
     game_screen_group->add(autobattle_button);
