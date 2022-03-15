@@ -35,8 +35,7 @@ void pause_screen_init(tgui::Gui &gui) {
     tgui::Button::Ptr return_back_button = tgui::Button::create("Продолжить игру");
     return_back_button->setRenderer(black_theme.getRenderer("Button"));
     return_back_button->setTextSize(30);
-    return_back_button->onPress(
-        [&gui]() { show_screen(gui, screen::GAME_SCREEN, screen::PAUSE); });
+    return_back_button->onPress([&gui]() { show_screen(gui, screen::GAME_SCREEN, screen::PAUSE); });
     return_back_button->setPosition("30%", "73%");
     return_back_button->setSize("40%", "10%");
     settings_screen_group->add(return_back_button);
@@ -44,8 +43,7 @@ void pause_screen_init(tgui::Gui &gui) {
     auto start_button = tgui::Button::create("В главное меню");
     start_button->setRenderer(black_theme.getRenderer("Button"));
     start_button->setTextSize(30);
-    start_button->onPress(
-        [&gui]() { show_screen(gui, screen::START_SCREEN, screen::PAUSE); });
+    start_button->onPress([&gui]() { show_screen(gui, screen::START_SCREEN, screen::PAUSE); });
     start_button->setPosition("30%", "86%");
     start_button->setSize("40%", "10%");
     settings_screen_group->add(start_button);

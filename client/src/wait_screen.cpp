@@ -15,9 +15,7 @@ void opponent_waiting_screen_init(tgui::Gui &gui) {
 
     auto return_button = tgui::Button::create("В главное меню");
     return_button->setTextSize(30);
-    return_button->onPress([&gui]() {
-        show_screen(gui, screen::START_SCREEN, screen::WAIT_OPPONENT);
-    });
+    return_button->onPress([&gui]() { show_screen(gui, screen::START_SCREEN, screen::WAIT_OPPONENT); });
     opponent_waiting_screen_group->add(return_button);
 
     std::vector<tgui::Widget::Ptr> widgets = {loading, return_button};
