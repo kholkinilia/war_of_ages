@@ -5,9 +5,9 @@
 #include <TGUI/Backend/SFML-Graphics.hpp>
 #include <TGUI/TGUI.hpp>
 #include <memory>
+#include "../../game_logic/include/game_state.h"
 #include "screen_defines.h"
 #include "tournament.h"
-#include "../../game_logic/include/game_state.h"
 
 namespace war_of_ages {
 
