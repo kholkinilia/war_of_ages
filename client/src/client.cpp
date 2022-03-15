@@ -26,4 +26,8 @@ void client_state::set_cur_screen(screen s) {
     cur_screen = s;
 }
 
+std::shared_ptr<game_state> client_state::get_cur_game_state() const {
+    return cur_game_state;
+}
+
 }  // namespace war_of_ages
