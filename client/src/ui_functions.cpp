@@ -29,7 +29,7 @@ void show_screen(tgui::Gui &gui, war_of_ages::screen new_screen, war_of_ages::sc
     gui.get(screen_id.at(prev_screen))->setVisible(false);
     gui.get(screen_id.at(new_screen))->setVisible(true);
     current_state.set_cur_screen(new_screen);
-    if(current_state.get_cur_game_state() == nullptr && new_screen == screen::GAME_SCREEN) {
+    if (current_state.get_cur_game_state() == nullptr && new_screen == screen::GAME_SCREEN) {
         current_state.set_cur_game_state(std::make_shared<game_state>());
     }
 }
