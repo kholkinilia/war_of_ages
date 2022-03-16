@@ -33,6 +33,7 @@ public:
     [[nodiscard]] std::shared_ptr<game_state> get_cur_game_state() const;
 
     void set_cur_screen(screen s);
+    void set_cur_game_state(std::shared_ptr<game_state> st);
 };
 
 extern client_state current_state;

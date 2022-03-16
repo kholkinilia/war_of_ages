@@ -32,25 +32,8 @@ void game_screen_init(tgui::Gui &gui) {
     road->setPosition(0, BACKGROUND_HEIGHT - ROAD_HEIGHT);
     panel->add(road, screen_id.at(screen::GAME_SCREEN));
 
-    auto first_player_hp = tgui::ProgressBar::create();
-    first_player_hp->setPosition(DELTA_X, BAR_Y);
-    first_player_hp->setSize(HP_SIZE, BAR_HEIGHT);
-    first_player_hp->setValue(80);
-    auto first_player_hp_renderer = tgui::ProgressBarRenderer();
-    first_player_hp_renderer.setFillColor({0, 255, 0, 255});
-    first_player_hp->setRenderer(first_player_hp_renderer.getData());
-    panel->add(first_player_hp);
-
-    auto second_player_hp = tgui::ProgressBar::create();
-    second_player_hp->setPosition(ROAD_WIDTH - HP_SIZE - DELTA_X, BAR_Y);
-    second_player_hp->setSize(HP_SIZE, BAR_HEIGHT);
-    second_player_hp->setValue(20);
-    auto second_player_hp_renderer = tgui::ProgressBarRenderer();
-    second_player_hp_renderer.setFillColor({255, 0, 0, 255});
-    second_player_hp->setRenderer(second_player_hp_renderer.getData());
-    panel->add(second_player_hp);
-
     auto units_group = tgui::Group::create();
+    units_group->setSize(ROAD_WIDTH, BACKGROUND_HEIGHT);
     panel->add(units_group, "units_group");
 
     auto autobattle_button = tgui::BitmapButton::create();
@@ -86,7 +69,11 @@ void game_screen_init(tgui::Gui &gui) {
     plus_unit_button->setImageScaling(1.05);
     plus_unit_button->setPosition(BACKGROUND_WIDTH - DELTA_X * 5, BUTTON_Y);
     plus_unit_button->setSize(BUTTON_SIZE, BUTTON_SIZE);
-    plus_unit_button->onPress([]() { std::cout << "PLUS UNIT" << std::endl; });
+    plus_unit_button->onPress([]() {
+        std::vector<std::unique_ptr<game_command>> v;
+        v.push_back(std::make_unique<buy_unit_command>(0));
+        current_state.get_cur_game_state()->update(v, {}, 0.001);
+    });
 
     auto pause_button = tgui::BitmapButton::create();
     pause_button->setImage("../client/resources/pictures/blue_settings_icon.png");

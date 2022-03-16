@@ -2,6 +2,7 @@
 #include <SFML/Graphics.hpp>
 #include <TGUI/Backend/SFML-Graphics.hpp>
 #include <TGUI/TGUI.hpp>
+#include <utility>
 
 namespace war_of_ages {
 
@@ -24,6 +25,9 @@ std::shared_ptr<tournament> client_state::get_cur_tournament() const {
 
 void client_state::set_cur_screen(screen s) {
     cur_screen = s;
+}
+void client_state::set_cur_game_state(std::shared_ptr<game_state> st) {
+    cur_game_state = std::move(st);
 }
 
 std::shared_ptr<game_state> client_state::get_cur_game_state() const {

@@ -11,8 +11,8 @@ constexpr int BACKGROUND_HEIGHT = 1080;
 constexpr int ROAD_WIDTH = 2500;
 constexpr int ROAD_HEIGHT = 200;
 
-constexpr int TOWER_WIDTH = 500;
-constexpr int TOWER_HEIGHT = 400;
+constexpr int TOWER_WIDTH = 450;
+constexpr int TOWER_HEIGHT = 350;
 
 constexpr int CANNON_SLOT_WIDTH = 300;
 constexpr int CANNON_SLOT_HEIGHT = 300;
