@@ -9,7 +9,7 @@ void player::update(player &enemy, float dt) {
     auto &enemies = enemy.m_units;
     for (auto it = m_units.rbegin(); it + 1 != m_units.rend(); ++it) {
         auto &unit_ = *it;
-        unit_.update(enemies.back(), (it + 1 != m_units.rend() ? *(it + 1) : std::optional<unit>{}), dt);
+        unit_.update(enemies.back(), (it != m_units.rbegin() ? *(it - 1) : std::optional<unit>{}), dt);
     }
     for (auto &bullet_ : m_bullets) {
         bullet_.update(enemies, dt);

@@ -24,7 +24,7 @@ void update_widgets(tgui::Gui &gui, const client_state &state) {
                                    ->get("units_group")
                                    ->cast<tgui::Group>();
             units_group->removeAllWidgets();
-            state.get_cur_game_state()->update({}, {}, 0.001);
+            state.get_cur_game_state()->update({}, {}, 0.1);
             auto [p1, p2] = state.get_cur_game_state()->snapshot_players();
             tgui::Picture::Ptr unit_picture;
             for (auto unit : p1.units) {

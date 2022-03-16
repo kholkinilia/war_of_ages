@@ -50,7 +50,7 @@ bool unit::is_alive() const noexcept {
 }
 
 void unit::update(unit &enemy, const std::optional<unit> &next_allied_unit, float dt) noexcept {
-    if (get_stats(m_type).attack_radius_pxls <= dist(enemy)) {
+    if (get_stats(m_type).attack_radius_pxls >= dist(enemy)) {
         m_time_left_to_attack -= dt;
         if (m_time_left_to_attack <= 0) {
             attack(enemy);
