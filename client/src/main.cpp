@@ -52,6 +52,14 @@ int main() {
     sf::Sprite s;
     s.setTexture(t);
 
+    tgui::Label::Ptr fps_label = tgui::Label::create();
+    fps_label->getRenderer()->setTextColor(tgui::Color::Red);
+    fps_label->setPosition(0, 0);
+    gui.add(fps_label);
+    float prev_frames_update_time = 1.f * clock() / CLOCKS_PER_SEC;
+    long long frames_counter = 0;
+    const int UPDATE_FPS_GAP = 10;
+
     while (window.isOpen()) {
         sf::Event event{};
         while (window.pollEvent(event)) {
@@ -67,6 +75,13 @@ int main() {
         window.draw(s);
 
         gui.draw();
+
+        if (frames_counter % UPDATE_FPS_GAP == 0) {
+            float new_time = 1.f * clock() / CLOCKS_PER_SEC;
+            fps_label->setText(std::to_string(UPDATE_FPS_GAP * 1. / (new_time - prev_frames_update_time)));
+            prev_frames_update_time = new_time;
+        }
+        frames_counter++;
 
         window.display();
     }
