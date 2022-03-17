@@ -2,8 +2,8 @@
 #include "../../game_logic/include/age.h"
 #include "../../game_logic/include/bullet.h"
 #include "../../game_logic/include/cannon.h"
-#include "../../game_logic/include/unit.h"
 #include "../../game_logic/include/game_constants.h"
+#include "../../game_logic/include/unit.h"
 #include "../include/game_object_size_constants.h"
 
 namespace war_of_ages {
@@ -56,7 +56,8 @@ sprite_supplier::sprite_supplier() {
     bullet_sprite.resize(bullet_texture_file.size());
 
     for (std::size_t i = 0; i < background_texture_file.size(); i++) {
-        background_sprite[i] = create_sprite_instance(background_texture_file[i], BACKGROUND_WIDTH, BACKGROUND_HEIGHT);
+        background_sprite[i] =
+            create_sprite_instance(background_texture_file[i], BACKGROUND_WIDTH, BACKGROUND_HEIGHT);
     }
 
     for (std::size_t i = 0; i < road_texture_file.size(); i++) {
@@ -77,12 +78,14 @@ sprite_supplier::sprite_supplier() {
     }
 
     for (std::size_t i = 0; i < cannon_slots_texture_file.size(); i++) {
-        cannon_slots_sprite[i] = create_sprite_instance(cannon_slots_texture_file[i], CANNON_SLOT_WIDTH, CANNON_SLOT_HEIGHT);
+        cannon_slots_sprite[i] =
+            create_sprite_instance(cannon_slots_texture_file[i], CANNON_SLOT_WIDTH, CANNON_SLOT_HEIGHT);
     }
 
     for (std::size_t i = 0; i < bullet_texture_file.size(); i++) {
         vec2f size = bullet::get_stats(static_cast<bullet_type>(i)).size;
-        bullet_sprite[i] = create_sprite_instance(bullet_texture_file[i], static_cast<int>(size.x), static_cast<int>(size.y));
+        bullet_sprite[i] = create_sprite_instance(bullet_texture_file[i], static_cast<int>(size.x),
+                                                  static_cast<int>(size.y));
     }
 }
 
@@ -112,7 +115,8 @@ sf::Sprite sprite_supplier::get_tower_sprite(age_type a_type, sprite_supplier::p
 
 sf::Sprite sprite_supplier::get_cannon_slot_sprite(std::pair<age_type, int> cs_type,
                                                    sprite_supplier::player_side side) {
-    return reflect_if_needed(cannon_slots_sprite[static_cast<int>(cs_type.first) * CANNONS_PER_AGE + cs_type.second], side);
+    return reflect_if_needed(
+        cannon_slots_sprite[static_cast<int>(cs_type.first) * CANNONS_PER_AGE + cs_type.second], side);
 }
 
 sf::Sprite sprite_supplier::get_unit_sprite(unit_type u_type, sprite_supplier::player_side side) {

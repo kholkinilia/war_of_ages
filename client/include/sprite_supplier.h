@@ -36,13 +36,13 @@ public:
     [[nodiscard]] static sprite_supplier &get_instance();
 
 private:
-    std::vector</*age_type, */sf::Sprite> background_sprite;
-    std::vector</*age_type, */sf::Sprite> road_sprite;
-    std::vector</*age_type, */sf::Sprite> tower_sprite;
-    std::vector</*std::pair<age_type, int>, */sf::Sprite> cannon_slots_sprite;
-    std::vector</*unit_type, */sf::Sprite> unit_sprite;
-    std::vector</*cannon_type, */sf::Sprite> cannon_sprite;
-    std::vector</*bullet_type, */sf::Sprite> bullet_sprite;
+    std::vector</*age_type, */ sf::Sprite> background_sprite;
+    std::vector</*age_type, */ sf::Sprite> road_sprite;
+    std::vector</*age_type, */ sf::Sprite> tower_sprite;
+    std::vector</*std::pair<age_type, int>, */ sf::Sprite> cannon_slots_sprite;
+    std::vector</*unit_type, */ sf::Sprite> unit_sprite;
+    std::vector</*cannon_type, */ sf::Sprite> cannon_sprite;
+    std::vector</*bullet_type, */ sf::Sprite> bullet_sprite;
 
     sprite_supplier();
 
