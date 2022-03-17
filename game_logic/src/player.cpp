@@ -55,10 +55,10 @@ void player::buy_unit(int unit_level) {
         return;
     }
     m_money -= cost;
-    m_units_to_train.emplace_back(type);
     if (m_units_to_train.empty()) {
         m_training_time_left = stats.time_to_train_s;
     }
+    m_units_to_train.emplace_back(type);
 }
 
 void player::buy_cannon(int cannon_level, int slot) {
