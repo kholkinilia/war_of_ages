@@ -8,9 +8,9 @@ namespace war_of_ages {
 
 void game_state::update(const std::vector<std::unique_ptr<game_command>> &p1_commands,
                         const std::vector<std::unique_ptr<game_command>> &p2_commands,
-                        float dt) {
-    p1.update(p2, dt);
-    p2.update(p1, dt);
+                        float time) {
+    p1.update(p2, state_time - time);
+    p2.update(p1, state_time - time);
 
     for (auto &command : p1_commands) {
         command->apply(p1);
@@ -23,8 +23,11 @@ void game_state::update(const std::vector<std::unique_ptr<game_command>> &p1_com
     p2.clear_dead_objects();
 }
 
-std::pair<player_snapshot, player_snapshot> game_state::snapshot_players() {
+[[nodiscard]] std::pair<player_snapshot, player_snapshot> game_state::snapshot_players() const {
     return {p1.snapshot(), p2.snapshot()};
+}
+
+game_state::game_state(float start_time): state_time(start_time) {
 }
 
 }  // namespace war_of_ages
