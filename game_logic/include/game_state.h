@@ -12,6 +12,7 @@ struct game_state {
 private:
     player p1, p2;
     float state_time;
+
 public:
     explicit game_state(float start_time);
     void update(const std::vector<std::unique_ptr<game_command>> &p1_commands,

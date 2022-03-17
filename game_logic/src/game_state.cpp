@@ -27,7 +27,7 @@ void game_state::update(const std::vector<std::unique_ptr<game_command>> &p1_com
     return {p1.snapshot(), p2.snapshot()};
 }
 
-game_state::game_state(float start_time): state_time(start_time) {
+game_state::game_state(float start_time) : state_time(start_time) {
 }
 
 }  // namespace war_of_ages
