@@ -50,8 +50,11 @@ int main() {
     sf::Sprite tower_sprite = war_of_ages::sprite_supplier::get_instance().get_tower_sprite(age_type::STONE, war_of_ages::sprite_supplier::player_side::LEFT);
     sf::Sprite unit = war_of_ages::sprite_supplier::get_instance().get_unit_sprite(war_of_ages::unit_type::ARCHER, war_of_ages::sprite_supplier::player_side::RIGHT);
 
-    tower_sprite.setPosition(500, 500);
     unit.setPosition(500, 500);
+
+    std::vector<sf::Sprite> units(50, unit);
+
+    tower_sprite.setPosition(500, 500);
 
     while (window.isOpen()) {
         sf::Event event{};
@@ -71,8 +74,12 @@ int main() {
 
         window.draw(tower_sprite);
 
-        window.draw(unit);
-        unit.setPosition((int)(unit.getPosition().x + (rand() % 2 ? -1 : 1) * rand() % 5 + window.getSize().x - 100) % (int)(window.getSize().x - 100), (int)(unit.getPosition().y + (rand() % 2 ? -1 : 1) * rand() % 5 + window.getSize().y - 100) % (int)(window.getSize().y - 100));
+        for (auto &unit: units) {
+            window.draw(unit);
+        }
+        for (auto &unit: units) {
+            unit.setPosition((int)(unit.getPosition().x + (rand() % 2 ? -1 : 1) * rand() % 5 + window.getSize().x - 100) % (int)(window.getSize().x - 100), (int)(unit.getPosition().y + (rand() % 2 ? -1 : 1) * rand() % 5 + window.getSize().y - 100) % (int)(window.getSize().y - 100));
+        }
         window.display();
     }
 }
