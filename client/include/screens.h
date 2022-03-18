@@ -1,19 +1,15 @@
 #ifndef WAR_OF_AGES_SCREENS_H
 #define WAR_OF_AGES_SCREENS_H
 
+#include <TGUI/Backend/SFML-Graphics.hpp>  // tgui::Gui
 #include "client.h"
-#include "game_screen.h"
-#include "multiplayer_screen.h"
-#include "pause_screen.h"
-#include "settings_screen.h"
-#include "start_screen.h"
-#include "tournament_screens.h"
-#include "wait_screen.h"
 
 namespace war_of_ages {
 
+void screens_init(tgui::Gui &gui);
+
 void update_screens(tgui::Gui &gui, const client_state &state, sf::RenderWindow *window);
 
-}
+}  // namespace war_of_ages
 
 #endif  // WAR_OF_AGES_SCREENS_H
