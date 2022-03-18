@@ -97,7 +97,7 @@ void sprite_printer::print_units(sf::RenderWindow *window,
 }
 
 void sprite_printer::print_bullets(sf::RenderWindow *window,
-                                   const std::vector<bullet>& bullets,
+                                   const std::vector<bullet> &bullets,
                                    sprite_supplier::player_side side) {
     sf::Sprite bullet_picture;
     for (auto bullet : bullets) {
