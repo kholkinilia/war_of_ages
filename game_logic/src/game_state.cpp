@@ -9,8 +9,9 @@ namespace war_of_ages {
 void game_state::update(const std::vector<std::unique_ptr<game_command>> &p1_commands,
                         const std::vector<std::unique_ptr<game_command>> &p2_commands,
                         float time) {
-    p1.update(p2, state_time - time);
-    p2.update(p1, state_time - time);
+    p1.update(p2, time - state_time);
+    p2.update(p1, time - state_time);
+    state_time = time;
 
     for (auto &command : p1_commands) {
         command->apply(p1);
