@@ -110,7 +110,6 @@ void sprite_printer::print_bullets(sf::RenderWindow *window,
         }
 
         bullet_picture.setPosition(500, 500);
-        bullet_picture.setScale(10, 10);
         window->draw(bullet_picture);
     }
 }

@@ -57,7 +57,7 @@ sprite_supplier::sprite_supplier() {
 
     for (std::size_t i = 0; i < background_texture_file.size(); i++) {
         background_sprite[i] =
-            create_sprite_instance(background_texture_file[i], BACKGROUND_WIDTH, BACKGROUND_HEIGHT);
+            create_sprite_instance(background_texture_file[i], ROAD_WIDTH, BACKGROUND_HEIGHT);
     }
 
     for (std::size_t i = 0; i < road_texture_file.size(); i++) {
