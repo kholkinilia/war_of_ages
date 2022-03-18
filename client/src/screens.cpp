@@ -10,10 +10,11 @@ namespace war_of_ages {
 void update_screens(tgui::Gui &gui, const client_state &state, sf::RenderWindow *window) {
     switch (state.get_cur_screen()) {
         case screen::TOURNAMENT_MAIN: {
-            state.get_cur_tournament()->update_grid(gui.get(screen_id.at(screen::TOURNAMENT_MAIN))
-                                                        ->cast<tgui::Group>()
-                                                        ->get("tournament_grid")
-                                                        ->cast<tgui::Grid>());
+            // TODO: uncomment, when tournament logic is implementeed
+            //state.get_cur_tournament()->update_grid(gui.get(screen_id.at(screen::TOURNAMENT_MAIN))
+            //                                            ->cast<tgui::Group>()
+            //                                            ->get("tournament_grid")
+            //                                            ->cast<tgui::Grid>());
         }
         case screen::GAME_SCREEN: {
             if (state.get_cur_game_state() == nullptr)
