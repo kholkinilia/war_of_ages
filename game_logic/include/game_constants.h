@@ -3,7 +3,7 @@
 
 namespace war_of_ages {
 
-constexpr int NUM_OF_AGES = 4;
+constexpr int NUM_OF_AGES = 5;
 constexpr int UNITS_PER_AGE = 3;
 constexpr int CANNONS_PER_AGE = 3;
 constexpr int MAX_CANNON_SLOTS = 3;
