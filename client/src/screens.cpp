@@ -11,7 +11,7 @@ void update_screens(tgui::Gui &gui, const client_state &state, sf::RenderWindow 
     switch (state.get_cur_screen()) {
         case screen::TOURNAMENT_MAIN: {
             // TODO: uncomment, when tournament logic is implementeed
-            //state.get_cur_tournament()->update_grid(gui.get(screen_id.at(screen::TOURNAMENT_MAIN))
+            // state.get_cur_tournament()->update_grid(gui.get(screen_id.at(screen::TOURNAMENT_MAIN))
             //                                            ->cast<tgui::Group>()
             //                                            ->get("tournament_grid")
             //                                            ->cast<tgui::Grid>());
