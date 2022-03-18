@@ -46,7 +46,7 @@ void game_screen_init(tgui::Gui &gui) {
     plus_unit_button->onPress([]() {
         std::vector<std::unique_ptr<game_command>> v;
         v.push_back(std::make_unique<buy_unit_command>(0));
-        current_state.get_cur_game_state()->update(v, {}, 0.001);
+        current_state.get_cur_game_state()->update(v, {}, 1.f * clock() / CLOCKS_PER_SEC);
     });
 
     auto pause_button = tgui::BitmapButton::create();

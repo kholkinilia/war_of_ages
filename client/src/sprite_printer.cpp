@@ -12,7 +12,7 @@ void sprite_printer::update(float delta) {
 }
 
 void sprite_printer::print(sf::RenderWindow *window, const std::shared_ptr<game_state>& state) {
-    state->update({}, {}, 0.5);
+    state->update({}, {}, 1.f * clock() / CLOCKS_PER_SEC);
     auto [p1, p2] = state->snapshot_players();
 
     background.setPosition(0, 0);
@@ -52,17 +52,12 @@ void sprite_printer::print_units(sf::RenderWindow *window, const std::deque<unit
             hp_len = TOWER_WIDTH * 0.6;
             unit_hp_out.setPosition(x_pos - delta, y_pos - DELTA);
             unit_hp_in.setPosition(x_pos - delta, y_pos - DELTA);
-            //                        unit_hp->setPosition(unit.position() + TOWER_WIDTH * 0.33,
-            //                                             BACKGROUND_HEIGHT - TOWER_HEIGHT - 60);
-            //                        unit_hp->setSize(TOWER_WIDTH * 0.5, 20);
         } else {
             y_pos = BACKGROUND_HEIGHT - DELTA - unit.stats().size.y;
             unit_picture = sprite_supplier::get_instance().get_unit_sprite(unit.type(), side);
             hp_len = unit.stats().size.x;
             unit_hp_out.setPosition(x_pos - delta, y_pos - DELTA);
             unit_hp_in.setPosition(x_pos - delta, y_pos - DELTA);
-            //            unit_hp->setPosition(unit.position() + TOWER_WIDTH + UNIT_WIDTH * 0.25,
-            //            BACKGROUND_HEIGHT - 2 * UNIT_HEIGHT - 60); unit_hp->setSize(UNIT_WIDTH * 0.5, 20);
         }
 
         unit_hp_out.setSize({hp_len, HP_HEIGHT});
