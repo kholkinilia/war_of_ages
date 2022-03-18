@@ -110,7 +110,6 @@ void sprite_printer::print_bullets(sf::RenderWindow *window,
             x_pos = ROAD_WIDTH - x_pos;
         }
 
-        // std::cout << x_pos << " " << bullet.pos().y << std::endl;
         bullet_picture.setPosition(x_pos, bullet.pos().y);
         window->draw(bullet_picture);
     }
