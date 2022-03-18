@@ -47,7 +47,7 @@ sprite_supplier::sprite_supplier() {
         {bullet_type::STONE_ULT, "../client/resources/game/bullets/stone/ult.png"}};
 
     for (auto &[a_type, filename] : background_texture_file) {
-        background_sprite[a_type] = create_sprite_instance(filename, BACKGROUND_WIDTH, BACKGROUND_HEIGHT);
+        background_sprite[a_type] = create_sprite_instance(filename, ROAD_WIDTH, BACKGROUND_HEIGHT);
     }
 
     for (auto &[a_type, filename] : road_texture_file) {

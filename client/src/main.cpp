@@ -1,8 +1,11 @@
 #include <SFML/Graphics.hpp>
 #include <TGUI/Backend/SFML-Graphics.hpp>
 #include "../include/client.h"
+#include "../include/end_game_screen.h"
+#include "../include/game_object_size_constants.h"
 #include "../include/screen_defines.h"
 #include "../include/screens.h"
+#include "../include/sprite_printer.h"
 #include "../include/ui_functions.h"
 
 namespace war_of_ages {
@@ -30,6 +33,7 @@ void screens_init(tgui::Gui &gui) {
 
     opponent_waiting_screen_init(gui);
     game_screen_init(gui);
+    end_game_screen_init(gui);
     pause_screen_init(gui);
 
     // end Timur's screens
@@ -60,19 +64,58 @@ int main() {
     long long frames_counter = 0;
     const int UPDATE_FPS_GAP = 10;
 
+    war_of_ages::sprite_printer printer;
+    sf::Vector2f oldPos;
+    bool moving = false;
+    sf::View view = window.getDefaultView();
     while (window.isOpen()) {
         sf::Event event{};
         while (window.pollEvent(event)) {
             gui.handleEvent(event);
+            switch (event.type) {
+                case sf::Event::Closed:
+                    window.close();
+                    break;
+                case sf::Event::MouseButtonPressed:
+                    if (event.mouseButton.button == 0) {
+                        moving = true;
+                        oldPos =
+                            window.mapPixelToCoords(sf::Vector2i(event.mouseButton.x, event.mouseButton.y));
+                    }
+                    break;
+                case sf::Event::MouseButtonReleased:
 
-            if (event.type == sf::Event::Closed)
-                window.close();
+                    if (event.mouseButton.button == 0) {
+                        moving = false;
+                    }
+                    break;
+                case sf::Event::MouseMoved: {
+                    if (!moving || war_of_ages::current_state.get_cur_screen() != war_of_ages::screen::GAME_SCREEN)
+                        break;
+
+                    const sf::Vector2f newPos =
+                        window.mapPixelToCoords(sf::Vector2i(event.mouseMove.x, event.mouseMove.y));
+
+                    const sf::Vector2f deltaPos = oldPos - newPos;
+                    if(view.getCenter().x + deltaPos.x < war_of_ages::BACKGROUND_WIDTH / 2 || view.getCenter().x + deltaPos.x > war_of_ages::ROAD_WIDTH - war_of_ages::BACKGROUND_WIDTH / 2)
+                        break;
+                    view.move(deltaPos.x, 0.0f);
+                    printer.update(deltaPos.x);
+
+                    oldPos = window.mapPixelToCoords(sf::Vector2i(event.mouseMove.x, event.mouseMove.y));
+                    break;
+                }
+            }
         }
 
-        war_of_ages::update_widgets(gui, war_of_ages::current_state);
+        if(war_of_ages::current_state.get_cur_screen() != war_of_ages::screen::GAME_SCREEN) {
+            view.setCenter(war_of_ages::BACKGROUND_WIDTH / 2, war_of_ages::BACKGROUND_HEIGHT / 2);
+        }
 
         window.clear();
         window.draw(s);
+
+        war_of_ages::update_screens(gui, war_of_ages::current_state, &window);
 
         gui.draw();
 
@@ -84,5 +127,6 @@ int main() {
         frames_counter++;
 
         window.display();
+        window.setView(view);
     }
 }

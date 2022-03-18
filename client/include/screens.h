@@ -12,7 +12,8 @@
 
 namespace war_of_ages {
 
-void update_widgets(tgui::Gui &gui, const client_state &state);
+void update_screens(tgui::Gui &gui, const client_state &state, sf::RenderWindow *window);
+
 }
 
 #endif  // WAR_OF_AGES_SCREENS_H

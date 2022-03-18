@@ -1,6 +1,4 @@
 #include "../include/game_screen.h"
-#include <SFML/Graphics.hpp>
-#include <TGUI/Backend/SFML-Graphics.hpp>
 #include <iostream>
 #include "../include/game_object_size_constants.h"
 #include "../include/screen_defines.h"
@@ -9,32 +7,8 @@
 
 namespace war_of_ages {
 
-const int BUTTON_SIZE = 70;
-const int BUTTON_Y = 50;
-const int DELTA_X = 96;
-const int HP_SIZE = 400;
-const int BAR_HEIGHT = 20;
-const int BAR_Y = 216;
-
 void game_screen_init(tgui::Gui &gui) {
     auto game_screen_group = tgui::Group::create();
-    auto panel = tgui::ScrollablePanel::create();
-    panel->setVerticalScrollbarPolicy(tgui::Scrollbar::Policy::Never);
-    auto background = tgui::Picture::create(
-        *(sprite_supplier::get_instance().get_background_sprite(age_type::STONE).getTexture()));
-    background->setSize(ROAD_WIDTH, BACKGROUND_HEIGHT);
-    background->setPosition(0, 0);
-    panel->add(background, screen_id.at(screen::GAME_SCREEN));
-
-    auto road = tgui::Picture::create(
-        *(sprite_supplier::get_instance().get_road_sprite(age_type::STONE).getTexture()));
-    road->setSize(ROAD_WIDTH, ROAD_HEIGHT);
-    road->setPosition(0, BACKGROUND_HEIGHT - ROAD_HEIGHT);
-    panel->add(road, screen_id.at(screen::GAME_SCREEN));
-
-    auto units_group = tgui::Group::create();
-    units_group->setSize(ROAD_WIDTH, BACKGROUND_HEIGHT);
-    panel->add(units_group, "units_group");
 
     auto autobattle_button = tgui::BitmapButton::create();
     autobattle_button->setImage("../client/resources/pictures/autobattle.png");
@@ -82,7 +56,6 @@ void game_screen_init(tgui::Gui &gui) {
     pause_button->setSize(BUTTON_SIZE, BUTTON_SIZE);
     pause_button->onPress([&gui]() { show_screen(gui, screen::PAUSE, screen::GAME_SCREEN); });
 
-    game_screen_group->add(panel, "panel");
     game_screen_group->add(autobattle_button);
     game_screen_group->add(new_era_button);
     game_screen_group->add(plus_place_cannon_button);

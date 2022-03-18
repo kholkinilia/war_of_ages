@@ -20,6 +20,14 @@ constexpr int CANNON_SLOT_HEIGHT = 300;
 constexpr int CANNON_WIDTH = 300;
 constexpr int CANNON_HEIGHT = 300;
 
+constexpr int DELTA = 50;
+
+constexpr int BUTTON_SIZE = 70;
+constexpr int BUTTON_Y = 50;
+constexpr int DELTA_X = 96;
+
+constexpr int HP_HEIGHT = 20;
+
 // TODO: remove bullet constants, when bullet's size is implemented
 constexpr int BULLET_WIDTH = 40;
 constexpr int BULLET_HEIGHT = 40;
