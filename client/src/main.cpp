@@ -116,6 +116,22 @@ int main() {
             view.setCenter(war_of_ages::BACKGROUND_WIDTH / 2, war_of_ages::BACKGROUND_HEIGHT / 2);
         }
 
+        if (war_of_ages::current_state.get_cur_game_state() != nullptr &&
+            war_of_ages::current_state.get_cur_game_state()->get_game_status() !=
+                war_of_ages::game_status::PROCESSING) {
+            window.clear();
+            show_screen(gui, war_of_ages::screen::END_GAME, war_of_ages::screen::GAME_SCREEN);
+            gui.get(war_of_ages::screen_id.at(war_of_ages::screen::END_GAME))
+                ->cast<tgui::Group>()
+                ->get("result_label")
+                ->cast<tgui::Label>()
+                ->setText(war_of_ages::current_state.get_cur_game_state()->get_game_status() ==
+                                  war_of_ages::game_status::P1_WON
+                              ? "Поздравляем, Вы победили!"
+                              : "Вы проиграли, повезет в следующий раз");
+            war_of_ages::current_state.set_cur_game_state(nullptr);
+        }
+
         window.clear();
         window.draw(s);
 

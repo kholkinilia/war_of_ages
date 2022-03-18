@@ -58,9 +58,9 @@ void sprite_printer::print_units(sf::RenderWindow *window,
         } else {
             y_pos = BACKGROUND_HEIGHT - DELTA - unit.stats().size.y;
             unit_picture = sprite_supplier::get_instance().get_unit_sprite(unit.type(), side);
-            hp_len = unit.stats().size.x;
-            unit_hp_out.setPosition(x_pos - delta, y_pos - DELTA);
-            unit_hp_in.setPosition(x_pos - delta, y_pos - DELTA);
+            hp_len = unit.stats().size.x * 0.7;
+            unit_hp_out.setPosition(x_pos - delta + 0.15 * unit.stats().size.x, y_pos - DELTA);
+            unit_hp_in.setPosition(x_pos - delta + 0.15 * unit.stats().size.x, y_pos - DELTA);
         }
 
         unit_hp_out.setSize({hp_len, HP_HEIGHT});
