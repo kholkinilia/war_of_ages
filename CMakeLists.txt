@@ -24,13 +24,6 @@ set(COMMON_PROJECT_SOURCES
         game_logic/src/player.cpp
         game_logic/src/unit.cpp
         game_logic/src/bullet.cpp
-        game_logic/src/cannon.cpp)
-
-set(COMMON_PROJECT_SOURCES
-        game_logic/src/game_state.cpp
-        game_logic/src/player.cpp
-        game_logic/src/unit.cpp
-        game_logic/src/bullet.cpp
         game_logic/src/cannon.cpp
         game_logic/src/game_commands.cpp
         game_logic/src/vec2f.cpp)

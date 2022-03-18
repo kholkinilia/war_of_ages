@@ -11,12 +11,14 @@ namespace war_of_ages {
 struct game_state {
 private:
     player p1, p2;
+    float state_time;
 
 public:
+    explicit game_state(float start_time);
     void update(const std::vector<std::unique_ptr<game_command>> &p1_commands,
                 const std::vector<std::unique_ptr<game_command>> &p2_commands,
                 float dt);
-    std::pair<player_snapshot, player_snapshot> snapshot_players();
+    [[nodiscard]] std::pair<player_snapshot, player_snapshot> snapshot_players() const;
 };
 
 }  // namespace war_of_ages

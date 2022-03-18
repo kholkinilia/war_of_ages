@@ -1,5 +1,6 @@
 #include <SFML/Graphics.hpp>
 #include <TGUI/Backend/SFML-Graphics.hpp>
+#include <chrono>
 #include "../include/client.h"
 #include "../include/end_game_screen.h"
 #include "../include/game_object_size_constants.h"
