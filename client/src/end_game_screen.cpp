@@ -13,12 +13,9 @@ void end_game_screen_init(tgui::Gui &gui) {
     result->getRenderer()->setTextColor(tgui::Color::White);
     end_game_screen_group->add(result, "result_label");
 
-
     auto start_button = tgui::Button::create("В главное меню");
     start_button->setTextSize(30);
-    start_button->onPress([&gui]() {
-        show_screen(gui, screen::START_SCREEN, screen::END_GAME);
-    });
+    start_button->onPress([&gui]() { show_screen(gui, screen::START_SCREEN, screen::END_GAME); });
     end_game_screen_group->add(start_button);
 
     std::vector<tgui::Widget::Ptr> widgets = {result, start_button};
