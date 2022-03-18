@@ -30,4 +30,14 @@ void game_state::update(const std::vector<std::unique_ptr<game_command>> &p1_com
 game_state::game_state(float start_time) : state_time(start_time) {
 }
 
+game_status game_state::get_game_status() const {
+    if (!p1.is_alive()) {
+        return game_status::P2_WON;
+    }
+    if (!p2.is_alive()) {
+        return game_status::P1_WON;
+    }
+    return game_status::PROCESSING;
+}
+
 }  // namespace war_of_ages
