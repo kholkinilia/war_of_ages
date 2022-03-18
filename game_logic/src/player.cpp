@@ -107,10 +107,12 @@ void player::use_ult() {
         return;
     }
     auto ult_type = static_cast<bullet_type>(NUM_OF_CANNONS + static_cast<int>(m_age));
+    vec2f ult_size = bullet::get_stats(ult_type).size;
     std::mt19937 gen(std::random_device{}());
-    std::uniform_real_distribution y_offset(0.0, 3.0 * bullet::get_stats(ult_type).size.y);
+    std::uniform_real_distribution x_offset(0.0, 3.0 * ult_size.x);
+    std::uniform_real_distribution y_offset(0.0, 20.0 * ult_size.y);
     m_ult_cooldown = ULT_COOLDOWN;
-    const int bullets_amount = 20;
+    const int bullets_amount = 10;
     for (int i = 0; i < bullets_amount; ++i) {
         m_bullets.emplace_back(ult_type,
                                vec2f{FIELD_LENGTH_PXLS / bullets_amount * static_cast<float>(i),
