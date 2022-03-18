@@ -45,7 +45,7 @@ void game_screen_init(tgui::Gui &gui) {
     plus_unit_button->setSize(BUTTON_SIZE, BUTTON_SIZE);
     plus_unit_button->onPress([]() {
         std::vector<std::unique_ptr<game_command>> v;
-        v.push_back(std::make_unique<buy_unit_command>(0));
+        v.push_back(std::make_unique<buy_unit_command>(2));
         current_state.get_cur_game_state()->update(v, {}, 1.f * clock() / CLOCKS_PER_SEC);
     });
 

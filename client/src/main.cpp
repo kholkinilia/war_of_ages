@@ -96,10 +96,12 @@ int main() {
                         break;
 
                     float delta = prev_x - event.mouseMove.x;
-                    if (view.getCenter().x + delta < war_of_ages::BACKGROUND_WIDTH / 2 ||
-                        view.getCenter().x + delta >
-                            war_of_ages::ROAD_WIDTH - war_of_ages::BACKGROUND_WIDTH / 2)
-                        break;
+                    if (view.getCenter().x + delta < 1.f * war_of_ages::BACKGROUND_WIDTH / 2) {
+                        delta = 1.f * war_of_ages::BACKGROUND_WIDTH / 2 - view.getCenter().x;
+                    }
+                    if (view.getCenter().x + delta > war_of_ages::ROAD_WIDTH - 1.f * war_of_ages::BACKGROUND_WIDTH / 2) {
+                        delta = war_of_ages::ROAD_WIDTH - 1.f * war_of_ages::BACKGROUND_WIDTH / 2 - view.getCenter().x;
+                    }
                     view.move(delta, 0.0f);
                     printer.update(delta);
 
