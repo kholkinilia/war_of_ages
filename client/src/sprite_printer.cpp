@@ -25,24 +25,27 @@ void sprite_printer::print(sf::RenderWindow *window, const std::shared_ptr<game_
     print_units(window, p2.units, sprite_supplier::player_side::RIGHT);
 }
 
-void sprite_printer::print_units(sf::RenderWindow *window, const std::deque<unit>& units, sprite_supplier::player_side side) {
+void sprite_printer::print_units(sf::RenderWindow *window,
+                                 const std::deque<unit> &units,
+                                 sprite_supplier::player_side side) {
     sf::Sprite unit_picture;
     for (auto unit : units) {
         sf::RectangleShape unit_hp_in, unit_hp_out;
-        if(side == sprite_supplier::player_side::LEFT)
+        if (side == sprite_supplier::player_side::LEFT)
             unit_hp_in.setFillColor({0, 255, 0, 255});
         else
             unit_hp_in.setFillColor({255, 0, 0, 255});
 
         float x_pos = unit.position() * (ROAD_WIDTH - 2 * (TOWER_WIDTH - 2 * DELTA)) / FIELD_LENGTH_PXLS +
-                      TOWER_WIDTH - DELTA, y_pos, hp_len, delta = unit.stats().size.x;
-        if(side == sprite_supplier::player_side::RIGHT) {
+                      TOWER_WIDTH - DELTA,
+              y_pos, hp_len, delta = unit.stats().size.x;
+        if (side == sprite_supplier::player_side::RIGHT) {
             x_pos = ROAD_WIDTH - x_pos;
             delta = 0;
         }
 
         if (unit.type() == unit_type::STONE_TOWER) {
-            if(side == sprite_supplier::player_side::LEFT) {
+            if (side == sprite_supplier::player_side::LEFT) {
                 delta = TOWER_WIDTH - DELTA - 10;
             } else {
                 delta = -0.4 * TOWER_WIDTH + DELTA + 10;
