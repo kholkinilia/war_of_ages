@@ -2,8 +2,8 @@
 #include "../include/client.h"
 #include "../include/game_object_size_constants.h"
 #include "../include/screen_defines.h"
-#include "../include/sprite_supplier.h"
 #include "../include/sprite_printer.h"
+#include "../include/sprite_supplier.h"
 
 namespace war_of_ages {
 

@@ -43,7 +43,10 @@ void pause_screen_init(tgui::Gui &gui) {
     auto start_button = tgui::Button::create("В главное меню");
     start_button->setRenderer(black_theme.getRenderer("Button"));
     start_button->setTextSize(30);
-    start_button->onPress([&gui]() { show_screen(gui, screen::START_SCREEN, screen::PAUSE); current_state.set_cur_game_state(nullptr); });
+    start_button->onPress([&gui]() {
+        show_screen(gui, screen::START_SCREEN, screen::PAUSE);
+        current_state.set_cur_game_state(nullptr);
+    });
     start_button->setPosition("30%", "86%");
     start_button->setSize("40%", "10%");
     settings_screen_group->add(start_button);

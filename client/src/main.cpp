@@ -90,14 +90,17 @@ int main() {
                     }
                     break;
                 case sf::Event::MouseMoved: {
-                    if (!moving || war_of_ages::current_state.get_cur_screen() != war_of_ages::screen::GAME_SCREEN)
+                    if (!moving ||
+                        war_of_ages::current_state.get_cur_screen() != war_of_ages::screen::GAME_SCREEN)
                         break;
 
                     const sf::Vector2f newPos =
                         window.mapPixelToCoords(sf::Vector2i(event.mouseMove.x, event.mouseMove.y));
 
                     const sf::Vector2f deltaPos = oldPos - newPos;
-                    if(view.getCenter().x + deltaPos.x < war_of_ages::BACKGROUND_WIDTH / 2 || view.getCenter().x + deltaPos.x > war_of_ages::ROAD_WIDTH - war_of_ages::BACKGROUND_WIDTH / 2)
+                    if (view.getCenter().x + deltaPos.x < war_of_ages::BACKGROUND_WIDTH / 2 ||
+                        view.getCenter().x + deltaPos.x >
+                            war_of_ages::ROAD_WIDTH - war_of_ages::BACKGROUND_WIDTH / 2)
                         break;
                     view.move(deltaPos.x, 0.0f);
                     printer.update(deltaPos.x);
@@ -108,7 +111,7 @@ int main() {
             }
         }
 
-        if(war_of_ages::current_state.get_cur_screen() != war_of_ages::screen::GAME_SCREEN) {
+        if (war_of_ages::current_state.get_cur_screen() != war_of_ages::screen::GAME_SCREEN) {
             view.setCenter(war_of_ages::BACKGROUND_WIDTH / 2, war_of_ages::BACKGROUND_HEIGHT / 2);
         }
 
