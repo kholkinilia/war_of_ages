@@ -111,7 +111,7 @@ void player::use_ult() {
         m_bullets.emplace_back(
             static_cast<bullet_type>(NUM_OF_CANNONS + static_cast<int>(m_age)),
             vec2f{FIELD_LENGTH_PXLS / bullets_amount * static_cast<float>(i), FIELD_HEIGHT_PXLS},
-            vec2f{FIELD_LENGTH_PXLS / bullets_amount * static_cast<float>(i), 0.1f});
+            vec2f{FIELD_LENGTH_PXLS / bullets_amount * static_cast<float>(i), 0.0f});
     }
 }
 

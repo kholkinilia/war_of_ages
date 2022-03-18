@@ -17,7 +17,7 @@ namespace war_of_ages {
 }
 
 bullet::bullet(bullet_type type, const vec2f &start, const vec2f &target) noexcept
-    : m_type{type}, m_pos{start}, m_dir{target.normalize()} {
+    : m_type{type}, m_pos{start}, m_dir{vec2f{target - start}.normalize()} {
 }
 
 void bullet::update(std::deque<unit> &enemies, float dt) {
