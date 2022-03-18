@@ -1,5 +1,6 @@
 #include "../include/sprite_printer.h"
 #include <cassert>
+#include <iostream>
 #include "../include/game_object_size_constants.h"
 
 namespace war_of_ages {
@@ -109,7 +110,8 @@ void sprite_printer::print_bullets(sf::RenderWindow *window,
             x_pos = ROAD_WIDTH - x_pos;
         }
 
-        bullet_picture.setPosition(500, 500);
+        // std::cout << x_pos << " " << bullet.pos().y << std::endl;
+        bullet_picture.setPosition(x_pos, bullet.pos().y);
         window->draw(bullet_picture);
     }
 }
