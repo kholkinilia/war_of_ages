@@ -1,6 +1,7 @@
 #include "../include/player.h"
 #include <algorithm>
 #include <cassert>
+#include <random>
 
 namespace war_of_ages {
 
@@ -105,13 +106,16 @@ void player::use_ult() {
     if (m_ult_cooldown != 0) {
         return;
     }
+    auto ult_type = static_cast<bullet_type>(NUM_OF_CANNONS + static_cast<int>(m_age));
+    std::mt19937 gen(std::random_device{}());
+    std::uniform_real_distribution y_offset(0.0, 3.0 * bullet::get_stats(ult_type).size.y);
     m_ult_cooldown = ULT_COOLDOWN;
     const int bullets_amount = 20;
     for (int i = 0; i < bullets_amount; ++i) {
-        m_bullets.emplace_back(
-            static_cast<bullet_type>(NUM_OF_CANNONS + static_cast<int>(m_age)),
-            vec2f{FIELD_LENGTH_PXLS / bullets_amount * static_cast<float>(i), FIELD_HEIGHT_PXLS},
-            vec2f{FIELD_LENGTH_PXLS / bullets_amount * static_cast<float>(i), 0.0f});
+        m_bullets.emplace_back(ult_type,
+                               vec2f{FIELD_LENGTH_PXLS / bullets_amount * static_cast<float>(i),
+                                     FIELD_HEIGHT_PXLS + static_cast<float>(y_offset(gen))},
+                               vec2f{FIELD_LENGTH_PXLS / bullets_amount * static_cast<float>(i), 0.0f});
     }
 }
 
