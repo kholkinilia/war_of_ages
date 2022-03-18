@@ -23,7 +23,7 @@ constexpr int NEXT_AGE_EXP[] = {400, 2000, 14000, 40000, 200000};
 constexpr float FIELD_HEIGHT_PXLS = 1080;  // IDK, random value
 constexpr float FIELD_LENGTH_PXLS = 2300;
 
-constexpr float ULT_COOLDOWN = 60.0;
+constexpr float ULT_COOLDOWN = 0.0; //Return to 60.0 after debug
 
 }  // namespace war_of_ages
 

@@ -100,7 +100,6 @@ void sprite_printer::print_bullets(sf::RenderWindow *window,
                                    const std::vector<bullet>& bullets,
                                    sprite_supplier::player_side side) {
     sf::Sprite bullet_picture;
-    assert(bullets.empty());
     for (auto bullet : bullets) {
         bullet_picture = sprite_supplier::get_instance().get_bullet_sprite(bullet.type());
 
