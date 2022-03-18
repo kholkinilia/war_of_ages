@@ -66,7 +66,7 @@ int main() {
     const int UPDATE_FPS_GAP = 10;
 
     war_of_ages::sprite_printer printer;
-    sf::Vector2f oldPos;
+    float prev_x;
     bool moving = false;
     sf::View view = window.getDefaultView();
     while (window.isOpen()) {
@@ -80,12 +80,10 @@ int main() {
                 case sf::Event::MouseButtonPressed:
                     if (event.mouseButton.button == 0) {
                         moving = true;
-                        oldPos =
-                            window.mapPixelToCoords(sf::Vector2i(event.mouseButton.x, event.mouseButton.y));
+                        prev_x = event.mouseButton.x;
                     }
                     break;
                 case sf::Event::MouseButtonReleased:
-
                     if (event.mouseButton.button == 0) {
                         moving = false;
                     }
@@ -95,20 +93,19 @@ int main() {
                         war_of_ages::current_state.get_cur_screen() != war_of_ages::screen::GAME_SCREEN)
                         break;
 
-                    const sf::Vector2f newPos =
-                        window.mapPixelToCoords(sf::Vector2i(event.mouseMove.x, event.mouseMove.y));
-
-                    const sf::Vector2f deltaPos = oldPos - newPos;
-                    if (view.getCenter().x + deltaPos.x < war_of_ages::BACKGROUND_WIDTH / 2 ||
-                        view.getCenter().x + deltaPos.x >
+                    float delta = prev_x - event.mouseMove.x;
+                    if (view.getCenter().x + delta < war_of_ages::BACKGROUND_WIDTH / 2 ||
+                        view.getCenter().x + delta >
                             war_of_ages::ROAD_WIDTH - war_of_ages::BACKGROUND_WIDTH / 2)
                         break;
-                    view.move(deltaPos.x, 0.0f);
-                    printer.update(deltaPos.x);
+                    view.move(delta, 0.0f);
+                    printer.update(delta);
 
-                    oldPos = window.mapPixelToCoords(sf::Vector2i(event.mouseMove.x, event.mouseMove.y));
+                    prev_x = event.mouseMove.x;
                     break;
                 }
+                default:
+                    break;
             }
         }
 
