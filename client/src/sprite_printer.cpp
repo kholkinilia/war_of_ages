@@ -18,17 +18,23 @@ void sprite_printer::print(sf::RenderWindow *window, const std::shared_ptr<game_
     background.setPosition(0, 0);
     window->draw(background);
 
-    if(!p1.units_to_train.empty()) {
+    if (!p1.units_to_train.empty()) {
         sf::RectangleShape queued_unit_in, queued_unit_out;
         queued_unit_in.setFillColor(sf::Color::Green);
-        queued_unit_in.setSize({BUTTON_WIDTH * (1 - p1.m_training_time_left / p1.units_to_train.front().stats().time_to_train_s), HP_HEIGHT});
+        queued_unit_in.setSize(
+            {BUTTON_WIDTH * (1 - p1.m_training_time_left / p1.units_to_train.front().stats().time_to_train_s),
+             HP_HEIGHT});
         queued_unit_out.setFillColor(sf::Color::White);
         queued_unit_out.setSize({BUTTON_WIDTH, HP_HEIGHT});
         float x_pos = BACKGROUND_WIDTH - 5 * DELTA_X;
-        if(p1.units_to_train.front().type() == unit_type::ARCHER) x_pos -= DELTA_X;
-        if(p1.units_to_train.front().type() == unit_type::CHARIOT) x_pos -= 2 * DELTA_X;
-        queued_unit_out.setPosition({x_pos + (window->getView().getCenter().x - BACKGROUND_WIDTH / 2), BUTTON_HEIGHT + BUTTON_Y + HP_HEIGHT});
-        queued_unit_in.setPosition({x_pos + (window->getView().getCenter().x - BACKGROUND_WIDTH / 2), BUTTON_HEIGHT + BUTTON_Y + HP_HEIGHT});
+        if (p1.units_to_train.front().type() == unit_type::ARCHER)
+            x_pos -= DELTA_X;
+        if (p1.units_to_train.front().type() == unit_type::CHARIOT)
+            x_pos -= 2 * DELTA_X;
+        queued_unit_out.setPosition({x_pos + (window->getView().getCenter().x - BACKGROUND_WIDTH / 2),
+                                     BUTTON_HEIGHT + BUTTON_Y + HP_HEIGHT});
+        queued_unit_in.setPosition({x_pos + (window->getView().getCenter().x - BACKGROUND_WIDTH / 2),
+                                    BUTTON_HEIGHT + BUTTON_Y + HP_HEIGHT});
         window->draw(queued_unit_out);
         window->draw(queued_unit_in);
     }
