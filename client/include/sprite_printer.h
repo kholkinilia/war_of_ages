@@ -19,8 +19,8 @@ private:
                             const std::deque<unit> &units,
                             sprite_supplier::player_side side);
     static void print_bullets(sf::RenderWindow *window,
-                            const std::vector<bullet>& bullets,
-                            sprite_supplier::player_side side);
+                              const std::vector<bullet> &bullets,
+                              sprite_supplier::player_side side);
 };
 }  // namespace war_of_ages
 
