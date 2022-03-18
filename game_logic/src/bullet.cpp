@@ -23,7 +23,7 @@ bullet::bullet(bullet_type type, const vec2f &start, const vec2f &target) noexce
 void bullet::update(std::deque<unit> &enemies, float dt) {
     assert(m_is_alive);  // otherwise, it must be deleted by player::clear_dead_objects()
     m_pos += m_dir * speed() * dt;
-    if (m_pos.y <= 0) {
+    if (m_pos.y - stats().size.y <= 0) {
         m_is_alive = false;
         return;
     }
@@ -64,7 +64,7 @@ void bullet::update(std::deque<unit> &enemies, float dt) {
         {120, 400, {50, 50}},   {180, 400, {50, 50}},   {360, 400, {50, 50}},   {720, 400, {50, 50}},
         {1080, 400, {50, 50}},  {2060, 400, {50, 50}},  {4120, 400, {50, 50}},  {6180, 400, {50, 50}},
         {12360, 400, {50, 50}}, {24720, 400, {50, 50}}, {37080, 400, {50, 50}}, {50, 250, {50, 50}},
-        {600, 250, {50, 50}},   {5400, 250, {50, 50}},  {30900, 250, {50, 50}}, {185400, 250, {50, 50}},
+        {300, 250, {50, 50}},   {5400, 250, {50, 50}},  {30900, 250, {50, 50}}, {185400, 250, {50, 50}},
     };
     return stats[static_cast<int>(type)];
 }
