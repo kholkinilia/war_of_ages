@@ -83,6 +83,14 @@ void game_screen_init(tgui::Gui &gui) {
     pause_button->setSize(BUTTON_WIDTH, BUTTON_HEIGHT);
     pause_button->onPress([&gui]() { show_screen(gui, screen::PAUSE, screen::GAME_SCREEN); });
 
+    auto ulta_button = tgui::BitmapButton::create();
+    ulta_button->setText("ULTA");
+    ulta_button->setTextSize(50);
+    ulta_button->setImageScaling(1.05);
+    ulta_button->setPosition(BACKGROUND_WIDTH - DELTA_X * 4, BUTTON_Y + BUTTON_HEIGHT + HP_HEIGHT);
+    ulta_button->setSize(BUTTON_WIDTH * 5, BUTTON_HEIGHT);
+    ulta_button->onPress([&gui]() { std::cout << "ULTA" << std::endl; });
+
     game_screen_group->add(autobattle_button);
     game_screen_group->add(new_era_button);
     game_screen_group->add(plus_place_cannon_button);
@@ -91,6 +99,7 @@ void game_screen_init(tgui::Gui &gui) {
     game_screen_group->add(plus_archer_button);
     game_screen_group->add(plus_chariot_button);
     game_screen_group->add(pause_button);
+    game_screen_group->add(ulta_button);
     gui.add(game_screen_group, screen_id.at(screen::GAME_SCREEN));
     gui.get(screen_id.at(screen::GAME_SCREEN))->setVisible(false);
 }
