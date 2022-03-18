@@ -11,7 +11,7 @@ void sprite_printer::update(float delta) {
     background.setPosition(background.getPosition() - deltaPos);
 }
 
-void sprite_printer::print(sf::RenderWindow *window, const std::shared_ptr<game_state>& state) {
+void sprite_printer::print(sf::RenderWindow *window, const std::shared_ptr<game_state> &state) {
     state->update({}, {}, 1.f * clock() / CLOCKS_PER_SEC);
     auto [p1, p2] = state->snapshot_players();
 
