@@ -48,6 +48,8 @@ int main() {
     sf::RenderWindow window{sf::VideoMode::getFullscreenModes()[0], "War of Ages", sf::Style::Fullscreen};
     tgui::Gui gui(window);
 
+    window.setVerticalSyncEnabled(true);
+
     war_of_ages::screens_init(gui);
 
     gui.get(war_of_ages::current_state.get_cur_screen_id())->setVisible(true);
