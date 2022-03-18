@@ -109,7 +109,8 @@ void sprite_printer::print_bullets(sf::RenderWindow *window,
             x_pos = ROAD_WIDTH - x_pos;
         }
 
-        bullet_picture.setPosition(x_pos, bullet.pos().y);
+        bullet_picture.setPosition(500, 500);
+        bullet_picture.setScale(10, 10);
         window->draw(bullet_picture);
     }
 }
