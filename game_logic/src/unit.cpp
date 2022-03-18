@@ -55,7 +55,8 @@ void unit::update(unit &enemy, const std::optional<unit> &next_allied_unit, floa
         if (m_time_left_to_attack <= 0) {
             attack(enemy);
         }
-    } else if (!next_allied_unit) {
+    }
+    if (!next_allied_unit) {
         move(dt, FIELD_LENGTH_PXLS - enemy.position() + 1);
     } else {
         move(dt, next_allied_unit->position() - get_stats(next_allied_unit->type()).size.x + 1);
