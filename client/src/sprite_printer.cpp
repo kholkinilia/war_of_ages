@@ -1,4 +1,5 @@
 #include "../include/sprite_printer.h"
+#include <cassert>
 #include "../include/game_object_size_constants.h"
 
 namespace war_of_ages {
@@ -44,6 +45,8 @@ void sprite_printer::print(sf::RenderWindow *window, const std::shared_ptr<game_
     window->draw(road);
     print_units(window, p1.units, sprite_supplier::player_side::LEFT);
     print_units(window, p2.units, sprite_supplier::player_side::RIGHT);
+    print_bullets(window, p1.bullets, sprite_supplier::player_side::LEFT);
+    print_bullets(window, p2.bullets, sprite_supplier::player_side::RIGHT);
 }
 
 void sprite_printer::print_units(sf::RenderWindow *window,
@@ -93,4 +96,22 @@ void sprite_printer::print_units(sf::RenderWindow *window,
     }
 }
 
+void sprite_printer::print_bullets(sf::RenderWindow *window,
+                                   const std::vector<bullet>& bullets,
+                                   sprite_supplier::player_side side) {
+    sf::Sprite bullet_picture;
+    assert(bullets.empty());
+    for (auto bullet : bullets) {
+        bullet_picture = sprite_supplier::get_instance().get_bullet_sprite(bullet.type());
+
+        float x_pos = bullet.pos().x * (ROAD_WIDTH - 2 * (TOWER_WIDTH - 2 * DELTA)) / FIELD_LENGTH_PXLS +
+                      TOWER_WIDTH - DELTA;
+        if (side == sprite_supplier::player_side::RIGHT) {
+            x_pos = ROAD_WIDTH - x_pos;
+        }
+
+        bullet_picture.setPosition(x_pos, bullet.pos().y);
+        window->draw(bullet_picture);
+    }
+}
 }  // namespace war_of_ages

@@ -48,7 +48,7 @@ void game_screen_init(tgui::Gui &gui) {
     plus_peasant_button->setSize(BUTTON_WIDTH, BUTTON_HEIGHT);
     plus_peasant_button->onPress([]() {
         std::vector<std::unique_ptr<game_command>> v;
-        v.push_back(std::make_unique<buy_unit_command>(2));
+        v.push_back(std::make_unique<buy_unit_command>(0));
         current_state.get_cur_game_state()->update(v, {}, 1.f * clock() / CLOCKS_PER_SEC);
     });
 
@@ -92,7 +92,11 @@ void game_screen_init(tgui::Gui &gui) {
     ulta_button->setImageScaling(1.05);
     ulta_button->setPosition(BACKGROUND_WIDTH - DELTA_X * 4, BUTTON_Y + BUTTON_HEIGHT + HP_HEIGHT);
     ulta_button->setSize(BUTTON_WIDTH * 5, BUTTON_HEIGHT);
-    ulta_button->onPress([&gui]() { std::cout << "ULTA" << std::endl; });
+    ulta_button->onPress([&gui]() {
+        std::vector<std::unique_ptr<game_command>> v;
+        v.push_back(std::make_unique<use_ult_command>());
+        current_state.get_cur_game_state()->update(v, {}, 1.f * clock() / CLOCKS_PER_SEC);
+    });
 
     game_screen_group->add(autobattle_button);
     game_screen_group->add(new_era_button);
