@@ -1,10 +1,7 @@
 #ifndef WAR_OF_AGES_TOURNAMENT_SCREENS_H
 #define WAR_OF_AGES_TOURNAMENT_SCREENS_H
 
-#include <SFML/Graphics.hpp>
-#include <TGUI/Backend/SFML-Graphics.hpp>
-#include <TGUI/TGUI.hpp>
-#include <mutex>
+#include <TGUI/Backend/SFML-Graphics.hpp>  // tgui::Gui
 
 namespace war_of_ages {
 
