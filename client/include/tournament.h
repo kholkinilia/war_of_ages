@@ -1,10 +1,11 @@
 #ifndef WAR_OF_AGES_TOURNAMENT_H
 #define WAR_OF_AGES_TOURNAMENT_H
 
-#include <SFML/Graphics.hpp>
-#include <TGUI/Backend/SFML-Graphics.hpp>
-#include <TGUI/TGUI.hpp>
+#include <TGUI/Backend/SFML-Graphics.hpp>  // tgui::Gui, tgui::String
+#include <TGUI/Widgets/Grid.hpp>           // tgui::Grid
+#include <map>
 #include <mutex>
+#include <vector>
 
 namespace war_of_ages {
 

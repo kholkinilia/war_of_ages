@@ -1,11 +1,48 @@
 #include "../include/screens.h"
-#include "../include/client.h"
-#include "../include/game_object_size_constants.h"
-#include "../include/screen_defines.h"
+#include <TGUI/Widgets/Group.hpp>
+
+// Screen headers
+
+#include "../include/end_game_screen.h"
+#include "../include/game_screen.h"
+#include "../include/multiplayer_screen.h"
+#include "../include/pause_screen.h"
+#include "../include/settings_screen.h"
 #include "../include/sprite_printer.h"
-#include "../include/sprite_supplier.h"
+#include "../include/start_screen.h"
+#include "../include/tournament_screens.h"
+#include "../include/wait_screen.h"
 
 namespace war_of_ages {
+
+void screens_init(tgui::Gui &gui) {
+    // Widgets of every screen are defined here
+
+    // Ilya's screens
+
+    tournament_screen_init(gui);
+    tournament_creation_screen_init(gui);
+    tournament_join_screen_init(gui);
+
+    // end Ilya's screens
+
+    // Vakhtang's screens
+
+    start_screen_init(gui);
+    multiplayer_screen_init(gui);
+    settings_screen_init(gui);
+
+    // end Vakhtang's screens
+
+    // Timur's screens
+
+    opponent_waiting_screen_init(gui);
+    game_screen_init(gui);
+    end_game_screen_init(gui);
+    pause_screen_init(gui);
+
+    // end Timur's screens
+}
 
 void update_screens(tgui::Gui &gui, const client_state &state, sf::RenderWindow *window) {
     switch (state.get_cur_screen()) {

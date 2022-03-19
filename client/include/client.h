@@ -1,9 +1,7 @@
 #ifndef WAR_OF_AGES_CLIENT_H
 #define WAR_OF_AGES_CLIENT_H
 
-#include <SFML/Graphics.hpp>
-#include <TGUI/Backend/SFML-Graphics.hpp>
-#include <TGUI/TGUI.hpp>
+#include <TGUI/Backend/SFML-Graphics.hpp>  // tgui::Gui, tgui::String
 #include <memory>
 #include "../../game_logic/include/game_state.h"
 #include "screen_defines.h"
