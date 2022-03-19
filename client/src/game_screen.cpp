@@ -39,15 +39,15 @@ void game_screen_init(tgui::Gui &gui) {
     plus_cannon_button->onPress([]() { std::cout << "PLUS CANNON" << std::endl; });
 
     auto plus_peasant_button = tgui::BitmapButton::create();
-    tgui::Texture t; // TODO: make it decent
+    tgui::Texture t;  // TODO: make it decent
     t.load("../client/resources/game/units/stone/mini/peasant.png");
     plus_peasant_button->getRenderer()->setTexture(t);
     plus_peasant_button->getRenderer()->setBorders(0);
-//    plus_peasant_button->setImage(
-//        *(sprite_supplier::get_instance()
-//              .get_unit_sprite(unit_type::PEASANT, sprite_supplier::player_side::RIGHT)
-//              .getTexture()));
-//    plus_peasant_button->setImageScaling(1);
+    //    plus_peasant_button->setImage(
+    //        *(sprite_supplier::get_instance()
+    //              .get_unit_sprite(unit_type::PEASANT, sprite_supplier::player_side::RIGHT)
+    //              .getTexture()));
+    //    plus_peasant_button->setImageScaling(1);
     plus_peasant_button->setPosition(BACKGROUND_WIDTH - DELTA_X * 5, BUTTON_Y);
     plus_peasant_button->setSize(BUTTON_WIDTH, BUTTON_HEIGHT);
     plus_peasant_button->onPress([]() {
@@ -60,11 +60,11 @@ void game_screen_init(tgui::Gui &gui) {
     t.load("../client/resources/game/units/stone/mini/archer.png");
     plus_archer_button->getRenderer()->setTexture(t);
     plus_archer_button->getRenderer()->setBorders(0);
-//    plus_archer_button->setImage(
-//        *(sprite_supplier::get_instance()
-//              .get_unit_sprite(unit_type::ARCHER, sprite_supplier::player_side::RIGHT)
-//              .getTexture()));
-//    plus_archer_button->setImageScaling(1);
+    //    plus_archer_button->setImage(
+    //        *(sprite_supplier::get_instance()
+    //              .get_unit_sprite(unit_type::ARCHER, sprite_supplier::player_side::RIGHT)
+    //              .getTexture()));
+    //    plus_archer_button->setImageScaling(1);
     plus_archer_button->setPosition(BACKGROUND_WIDTH - DELTA_X * 6, BUTTON_Y);
     plus_archer_button->setSize(BUTTON_WIDTH, BUTTON_HEIGHT);
     plus_archer_button->onPress([]() {
@@ -76,11 +76,11 @@ void game_screen_init(tgui::Gui &gui) {
     t.load("../client/resources/game/units/stone/mini/chariot.png");
     plus_chariot_button->getRenderer()->setTexture(t);
     plus_chariot_button->getRenderer()->setBorders(0);
-//    plus_chariot_button->setImage(
-//        *(sprite_supplier::get_instance()
-//              .get_unit_sprite(unit_type::CHARIOT, sprite_supplier::player_side::RIGHT)
-//              .getTexture()));
-//    plus_chariot_button->setImageScaling(1);
+    //    plus_chariot_button->setImage(
+    //        *(sprite_supplier::get_instance()
+    //              .get_unit_sprite(unit_type::CHARIOT, sprite_supplier::player_side::RIGHT)
+    //              .getTexture()));
+    //    plus_chariot_button->setImageScaling(1);
     plus_chariot_button->setPosition(BACKGROUND_WIDTH - DELTA_X * 7, BUTTON_Y);
     plus_chariot_button->setSize(BUTTON_WIDTH, BUTTON_HEIGHT);
     plus_chariot_button->onPress([]() {
