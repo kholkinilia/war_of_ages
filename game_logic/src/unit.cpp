@@ -46,7 +46,7 @@ void unit::decrease_hp(int damage) noexcept {
 }
 
 bool unit::is_alive() const noexcept {
-    return m_remaining_hp >= 0;
+    return m_remaining_hp > 0;
 }
 
 void unit::update(unit &enemy, const std::optional<unit> &next_allied_unit, float dt) noexcept {
