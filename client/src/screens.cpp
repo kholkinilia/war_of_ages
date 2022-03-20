@@ -57,7 +57,7 @@ void update_screens(tgui::Gui &gui, const client_state &state, sf::RenderWindow 
             if (state.get_cur_game_state() == nullptr)
                 return;
             sprite_printer s;
-            s.print(window, state.get_cur_game_state());
+            s.print(gui, window, state.get_cur_game_state());
         }
         default:
             break;

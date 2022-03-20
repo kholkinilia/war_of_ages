@@ -3,6 +3,7 @@
 
 #include <SFML/Graphics/RenderWindow.hpp>
 #include <SFML/Graphics/Sprite.hpp>
+#include <TGUI/Backend/SFML-Graphics.hpp>
 #include "../../game_logic/include/game_state.h"
 #include "sprite_supplier.h"
 
@@ -10,7 +11,7 @@ namespace war_of_ages {
 struct sprite_printer {
 public:
     sprite_printer();
-    void print(sf::RenderWindow *window, const std::shared_ptr<game_state> &state);
+    void print(tgui::Gui &gui, sf::RenderWindow *window, const std::shared_ptr<game_state> &state);
     void update(float delta);
 
 private:

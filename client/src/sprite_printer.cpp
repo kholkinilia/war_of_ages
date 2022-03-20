@@ -1,6 +1,7 @@
 #include "../include/sprite_printer.h"
-#include <cassert>
-#include <iostream>
+#include <TGUI/Widgets/Group.hpp>
+#include <TGUI/Widgets/Label.hpp>
+#include "../include/client.h"
 #include "../include/game_object_size_constants.h"
 
 namespace war_of_ages {
@@ -13,32 +14,49 @@ void sprite_printer::update(float delta) {
     background.setPosition(background.getPosition() - deltaPos);
 }
 
-void sprite_printer::print(sf::RenderWindow *window, const std::shared_ptr<game_state> &state) {
+void sprite_printer::print(tgui::Gui &gui, sf::RenderWindow *window, const std::shared_ptr<game_state> &state) {
     state->update({}, {}, 1.f * clock() / CLOCKS_PER_SEC);
     auto [p1, p2] = state->snapshot_players();
 
     background.setPosition(0, 0);
     window->draw(background);
 
-    if (!p1.units_to_train.empty()) {
-        sf::RectangleShape queued_unit_in, queued_unit_out;
-        queued_unit_in.setFillColor(sf::Color::Green);
-        queued_unit_in.setSize(
-            {BUTTON_WIDTH * (1 - p1.m_training_time_left / p1.units_to_train.front().stats().time_to_train_s),
-             HP_HEIGHT});
+    gui.get(current_state.get_cur_screen_id())
+    ->cast<tgui::Group>()
+    ->get("coin_label")
+    ->cast<tgui::Label>()
+    ->setText(std::to_string(p1.money));
+
+    sf::RectangleShape queued_unit_in, queued_unit_out;
+    queued_unit_in.setFillColor(sf::Color::Green);
+    float x_pos;
+    std::unordered_map<unit_type, float> number_of_units_in_queue = {
+        {unit_type::PEASANT, 0},
+        {unit_type::ARCHER, 0},
+        {unit_type::CHARIOT, 0}
+    };
+    for (int i = 0; i < p1.units_to_train.size(); i++) {
+        auto unit = p1.units_to_train[i];
         queued_unit_out.setFillColor(sf::Color::White);
         queued_unit_out.setSize({BUTTON_WIDTH, HP_HEIGHT});
-        float x_pos = BACKGROUND_WIDTH - 5 * DELTA_X;
-        if (p1.units_to_train.front().type() == unit_type::ARCHER)
+        x_pos = BACKGROUND_WIDTH - 5 * DELTA_X;
+        if (unit.type() == unit_type::ARCHER)
             x_pos -= DELTA_X;
-        if (p1.units_to_train.front().type() == unit_type::CHARIOT)
+        if (unit.type() == unit_type::CHARIOT)
             x_pos -= 2 * DELTA_X;
+
         queued_unit_out.setPosition({x_pos + (window->getView().getCenter().x - BACKGROUND_WIDTH / 2),
-                                     BUTTON_HEIGHT + BUTTON_Y + HP_HEIGHT});
-        queued_unit_in.setPosition({x_pos + (window->getView().getCenter().x - BACKGROUND_WIDTH / 2),
-                                    BUTTON_HEIGHT + BUTTON_Y + HP_HEIGHT});
+                                     BUTTON_HEIGHT + BUTTON_Y + (2 * (number_of_units_in_queue[unit.type()]++) + 1) * HP_HEIGHT});
         window->draw(queued_unit_out);
-        window->draw(queued_unit_in);
+
+        if(i == 0) {
+            queued_unit_in.setSize(
+                {BUTTON_WIDTH * (1 - p1.m_training_time_left / p1.units_to_train.front().stats().time_to_train_s),
+                 HP_HEIGHT});
+            queued_unit_in.setPosition({x_pos + (window->getView().getCenter().x - BACKGROUND_WIDTH / 2),
+                                        BUTTON_HEIGHT + BUTTON_Y + HP_HEIGHT});
+            window->draw(queued_unit_in);
+        }
     }
 
     auto road = sprite_supplier::get_instance().get_road_sprite(age_type::STONE);
