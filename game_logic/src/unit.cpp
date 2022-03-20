@@ -125,11 +125,15 @@ float unit::attack_progress() const noexcept {
 }
 
 std::string to_string(unit_type type) {
-    switch(type) {
-        case unit_type::PEASANT: return "peasant";
-        case unit_type::ARCHER: return "archer";
-        case unit_type::CHARIOT: return "chariot";
-        default: return "tower";
+    switch (type) {
+        case unit_type::PEASANT:
+            return "peasant";
+        case unit_type::ARCHER:
+            return "archer";
+        case unit_type::CHARIOT:
+            return "chariot";
+        default:
+            return "tower";
     }
 }
 
