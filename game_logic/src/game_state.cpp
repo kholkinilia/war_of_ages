@@ -44,4 +44,8 @@ void game_state::set_time_after_pause(float time) {
     state_time = time;
 }
 
+void game_state::return_from_pause(float return_time) noexcept {
+    state_time = return_time;
+}
+
 }  // namespace war_of_ages
