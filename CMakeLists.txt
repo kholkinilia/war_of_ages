@@ -44,7 +44,8 @@ if (BUILD_CLIENT)
             client/src/end_game_screen.cpp
             client/src/wait_screen.cpp
             client/src/sprite_supplier.cpp
-            client/src/sprite_printer.cpp)
+            client/src/sprite_printer.cpp
+            client/src/animation_handler.cpp)
     add_executable(war_of_ages ${CLIENT_PROJECT_SOURCES} ${COMMON_PROJECT_SOURCES})
     target_link_libraries(war_of_ages sfml-system sfml-window sfml-graphics sfml-audio)
     target_link_libraries(war_of_ages tgui)
