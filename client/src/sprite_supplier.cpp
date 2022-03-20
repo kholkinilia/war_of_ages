@@ -60,8 +60,10 @@ sprite_supplier::sprite_supplier() {
 
     for (auto &[u_type, filename] : unit_texture_file) {
         unit_sprite[u_type] =
-            create_sprite_instance(filename, static_cast<int>(unit::get_stats(u_type).size.x),
-                                   static_cast<int>(unit::get_stats(u_type).size.y));
+            animation_handler(filename, {1, 0.5}, 2, 3, static_cast<int>(unit::get_stats(u_type).size.x),
+                              static_cast<int>(unit::get_stats(u_type).size.y));
+        //            create_sprite_instance(filename, static_cast<int>(unit::get_stats(u_type).size.x),
+        //                                   static_cast<int>(unit::get_stats(u_type).size.y));
     }
 
     for (auto &[c_type, filename] : cannon_texture_file) {
@@ -109,8 +111,8 @@ sf::Sprite sprite_supplier::get_cannon_slot_sprite(std::pair<age_type, int> cs_t
     return reflect_if_needed(cannon_slots_sprite[cs_type], side);
 }
 
-sf::Sprite sprite_supplier::get_unit_sprite(unit_type u_type, sprite_supplier::player_side side) {
-    return reflect_if_needed(unit_sprite[u_type], side);
+sf::Sprite sprite_supplier::get_unit_sprite(unit &source_unit, sprite_supplier::player_side side) {
+    return reflect_if_needed(unit_sprite[source_unit.type()].get_sprite(0, 0), side);
 }
 
 sf::Sprite sprite_supplier::get_cannon_sprite(cannon_type c_type, sprite_supplier::player_side side) {
@@ -134,9 +136,9 @@ sprite_supplier::~sprite_supplier() {
         delete sprite.getTexture();
     }
 
-    for (auto &[u_type, sprite] : unit_sprite) {
-        delete sprite.getTexture();
-    }
+//    for (auto &[u_type, sprite] : unit_sprite) {
+//        delete sprite.getTexture();
+//    }
 
     for (auto &[c_type, sprite] : cannon_sprite) {
         delete sprite.getTexture();
