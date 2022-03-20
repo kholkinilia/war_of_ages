@@ -35,7 +35,10 @@ void pause_screen_init(tgui::Gui &gui) {
     tgui::Button::Ptr return_back_button = tgui::Button::create("Продолжить игру");
     return_back_button->setRenderer(black_theme.getRenderer("Button"));
     return_back_button->setTextSize(30);
-    return_back_button->onPress([&gui]() { show_screen(gui, screen::GAME_SCREEN, screen::PAUSE); });
+    return_back_button->onPress([&gui]() {
+        current_state.get_cur_game_state()->set_time_after_pause(1.f * clock() / CLOCKS_PER_SEC);
+        show_screen(gui, screen::GAME_SCREEN, screen::PAUSE);
+    });
     return_back_button->setPosition("30%", "73%");
     return_back_button->setSize("40%", "10%");
     settings_screen_group->add(return_back_button);

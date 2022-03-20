@@ -40,5 +40,8 @@ game_status game_state::get_game_status() const {
     }
     return game_status::PROCESSING;
 }
+void game_state::set_time_after_pause(float time) {
+    state_time = time;
+}
 
 }  // namespace war_of_ages

@@ -22,6 +22,7 @@ public:
                 float dt);
     [[nodiscard]] std::pair<player_snapshot, player_snapshot> snapshot_players() const;
     [[nodiscard]] game_status get_game_status() const;
+    void set_time_after_pause(float time);
 };
 
 }  // namespace war_of_ages
