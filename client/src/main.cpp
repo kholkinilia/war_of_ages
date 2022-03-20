@@ -5,6 +5,7 @@
 #include "../include/screens.h"
 #include "../include/sprite_printer.h"
 #include "../include/ui_functions.h"
+#include <memory>
 
 namespace war_of_ages {
 
@@ -39,6 +40,8 @@ int main() {
     float prev_frames_update_time = 1.f * clock() / CLOCKS_PER_SEC;
     long long frames_counter = 0;
     const int UPDATE_FPS_GAP = 10;
+
+    float last_added_time = -100;
 
     while (window.isOpen()) {
         sf::Event event{};
@@ -117,6 +120,15 @@ int main() {
             prev_frames_update_time = new_time;
         }
         frames_counter++;
+
+        float cur_time = 1.f * clock() / CLOCKS_PER_SEC;
+
+        if (cur_time - last_added_time >= 3 && war_of_ages::current_state.get_cur_screen_id() == "game_screen") {
+            last_added_time = cur_time;
+            std::vector<std::unique_ptr<war_of_ages::game_command>> v;
+            v.push_back(std::make_unique<war_of_ages::buy_unit_command>(0));
+            war_of_ages::current_state.get_cur_game_state()->update({}, v, cur_time);
+        }
 
         window.display();
         window.setView(view);
