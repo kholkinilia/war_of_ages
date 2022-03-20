@@ -64,12 +64,12 @@ void game_screen_init(tgui::Gui &gui) {
 
         auto coin_image = tgui::Picture::create("../client/resources/pictures/coin.jpeg");
         coin_image->setPosition(BACKGROUND_WIDTH - DELTA_X * 5 - DELTA_X * i, FPS_LABEL_HEIGHT);
-        coin_image->setSize(COIN_WIDTH, COIN_HEIGHT);
+        coin_image->setSize(COST_WIDTH, COST_HEIGHT);
         groups[i]->add(coin_image);
 
         auto coin_label = tgui::Label::create();
-        coin_label->getRenderer()->setTextSize(0.75 * COIN_HEIGHT);
-        coin_label->setPosition(BACKGROUND_WIDTH - DELTA_X * 5 - DELTA_X * i + COIN_WIDTH, FPS_LABEL_HEIGHT);
+        coin_label->getRenderer()->setTextSize(0.75 * COST_HEIGHT);
+        coin_label->setPosition(BACKGROUND_WIDTH - DELTA_X * 5 - DELTA_X * i + COST_WIDTH, FPS_LABEL_HEIGHT);
         coin_label->setText(std::to_string(unit::get_stats(static_cast<unit_type>(i)).cost));
         groups[i]->add(coin_label);
 
@@ -86,7 +86,7 @@ void game_screen_init(tgui::Gui &gui) {
     auto ulta_button = tgui::BitmapButton::create();
     ulta_button->setText("ULTA");
     ulta_button->setTextSize(50);
-    ulta_button->setPosition(BACKGROUND_WIDTH - DELTA_X * 3, BUTTON_Y + BUTTON_HEIGHT + HP_HEIGHT);
+    ulta_button->setPosition(BACKGROUND_WIDTH - DELTA_X * 4, BUTTON_Y + BUTTON_HEIGHT + HP_HEIGHT);
     ulta_button->setSize(BUTTON_WIDTH * 5, BUTTON_HEIGHT);
     ulta_button->onPress([]() {
         std::vector<std::unique_ptr<game_command>> v;

@@ -22,10 +22,10 @@ constexpr int CANNON_HEIGHT = 300;
 
 constexpr int DELTA = 50;
 
-constexpr int BUTTON_WIDTH = 120;
-constexpr int BUTTON_HEIGHT = 120;
-constexpr int BUTTON_Y = 70;
-constexpr int DELTA_X = 150;
+constexpr int BUTTON_WIDTH = 70;
+constexpr int BUTTON_HEIGHT = 70;
+constexpr int BUTTON_Y = 50;
+constexpr int DELTA_X = 96;
 
 constexpr int HP_HEIGHT = 20;
 
@@ -33,6 +33,8 @@ constexpr int FPS_LABEL_HEIGHT = 20;
 
 constexpr int COIN_WIDTH = 50;
 constexpr int COIN_HEIGHT = 50;
+constexpr int COST_WIDTH = 30;
+constexpr int COST_HEIGHT = 30;
 
 }  // namespace war_of_ages
 
