@@ -51,5 +51,8 @@ vec2f cannon::muzzle_position() const noexcept {
 const cannon_stats &cannon::stats() const noexcept {
     return get_stats(m_type);
 }
+float cannon::attack_progress() const noexcept {
+    return m_attack_progress_s;
+}
 
 }  // namespace war_of_ages

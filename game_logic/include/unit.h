@@ -35,6 +35,7 @@ private:
     unit_type m_type;
     int m_remaining_hp;
     float m_attack_progress_s = 0;
+    float m_walking_time = 0;
     float m_position = 0;
     bool m_walking = false;
     bool m_attacking = false;
@@ -57,6 +58,8 @@ public:
     [[nodiscard]] const unit_stats &stats() const noexcept;
     [[nodiscard]] bool is_walking() const noexcept;
     [[nodiscard]] bool is_attacking() const noexcept;
+    [[nodiscard]] float walking_time() const noexcept;
+    [[nodiscard]] float attack_progress() const noexcept;
 
     [[nodiscard]] const static unit_stats &get_stats(unit_type type) noexcept;
 };

@@ -28,8 +28,9 @@ public:
 
     std::optional<bullet> update(unit &enemy, float dt) noexcept;
     [[nodiscard]] cannon_type type() const noexcept;
-    [[nodiscard]] vec2f muzzle_position() const noexcept;
     [[nodiscard]] const cannon_stats &stats() const noexcept;
+    [[nodiscard]] vec2f muzzle_position() const noexcept;
+    [[nodiscard]] float attack_progress() const noexcept;
 
     [[nodiscard]] const static cannon_stats &get_stats(cannon_type type) noexcept;
 };

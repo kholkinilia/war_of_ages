@@ -97,9 +97,11 @@ unit_type unit::type() const noexcept {
 void unit::move(float dt, float bound_position) {
     float dist = bound_position - m_position;
     if (dist <= 0) {
+        m_walking_time = 0;
         return;
     }
     m_walking = true;
+    m_walking_time += dt;
     m_position += std::min(dt * stats().speed, dist);
 }
 
@@ -113,6 +115,13 @@ bool unit::is_walking() const noexcept {
 
 bool unit::is_attacking() const noexcept {
     return m_attacking;
+}
+float unit::walking_time() const noexcept {
+    return m_walking_time;
+}
+
+float unit::attack_progress() const noexcept {
+    return m_attack_progress_s;
 }
 
 }  // namespace war_of_ages
