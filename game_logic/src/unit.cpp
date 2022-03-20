@@ -55,7 +55,8 @@ void unit::update(unit &enemy, const std::optional<unit> &next_allied_unit, floa
     m_attacking = m_walking = false;
     if (stats().attack_radius_pxls >= dist(enemy)) {
         m_attack_progress_s += dt;
-        if (m_attack_progress_s - dt <= stats().attack_time_s && stats().attack_time_s <= m_attack_progress_s) {
+        if (m_attack_progress_s - dt <= stats().attack_time_s &&
+            stats().attack_time_s <= m_attack_progress_s) {
             attack(enemy);
         }
         m_attacking = true;
