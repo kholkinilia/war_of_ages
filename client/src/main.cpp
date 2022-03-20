@@ -18,7 +18,12 @@ int main() {
 
     window.setVerticalSyncEnabled(true);
 
-    war_of_ages::screens_init(gui);
+    war_of_ages::sprite_printer printer;
+    float prev_x;
+    bool moving = false;
+    sf::View view = window.getDefaultView();
+
+    war_of_ages::screens_init(view, gui);
 
     gui.get(war_of_ages::current_state.get_cur_screen_id())->setVisible(true);
 
@@ -35,10 +40,6 @@ int main() {
     long long frames_counter = 0;
     const int UPDATE_FPS_GAP = 10;
 
-    war_of_ages::sprite_printer printer;
-    float prev_x;
-    bool moving = false;
-    sf::View view = window.getDefaultView();
     while (window.isOpen()) {
         sf::Event event{};
         while (window.pollEvent(event)) {

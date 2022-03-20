@@ -15,7 +15,7 @@
 
 namespace war_of_ages {
 
-void screens_init(tgui::Gui &gui) {
+void screens_init(sf::View &v, tgui::Gui &gui) {
     // Widgets of every screen are defined here
 
     // Ilya's screens
@@ -37,9 +37,9 @@ void screens_init(tgui::Gui &gui) {
     // Timur's screens
 
     opponent_waiting_screen_init(gui);
-    game_screen_init(gui);
+    game_screen_init(v, gui);
     end_game_screen_init(gui);
-    pause_screen_init(gui);
+    pause_screen_init(v, gui);
 
     // end Timur's screens
 }

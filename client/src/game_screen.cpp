@@ -15,7 +15,7 @@ void setup_button(tgui::BitmapButton::Ptr button) {
     button->getRenderer()->setBackgroundColorHover(tgui::Color::Transparent);
 }
 
-void game_screen_init(tgui::Gui &gui) {
+void game_screen_init(sf::View &v, tgui::Gui &gui) {
     auto game_screen_group = tgui::Group::create();
 
     auto autobattle_button = tgui::BitmapButton::create();
@@ -81,7 +81,10 @@ void game_screen_init(tgui::Gui &gui) {
     setup_button(pause_button);
     pause_button->setPosition(0, FPS_LABEL_HEIGHT);
     pause_button->setSize(BUTTON_WIDTH, BUTTON_HEIGHT);
-    pause_button->onPress([&gui]() { show_screen(gui, screen::PAUSE, screen::GAME_SCREEN); });
+    pause_button->onPress([&gui, &v]() {
+        current_state.set_view_center(v.getCenter());
+        show_screen(gui, screen::PAUSE, screen::GAME_SCREEN);
+    });
 
     auto ulta_button = tgui::BitmapButton::create();
     ulta_button->setText("ULTA");

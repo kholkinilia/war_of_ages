@@ -6,7 +6,7 @@
 
 namespace war_of_ages {
 
-void screens_init(tgui::Gui &gui);
+void screens_init(sf::View &v, tgui::Gui &gui);
 
 void update_screens(tgui::Gui &gui, const client_state &state, sf::RenderWindow *window);
 

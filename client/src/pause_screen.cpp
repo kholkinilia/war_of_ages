@@ -3,7 +3,7 @@
 #include "../include/ui_functions.h"
 
 namespace war_of_ages {
-void pause_screen_init(tgui::Gui &gui) {
+void pause_screen_init(sf::View &v, tgui::Gui &gui) {
     // TODO: get rid of copy-paste
     auto settings_screen_group = tgui::Group::create();
 
@@ -35,8 +35,9 @@ void pause_screen_init(tgui::Gui &gui) {
     tgui::Button::Ptr return_back_button = tgui::Button::create("Продолжить игру");
     return_back_button->setRenderer(black_theme.getRenderer("Button"));
     return_back_button->setTextSize(30);
-    return_back_button->onPress([&gui]() {
+    return_back_button->onPress([&gui, &v]() {
         current_state.get_cur_game_state()->set_time_after_pause(1.f * clock() / CLOCKS_PER_SEC);
+        v.setCenter(current_state.get_view_center());
         show_screen(gui, screen::GAME_SCREEN, screen::PAUSE);
     });
     return_back_button->setPosition("30%", "73%");

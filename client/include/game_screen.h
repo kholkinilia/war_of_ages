@@ -5,7 +5,7 @@
 #include <TGUI/Widgets/BitmapButton.hpp>
 
 namespace war_of_ages {
-void game_screen_init(tgui::Gui &gui);
+void game_screen_init(sf::View &v, tgui::Gui &gui);
 
 void setup_button(tgui::BitmapButton::Ptr button);
 }  // namespace war_of_ages

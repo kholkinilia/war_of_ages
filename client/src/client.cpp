@@ -33,5 +33,11 @@ void client_state::set_cur_game_state(std::shared_ptr<game_state> st) {
 std::shared_ptr<game_state> client_state::get_cur_game_state() const {
     return cur_game_state;
 }
+vec2f client_state::get_view_center() {
+    return view_center;
+}
+void client_state::set_view_center(const vec2f &v) {
+    view_center = v;
+}
 
 }  // namespace war_of_ages
