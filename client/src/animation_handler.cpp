@@ -20,10 +20,10 @@ animation_handler::animation_handler(const std::string &texture_filename,
 sf::Sprite animation_handler::get_sprite(int line, float time) noexcept {
     m_sprite.setTexture(m_texture);
     sf::Sprite res = m_sprite;
-    res.setTextureRect(sf::IntRect(
-        static_cast<int>((time / m_time_period[line]) * static_cast<float>(m_columns)) % m_columns * m_each_width_pxls,
-        line * m_each_height_pxls,
-        m_each_width_pxls, m_each_height_pxls));
+    res.setTextureRect(
+        sf::IntRect(static_cast<int>((time / m_time_period[line]) * static_cast<float>(m_columns)) %
+                        m_columns * m_each_width_pxls,
+                    line * m_each_height_pxls, m_each_width_pxls, m_each_height_pxls));
     return res;
 }
 

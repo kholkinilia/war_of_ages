@@ -30,10 +30,10 @@ sprite_supplier::sprite_supplier() {
         {unit_type::ARCHER, "../client/resources/game/units/stone/archer_animated.png"},
         {unit_type::CHARIOT, "../client/resources/game/units/stone/chariot_animated.png"}};
 
-    const static std::unordered_map<unit_type, std::pair<int, int>> animation_size {
+    const static std::unordered_map<unit_type, std::pair<int, int>> animation_size{
         {unit_type::PEASANT, {2, 3}}, {unit_type::ARCHER, {2, 1}}, {unit_type::CHARIOT, {2, 1}}};
 
-    const static std::unordered_map<unit_type, std::vector<float>> animation_time_periods {
+    const static std::unordered_map<unit_type, std::vector<float>> animation_time_periods{
         {unit_type::PEASANT, {0.5, 0.5}}, {unit_type::ARCHER, {1, 1}}, {unit_type::CHARIOT, {1.5, 1}}};
 
     const static std::unordered_map<cannon_type, std::string> cannon_texture_file{
