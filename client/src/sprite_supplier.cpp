@@ -26,9 +26,15 @@ sprite_supplier::sprite_supplier() {
         {age_type::STONE, "../client/resources/game/towers/stone/tower.png"}};
 
     const static std::unordered_map<unit_type, std::string> unit_texture_file{
-        {unit_type::PEASANT, "../client/resources/game/units/stone/peasant.png"},
-        {unit_type::ARCHER, "../client/resources/game/units/stone/archer.png"},
-        {unit_type::CHARIOT, "../client/resources/game/units/stone/chariot.png"}};
+        {unit_type::PEASANT, "../client/resources/game/units/stone/peasant_animated.png"},
+        {unit_type::ARCHER, "../client/resources/game/units/stone/archer_animated.png"},
+        {unit_type::CHARIOT, "../client/resources/game/units/stone/chariot_animated.png"}};
+
+    const static std::unordered_map<unit_type, std::pair<int, int>> animation_size {
+        {unit_type::PEASANT, {2, 3}}, {unit_type::ARCHER, {2, 1}}, {unit_type::CHARIOT, {2, 1}}};
+
+    const static std::unordered_map<unit_type, std::vector<float>> animation_time_periods {
+        {unit_type::PEASANT, {0.5, 0.5}}, {unit_type::ARCHER, {1, 1}}, {unit_type::CHARIOT, {1.5, 1}}};
 
     const static std::unordered_map<cannon_type, std::string> cannon_texture_file{
         {cannon_type::STONE_LEVEL_1, "../client/resources/game/cannons/stone/level_1.png"},
@@ -59,9 +65,12 @@ sprite_supplier::sprite_supplier() {
     }
 
     for (auto &[u_type, filename] : unit_texture_file) {
-        unit_sprite[u_type] =
-            animation_handler(filename, {1, 0.5}, 2, 3, static_cast<int>(unit::get_stats(u_type).size.x),
-                              static_cast<int>(unit::get_stats(u_type).size.y));
+        auto sz = animation_size.at(u_type);
+        unit_sprite.insert(
+            {u_type, animation_handler(filename, animation_time_periods.at(u_type), sz.first, sz.second,
+                                       static_cast<int>(unit::get_stats(u_type).size.x),
+                                       static_cast<int>(unit::get_stats(u_type).size.y))});
+
         //            create_sprite_instance(filename, static_cast<int>(unit::get_stats(u_type).size.x),
         //                                   static_cast<int>(unit::get_stats(u_type).size.y));
     }
@@ -111,8 +120,12 @@ sf::Sprite sprite_supplier::get_cannon_slot_sprite(std::pair<age_type, int> cs_t
     return reflect_if_needed(cannon_slots_sprite[cs_type], side);
 }
 
-sf::Sprite sprite_supplier::get_unit_sprite(unit &source_unit, sprite_supplier::player_side side) {
-    return reflect_if_needed(unit_sprite[source_unit.type()].get_sprite(0, 0), side);
+sf::Sprite sprite_supplier::get_unit_sprite(const unit &source_unit, sprite_supplier::player_side side) {
+    if (source_unit.is_attacking()) {
+        return reflect_if_needed(unit_sprite[source_unit.type()].get_sprite(1, source_unit.attack_progress()),
+                                 side);
+    }
+    return reflect_if_needed(unit_sprite[source_unit.type()].get_sprite(0, source_unit.walking_time()), side);
 }
 
 sf::Sprite sprite_supplier::get_cannon_sprite(cannon_type c_type, sprite_supplier::player_side side) {
@@ -136,9 +149,9 @@ sprite_supplier::~sprite_supplier() {
         delete sprite.getTexture();
     }
 
-//    for (auto &[u_type, sprite] : unit_sprite) {
-//        delete sprite.getTexture();
-//    }
+    //    for (auto &[u_type, sprite] : unit_sprite) {
+    //        delete sprite.getTexture();
+    //    }
 
     for (auto &[c_type, sprite] : cannon_sprite) {
         delete sprite.getTexture();
