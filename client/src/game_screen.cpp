@@ -50,7 +50,8 @@ void game_screen_init(tgui::Gui &gui) {
     for (int i = 0; i < UNITS_PER_AGE; i++) {
         groups[i] = tgui::Group::create();
         auto button = tgui::BitmapButton::create();
-        button->setImage(tgui::String("../client/resources/game/units/stone/mini/") + to_string(static_cast<unit_type>(i)) + tgui::String(".png"));
+        button->setImage(tgui::String("../client/resources/game/units/stone/mini/") +
+                         to_string(static_cast<unit_type>(i)) + tgui::String(".png"));
         setup_button(button);
         button->setPosition(BACKGROUND_WIDTH - DELTA_X * 5 - DELTA_X * i, BUTTON_Y);
         button->setSize(BUTTON_WIDTH, BUTTON_HEIGHT);

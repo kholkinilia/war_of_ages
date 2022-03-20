@@ -14,7 +14,9 @@ void sprite_printer::update(float delta) {
     background.setPosition(background.getPosition() - deltaPos);
 }
 
-void sprite_printer::print(tgui::Gui &gui, sf::RenderWindow *window, const std::shared_ptr<game_state> &state) {
+void sprite_printer::print(tgui::Gui &gui,
+                           sf::RenderWindow *window,
+                           const std::shared_ptr<game_state> &state) {
     state->update({}, {}, 1.f * clock() / CLOCKS_PER_SEC);
     auto [p1, p2] = state->snapshot_players();
 
@@ -22,19 +24,16 @@ void sprite_printer::print(tgui::Gui &gui, sf::RenderWindow *window, const std::
     window->draw(background);
 
     gui.get(current_state.get_cur_screen_id())
-    ->cast<tgui::Group>()
-    ->get("coin_label")
-    ->cast<tgui::Label>()
-    ->setText(std::to_string(p1.money));
+        ->cast<tgui::Group>()
+        ->get("coin_label")
+        ->cast<tgui::Label>()
+        ->setText(std::to_string(p1.money));
 
     sf::RectangleShape queued_unit_in, queued_unit_out;
     queued_unit_in.setFillColor(sf::Color::Green);
     float x_pos;
     std::unordered_map<unit_type, float> number_of_units_in_queue = {
-        {unit_type::PEASANT, 0},
-        {unit_type::ARCHER, 0},
-        {unit_type::CHARIOT, 0}
-    };
+        {unit_type::PEASANT, 0}, {unit_type::ARCHER, 0}, {unit_type::CHARIOT, 0}};
     for (int i = 0; i < p1.units_to_train.size(); i++) {
         auto unit = p1.units_to_train[i];
         queued_unit_out.setFillColor(sf::Color::White);
@@ -45,13 +44,15 @@ void sprite_printer::print(tgui::Gui &gui, sf::RenderWindow *window, const std::
         if (unit.type() == unit_type::CHARIOT)
             x_pos -= 2 * DELTA_X;
 
-        queued_unit_out.setPosition({x_pos + (window->getView().getCenter().x - BACKGROUND_WIDTH / 2),
-                                     BUTTON_HEIGHT + BUTTON_Y + (2 * (number_of_units_in_queue[unit.type()]++) + 1) * HP_HEIGHT});
+        queued_unit_out.setPosition(
+            {x_pos + (window->getView().getCenter().x - BACKGROUND_WIDTH / 2),
+             BUTTON_HEIGHT + BUTTON_Y + (2 * (number_of_units_in_queue[unit.type()]++) + 1) * HP_HEIGHT});
         window->draw(queued_unit_out);
 
-        if(i == 0) {
+        if (i == 0) {
             queued_unit_in.setSize(
-                {BUTTON_WIDTH * (1 - p1.m_training_time_left / p1.units_to_train.front().stats().time_to_train_s),
+                {BUTTON_WIDTH *
+                     (1 - p1.m_training_time_left / p1.units_to_train.front().stats().time_to_train_s),
                  HP_HEIGHT});
             queued_unit_in.setPosition({x_pos + (window->getView().getCenter().x - BACKGROUND_WIDTH / 2),
                                         BUTTON_HEIGHT + BUTTON_Y + HP_HEIGHT});
