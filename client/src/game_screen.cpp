@@ -133,7 +133,8 @@ void game_screen_init(sf::View &v, tgui::Gui &gui) {
 
     auto plus_place_cannon_coin_label = tgui::Label::create();
     plus_place_cannon_coin_label->getRenderer()->setTextSize(0.6 * COST_HEIGHT);
-    plus_place_cannon_coin_label->setPosition(BACKGROUND_WIDTH - DELTA_X * 3 + COST_WIDTH, FPS_LABEL_HEIGHT + 3);
+    plus_place_cannon_coin_label->setPosition(BACKGROUND_WIDTH - DELTA_X * 3 + COST_WIDTH,
+                                              FPS_LABEL_HEIGHT + 3);
 
     std::vector<tgui::Group::Ptr> cannon_groups(CANNONS_PER_AGE);
     setup_buy_buttons(cannon_groups, action::BUY_CANNON);

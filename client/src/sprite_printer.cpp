@@ -32,11 +32,11 @@ void sprite_printer::print(tgui::Gui &gui,
 
     for (int i = 0; i < CANNONS_PER_AGE; i++) {
         auto label = gui.get(current_state.get_cur_screen_id())
-            ->cast<tgui::Group>()
-            ->get("sell_cannon_" + std::to_string(i))
-            ->cast<tgui::Group>()
-            ->get("coin_label")
-            ->cast<tgui::Label>();
+                         ->cast<tgui::Group>()
+                         ->get("sell_cannon_" + std::to_string(i))
+                         ->cast<tgui::Group>()
+                         ->get("coin_label")
+                         ->cast<tgui::Label>();
         if (i < p1.cannons.size()) {
             label->setText('+' + std::to_string(p1.cannons[i].stats().cost));
         } else {
@@ -45,10 +45,10 @@ void sprite_printer::print(tgui::Gui &gui,
     }
 
     gui.get(current_state.get_cur_screen_id())
-    ->cast<tgui::Group>()
-    ->get("plus_place_cannon_coin_label")
-    ->cast<tgui::Label>()
-    ->setText(std::to_string(CANNONS_SLOTS_COSTS[p1.cannons.size()]));
+        ->cast<tgui::Group>()
+        ->get("plus_place_cannon_coin_label")
+        ->cast<tgui::Label>()
+        ->setText(std::to_string(CANNONS_SLOTS_COSTS[p1.cannons.size()]));
 
     sf::RectangleShape queued_unit_in, queued_unit_out;
     queued_unit_in.setFillColor(sf::Color::Green);
