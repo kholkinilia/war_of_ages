@@ -11,7 +11,6 @@ client_state::client_state(tgui::String handle_, screen cur_screen_)
     if (!battle_music.openFromFile("../client/resources/sounds/music/battle_music.wav")) {
         // TODO: handle this case somehow
     }
-    battle_music.setVolume(50);
     battle_music.setLoop(true);
 }
 

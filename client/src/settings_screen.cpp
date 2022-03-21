@@ -24,11 +24,11 @@ void settings_screen_init(sf::View &v, tgui::Gui &gui) {
     sounds_volume_slider->setRenderer(black_theme.getRenderer("Slider"));
     music_volume_slider->setPosition("54%", "30%");
     sounds_volume_slider->setPosition("54%", "40%");
-    music_volume_slider->setValue(50);
-    sounds_volume_slider->setValue(50);
 
     music_volume_slider->onValueChange(
         [&music_volume_slider](float new_value) { current_state.battle_music.setVolume(new_value); });
+    music_volume_slider->setValue(50);
+    sounds_volume_slider->setValue(50);
 
     settings_screen_group->add(music_volume_label);
     settings_screen_group->add(sounds_volume_label);
