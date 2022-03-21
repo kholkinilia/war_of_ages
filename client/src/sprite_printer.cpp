@@ -82,10 +82,11 @@ void sprite_printer::print_units(sf::RenderWindow *window,
         else
             unit_hp_in.setFillColor({255, 0, 0, 255});
 
-        float x_pos = unit.position() * NORMALIZE + TOWER_WIDTH - DELTA - BATTLE_DELTA, y_pos, hp_len;
+        float x_pos = unit.position() + TOWER_WIDTH - DELTA, y_pos, hp_len;
         if (side == sprite_supplier::player_side::RIGHT) {
-            x_pos = ROAD_WIDTH - x_pos + 2 * BATTLE_DELTA;
+            x_pos = ROAD_WIDTH - x_pos;
         }
+
         if (unit.type() == unit_type::STONE_TOWER) {
             hp_len = TOWER_WIDTH * 0.6;
             y_pos = BACKGROUND_HEIGHT - TOWER_HEIGHT - 10;
@@ -128,7 +129,7 @@ void sprite_printer::print_bullets(sf::RenderWindow *window,
     for (auto bullet : bullets) {
         bullet_picture = sprite_supplier::get_instance().get_bullet_sprite(bullet.type());
 
-        float x_pos = bullet.pos().x * NORMALIZE + TOWER_WIDTH - DELTA,
+        /* float x_pos = bullet.pos().x * NORMALIZE + TOWER_WIDTH - DELTA,
               y_pos = BACKGROUND_HEIGHT - bullet.pos().y;
 
         if (static_cast<int>(bullet.type()) < NUM_OF_CANNONS) {
@@ -141,7 +142,13 @@ void sprite_printer::print_bullets(sf::RenderWindow *window,
 
         if (side == sprite_supplier::player_side::RIGHT) {
             x_pos = ROAD_WIDTH - x_pos;
+        } */
+        float x_pos = bullet.pos().x, y_pos = BACKGROUND_HEIGHT - bullet.pos().y;
+        if (side == sprite_supplier::player_side::RIGHT) {
+            x_pos = ROAD_WIDTH - x_pos;
         }
+
+        std::cout << bullet.dir() << std::endl;
 
         bullet_picture.setPosition(x_pos, y_pos);
         window->draw(bullet_picture);
@@ -158,13 +165,13 @@ void sprite_printer::print_cannons(sf::RenderWindow *window,
         cannon_slot_picture =
             sprite_supplier::get_instance().get_cannon_slot_sprite({age_type::STONE, i + 1}, side);
 
-        float x_pos = 0.775 * TOWER_WIDTH;
+        int x_pos = CANNONS_SLOTS_COORD_X[i], y_pos = CANNONS_SLOTS_COORD_Y[i];
         if (side == sprite_supplier::player_side::RIGHT) {
-            x_pos = ROAD_WIDTH - x_pos + BATTLE_DELTA * 2;
+            x_pos = ROAD_WIDTH - x_pos;
         }
 
-        cannon_picture.setPosition(x_pos, BACKGROUND_HEIGHT - TOWER_WIDTH * 0.35 - i * CANNON_HEIGHT);
-        cannon_slot_picture.setPosition(x_pos, BACKGROUND_HEIGHT - TOWER_WIDTH * 0.35 - i * CANNON_HEIGHT);
+        cannon_picture.setPosition(x_pos, BACKGROUND_HEIGHT - y_pos);
+        cannon_slot_picture.setPosition(x_pos, BACKGROUND_HEIGHT - y_pos);
         window->draw(cannon_slot_picture);
         window->draw(cannon_picture);
     }
