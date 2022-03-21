@@ -40,7 +40,7 @@ void setup_buy_buttons(std::vector<tgui::Group::Ptr> &groups, action a) {
         button->setSize(BUTTON_WIDTH, BUTTON_HEIGHT);
         button->onPress([i, a]() {
             std::vector<std::unique_ptr<game_command>> v;
-            switch(a) {
+            switch (a) {
                 case action::BUY_UNIT:
                     v.push_back(std::make_unique<buy_unit_command>(i));
                     break;
@@ -65,15 +65,17 @@ void setup_buy_buttons(std::vector<tgui::Group::Ptr> &groups, action a) {
         auto coin_label = tgui::Label::create();
         coin_label->getRenderer()->setTextSize(0.6 * COST_HEIGHT);
         coin_label->setPosition(BACKGROUND_WIDTH - DELTA_X * k + COST_WIDTH, FPS_LABEL_HEIGHT);
-        switch(a) {
+        switch (a) {
             case action::BUY_UNIT:
                 coin_label->setText('-' + std::to_string(unit::get_stats(static_cast<unit_type>(i)).cost));
                 break;
             case action::BUY_CANNON:
-                coin_label->setText('-' + std::to_string(cannon::get_stats(static_cast<cannon_type>(i)).cost));
+                coin_label->setText('-' +
+                                    std::to_string(cannon::get_stats(static_cast<cannon_type>(i)).cost));
                 break;
             default:
-                coin_label->setText('+' + std::to_string(cannon::get_stats(static_cast<cannon_type>(i)).cost));
+                coin_label->setText('+' +
+                                    std::to_string(cannon::get_stats(static_cast<cannon_type>(i)).cost));
                 break;
         }
         groups[i]->add(coin_label);
