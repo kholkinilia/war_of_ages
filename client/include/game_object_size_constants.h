@@ -1,8 +1,6 @@
 #ifndef WAR_OF_AGES_GAME_OBJECT_SIZE_CONSTANTS_H
 #define WAR_OF_AGES_GAME_OBJECT_SIZE_CONSTANTS_H
 
-#include "../../game_logic/include/game_constants.h"
-
 namespace war_of_ages {
 
 // TODO: Timur will make those constants decent (they are almost random now)
@@ -38,11 +36,8 @@ constexpr int COIN_HEIGHT = 50;
 constexpr int COST_WIDTH = 30;
 constexpr int COST_HEIGHT = 30;
 
-constexpr int BATTLE_DELTA = 20;
-
-constexpr float NORMALIZE = (ROAD_WIDTH - 2 * (TOWER_WIDTH - 2 * DELTA)) / FIELD_LENGTH_PXLS;
-
 constexpr float CANNON_COEF = 0.775;
+constexpr int CANNON_DELTA = 15;
 
 }  // namespace war_of_ages
 

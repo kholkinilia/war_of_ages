@@ -50,10 +50,10 @@ void setup_buy_buttons(std::vector<tgui::Group::Ptr> &groups, action a) {
                 default:
                     v.push_back(std::make_unique<sell_cannon_command>(i));
             }
-            /* if (rand() % 2 == 0 && p == possession::UNIT)
+            if (rand() % 2 == 0 && a == action::BUY_UNIT)
                 current_state.get_cur_game_state()->update({}, v, 1.f * clock() / CLOCKS_PER_SEC);
-            else */ // Uncomment for debug
-            current_state.get_cur_game_state()->update(v, {}, 1.f * clock() / CLOCKS_PER_SEC);
+            else  // Uncomment for debug
+                current_state.get_cur_game_state()->update(v, {}, 1.f * clock() / CLOCKS_PER_SEC);
         });
         groups[i]->add(button);
 
