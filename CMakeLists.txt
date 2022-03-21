@@ -39,7 +39,6 @@ if (BUILD_CLIENT)
             client/src/start_screen.cpp
             client/src/settings_screen.cpp
             client/src/multiplayer_screen.cpp
-            client/src/pause_screen.cpp
             client/src/game_screen.cpp
             client/src/end_game_screen.cpp
             client/src/wait_screen.cpp
