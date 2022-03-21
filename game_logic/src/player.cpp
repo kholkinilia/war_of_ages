@@ -66,13 +66,16 @@ void player::buy_cannon(int cannon_level, int slot) {
     assert(0 <= cannon_level && cannon_level < CANNONS_PER_AGE);
     std::unique_lock l(m_mutex);
     assert(0 <= slot && slot < m_cannons.size());
+    if (m_cannons[slot].type() != cannon_type::NONE) {
+        return;
+    }
     auto type = static_cast<cannon_type>(static_cast<int>(m_age) * CANNONS_PER_AGE + cannon_level);
     int cost = cannon::get_stats(type).cost;
     if (m_money < cost) {
         return;
     }
     m_money -= cost;
-    m_cannons[cannon_level] =
+    m_cannons[slot] =
         cannon{type, {CANNONS_SLOTS_COORD_X[cannon_level], CANNONS_SLOTS_COORD_Y[cannon_level]}};
 }
 
