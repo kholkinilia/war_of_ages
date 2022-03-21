@@ -28,7 +28,7 @@ void bullet::update(std::deque<unit> &enemies, float dt) {
         return;
     }
     auto enemy = std::find_if(enemies.rbegin(), enemies.rend(), [this](const unit &u) {
-        return detect_collision(m_pos, stats().size, {u.position(), 0.0f}, u.stats().size);
+        return detect_collision(m_pos, stats().size, {FIELD_LENGTH_PXLS - u.position() + 1, 0.0f}, u.stats().size);
     });
     if (enemy != enemies.rend()) {
         enemy->decrease_hp(damage());
