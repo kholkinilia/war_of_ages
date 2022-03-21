@@ -63,12 +63,12 @@ void sprite_printer::print(tgui::Gui &gui,
     auto road = sprite_supplier::get_instance().get_road_sprite(age_type::STONE);
     road.setPosition(0, BACKGROUND_HEIGHT - ROAD_HEIGHT);
     window->draw(road);
-    print_cannons(window, p1.cannons, sprite_supplier::player_side::LEFT);
-    print_cannons(window, p2.cannons, sprite_supplier::player_side::RIGHT);
     print_units(window, p1.units, sprite_supplier::player_side::LEFT);
     print_units(window, p2.units, sprite_supplier::player_side::RIGHT);
     print_bullets(window, p1.bullets, sprite_supplier::player_side::LEFT);
     print_bullets(window, p2.bullets, sprite_supplier::player_side::RIGHT);
+    print_cannons(window, p1.cannons, sprite_supplier::player_side::LEFT);
+    print_cannons(window, p2.cannons, sprite_supplier::player_side::RIGHT);
 }
 
 void sprite_printer::print_units(sf::RenderWindow *window,
@@ -149,9 +149,9 @@ void sprite_printer::print_cannons(sf::RenderWindow *window,
         cannon_picture = sprite_supplier::get_instance().get_cannon_sprite(cannon.type(), side);
         cannon_slot_picture = sprite_supplier::get_instance().get_cannon_slot_sprite({age_type::STONE, i + 1}, side);
 
-        float x_pos = 0.775 * TOWER_WIDTH;
+        float x_pos = 0.775 * TOWER_WIDTH - BATTLE_DELTA;
         if (side == sprite_supplier::player_side::RIGHT) {
-            x_pos = ROAD_WIDTH - x_pos;
+            x_pos = ROAD_WIDTH - x_pos + BATTLE_DELTA * 2;
         }
 
         cannon_picture.setPosition(
