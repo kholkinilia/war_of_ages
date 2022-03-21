@@ -12,6 +12,13 @@ client_state::client_state(tgui::String handle_, screen cur_screen_)
         // TODO: handle this case somehow
     }
     battle_music.setLoop(true);
+    battle_music.setVolume(50);
+    if (!lobby_music.openFromFile("../client/resources/sounds/music/lobby_music.wav")) {
+        // TODO: handle this case somehow
+    }
+    lobby_music.setLoop(true);
+    lobby_music.setVolume(50);
+    lobby_music.play();
 }
 
 tgui::String client_state::get_cur_screen_id() const {

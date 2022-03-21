@@ -31,8 +31,10 @@ void show_screen(tgui::Gui &gui, war_of_ages::screen new_screen, war_of_ages::sc
     current_state.set_cur_screen(new_screen);
     if (current_state.get_cur_game_state() == nullptr && new_screen == screen::GAME_SCREEN) {
         current_state.set_cur_game_state(std::make_shared<game_state>(1.f * clock() / CLOCKS_PER_SEC));
+        current_state.lobby_music.stop();
         current_state.battle_music.play();
     }
+    // Settings screen does not contain resume_button
     if (new_screen == screen::SETTINGS) {
         switch (prev_screen) {
             case screen::GAME_SCREEN:
@@ -44,6 +46,13 @@ void show_screen(tgui::Gui &gui, war_of_ages::screen new_screen, war_of_ages::sc
             default:
                 break;
         }
+    }
+    // return from game to START_SCREEN (be careful with tournaments in the future)
+    if (new_screen == screen::START_SCREEN &&
+        current_state.battle_music.getStatus() == sf::SoundSource::Status::Playing) {
+        current_state.set_cur_game_state(nullptr);
+        current_state.battle_music.stop();
+        current_state.lobby_music.play();
     }
 }
 

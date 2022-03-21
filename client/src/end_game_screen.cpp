@@ -14,11 +14,7 @@ void end_game_screen_init(tgui::Gui &gui) {
 
     auto start_button = tgui::Button::create("В главное меню");
     start_button->setTextSize(30);
-    start_button->onPress([&gui]() {
-        show_screen(gui, screen::START_SCREEN, screen::END_GAME);
-        // FIXME: WTF why is it here? We definitely need a .reset() member function
-        war_of_ages::current_state.battle_music.stop();
-    });
+    start_button->onPress([&gui]() { show_screen(gui, screen::START_SCREEN, screen::END_GAME); });
     end_game_screen_group->add(start_button);
 
     std::vector<tgui::Widget::Ptr> widgets = {result, start_button};

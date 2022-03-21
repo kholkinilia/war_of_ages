@@ -101,7 +101,6 @@ int main() {
                                   war_of_ages::game_status::P1_WON
                               ? "Поздравляем, Вы победили!"
                               : "Вы проиграли, повезет в следующий раз");
-            war_of_ages::current_state.set_cur_game_state(nullptr);
         }
 
         window.clear();

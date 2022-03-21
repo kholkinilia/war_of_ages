@@ -36,6 +36,7 @@ public:
 
     // FIXME: WTF why is it here? I should to move this somewhere else
     sf::Music battle_music;
+    sf::Music lobby_music;
 };
 
 extern client_state current_state;
