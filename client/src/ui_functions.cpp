@@ -48,6 +48,7 @@ void show_screen(tgui::Gui &gui, war_of_ages::screen new_screen, war_of_ages::sc
         }
     }
     // return from game to START_SCREEN (be careful with tournaments in the future)
+    // TODO: recognize exit from game in another way. I don't sure if this works when music ends
     if (new_screen == screen::START_SCREEN &&
         current_state.battle_music.getStatus() == sf::SoundSource::Status::Playing) {
         current_state.set_cur_game_state(nullptr);
