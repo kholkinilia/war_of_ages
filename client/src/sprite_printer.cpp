@@ -82,8 +82,7 @@ void sprite_printer::print_units(sf::RenderWindow *window,
         else
             unit_hp_in.setFillColor({255, 0, 0, 255});
 
-        float x_pos = unit.position() * NORMALIZE + TOWER_WIDTH - DELTA - BATTLE_DELTA,
-              y_pos, hp_len;
+        float x_pos = unit.position() * NORMALIZE + TOWER_WIDTH - DELTA - BATTLE_DELTA, y_pos, hp_len;
         if (side == sprite_supplier::player_side::RIGHT) {
             x_pos = ROAD_WIDTH - x_pos + 2 * BATTLE_DELTA;
         }
@@ -129,13 +128,13 @@ void sprite_printer::print_bullets(sf::RenderWindow *window,
     for (auto bullet : bullets) {
         bullet_picture = sprite_supplier::get_instance().get_bullet_sprite(bullet.type());
 
-        float x_pos = bullet.pos().x * NORMALIZE +
-            TOWER_WIDTH - DELTA, y_pos = BACKGROUND_HEIGHT - bullet.pos().y;
+        float x_pos = bullet.pos().x * NORMALIZE + TOWER_WIDTH - DELTA,
+              y_pos = BACKGROUND_HEIGHT - bullet.pos().y;
 
         if (static_cast<int>(bullet.type()) < NUM_OF_CANNONS) {
             x_pos = (bullet.pos().x + CANNON_COEF * TOWER_WIDTH) * NORMALIZE;
-            y_pos = (bullet.pos().y - CANNONS_SLOTS_COORD_Y[0]) *
-                    CANNON_SLOT_HEIGHT / (CANNONS_SLOTS_COORD_Y[1] - CANNONS_SLOTS_COORD_Y[0]) +
+            y_pos = (bullet.pos().y - CANNONS_SLOTS_COORD_Y[0]) * CANNON_SLOT_HEIGHT /
+                        (CANNONS_SLOTS_COORD_Y[1] - CANNONS_SLOTS_COORD_Y[0]) +
                     TOWER_WIDTH * 0.35;
             y_pos = BACKGROUND_HEIGHT - y_pos;
         }
@@ -164,10 +163,8 @@ void sprite_printer::print_cannons(sf::RenderWindow *window,
             x_pos = ROAD_WIDTH - x_pos + BATTLE_DELTA * 2;
         }
 
-        cannon_picture.setPosition(
-            x_pos, BACKGROUND_HEIGHT - TOWER_WIDTH * 0.35 - i * CANNON_HEIGHT);
-        cannon_slot_picture.setPosition(
-            x_pos, BACKGROUND_HEIGHT - TOWER_WIDTH * 0.35 - i * CANNON_HEIGHT);
+        cannon_picture.setPosition(x_pos, BACKGROUND_HEIGHT - TOWER_WIDTH * 0.35 - i * CANNON_HEIGHT);
+        cannon_slot_picture.setPosition(x_pos, BACKGROUND_HEIGHT - TOWER_WIDTH * 0.35 - i * CANNON_HEIGHT);
         window->draw(cannon_slot_picture);
         window->draw(cannon_picture);
     }

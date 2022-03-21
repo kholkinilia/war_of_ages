@@ -45,7 +45,7 @@ void setup_buy_buttons(std::vector<tgui::Group::Ptr> &groups, possession p) {
             /* if (rand() % 2 == 0 && p == possession::UNIT)
                 current_state.get_cur_game_state()->update({}, v, 1.f * clock() / CLOCKS_PER_SEC);
             else */ // Uncomment for debug
-                current_state.get_cur_game_state()->update(v, {}, 1.f * clock() / CLOCKS_PER_SEC);
+            current_state.get_cur_game_state()->update(v, {}, 1.f * clock() / CLOCKS_PER_SEC);
         });
         groups[i]->add(button);
 
