@@ -1,6 +1,7 @@
 #ifndef WAR_OF_AGES_CLIENT_H
 #define WAR_OF_AGES_CLIENT_H
 
+#include <SFML/Audio.hpp>
 #include <TGUI/Backend/SFML-Graphics.hpp>  // tgui::Gui, tgui::String
 #include <memory>
 #include "../../game_logic/include/game_state.h"
@@ -32,6 +33,9 @@ public:
     void set_view_center(const vec2f &v);
     void set_cur_screen(screen s);
     void set_cur_game_state(std::shared_ptr<game_state> st);
+
+    // FIXME: WTF why is it here? I should to move this somewhere else
+    sf::Music battle_music;
 };
 
 extern client_state current_state;

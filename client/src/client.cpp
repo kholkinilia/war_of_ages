@@ -8,6 +8,11 @@ namespace war_of_ages {
 
 client_state::client_state(tgui::String handle_, screen cur_screen_)
     : handle(std::move(handle_)), cur_screen(cur_screen_) {
+    if (!battle_music.openFromFile("../client/resources/sounds/music/battle_music.wav")) {
+        // TODO: handle this case somehow
+    }
+    battle_music.setVolume(50);
+    battle_music.setLoop(true);
 }
 
 tgui::String client_state::get_cur_screen_id() const {
