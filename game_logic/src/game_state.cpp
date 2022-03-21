@@ -41,4 +41,13 @@ game_status game_state::get_game_status() const {
     return game_status::PROCESSING;
 }
 
+void game_state::return_from_pause(float return_time) noexcept {
+    state_time = return_time;
+}
+void game_state::update(std::vector<std::unique_ptr<game_command>> &&p1_commands,
+                        std::vector<std::unique_ptr<game_command>> &&p2_commands,
+                        float time) {
+    update(p1_commands, p2_commands, time);
+}
+
 }  // namespace war_of_ages

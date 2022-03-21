@@ -19,9 +19,13 @@ public:
     explicit game_state(float start_time);
     void update(const std::vector<std::unique_ptr<game_command>> &p1_commands,
                 const std::vector<std::unique_ptr<game_command>> &p2_commands,
-                float dt);
+                float time);
+    void update(std::vector<std::unique_ptr<game_command>> &&p1_commands,
+                std::vector<std::unique_ptr<game_command>> &&p2_commands,
+                float time);
     [[nodiscard]] std::pair<player_snapshot, player_snapshot> snapshot_players() const;
-    [[nodiscard]] game_status get_game_status() const;  // -1 if p1 won, 0 if game is processing, 1 if p2 won
+    [[nodiscard]] game_status get_game_status() const;
+    void return_from_pause(float return_time) noexcept;
 };
 
 }  // namespace war_of_ages
