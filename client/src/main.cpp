@@ -1,11 +1,12 @@
 #include <TGUI/Backend/SFML-Graphics.hpp>
 #include <chrono>
+#include <memory>
 #include "../include/client.h"
 #include "../include/game_object_size_constants.h"
 #include "../include/screens.h"
 #include "../include/sprite_printer.h"
 #include "../include/ui_functions.h"
-#include <memory>
+#include <random>
 
 namespace war_of_ages {
 
@@ -42,6 +43,7 @@ int main() {
     const int UPDATE_FPS_GAP = 10;
 
     float last_added_time = -100;
+    float next_creation = 5;
 
     while (window.isOpen()) {
         sf::Event event{};
@@ -123,10 +125,12 @@ int main() {
 
         float cur_time = 1.f * clock() / CLOCKS_PER_SEC;
 
-        if (cur_time - last_added_time >= 3 && war_of_ages::current_state.get_cur_screen_id() == "game_screen") {
+        if (cur_time - last_added_time >= next_creation &&
+            war_of_ages::current_state.get_cur_screen_id() == "game_screen") {
             last_added_time = cur_time;
+            next_creation = rand() % 5 + 1;
             std::vector<std::unique_ptr<war_of_ages::game_command>> v;
-            v.push_back(std::make_unique<war_of_ages::buy_unit_command>(0));
+            v.push_back(std::make_unique<war_of_ages::buy_unit_command>(rand() % 3));
             war_of_ages::current_state.get_cur_game_state()->update({}, v, cur_time);
         }
 
