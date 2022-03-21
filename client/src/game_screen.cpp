@@ -31,7 +31,18 @@ tgui::String get_filename(action a, int i) {
 
 void setup_buy_buttons(std::vector<tgui::Group::Ptr> &groups, action a) {
     static int k = 4;
-    for (int i = 0; i < UNITS_PER_AGE; i++, k++) {
+    int n;
+    switch (a) {
+        case action::BUY_UNIT:
+            n = UNITS_PER_AGE;
+            break;
+        case action::BUY_CANNON:
+            n = CANNONS_PER_AGE;
+            break;
+        default:
+            n = MAX_CANNON_SLOTS;
+    }
+    for (int i = 0; i < n; i++, k++) {
         groups[i] = tgui::Group::create();
         auto button = tgui::BitmapButton::create();
         button->setImage(get_filename(a, i));
@@ -40,31 +51,40 @@ void setup_buy_buttons(std::vector<tgui::Group::Ptr> &groups, action a) {
         button->setSize(BUTTON_WIDTH, BUTTON_HEIGHT);
         button->onPress([i, a]() {
             std::vector<std::unique_ptr<game_command>> v;
+            int slot = 0;
+            auto cannons = current_state.get_cur_game_state()->snapshot_players().first.cannons;
             switch (a) {
                 case action::BUY_UNIT:
                     v.push_back(std::make_unique<buy_unit_command>(i));
                     break;
                 case action::BUY_CANNON:
-                    v.push_back(std::make_unique<buy_cannon_command>(i, 0));
+                    for (int j = 0; j < cannons.size(); j++) {
+                        auto c = cannons[j];
+                        if (c.type() == cannon_type::NONE) {
+                            slot = j;
+                            break;
+                        }
+                    }
+                    v.push_back(std::make_unique<buy_cannon_command>(i, slot));
                     break;
                 default:
                     v.push_back(std::make_unique<sell_cannon_command>(i));
             }
-            if (rand() % 2 == 0 && a == action::BUY_UNIT)
+            /* if (rand() % 3 > 0 && a == action::BUY_UNIT)
                 current_state.get_cur_game_state()->update({}, v, 1.f * clock() / CLOCKS_PER_SEC);
-            else  // Uncomment for debug
-                current_state.get_cur_game_state()->update(v, {}, 1.f * clock() / CLOCKS_PER_SEC);
+            else */ // Uncomment for debug
+            current_state.get_cur_game_state()->update(v, {}, 1.f * clock() / CLOCKS_PER_SEC);
         });
-        groups[i]->add(button);
+        groups[i]->add(button, std::to_string(i));
 
         auto coin_image = tgui::Picture::create("../client/resources/pictures/coin.jpeg");
         coin_image->setPosition(BACKGROUND_WIDTH - DELTA_X * k, FPS_LABEL_HEIGHT);
         coin_image->setSize(COST_WIDTH, COST_HEIGHT);
-        groups[i]->add(coin_image);
+        groups[i]->add(coin_image, "coin_image");
 
         auto coin_label = tgui::Label::create();
         coin_label->getRenderer()->setTextSize(0.6 * COST_HEIGHT);
-        coin_label->setPosition(BACKGROUND_WIDTH - DELTA_X * k + COST_WIDTH, FPS_LABEL_HEIGHT);
+        coin_label->setPosition(BACKGROUND_WIDTH - DELTA_X * k + COST_WIDTH, FPS_LABEL_HEIGHT + 3);
         switch (a) {
             case action::BUY_UNIT:
                 coin_label->setText('-' + std::to_string(unit::get_stats(static_cast<unit_type>(i)).cost));
@@ -74,11 +94,9 @@ void setup_buy_buttons(std::vector<tgui::Group::Ptr> &groups, action a) {
                                     std::to_string(cannon::get_stats(static_cast<cannon_type>(i)).cost));
                 break;
             default:
-                coin_label->setText('+' +
-                                    std::to_string(cannon::get_stats(static_cast<cannon_type>(i)).cost));
                 break;
         }
-        groups[i]->add(coin_label);
+        groups[i]->add(coin_label, "coin_label");
     }
 }
 
@@ -109,23 +127,31 @@ void game_screen_init(sf::View &v, tgui::Gui &gui) {
         v.push_back(std::make_unique<buy_cannon_slot_command>());
         current_state.get_cur_game_state()->update(v, {}, 1.f * clock() / CLOCKS_PER_SEC);
     });
+    auto plus_place_cannon_coin_image = tgui::Picture::create("../client/resources/pictures/coin.jpeg");
+    plus_place_cannon_coin_image->setPosition(BACKGROUND_WIDTH - DELTA_X * 3, FPS_LABEL_HEIGHT);
+    plus_place_cannon_coin_image->setSize(COST_WIDTH, COST_HEIGHT);
+
+    auto plus_place_cannon_coin_label = tgui::Label::create();
+    plus_place_cannon_coin_label->getRenderer()->setTextSize(0.6 * COST_HEIGHT);
+    plus_place_cannon_coin_label->setPosition(BACKGROUND_WIDTH - DELTA_X * 3 + COST_WIDTH,
+                                              FPS_LABEL_HEIGHT + 3);
 
     std::vector<tgui::Group::Ptr> cannon_groups(CANNONS_PER_AGE);
     setup_buy_buttons(cannon_groups, action::BUY_CANNON);
     for (int i = 0; i < CANNONS_PER_AGE; i++) {
-        game_screen_group->add(cannon_groups[i]);
+        game_screen_group->add(cannon_groups[i], "cannon_" + std::to_string(i));
     }
 
     std::vector<tgui::Group::Ptr> unit_groups(UNITS_PER_AGE);
     setup_buy_buttons(unit_groups, action::BUY_UNIT);
     for (int i = 0; i < UNITS_PER_AGE; i++) {
-        game_screen_group->add(unit_groups[i]);
+        game_screen_group->add(unit_groups[i], "unit_" + std::to_string(i));
     }
 
     std::vector<tgui::Group::Ptr> sell_cannon_groups(CANNONS_PER_AGE);
     setup_buy_buttons(sell_cannon_groups, action::SELL_CANNON);
     for (int i = 0; i < CANNONS_PER_AGE; i++) {
-        game_screen_group->add(sell_cannon_groups[i]);
+        game_screen_group->add(sell_cannon_groups[i], "sell_cannon_" + std::to_string(i));
     }
 
     auto pause_button = tgui::BitmapButton::create();
@@ -155,7 +181,7 @@ void game_screen_init(sf::View &v, tgui::Gui &gui) {
 
     auto coin_label = tgui::Label::create();
     coin_label->getRenderer()->setTextSize(0.75 * COIN_HEIGHT);
-    coin_label->setPosition(BUTTON_WIDTH + COIN_WIDTH, FPS_LABEL_HEIGHT);
+    coin_label->setPosition(BUTTON_WIDTH + COIN_WIDTH, FPS_LABEL_HEIGHT + 1.5 * COIN_HEIGHT / COST_HEIGHT);
 
     game_screen_group->add(autobattle_button);
     game_screen_group->add(new_era_button);
@@ -164,6 +190,8 @@ void game_screen_init(sf::View &v, tgui::Gui &gui) {
     game_screen_group->add(ulta_button);
     game_screen_group->add(coin_image);
     game_screen_group->add(coin_label, "coin_label");
+    game_screen_group->add(plus_place_cannon_coin_image);
+    game_screen_group->add(plus_place_cannon_coin_label, "plus_place_cannon_coin_label");
     gui.add(game_screen_group, screen_id.at(screen::GAME_SCREEN));
     gui.get(screen_id.at(screen::GAME_SCREEN))->setVisible(false);
 }
