@@ -93,8 +93,9 @@ void player::buy_cannon_slot() {
 }
 
 void player::sell_cannon(int slot) {
+    assert(0 <= slot && slot < CANNONS_PER_AGE);
     std::unique_lock l(m_mutex);
-    if (m_cannons.at(slot).type() == cannon_type::NONE) {
+    if (slot >= m_cannons.size() || m_cannons[slot].type() == cannon_type::NONE) {
         return;
     }
     m_money += m_cannons[slot].stats().cost;
