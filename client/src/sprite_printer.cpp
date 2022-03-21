@@ -93,10 +93,11 @@ void sprite_printer::print_units(sf::RenderWindow *window,
             unit_picture = sprite_supplier::get_instance().get_tower_sprite(age_type::STONE, side);
             float hp_x = DELTA;
             if (side == sprite_supplier::player_side::RIGHT) {
-                hp_x = ROAD_WIDTH - 1.5 * hp_x; // Strange constant
+                hp_x = ROAD_WIDTH - 1.5 * hp_x;  // Strange constant
             }
             unit_hp_out.setPosition(hp_x, y_pos - DELTA - hp_len);
-            unit_hp_in.setPosition(hp_x, y_pos - DELTA - hp_len * unit.remaining_hp() / unit.stats().initial_hp);
+            unit_hp_in.setPosition(hp_x,
+                                   y_pos - DELTA - hp_len * unit.remaining_hp() / unit.stats().initial_hp);
             unit_hp_out.setSize({HP_HEIGHT, hp_len});
             unit_hp_in.setSize({HP_HEIGHT, hp_len * unit.remaining_hp() / unit.stats().initial_hp});
             unit_picture.setPosition(x_pos, y_pos);
@@ -155,14 +156,10 @@ void sprite_printer::print_cannons(sf::RenderWindow *window,
     for (int i = 0; i < cannons.size(); i++) {
         auto cannon = cannons[i];
         cannon_picture = sprite_supplier::get_instance().get_cannon_sprite(cannon.type(), side);
-        cannon_slot_picture = sprite_supplier::get_instance().get_cannon_slot_sprite({age_type::STONE, i + 1}, side);
+        cannon_slot_picture =
+            sprite_supplier::get_instance().get_cannon_slot_sprite({age_type::STONE, i + 1}, side);
 
-        if(cannon.type() != cannon_type::NONE) {
-            int sdfh = 5;
-            sdfh += 5;
-        }
-
-        float x_pos = CANNON_COEF * TOWER_WIDTH - BATTLE_DELTA;
+        float x_pos = 0.775 * TOWER_WIDTH;
         if (side == sprite_supplier::player_side::RIGHT) {
             x_pos = ROAD_WIDTH - x_pos + BATTLE_DELTA * 2;
         }
