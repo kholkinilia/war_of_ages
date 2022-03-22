@@ -152,7 +152,8 @@ void sprite_printer::print_bullets(sf::RenderWindow *window,
     for (auto bullet : bullets) {
         bullet_picture = sprite_supplier::get_instance().get_bullet_sprite(bullet.type(), side);
 
-        float x_pos = bullet.pos().x + TOWER_WIDTH - 3 * DELTA, y_pos = BACKGROUND_HEIGHT - DELTA - bullet.pos().y - bullet.stats().size.y;
+        float x_pos = bullet.pos().x + TOWER_WIDTH - 3 * DELTA,
+              y_pos = BACKGROUND_HEIGHT - DELTA - bullet.pos().y - bullet.stats().size.y;
         if (side == sprite_supplier::player_side::RIGHT) {
             x_pos = ROAD_WIDTH - x_pos;
         }
