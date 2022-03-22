@@ -11,19 +11,19 @@ namespace war_of_ages {
                                            const vec2f &pos2,
                                            const vec2f &size2) noexcept {
     /// AABB - AABB collision
-    bool collisionX = pos1.x >= pos2.x && pos2.x - size2.x <= pos2.x + size2.x;
+    bool collisionX = pos1.x >= pos2.x && pos1.x - size1.x <= pos2.x + size2.x;
     bool collisionY = pos1.y + size1.y >= pos2.y && pos2.y + size2.y >= pos1.y;
     return collisionX && collisionY;
 }
 
 bullet::bullet(bullet_type type, const vec2f &start, const vec2f &target) noexcept
-    : m_type{type}, m_pos{start}, m_dir{target.normalize()} {
+    : m_type{type}, m_pos{start}, m_dir{vec2f{target - start}.normalize()} {
 }
 
 void bullet::update(std::deque<unit> &enemies, float dt) {
     assert(m_is_alive);  // otherwise, it must be deleted by player::clear_dead_objects()
     m_pos += m_dir * speed() * dt;
-    if (m_pos.y <= 0) {
+    if (m_pos.y < 0) {
         m_is_alive = false;
         return;
     }
@@ -61,10 +61,11 @@ void bullet::update(std::deque<unit> &enemies, float dt) {
 
 [[nodiscard]] const bullet_stats &bullet::get_stats(bullet_type type) {
     const static bullet_stats stats[NUM_OF_CANNONS + NUM_OF_AGES] = {
-        {10, 400, {50, 50}},   {20, 400, {50, 50}},   {30, 400, {50, 50}},   {60, 400, {50, 50}},
-        {120, 400, {50, 50}},  {180, 400, {50, 50}},  {360, 400, {50, 50}},  {720, 400, {50, 50}},
-        {1080, 400, {50, 50}}, {2060, 400, {50, 50}}, {4120, 400, {50, 50}}, {6180, 400, {50, 50}},
-        {50, 250, {50, 50}},   {600, 250, {50, 50}},  {5400, 250, {50, 50}}, {30900, 250, {50, 50}},
+        {10, 400, {40, 40}},    {20, 400, {30, 30}},    {30, 400, {50, 50}},    {60, 400, {50, 50}},
+        {120, 400, {50, 50}},   {180, 400, {50, 50}},   {360, 400, {50, 50}},   {720, 400, {50, 50}},
+        {1080, 400, {50, 50}},  {2060, 400, {50, 50}},  {4120, 400, {50, 50}},  {6180, 400, {50, 50}},
+        {12360, 400, {50, 50}}, {24720, 400, {50, 50}}, {37080, 400, {50, 50}}, {50, 250, {70, 90}},
+        {300, 250, {50, 50}},   {5400, 250, {50, 50}},  {30900, 250, {50, 50}}, {185400, 250, {50, 50}},
     };
     return stats[static_cast<int>(type)];
 }
