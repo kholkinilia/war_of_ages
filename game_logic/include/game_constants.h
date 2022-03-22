@@ -17,8 +17,8 @@ constexpr int INITIAL_MONEY = 200;
 
 constexpr int CANNONS_SLOTS_COORD_X[] = {-DELTA * 5 / 4, -DELTA * 5 / 4, -DELTA * 5 / 4};
 constexpr int CANNONS_SLOTS_COORD_Y[] = {static_cast<int>(TOWER_WIDTH * CANNON_COEF) / 4 + 0 * CANNON_HEIGHT,
-                                         static_cast<int>(TOWER_WIDTH * CANNON_COEF) / 4 + 1 * CANNON_HEIGHT,
-                                         static_cast<int>(TOWER_WIDTH * CANNON_COEF) / 4 + 2 * CANNON_HEIGHT};
+                                         static_cast<int>(TOWER_WIDTH *CANNON_COEF) / 4 + 1 * CANNON_HEIGHT,
+                                         static_cast<int>(TOWER_WIDTH *CANNON_COEF) / 4 + 2 * CANNON_HEIGHT};
 constexpr int CANNONS_SLOTS_COSTS[] = {0, 500, 5000, 0};  // IDK, these are random values
 
 constexpr int NEXT_AGE_EXP[] = {400, 2000, 14000, 40000, 200000};

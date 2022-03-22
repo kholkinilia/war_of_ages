@@ -171,7 +171,8 @@ void sprite_printer::print_cannons(sf::RenderWindow *window,
         cannon_slot_picture =
             sprite_supplier::get_instance().get_cannon_slot_sprite({age_type::STONE, i + 1}, side);
 
-        float x_pos = TOWER_WIDTH - DELTA + CANNONS_SLOTS_COORD_X[i], y_pos = CANNONS_SLOTS_COORD_Y[i] + DELTA;
+        float x_pos = TOWER_WIDTH - DELTA + CANNONS_SLOTS_COORD_X[i],
+              y_pos = CANNONS_SLOTS_COORD_Y[i] + DELTA;
         if (side == sprite_supplier::player_side::RIGHT) {
             x_pos = ROAD_WIDTH - x_pos;
         }
