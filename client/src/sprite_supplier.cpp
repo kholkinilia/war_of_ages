@@ -134,8 +134,8 @@ sf::Sprite sprite_supplier::get_cannon_sprite(cannon_type c_type, sprite_supplie
     return reflect_if_needed(cannon_sprite[c_type], side);
 }
 
-sf::Sprite sprite_supplier::get_bullet_sprite(bullet_type b_type) {
-    return bullet_sprite[b_type];
+sf::Sprite sprite_supplier::get_bullet_sprite(bullet_type b_type, sprite_supplier::player_side side) {
+    return reflect_if_needed(bullet_sprite[b_type], side);
 }
 
 sprite_supplier::~sprite_supplier() {
