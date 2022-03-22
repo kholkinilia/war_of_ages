@@ -11,7 +11,7 @@ namespace war_of_ages {
                                            const vec2f &pos2,
                                            const vec2f &size2) noexcept {
     /// AABB - AABB collision
-    bool collisionX = pos1.x >= pos2.x && pos2.x - size2.x <= pos2.x + size2.x;
+    bool collisionX = pos1.x >= pos2.x && pos1.x - size1.x <= pos2.x + size2.x;
     bool collisionY = pos1.y + size1.y >= pos2.y && pos2.y + size2.y >= pos1.y;
     return collisionX && collisionY;
 }
@@ -23,7 +23,7 @@ bullet::bullet(bullet_type type, const vec2f &start, const vec2f &target) noexce
 void bullet::update(std::deque<unit> &enemies, float dt) {
     assert(m_is_alive);  // otherwise, it must be deleted by player::clear_dead_objects()
     m_pos += m_dir * speed() * dt;
-    if (m_pos.y - stats().size.y <= 0) {
+    if (m_pos.y < 0) {
         m_is_alive = false;
         return;
     }
