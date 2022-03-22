@@ -76,7 +76,7 @@ void player::buy_cannon(int cannon_level, int slot) {
     }
     m_money -= cost;
     m_cannons[slot] =
-        cannon{type, {CANNONS_SLOTS_COORD_X[cannon_level], CANNONS_SLOTS_COORD_Y[cannon_level]}};
+        cannon{type, {CANNONS_SLOTS_COORD_X[slot], CANNONS_SLOTS_COORD_Y[slot]}};
 }
 
 void player::buy_cannon_slot() {
