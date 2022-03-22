@@ -150,12 +150,10 @@ void sprite_printer::print_bullets(sf::RenderWindow *window,
                                    sprite_supplier::player_side side) {
     sf::Sprite bullet_picture;
     for (auto bullet : bullets) {
-        bullet_picture = sprite_supplier::get_instance().get_bullet_sprite(bullet.type());
+        bullet_picture = sprite_supplier::get_instance().get_bullet_sprite(bullet.type(), side);
 
-        float x_pos = bullet.pos().x + TOWER_WIDTH - 3 * DELTA, y_pos = BACKGROUND_HEIGHT - bullet.pos().y;
-        if (static_cast<int>(bullet.type()) < NUM_OF_CANNONS) {
-            x_pos += 0.5 * DELTA;
-        }
+        float x_pos = bullet.pos().x + TOWER_WIDTH - 3 * DELTA,
+              y_pos = BACKGROUND_HEIGHT - DELTA - bullet.pos().y - bullet.stats().size.y;
         if (side == sprite_supplier::player_side::RIGHT) {
             x_pos = ROAD_WIDTH - x_pos;
         }

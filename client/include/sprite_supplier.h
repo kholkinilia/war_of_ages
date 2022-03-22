@@ -24,7 +24,7 @@ public:
     sf::Sprite get_cannon_slot_sprite(std::pair<age_type, int> cs_type, player_side side);
     sf::Sprite get_unit_sprite(const unit &source_unit, player_side side);
     sf::Sprite get_cannon_sprite(cannon_type c_type, player_side side);
-    sf::Sprite get_bullet_sprite(bullet_type b_type);
+    sf::Sprite get_bullet_sprite(bullet_type b_type, player_side side);
 
     sprite_supplier(const sprite_supplier &) = delete;
     sprite_supplier(sprite_supplier &&) = default;
