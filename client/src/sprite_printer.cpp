@@ -103,7 +103,8 @@ void sprite_printer::print_units(sf::RenderWindow *window,
         else
             unit_hp_in.setFillColor({255, 0, 0, 255});
 
-        float x_pos = unit.position() + TOWER_WIDTH - DELTA, y_pos, hp_len;
+        float x_pos = unit.position() + TOWER_WIDTH, y_pos, hp_len;
+        if(unit.type() == unit_type::STONE_TOWER) x_pos -= DELTA;
         if (side == sprite_supplier::player_side::RIGHT) {
             x_pos = ROAD_WIDTH - x_pos;
         }
@@ -150,7 +151,7 @@ void sprite_printer::print_bullets(sf::RenderWindow *window,
     for (auto bullet : bullets) {
         bullet_picture = sprite_supplier::get_instance().get_bullet_sprite(bullet.type(), side);
 
-        float x_pos = bullet.pos().x + TOWER_WIDTH - DELTA,
+        float x_pos = bullet.pos().x + TOWER_WIDTH,
               y_pos = BACKGROUND_HEIGHT - DELTA - bullet.pos().y; // - bullet.stats().size.y;
         if (side == sprite_supplier::player_side::RIGHT) {
             x_pos = ROAD_WIDTH - x_pos;
@@ -171,7 +172,7 @@ void sprite_printer::print_cannons(sf::RenderWindow *window,
         cannon_slot_picture =
             sprite_supplier::get_instance().get_cannon_slot_sprite({age_type::STONE, i + 1}, side);
 
-        float x_pos = TOWER_WIDTH - DELTA + CANNONS_SLOTS_COORD_X[i],
+        float x_pos = TOWER_WIDTH + CANNONS_SLOTS_COORD_X[i],
               y_pos = CANNONS_SLOTS_COORD_Y[i] + DELTA;
         if (side == sprite_supplier::player_side::RIGHT) {
             x_pos = ROAD_WIDTH - x_pos;
