@@ -36,6 +36,8 @@ std::optional<bullet> cannon::update(unit &enemy, float dt) noexcept {
         if (m_attack_progress_s >= stats().attack_duration_s) {
             m_attack_progress_s -= stats().attack_duration_s;
         }
+    } else {
+        m_attack_progress_s = 0;
     }
     return {};
 }
