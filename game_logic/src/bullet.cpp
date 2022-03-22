@@ -1,19 +1,21 @@
 #include "../include/bullet.h"
 #include <algorithm>
 #include <cassert>
+#include <unordered_map>
 #include "../include/game_constants.h"
 
 namespace war_of_ages {
 
 // TODO: maybe move this function somewhere else?
-[[nodiscard]] static bool detect_collision(const vec2f &pos1,
-                                           const vec2f &size1,
-                                           const vec2f &pos2,
-                                           const vec2f &size2) noexcept {
+[[nodiscard]] static bool detect_collision(vec2f pos1, vec2f size1, vec2f pos2, vec2f size2) noexcept {
     /// AABB - AABB collision
-    bool collisionX = pos1.x >= pos2.x && pos1.x - size1.x <= pos2.x + size2.x;
-    bool collisionY = pos1.y + size1.y >= pos2.y && pos2.y + size2.y >= pos1.y;
-    return collisionX && collisionY;
+    bool collision_x = pos1.x >= pos2.x && pos1.x - size1.x <= pos2.x + size2.x;
+    bool collision_y = pos1.y + size1.y >= pos2.y && pos2.y + size2.y >= pos1.y;
+    return collision_x && collision_y;
+}
+
+bullet_stats::bullet_stats(int damage_, float speed_, vec2f size_) noexcept
+    : damage(damage_), speed(speed_), size(size_) {
 }
 
 bullet::bullet(bullet_type type, const vec2f &start, const vec2f &target) noexcept
@@ -60,14 +62,28 @@ void bullet::update(std::deque<unit> &enemies, float dt) {
 }
 
 [[nodiscard]] const bullet_stats &bullet::get_stats(bullet_type type) {
-    const static bullet_stats stats[NUM_OF_CANNONS + NUM_OF_AGES] = {
-        {10, 400, {40, 40}},    {20, 400, {30, 30}},    {30, 400, {50, 50}},    {60, 400, {50, 50}},
-        {120, 400, {50, 50}},   {180, 400, {50, 50}},   {360, 400, {50, 50}},   {720, 400, {50, 50}},
-        {1080, 400, {50, 50}},  {2060, 400, {50, 50}},  {4120, 400, {50, 50}},  {6180, 400, {50, 50}},
-        {12360, 400, {50, 50}}, {24720, 400, {50, 50}}, {37080, 400, {50, 50}}, {50, 250, {70, 90}},
-        {300, 250, {50, 50}},   {5400, 250, {50, 50}},  {30900, 250, {50, 50}}, {185400, 250, {50, 50}},
-    };
-    return stats[static_cast<int>(type)];
+    const static std::unordered_map<bullet_type, bullet_stats> stats = {
+        {bullet_type::STONE_LEVEL_1, {10, 400, {40, 40}}},
+        {bullet_type::STONE_LEVEL_2, {20, 400, {30, 30}}},
+        {bullet_type::STONE_LEVEL_3, {30, 400, {50, 50}}},
+        {bullet_type::CASTLE_LEVEL_1, {60, 400, {50, 50}}},
+        {bullet_type::CASTLE_LEVEL_2, {120, 400, {50, 50}}},
+        {bullet_type::CASTLE_LEVEL_3, {180, 400, {50, 50}}},
+        {bullet_type::RENAISSANCE_LEVEL_1, {360, 400, {50, 50}}},
+        {bullet_type::RENAISSANCE_LEVEL_2, {720, 400, {50, 50}}},
+        {bullet_type::RENAISSANCE_LEVEL_3, {1080, 400, {50, 50}}},
+        {bullet_type::MODERN_LEVEL_1, {2060, 400, {50, 50}}},
+        {bullet_type::MODERN_LEVEL_2, {4120, 400, {50, 50}}},
+        {bullet_type::MODERN_LEVEL_3, {6180, 400, {50, 50}}},
+        {bullet_type::FUTURE_LEVEL_1, {12360, 400, {50, 50}}},
+        {bullet_type::FUTURE_LEVEL_2, {24720, 400, {50, 50}}},
+        {bullet_type::FUTURE_LEVEL_3, {37080, 400, {50, 50}}},
+        {bullet_type::STONE_ULT, {50, 250, {70, 90}}},
+        {bullet_type::CASTLE_ULT, {300, 250, {50, 50}}},
+        {bullet_type::RENAISSANCE_ULT, {5400, 250, {50, 50}}},
+        {bullet_type::MODERN_ULT, {30900, 250, {50, 50}}},
+        {bullet_type::FUTURE_ULT, {185400, 250, {50, 50}}}};
+    return stats.at(type);
 }
 
 [[nodiscard]] int bullet::damage() const noexcept {
