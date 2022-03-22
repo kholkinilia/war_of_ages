@@ -11,7 +11,7 @@ namespace war_of_ages {
                                            const vec2f &pos2,
                                            const vec2f &size2) noexcept {
     /// AABB - AABB collision
-    bool collisionX = pos1.x + size1.x >= pos2.x && pos2.x + size2.x >= pos1.x;
+    bool collisionX = pos1.x >= pos2.x && pos2.x - size2.x <= pos2.x + size2.x;
     bool collisionY = pos1.y + size1.y >= pos2.y && pos2.y + size2.y >= pos1.y;
     return collisionX && collisionY;
 }
