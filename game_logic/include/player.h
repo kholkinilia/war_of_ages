@@ -26,10 +26,9 @@ struct player_snapshot {
 };
 
 struct player {
-    void update(player &enemy, float dt);  // need all enemies for ult
-    void buy_unit(int unit_level);  // unit_level in [0, NUM_OF_UNITS_IN_AGE), unit_type = NUM_OF_AGES *
-                                    // m_age + unit_level ???
-    void buy_cannon(int cannon_level, int slot);  // the same remark
+    void update(player &enemy, float dt);
+    void buy_unit(int unit_level);
+    void buy_cannon(int cannon_level, int slot);
     void buy_cannon_slot();
     void sell_cannon(int slot);
     void use_ult();
@@ -41,9 +40,9 @@ struct player {
     [[nodiscard]] enum age_type age() const;
     [[nodiscard]] int exp() const;
     [[nodiscard]] int money() const;
-    [[nodiscard]] std::deque<unit> units() const;       // Copy, not by & cause of multithreading
-    [[nodiscard]] std::vector<bullet> bullets() const;  // The same remark
-    [[nodiscard]] std::vector<cannon> cannons() const;  // The same remark
+    [[nodiscard]] std::deque<unit> units() const;
+    [[nodiscard]] std::vector<bullet> bullets() const;
+    [[nodiscard]] std::vector<cannon> cannons() const;
     [[nodiscard]] std::deque<unit> units_to_train() const;
     [[nodiscard]] bool is_alive() const;
     [[nodiscard]] player_snapshot snapshot() const;
