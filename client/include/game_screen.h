@@ -11,9 +11,9 @@ enum class action { BUY_UNIT, BUY_CANNON, SELL_CANNON };
 
 void game_screen_init(sf::View &v, tgui::Gui &gui);
 
-void setup_button(tgui::BitmapButton::Ptr &button);
+void setup_button(tgui::Button::Ptr &button, tgui::String name);
 
-void setup_buy_buttons(std::vector<tgui::Group::Ptr> &groups, action a);
+void setup_buttons_claster(std::vector<tgui::Group::Ptr> &groups, action a);
 }  // namespace war_of_ages
 
 #endif  // WAR_OF_AGES_GAME_SCREEN_H
