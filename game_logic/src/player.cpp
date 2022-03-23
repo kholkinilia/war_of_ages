@@ -118,7 +118,8 @@ void player::use_ult() {
     const int bullets_amount = 10;
     for (int i = 0; i < bullets_amount; ++i) {
         m_bullets.emplace_back(ult_type,
-                               vec2f{FIELD_LENGTH_PXLS / bullets_amount * static_cast<float>(i),
+                               vec2f{FIELD_LENGTH_PXLS / bullets_amount * static_cast<float>(i) +
+                                         static_cast<float>(x_offset(gen)),
                                      FIELD_HEIGHT_PXLS + static_cast<float>(y_offset(gen))},
                                vec2f{FIELD_LENGTH_PXLS / bullets_amount * static_cast<float>(i), 0.0f});
     }
