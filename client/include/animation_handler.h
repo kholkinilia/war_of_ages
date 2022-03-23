@@ -10,7 +10,6 @@ namespace war_of_ages {
 struct animation_handler {
 private:
     sf::Texture m_texture;
-    sf::Sprite m_sprite;
     std::vector<float> m_time_period;
     int m_rows = 1;
     int m_columns = 1;
