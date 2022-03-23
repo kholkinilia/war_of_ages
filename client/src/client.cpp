@@ -8,17 +8,6 @@ namespace war_of_ages {
 
 client_state::client_state(tgui::String handle_, screen cur_screen_)
     : handle(std::move(handle_)), cur_screen(cur_screen_) {
-    if (!battle_music.openFromFile("../client/resources/sounds/music/battle_music.wav")) {
-        // TODO: handle this case somehow
-    }
-    battle_music.setLoop(true);
-    battle_music.setVolume(50);
-    if (!lobby_music.openFromFile("../client/resources/sounds/music/lobby_music.wav")) {
-        // TODO: handle this case somehow
-    }
-    lobby_music.setLoop(true);
-    lobby_music.setVolume(50);
-    lobby_music.play();
 }
 
 tgui::String client_state::get_cur_screen_id() const {
@@ -49,6 +38,12 @@ vec2f client_state::get_view_center() {
 }
 void client_state::set_view_center(const vec2f &v) {
     view_center = v;
+}
+std::shared_ptr<sound_player> client_state::get_audio_player() const {
+    return audio_player;
+}
+void client_state::create_audio_player() {
+    audio_player = std::make_shared<sound_player>();
 }
 
 }  // namespace war_of_ages

@@ -33,12 +33,16 @@ void settings_screen_init(sf::View &v, tgui::Gui &gui) {
     lobby_music_volume_slider->setPosition("54%", "50%");
 
     battle_music_volume_slider->onValueChange(
-        [&battle_sounds_volume_slider](float new_value) { current_state.battle_music.setVolume(new_value); });
+        [&battle_sounds_volume_slider](float new_value) {
+            current_state.get_audio_player()->set_volume(sound_player::sound_type::BATTLE, new_value);
+        });
     lobby_music_volume_slider->onValueChange(
-        [&lobby_music_volume_slider](float new_value) { current_state.lobby_music.setVolume(new_value); });
-    battle_music_volume_slider->setValue(current_state.battle_music.getVolume());
-    battle_sounds_volume_slider->setValue(50);
-    lobby_music_volume_slider->setValue(current_state.lobby_music.getVolume());
+        [&lobby_music_volume_slider](float new_value) {
+            current_state.get_audio_player()->set_volume(sound_player::sound_type::LOBBY, new_value);
+        });
+    battle_music_volume_slider->setValue(current_state.get_audio_player()->get_volume(sound_player::sound_type::BATTLE));
+    // battle_sounds_volume_slider->setValue(50);
+    lobby_music_volume_slider->setValue(current_state.get_audio_player()->get_volume(sound_player::sound_type::LOBBY));
 
     settings_screen_group->add(battle_music_volume_label);
     settings_screen_group->add(battle_sounds_volume_label);
