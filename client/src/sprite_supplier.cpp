@@ -31,12 +31,12 @@ sprite_supplier::sprite_supplier() {
         {unit_type::CHARIOT, "../client/resources/game/units/stone/chariot_animated.png"}};
 
     const static std::unordered_map<unit_type, std::pair<int, int>> animation_size{
-        {unit_type::PEASANT, {2, 3}}, {unit_type::ARCHER, {2, 1}}, {unit_type::CHARIOT, {2, 1}}};
+        {unit_type::PEASANT, {2, 3}}, {unit_type::ARCHER, {2, 1}}, {unit_type::CHARIOT, {3, 6}}};
 
     const static std::unordered_map<unit_type, std::vector<float>> animation_time_periods{
         {unit_type::PEASANT, {0.5, unit::get_stats(unit_type::PEASANT).attack_duration_s}},
         {unit_type::ARCHER, {1, unit::get_stats(unit_type::ARCHER).attack_duration_s}},
-        {unit_type::CHARIOT, {1.5, unit::get_stats(unit_type::CHARIOT).attack_duration_s}}};
+        {unit_type::CHARIOT, {1.5, 1, unit::get_stats(unit_type::CHARIOT).attack_duration_s}}};
 
     const static std::unordered_map<cannon_type, std::string> cannon_texture_file{
         {cannon_type::STONE_LEVEL_1, "../client/resources/game/cannons/stone/level_1.png"},
@@ -72,9 +72,6 @@ sprite_supplier::sprite_supplier() {
             {u_type, animation_handler(filename, animation_time_periods.at(u_type), sz.first, sz.second,
                                        static_cast<int>(unit::get_stats(u_type).size.x),
                                        static_cast<int>(unit::get_stats(u_type).size.y))});
-
-        //            create_sprite_instance(filename, static_cast<int>(unit::get_stats(u_type).size.x),
-        //                                   static_cast<int>(unit::get_stats(u_type).size.y));
     }
 
     for (auto &[c_type, filename] : cannon_texture_file) {
@@ -123,6 +120,15 @@ sf::Sprite sprite_supplier::get_cannon_slot_sprite(std::pair<age_type, int> cs_t
 }
 
 sf::Sprite sprite_supplier::get_unit_sprite(const unit &source_unit, sprite_supplier::player_side side) {
+    if (source_unit.type() == unit_type::CHARIOT) {
+        // TODO : unify animations for all units
+        if (source_unit.is_walking()) {
+            return reflect_if_needed(
+                unit_sprite[source_unit.type()].get_sprite(0, source_unit.walking_time()), side);
+        }
+        return reflect_if_needed(unit_sprite[source_unit.type()].get_sprite(2, source_unit.attack_progress()),
+                                 side);
+    }
     if (source_unit.is_attacking()) {
         return reflect_if_needed(unit_sprite[source_unit.type()].get_sprite(1, source_unit.attack_progress()),
                                  side);
