@@ -123,8 +123,8 @@ sf::Sprite sprite_supplier::get_unit_sprite(const unit &source_unit, sprite_supp
     if (source_unit.type() == unit_type::CHARIOT) {
         // TODO : unify animations for all units
         if (source_unit.is_walking()) {
-            return reflect_if_needed(unit_sprite[source_unit.type()].get_sprite(0, source_unit.walking_time()),
-                                     side);
+            return reflect_if_needed(
+                unit_sprite[source_unit.type()].get_sprite(0, source_unit.walking_time()), side);
         }
         return reflect_if_needed(unit_sprite[source_unit.type()].get_sprite(2, source_unit.attack_progress()),
                                  side);
