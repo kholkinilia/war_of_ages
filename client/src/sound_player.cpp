@@ -3,7 +3,8 @@
 war_of_ages::sound_player::sound_player() {
     for (int i = 0; i < static_cast<int>(sound_type::ENUM_END); i++) {
         auto cur_sound = static_cast<sound_type>(i);
-        if (!sounds[cur_sound].openFromFile("../client/resources/sounds/music/" + to_string(cur_sound) + "_music.wav")) {
+        if (!sounds[cur_sound].openFromFile("../client/resources/sounds/music/" + to_string(cur_sound) +
+                                            "_music.wav")) {
             // TODO: handle this case somehow
         }
         sounds[cur_sound].setVolume(50);
@@ -36,7 +37,7 @@ float war_of_ages::sound_player::get_volume(war_of_ages::sound_player::sound_typ
     return sounds.at(type).getStatus() == sf::SoundSource::Status::Playing ? sounds.at(type).getVolume() : 50;
 }
 std::string war_of_ages::sound_player::to_string(sound_type type) {
-    switch(type) {
+    switch (type) {
         case sound_type::BATTLE:
             return "battle";
         case sound_type::LOBBY:

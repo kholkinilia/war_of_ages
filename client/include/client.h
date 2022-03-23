@@ -6,8 +6,8 @@
 #include <memory>
 #include "../../game_logic/include/game_state.h"
 #include "screen_defines.h"
-#include "tournament.h"
 #include "sound_player.h"
+#include "tournament.h"
 
 namespace war_of_ages {
 

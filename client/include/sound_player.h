@@ -5,11 +5,7 @@
 namespace war_of_ages {
 
 struct sound_player {
-    enum class sound_type {
-        BATTLE,
-        LOBBY,
-        ENUM_END
-    };
+    enum class sound_type { BATTLE, LOBBY, ENUM_END };
 
 public:
     sound_player();
@@ -24,6 +20,6 @@ private:
     std::string to_string(sound_type type);
 };
 
-}
+}  // namespace war_of_ages
 
 #endif  // WAR_OF_AGES_SOUND_PLAYER_H
