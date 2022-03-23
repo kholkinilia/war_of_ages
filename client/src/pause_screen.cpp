@@ -1,11 +1,11 @@
 #include "../include/pause_screen.h"
-#include "../include/ui_functions.h"
 #include "../include/client.h"
+#include "../include/ui_functions.h"
 
 // TGUI widgets
-#include <TGUI/Widgets/Label.hpp>
-#include <TGUI/Widgets/Group.hpp>
 #include <TGUI/Widgets/Button.hpp>
+#include <TGUI/Widgets/Group.hpp>
+#include <TGUI/Widgets/Label.hpp>
 #include <TGUI/Widgets/Slider.hpp>
 
 namespace war_of_ages {

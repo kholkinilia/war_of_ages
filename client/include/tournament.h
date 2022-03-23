@@ -4,8 +4,8 @@
 #include <TGUI/Widgets/Grid.hpp>  // tgui::Gui, tgui::Grid
 #include <map>
 #include <mutex>
-#include <vector>
 #include <string>
+#include <vector>
 
 namespace war_of_ages {
 
