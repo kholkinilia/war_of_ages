@@ -1,10 +1,11 @@
-#include <TGUI/Backend/SFML-Graphics.hpp>
 #include <chrono>
-#include "../include/client.h"
-#include "../include/game_object_size_constants.h"
 #include "../include/screens.h"
 #include "../include/sprite_printer.h"
 #include "../include/ui_functions.h"
+
+// TGUI widgets
+#include <TGUI/Widgets/Group.hpp>
+#include <TGUI/Widgets/Label.hpp>
 
 namespace war_of_ages {
 

@@ -1,7 +1,5 @@
 #include "../include/ui_functions.h"
-#include <TGUI/Backend/SFML-Graphics.hpp>
-#include <string>
-#include <vector>
+#include "../include/client.h"
 
 namespace war_of_ages {
 

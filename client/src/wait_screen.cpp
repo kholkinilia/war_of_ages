@@ -1,8 +1,10 @@
 #include "../include/wait_screen.h"
-#include <SFML/Graphics.hpp>
-#include <TGUI/Backend/SFML-Graphics.hpp>
-#include "../include/screen_defines.h"
 #include "../include/ui_functions.h"
+
+// TGUI widgets
+#include <TGUI/Widgets/Button.hpp>
+#include <TGUI/Widgets/Group.hpp>
+#include <TGUI/Widgets/Picture.hpp>
 
 namespace war_of_ages {
 

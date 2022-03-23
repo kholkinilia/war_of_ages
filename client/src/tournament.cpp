@@ -1,8 +1,5 @@
 #include "../include/tournament.h"
-#include <SFML/Graphics.hpp>
-#include <TGUI/Backend/SFML-Graphics.hpp>
-#include <TGUI/TGUI.hpp>
-#include <mutex>
+#include <TGUI/Widgets/Label.hpp>
 
 namespace war_of_ages {
 

@@ -4,6 +4,7 @@
 #include <TGUI/Backend/SFML-Graphics.hpp>
 #include <TGUI/Widgets/BitmapButton.hpp>
 #include <TGUI/Widgets/Group.hpp>
+#include <vector>
 
 namespace war_of_ages {
 enum class action { BUY_UNIT, BUY_CANNON, SELL_CANNON };

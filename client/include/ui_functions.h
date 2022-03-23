@@ -1,11 +1,9 @@
 #ifndef WAR_OF_AGES_UI_FUNCTIONS_H
 #define WAR_OF_AGES_UI_FUNCTIONS_H
 
-#include <SFML/Graphics.hpp>
 #include <TGUI/Backend/SFML-Graphics.hpp>
-#include <TGUI/TGUI.hpp>
 #include <vector>
-#include "../include/client.h"
+#include "screen_defines.h"
 
 namespace war_of_ages {
 

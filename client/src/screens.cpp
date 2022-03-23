@@ -1,5 +1,4 @@
 #include "../include/screens.h"
-#include <TGUI/Widgets/Group.hpp>
 
 // Screen headers
 

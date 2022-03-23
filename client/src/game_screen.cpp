@@ -1,9 +1,11 @@
 #include "../include/game_screen.h"
 #include <iostream>
-#include "../include/game_object_size_constants.h"
-#include "../include/screen_defines.h"
-#include "../include/sprite_supplier.h"
+#include "../include/client.h"
 #include "../include/ui_functions.h"
+
+// TGUI widgets
+#include <TGUI/Widgets/Label.hpp>
+#include <TGUI/Widgets/Picture.hpp>
 
 namespace war_of_ages {
 
