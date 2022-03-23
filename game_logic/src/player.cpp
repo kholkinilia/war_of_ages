@@ -131,7 +131,7 @@ void player::upgrade_age() {
         return;
     }
     m_age = static_cast<age_type>(age_num + 1);
-    // TODO: update tower's hp
+    m_units[0] = unit{static_cast<unit_type>(static_cast<int>(m_units[0].type()) + 1)};
 }
 
 void player::clear_dead_objects() {
