@@ -1,15 +1,16 @@
 #include "../include/player.h"
 #include <algorithm>
 #include <cassert>
+#include <random>
 
 namespace war_of_ages {
 
 void player::update(player &enemy, float dt) {
     std::scoped_lock l(m_mutex, enemy.m_mutex);
     auto &enemies = enemy.m_units;
-    for (auto it = m_units.rbegin(); it + 1 != m_units.rend(); ++it) {
-        auto &unit_ = *it;
-        unit_.update(enemies.back(), (it != m_units.rbegin() ? *(it - 1) : std::optional<unit>{}), dt);
+    for (auto unit_it = m_units.rbegin(); unit_it + 1 != m_units.rend(); ++unit_it) {
+        unit_it->update(enemies.back(),
+                        (unit_it != m_units.rbegin() ? *(unit_it - 1) : std::optional<unit>{}), dt);
     }
     for (auto &bullet_ : m_bullets) {
         bullet_.update(enemies, dt);
@@ -34,7 +35,7 @@ void player::update(player &enemy, float dt) {
     m_training_time_left = std::max(m_training_time_left - dt, 0.0f);
     if (m_training_time_left == 0.0 && !m_units_to_train.empty()) {
         m_units.push_front(m_units_to_train[0]);
-        std::swap(m_units[0], m_units[1]);
+        std::swap(m_units[0], m_units[1]);  // swap with tower
         m_units_to_train.pop_front();
         if (!m_units_to_train.empty()) {
             m_training_time_left = m_units_to_train[0].stats().time_to_train_s;
@@ -50,11 +51,10 @@ void player::buy_unit(int unit_level) {
     }
     auto type = static_cast<unit_type>(static_cast<int>(m_age) * UNITS_PER_AGE + unit_level);
     auto stats = unit::get_stats(type);
-    int cost = stats.cost;
-    if (m_money < cost) {
+    if (m_money < stats.cost) {
         return;
     }
-    m_money -= cost;
+    m_money -= stats.cost;
     if (m_units_to_train.empty()) {
         m_training_time_left = stats.time_to_train_s;
     }
@@ -74,22 +74,22 @@ void player::buy_cannon(int cannon_level, int slot) {
         return;
     }
     m_money -= cost;
-    m_cannons[slot] =
-        cannon{type, {CANNONS_SLOTS_COORD_X[cannon_level], CANNONS_SLOTS_COORD_Y[cannon_level]}};
+    m_cannons[slot] = cannon{type, {CANNONS_SLOTS_COORD_X[slot], CANNONS_SLOTS_COORD_Y[slot]}};
 }
 
 void player::buy_cannon_slot() {
     std::unique_lock l(m_mutex);
-    if (m_cannons.size() >= MAX_CANNON_SLOTS) {
+    std::size_t slot = m_cannons.size();
+    if (slot >= MAX_CANNON_SLOTS) {
         return;
     }
-    int cost = CANNONS_SLOTS_COSTS[m_cannons.size()];
+    int cost = CANNONS_SLOTS_COSTS[slot];
     if (m_money < cost) {
         return;
     }
     m_money -= cost;
-    m_cannons.emplace_back(cannon_type::NONE, vec2f{CANNONS_SLOTS_COORD_X[m_cannons.size()],
-                                                    CANNONS_SLOTS_COORD_Y[m_cannons.size()]});
+    m_cannons.emplace_back(cannon_type::NONE,
+                           vec2f{CANNONS_SLOTS_COORD_X[slot], CANNONS_SLOTS_COORD_Y[slot]});
 }
 
 void player::sell_cannon(int slot) {
@@ -98,7 +98,7 @@ void player::sell_cannon(int slot) {
     if (slot >= m_cannons.size() || m_cannons[slot].type() == cannon_type::NONE) {
         return;
     }
-    m_money += m_cannons[slot].stats().cost;
+    m_money += m_cannons[slot].stats().cost / 2;
     m_cannons[slot] =
         cannon{cannon_type::NONE,
                {CANNONS_SLOTS_COORD_X[m_cannons.size()], CANNONS_SLOTS_COORD_Y[m_cannons.size()]}};
@@ -110,12 +110,17 @@ void player::use_ult() {
         return;
     }
     m_ult_cooldown = ULT_COOLDOWN;
-    const int bullets_amount = 20;
+    auto ult_type = static_cast<bullet_type>(NUM_OF_CANNONS + static_cast<int>(m_age));
+    vec2f ult_size = bullet::get_stats(ult_type).size;
+    std::mt19937 gen(std::random_device{}());
+    std::uniform_real_distribution x_offset(0.0, 3.0 * ult_size.x);
+    std::uniform_real_distribution y_offset(0.0, 20.0 * ult_size.y);
+    const int bullets_amount = 10;
     for (int i = 0; i < bullets_amount; ++i) {
-        m_bullets.emplace_back(
-            static_cast<bullet_type>(NUM_OF_CANNONS + static_cast<int>(m_age)),
-            vec2f{FIELD_LENGTH_PXLS / bullets_amount * static_cast<float>(i), FIELD_HEIGHT_PXLS},
-            vec2f{FIELD_LENGTH_PXLS / bullets_amount * static_cast<float>(i), 0.0f});
+        m_bullets.emplace_back(ult_type,
+                               vec2f{FIELD_LENGTH_PXLS / bullets_amount * static_cast<float>(i),
+                                     FIELD_HEIGHT_PXLS + static_cast<float>(y_offset(gen))},
+                               vec2f{FIELD_LENGTH_PXLS / bullets_amount * static_cast<float>(i), 0.0f});
     }
 }
 
