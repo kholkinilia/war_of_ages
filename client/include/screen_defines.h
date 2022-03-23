@@ -16,7 +16,7 @@ enum class screen {
     END_GAME
 };
 
-inline const std::map<screen, tgui::String> screen_id{{screen::TOURNAMENT_CREATION, "tournament_creation"},
+inline const std::map<screen, std::string> screen_id{{screen::TOURNAMENT_CREATION, "tournament_creation"},
                                                       {screen::TOURNAMENT_JOINING, "tournament_joining"},
                                                       {screen::TOURNAMENT_MAIN, "tournament_main"},
                                                       {screen::START_SCREEN, "start_screen"},
