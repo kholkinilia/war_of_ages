@@ -6,7 +6,7 @@
 
 namespace war_of_ages {
 
-const cannon_stats &cannon::get_stats(cannon_type type) noexcept {
+[[nodiscard]] const cannon_stats &cannon::get_stats(cannon_type type) noexcept {
     const static std::unordered_map<cannon_type, cannon_stats> stats{
         {cannon_type::STONE_LEVEL_1, cannon_stats{bullet_type::STONE_LEVEL_1, 500, 2, 2, 700}},
         {cannon_type::STONE_LEVEL_2, cannon_stats{bullet_type::STONE_LEVEL_2, 1000, 1.75, 1.75, 1000}},
@@ -14,14 +14,15 @@ const cannon_stats &cannon::get_stats(cannon_type type) noexcept {
     return stats.at(type);
 }
 
-cannon::cannon(cannon_type type, vec2f muzzle_position) : m_type(type), m_muzzle_position(muzzle_position) {
+cannon::cannon(cannon_type type, vec2f muzzle_position) noexcept
+    : m_type(type), m_muzzle_position(muzzle_position) {
 }
 
-std::optional<bullet> cannon::update(unit &enemy, float dt) noexcept {
+[[nodiscard]] std::optional<bullet> cannon::update(unit &enemy, float dt) noexcept {
     if (m_type == cannon_type::NONE) {
-        return {};
+        return std::nullopt;
     }
-    float dist = FIELD_LENGTH_PXLS - enemy.position() - 1 - m_muzzle_position.x;
+    float dist = FIELD_LENGTH_PXLS - enemy.position() - m_muzzle_position.x;
     if (dist <= get_stats(m_type).attack_radius_pxls) {
         m_attack_progress_s += dt;
         if (m_attack_progress_s - dt <= stats().attack_time_s &&
@@ -29,9 +30,8 @@ std::optional<bullet> cannon::update(unit &enemy, float dt) noexcept {
             if (m_attack_progress_s >= stats().attack_duration_s) {
                 m_attack_progress_s -= stats().attack_duration_s;
             }
-            return bullet(
-                stats().b_type, m_muzzle_position,
-                {FIELD_LENGTH_PXLS - enemy.position() - 1, unit::get_stats(enemy.type()).size.y / 2});
+            return bullet(stats().b_type, m_muzzle_position,
+                          {FIELD_LENGTH_PXLS - enemy.position(), unit::get_stats(enemy.type()).size.y / 2});
         }
         if (m_attack_progress_s >= stats().attack_duration_s) {
             m_attack_progress_s -= stats().attack_duration_s;
@@ -39,21 +39,22 @@ std::optional<bullet> cannon::update(unit &enemy, float dt) noexcept {
     } else {
         m_attack_progress_s = 0;
     }
-    return {};
+    return std::nullopt;
 }
 
-cannon_type cannon::type() const noexcept {
+[[nodiscard]] cannon_type cannon::type() const noexcept {
     return m_type;
 }
 
-vec2f cannon::muzzle_position() const noexcept {
+[[nodiscard]] vec2f cannon::muzzle_position() const noexcept {
     return m_muzzle_position;
 }
 
-const cannon_stats &cannon::stats() const noexcept {
+[[nodiscard]] const cannon_stats &cannon::stats() const noexcept {
     return get_stats(m_type);
 }
-float cannon::attack_progress() const noexcept {
+
+[[nodiscard]] float cannon::attack_progress() const noexcept {
     return m_attack_progress_s;
 }
 

@@ -27,7 +27,7 @@ struct unit_stats {
                int damage_,
                int cost_,
                vec2f size,
-               float speed_);
+               float speed_) noexcept;
 };
 
 struct unit {
@@ -43,13 +43,12 @@ private:
     void move(float dt, float bound_position);
 
 public:
-    explicit unit(unit_type type);
+    explicit unit(unit_type type) noexcept;
 
     void update(unit &enemy, const std::optional<unit> &next_allied_unit, float dt) noexcept;
     void attack(unit &enemy) noexcept;
     void decrease_hp(int damage) noexcept;
     [[nodiscard]] bool is_alive() const noexcept;
-    [[nodiscard]] bool is_in(vec2f point) const noexcept;
     [[nodiscard]] float dist(unit &enemy) const noexcept;
 
     [[nodiscard]] float position() const noexcept;
