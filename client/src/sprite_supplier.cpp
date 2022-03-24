@@ -36,7 +36,7 @@ sprite_supplier::sprite_supplier() {
     const static std::unordered_map<unit_type, std::vector<float>> animation_time_periods{
         {unit_type::PEASANT, {0.5, unit::get_stats(unit_type::PEASANT).attack_duration_s}},
         {unit_type::ARCHER, {1, unit::get_stats(unit_type::ARCHER).attack_duration_s}},
-        {unit_type::CHARIOT, {1.5, 1, unit::get_stats(unit_type::CHARIOT).attack_duration_s}}};
+        {unit_type::CHARIOT, {1.5, unit::get_stats(unit_type::CHARIOT).attack_duration_s, 1}}};
 
     const static std::unordered_map<cannon_type, std::string> cannon_texture_file{
         {cannon_type::STONE_LEVEL_1, "../client/resources/game/cannons/stone/level_1.png"},
@@ -125,6 +125,10 @@ sf::Sprite sprite_supplier::get_unit_sprite(const unit &source_unit, sprite_supp
         if (source_unit.is_walking()) {
             return reflect_if_needed(
                 unit_sprite[source_unit.type()].get_sprite(0, source_unit.walking_time()), side);
+        }
+        if (source_unit.is_attacking()) {
+            return reflect_if_needed(
+                unit_sprite[source_unit.type()].get_sprite(1, source_unit.attack_progress()), side);
         }
         return reflect_if_needed(unit_sprite[source_unit.type()].get_sprite(2, source_unit.attack_progress()),
                                  side);

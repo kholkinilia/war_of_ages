@@ -11,7 +11,7 @@ struct animation_handler {
 private:
     sf::Texture m_texture;
     std::vector<float> m_time_period;
-    int m_rows = 1;
+    int m_rows = 1;  // TODO: think if it will be needed for anything in future
     int m_columns = 1;
     int m_each_width_pxls = 0;
     int m_each_height_pxls = 0;
