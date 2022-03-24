@@ -1,8 +1,4 @@
 #include "../include/client.h"
-#include <SFML/Graphics.hpp>
-#include <TGUI/Backend/SFML-Graphics.hpp>
-#include <TGUI/TGUI.hpp>
-#include <utility>
 
 namespace war_of_ages {
 

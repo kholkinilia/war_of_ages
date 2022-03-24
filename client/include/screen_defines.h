@@ -1,6 +1,9 @@
 #ifndef WAR_OF_AGES_SCREEN_DEFINES_H
 #define WAR_OF_AGES_SCREEN_DEFINES_H
 
+#include <string>
+#include <map>
+
 namespace war_of_ages {
 
 enum class screen {
