@@ -10,9 +10,7 @@ namespace war_of_ages {
 
 void opponent_waiting_screen_init(tgui::Gui &gui) {
     auto opponent_waiting_screen_group = tgui::Group::create();
-    sf::Texture t;
-    t.loadFromFile("../client/resources/pictures/loading.png");
-    auto loading = tgui::Picture::create(t);
+    auto loading = tgui::Picture::create("../client/resources/pictures/loading.png");
     opponent_waiting_screen_group->add(loading, "image");
 
     auto return_button = tgui::Button::create("В главное меню");

@@ -1,4 +1,5 @@
 #include "../include/end_game_screen.h"
+#include "../include/client.h"
 #include "../include/ui_functions.h"
 
 // TGUI widgets
@@ -7,6 +8,14 @@
 #include <TGUI/Widgets/Label.hpp>
 
 namespace war_of_ages {
+void check_game_end(tgui::Gui &gui) {
+    if (war_of_ages::current_state.get_cur_game_state() != nullptr &&
+        war_of_ages::current_state.get_cur_game_state()->get_game_status() !=
+            war_of_ages::game_status::PROCESSING) {
+        show_screen(gui, war_of_ages::screen::END_GAME, war_of_ages::screen::GAME_SCREEN);
+    }
+}
+
 void end_game_screen_init(tgui::Gui &gui) {
     auto end_game_screen_group = tgui::Group::create();
 

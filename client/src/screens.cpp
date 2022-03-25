@@ -1,4 +1,5 @@
 #include "../include/screens.h"
+#include <TGUI/Widgets/Label.hpp>
 
 // Screen headers
 
@@ -10,6 +11,7 @@
 #include "../include/sprite_printer.h"
 #include "../include/start_screen.h"
 #include "../include/tournament_screens.h"
+#include "../include/ui_functions.h"
 #include "../include/wait_screen.h"
 
 namespace war_of_ages {
@@ -44,6 +46,7 @@ void screens_init(sf::View &v, tgui::Gui &gui) {
 }
 
 void update_screens(tgui::Gui &gui, const client_state &state, sf::RenderWindow *window) {
+    update_fps(gui.get("fps_label")->cast<tgui::Label>());
     switch (state.get_cur_screen()) {
         case screen::TOURNAMENT_MAIN: {
             // TODO: uncomment, when tournament logic is implemented
@@ -55,8 +58,7 @@ void update_screens(tgui::Gui &gui, const client_state &state, sf::RenderWindow 
         case screen::GAME_SCREEN: {
             if (state.get_cur_game_state() == nullptr)
                 return;
-            sprite_printer s;
-            s.print(gui, window, state.get_cur_game_state());
+            print(gui, window, state.get_cur_game_state());
         }
         default:
             break;
