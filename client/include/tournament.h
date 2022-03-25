@@ -1,10 +1,10 @@
 #ifndef WAR_OF_AGES_TOURNAMENT_H
 #define WAR_OF_AGES_TOURNAMENT_H
 
-#include <TGUI/Backend/SFML-Graphics.hpp>  // tgui::Gui, tgui::String
-#include <TGUI/Widgets/Grid.hpp>           // tgui::Grid
+#include <TGUI/Widgets/Grid.hpp>  // tgui::Gui, tgui::Grid
 #include <map>
 #include <mutex>
+#include <string>
 #include <vector>
 
 namespace war_of_ages {
@@ -14,8 +14,8 @@ private:
     enum class result { NONE, VICTORY, DEFEAT };
     static inline const int WIN_POINTS = 1;
     int part_number = 0;
-    std::vector<tgui::String> participants;
-    std::map<tgui::String, int> id;
+    std::vector<std::string> participants;
+    std::map<std::string, int> id;
     std::vector<std::vector<result>> match_results;
     std::vector<int> sum;
     std::vector<int> place;
@@ -25,11 +25,11 @@ private:
     void update_places_lock_held();
 
 public:
-    void add_participant(const tgui::String &handle);
+    void add_participant(const std::string &handle);
 
-    void add_result(const tgui::String &winner, const tgui::String &loser);
+    void add_result(const std::string &winner, const std::string &loser);
 
-    void remove_participant(const tgui::String &handle);
+    void remove_participant(const std::string &handle);
 
     void update_grid(const tgui::Grid::Ptr &grid);
 };

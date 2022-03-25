@@ -1,21 +1,21 @@
 #include "../include/game_screen.h"
-#include <iostream>
-#include "../include/game_object_size_constants.h"
-#include "../include/screen_defines.h"
-#include "../include/sprite_supplier.h"
+#include <TGUI/Widgets/Button.hpp>
+#include <TGUI/Widgets/Group.hpp>
+#include <TGUI/Widgets/Label.hpp>
+#include <TGUI/Widgets/Picture.hpp>
+#include "../include/client.h"
 #include "../include/ui_functions.h"
 
 namespace war_of_ages {
 
-void setup_button(tgui::BitmapButton::Ptr &button) {
+enum class action { BUY_UNIT, BUY_CANNON, SELL_CANNON };
+
+static void setup_button(tgui::Button::Ptr &button, tgui::String name) {
+    button->getRenderer()->setTexture(tgui::String(std::move(name)));
     button->getRenderer()->setBorders(0);
-    button->setImageScaling(1);
-    button->getRenderer()->setBackgroundColor(tgui::Color::Transparent);
-    button->getRenderer()->setBackgroundColorDown(tgui::Color::Transparent);
-    button->getRenderer()->setBackgroundColorHover(tgui::Color::Transparent);
 }
 
-tgui::String get_filename(action a, int i) {
+[[nodiscard]] static tgui::String get_filename(action a, int i) noexcept {
     switch (a) {
         case action::BUY_UNIT:
             return tgui::String("../client/resources/game/units/stone/mini/") +
@@ -29,7 +29,7 @@ tgui::String get_filename(action a, int i) {
     }
 }
 
-void setup_buy_buttons(std::vector<tgui::Group::Ptr> &groups, action a) {
+static void setup_buttons_claster(std::vector<tgui::Group::Ptr> &groups, action a) {
     static int k = 4;
     int n;
     switch (a) {
@@ -44,18 +44,16 @@ void setup_buy_buttons(std::vector<tgui::Group::Ptr> &groups, action a) {
     }
     for (int i = 0; i < n; i++, k++) {
         groups[i] = tgui::Group::create();
-        auto button = tgui::BitmapButton::create();
-        button->setImage(get_filename(a, i));
-        setup_button(button);
+        auto button = tgui::Button::create();
+        setup_button(button, get_filename(a, i));
         button->setPosition(BACKGROUND_WIDTH - DELTA_X * k, BUTTON_Y);
         button->setSize(BUTTON_WIDTH, BUTTON_HEIGHT);
         button->onPress([i, a]() {
-            std::vector<std::unique_ptr<game_command>> v;
             int slot = 0;
             auto cannons = current_state.get_cur_game_state()->snapshot_players().first.cannons;
             switch (a) {
                 case action::BUY_UNIT:
-                    v.push_back(std::make_unique<buy_unit_command>(i));
+                    current_state.add_action(0, std::make_unique<buy_unit_command>(i));
                     break;
                 case action::BUY_CANNON:
                     for (int j = 0; j < cannons.size(); j++) {
@@ -65,15 +63,11 @@ void setup_buy_buttons(std::vector<tgui::Group::Ptr> &groups, action a) {
                             break;
                         }
                     }
-                    v.push_back(std::make_unique<buy_cannon_command>(i, slot));
+                    current_state.add_action(0, std::make_unique<buy_cannon_command>(i, slot));
                     break;
                 default:
-                    v.push_back(std::make_unique<sell_cannon_command>(i));
+                    current_state.add_action(0, std::make_unique<sell_cannon_command>(i));
             }
-            /* if (rand() % 3 > 0 && a == action::BUY_UNIT)
-                current_state.get_cur_game_state()->update({}, v, 1.f * clock() / CLOCKS_PER_SEC);
-            else */ // Uncomment for debug
-            current_state.get_cur_game_state()->update(v, {}, 1.f * clock() / CLOCKS_PER_SEC);
         });
         groups[i]->add(button, std::to_string(i));
 
@@ -103,30 +97,24 @@ void setup_buy_buttons(std::vector<tgui::Group::Ptr> &groups, action a) {
 void game_screen_init(sf::View &v, tgui::Gui &gui) {
     auto game_screen_group = tgui::Group::create();
 
-    auto autobattle_button = tgui::BitmapButton::create();
-    autobattle_button->setImage("../client/resources/pictures/autobattle.png");
-    setup_button(autobattle_button);
+    auto autobattle_button = tgui::Button::create();
+    setup_button(autobattle_button, "../client/resources/pictures/autobattle.png");
     autobattle_button->setPosition(BACKGROUND_WIDTH - DELTA_X, BUTTON_Y);
     autobattle_button->setSize(BUTTON_WIDTH, BUTTON_HEIGHT);
     autobattle_button->onPress([]() { std::cout << "AUTOBATTLE" << std::endl; });
 
-    auto new_era_button = tgui::BitmapButton::create();
-    new_era_button->setImage("../client/resources/pictures/new_era.jpg");
-    setup_button(new_era_button);
+    auto new_era_button = tgui::Button::create();
+    setup_button(new_era_button, "../client/resources/pictures/new_era.jpg");
     new_era_button->setPosition(BACKGROUND_WIDTH - DELTA_X * 2, BUTTON_Y);
     new_era_button->setSize(BUTTON_WIDTH, BUTTON_HEIGHT);
     new_era_button->onPress([]() { std::cout << "NEW ERA" << std::endl; });
 
-    auto plus_place_cannon_button = tgui::BitmapButton::create();
-    plus_place_cannon_button->setImage("../client/resources/pictures/plus_embrasure.jpg");
-    setup_button(plus_place_cannon_button);
+    auto plus_place_cannon_button = tgui::Button::create();
+    setup_button(plus_place_cannon_button, "../client/resources/pictures/plus_embrasure.jpg");
     plus_place_cannon_button->setPosition(BACKGROUND_WIDTH - DELTA_X * 3, BUTTON_Y);
     plus_place_cannon_button->setSize(BUTTON_WIDTH, BUTTON_HEIGHT);
-    plus_place_cannon_button->onPress([]() {
-        std::vector<std::unique_ptr<game_command>> v;
-        v.push_back(std::make_unique<buy_cannon_slot_command>());
-        current_state.get_cur_game_state()->update(v, {}, 1.f * clock() / CLOCKS_PER_SEC);
-    });
+    plus_place_cannon_button->onPress(
+        []() { current_state.add_action(0, std::make_unique<buy_cannon_slot_command>()); });
     auto plus_place_cannon_coin_image = tgui::Picture::create("../client/resources/pictures/coin.jpeg");
     plus_place_cannon_coin_image->setPosition(BACKGROUND_WIDTH - DELTA_X * 3, FPS_LABEL_HEIGHT);
     plus_place_cannon_coin_image->setSize(COST_WIDTH, COST_HEIGHT);
@@ -137,26 +125,25 @@ void game_screen_init(sf::View &v, tgui::Gui &gui) {
                                               FPS_LABEL_HEIGHT + 3);
 
     std::vector<tgui::Group::Ptr> cannon_groups(CANNONS_PER_AGE);
-    setup_buy_buttons(cannon_groups, action::BUY_CANNON);
+    setup_buttons_claster(cannon_groups, action::BUY_CANNON);
     for (int i = 0; i < CANNONS_PER_AGE; i++) {
         game_screen_group->add(cannon_groups[i], "cannon_" + std::to_string(i));
     }
 
     std::vector<tgui::Group::Ptr> unit_groups(UNITS_PER_AGE);
-    setup_buy_buttons(unit_groups, action::BUY_UNIT);
+    setup_buttons_claster(unit_groups, action::BUY_UNIT);
     for (int i = 0; i < UNITS_PER_AGE; i++) {
         game_screen_group->add(unit_groups[i], "unit_" + std::to_string(i));
     }
 
     std::vector<tgui::Group::Ptr> sell_cannon_groups(CANNONS_PER_AGE);
-    setup_buy_buttons(sell_cannon_groups, action::SELL_CANNON);
+    setup_buttons_claster(sell_cannon_groups, action::SELL_CANNON);
     for (int i = 0; i < CANNONS_PER_AGE; i++) {
         game_screen_group->add(sell_cannon_groups[i], "sell_cannon_" + std::to_string(i));
     }
 
-    auto pause_button = tgui::BitmapButton::create();
-    pause_button->setImage("../client/resources/pictures/blue_settings_icon.png");
-    setup_button(pause_button);
+    auto pause_button = tgui::Button::create();
+    setup_button(pause_button, "../client/resources/pictures/settings_icon.png");
     pause_button->setPosition(0, FPS_LABEL_HEIGHT);
     pause_button->setSize(BUTTON_WIDTH, BUTTON_HEIGHT);
     pause_button->onPress([&gui, &v]() {
@@ -164,16 +151,12 @@ void game_screen_init(sf::View &v, tgui::Gui &gui) {
         show_screen(gui, screen::PAUSE, screen::GAME_SCREEN);
     });
 
-    auto ulta_button = tgui::BitmapButton::create();
+    auto ulta_button = tgui::Button::create();
     ulta_button->setText("ULTA");
     ulta_button->setTextSize(50);
     ulta_button->setPosition(BACKGROUND_WIDTH - DELTA_X * 3, BUTTON_Y + BUTTON_HEIGHT + HP_HEIGHT);
     ulta_button->setSize(BUTTON_WIDTH * 4, BUTTON_HEIGHT);
-    ulta_button->onPress([]() {
-        std::vector<std::unique_ptr<game_command>> v;
-        v.push_back(std::make_unique<use_ult_command>());
-        current_state.get_cur_game_state()->update(v, {}, 1.f * clock() / CLOCKS_PER_SEC);
-    });
+    ulta_button->onPress([]() { current_state.add_action(0, std::make_unique<use_ult_command>()); });
 
     auto coin_image = tgui::Picture::create("../client/resources/pictures/coin.jpeg");
     coin_image->setPosition(BUTTON_WIDTH, FPS_LABEL_HEIGHT);
