@@ -7,7 +7,7 @@
 
 namespace war_of_ages {
 
-std::vector<std::unique_ptr<game_command>> generate_actions(const player_snapshot &player);
+void generate_actions(int index, const player_snapshot &player);
 
 }  // namespace war_of_ages
 

@@ -2,6 +2,7 @@
 #include <TGUI/Widgets/BitmapButton.hpp>
 #include <TGUI/Widgets/Group.hpp>
 #include <TGUI/Widgets/Label.hpp>
+#include "../include/bot.h"
 #include "../include/client.h"
 #include "../include/game_object_size_constants.h"
 #include "../include/sprite_supplier.h"
@@ -102,6 +103,10 @@ static void print_cannons(sf::RenderWindow *window,
 }
 
 void print(tgui::Gui &gui, sf::RenderWindow *window, const std::shared_ptr<game_state> &state) {
+    if(state->get_bot_status(0))
+        generate_actions(0, state->snapshot_players().first);
+    if(state->get_bot_status(1))
+        generate_actions(1, state->snapshot_players().second);
     state->update(current_state.get_player_actions()[0], current_state.get_player_actions()[1],
                   1.f * clock() / CLOCKS_PER_SEC);
     current_state.clear_actions();

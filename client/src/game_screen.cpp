@@ -49,6 +49,8 @@ static void setup_buttons_claster(std::vector<tgui::Group::Ptr> &groups, action 
         button->setPosition(BACKGROUND_WIDTH - DELTA_X * k, BUTTON_Y);
         button->setSize(BUTTON_WIDTH, BUTTON_HEIGHT);
         button->onPress([i, a]() {
+            if (current_state.get_cur_game_state()->get_bot_status(0))
+                return;
             int slot = 0;
             auto cannons = current_state.get_cur_game_state()->snapshot_players().first.cannons;
             switch (a) {
@@ -116,8 +118,11 @@ void game_screen_init(sf::View &v, tgui::Gui &gui) {
     setup_button(plus_place_cannon_button, "../client/resources/pictures/plus_embrasure.jpg");
     plus_place_cannon_button->setPosition(BACKGROUND_WIDTH - DELTA_X * 3, BUTTON_Y);
     plus_place_cannon_button->setSize(BUTTON_WIDTH, BUTTON_HEIGHT);
-    plus_place_cannon_button->onPress(
-        []() { current_state.add_action(0, std::make_unique<buy_cannon_slot_command>()); });
+    plus_place_cannon_button->onPress([]() {
+        if (current_state.get_cur_game_state()->get_bot_status(0))
+            return;
+        current_state.add_action(0, std::make_unique<buy_cannon_slot_command>());
+    });
     auto plus_place_cannon_coin_image = tgui::Picture::create("../client/resources/pictures/coin.jpeg");
     plus_place_cannon_coin_image->setPosition(BACKGROUND_WIDTH - DELTA_X * 3, FPS_LABEL_HEIGHT);
     plus_place_cannon_coin_image->setSize(COST_WIDTH, COST_HEIGHT);
@@ -159,7 +164,11 @@ void game_screen_init(sf::View &v, tgui::Gui &gui) {
     ulta_button->setTextSize(50);
     ulta_button->setPosition(BACKGROUND_WIDTH - DELTA_X * 3, BUTTON_Y + BUTTON_HEIGHT + HP_HEIGHT);
     ulta_button->setSize(BUTTON_WIDTH * 4, BUTTON_HEIGHT);
-    ulta_button->onPress([]() { current_state.add_action(0, std::make_unique<use_ult_command>()); });
+    ulta_button->onPress([]() {
+        if (current_state.get_cur_game_state()->get_bot_status(0))
+            return;
+        current_state.add_action(0, std::make_unique<use_ult_command>());
+    });
 
     auto coin_image = tgui::Picture::create("../client/resources/pictures/coin.jpeg");
     coin_image->setPosition(BUTTON_WIDTH, FPS_LABEL_HEIGHT);
