@@ -14,6 +14,7 @@ struct game_state {
 private:
     player p1, p2;
     float state_time;
+    std::vector<bool> is_bot;
 
 public:
     explicit game_state(float start_time);
@@ -26,6 +27,7 @@ public:
     [[nodiscard]] std::pair<player_snapshot, player_snapshot> snapshot_players() const;
     [[nodiscard]] game_status get_game_status() const;
     void return_from_pause(float return_time) noexcept;
+    void set_bot(int index, bool is_bot_status);
 };
 
 }  // namespace war_of_ages

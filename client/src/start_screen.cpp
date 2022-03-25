@@ -1,4 +1,5 @@
 #include "../include/start_screen.h"
+#include "../include/client.h"
 #include "../include/ui_functions.h"
 
 // TGUI widgets
@@ -11,7 +12,10 @@ void start_screen_init(tgui::Gui &gui) {
 
     tgui::Button::Ptr singleplayer_button = tgui::Button::create("Одиночная игра");
     singleplayer_button->setTextSize(30);
-    singleplayer_button->onPress([&gui]() { show_screen(gui, screen::GAME_SCREEN, screen::START_SCREEN); });
+    singleplayer_button->onPress([&gui]() {
+      show_screen(gui, screen::GAME_SCREEN, screen::START_SCREEN);
+      current_state.get_cur_game_state()->set_bot(1, true);
+    });
     start_screen_group->add(singleplayer_button);
 
     tgui::Button::Ptr multiplayer_button = tgui::Button::create("Мультиплеер");

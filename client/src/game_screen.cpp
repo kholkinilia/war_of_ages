@@ -105,7 +105,10 @@ void game_screen_init(sf::View &v, tgui::Gui &gui) {
     setup_button(autobattle_button, "../client/resources/pictures/autobattle.png");
     autobattle_button->setPosition(BACKGROUND_WIDTH - DELTA_X, BUTTON_Y);
     autobattle_button->setSize(BUTTON_WIDTH, BUTTON_HEIGHT);
-    autobattle_button->onPress([]() { std::cout << "AUTOBATTLE" << std::endl; });
+    autobattle_button->onPress([]() {
+        current_state.get_cur_game_state()->set_bot(0, true);
+        std::cout << "AUTOBATTLE" << std::endl;
+    });
 
     auto new_era_button = tgui::Button::create();
     setup_button(new_era_button, "../client/resources/pictures/new_era.jpg");
