@@ -57,8 +57,13 @@ void game_state::update(std::vector<std::unique_ptr<game_command>> &&p1_commands
                         float time) {
     update(p1_commands, p2_commands, time);
 }
+
 void game_state::set_bot(int index, bool is_bot_status) {
     is_bot[index] = is_bot_status;
+}
+
+bool game_state::get_bot_status(int index) {
+    return is_bot[index];
 }
 
 }  // namespace war_of_ages

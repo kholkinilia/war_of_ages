@@ -28,6 +28,7 @@ public:
     [[nodiscard]] game_status get_game_status() const;
     void return_from_pause(float return_time) noexcept;
     void set_bot(int index, bool is_bot_status);
+    bool get_bot_status(int index);
 };
 
 }  // namespace war_of_ages

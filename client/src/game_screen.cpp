@@ -106,8 +106,8 @@ void game_screen_init(sf::View &v, tgui::Gui &gui) {
     autobattle_button->setPosition(BACKGROUND_WIDTH - DELTA_X, BUTTON_Y);
     autobattle_button->setSize(BUTTON_WIDTH, BUTTON_HEIGHT);
     autobattle_button->onPress([]() {
-        current_state.get_cur_game_state()->set_bot(0, true);
-        std::cout << "AUTOBATTLE" << std::endl;
+        current_state.get_cur_game_state()->set_bot(0,
+                                                    !current_state.get_cur_game_state()->get_bot_status(0));
     });
 
     auto new_era_button = tgui::Button::create();
