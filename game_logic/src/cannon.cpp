@@ -6,7 +6,7 @@
 
 namespace war_of_ages {
 
-[[nodiscard]] const cannon_stats &cannon::get_stats(cannon_type type) noexcept {
+const cannon_stats &cannon::get_stats(cannon_type type) noexcept {
     const static std::unordered_map<cannon_type, cannon_stats> stats{
         {cannon_type::STONE_LEVEL_1, cannon_stats{bullet_type::STONE_LEVEL_1, 500, 2, 2, 700}},
         {cannon_type::STONE_LEVEL_2, cannon_stats{bullet_type::STONE_LEVEL_2, 1000, 1.75, 1.75, 1000}},
@@ -18,7 +18,7 @@ cannon::cannon(cannon_type type, vec2f muzzle_position) noexcept
     : m_type(type), m_muzzle_position(muzzle_position) {
 }
 
-[[nodiscard]] std::optional<bullet> cannon::update(unit &enemy, float dt) noexcept {
+std::optional<bullet> cannon::update(unit &enemy, float dt) noexcept {
     if (m_type == cannon_type::NONE) {
         return std::nullopt;
     }
@@ -42,19 +42,19 @@ cannon::cannon(cannon_type type, vec2f muzzle_position) noexcept
     return std::nullopt;
 }
 
-[[nodiscard]] cannon_type cannon::type() const noexcept {
+cannon_type cannon::type() const noexcept {
     return m_type;
 }
 
-[[nodiscard]] vec2f cannon::muzzle_position() const noexcept {
+vec2f cannon::muzzle_position() const noexcept {
     return m_muzzle_position;
 }
 
-[[nodiscard]] const cannon_stats &cannon::stats() const noexcept {
+const cannon_stats &cannon::stats() const noexcept {
     return get_stats(m_type);
 }
 
-[[nodiscard]] float cannon::attack_progress() const noexcept {
+float cannon::attack_progress() const noexcept {
     return m_attack_progress_s;
 }
 
