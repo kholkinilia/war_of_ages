@@ -39,7 +39,8 @@ void client_state::reset_game() {
     cur_game->reset();
 }
 void client_state::create_game(game_mode mode) {
-    std::vector<game_handler::player_type> types{game_handler::player_type::CLIENT, game_handler::player_type::BOT};
+    std::vector<game_handler::player_type> types{game_handler::player_type::CLIENT,
+                                                 game_handler::player_type::BOT};
     if (mode == game_mode::MULTI) {
         types[1] = game_handler::player_type::NETWORK;
     }

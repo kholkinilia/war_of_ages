@@ -18,6 +18,7 @@ public:
     void clear_actions();
     void set_receiver(int index, player_type type);
     player_type get_type(int index);
+
 private:
     std::shared_ptr<game_state> cur_game_state;
     std::vector<std::shared_ptr<actions_receiver>> receivers;
