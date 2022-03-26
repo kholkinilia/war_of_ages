@@ -39,14 +39,11 @@ void client_state::reset_game() {
     cur_game->reset();
 }
 void client_state::create_game(game_mode mode) {
-    std::vector<std::shared_ptr<actions_receiver>> receivers{std::make_shared<player_actions_receiver>(),
-                                                             nullptr};
-    if (mode == game_mode::SINGLE) {
-        receivers[1] = std::make_shared<bot_actions_receiver>();
-    } else {
-        receivers[1] = std::make_shared<network_actions_receiver>();
+    std::vector<game_handler::player_type> types{game_handler::player_type::CLIENT, game_handler::player_type::BOT};
+    if (mode == game_mode::MULTI) {
+        types[1] = game_handler::player_type::NETWORK;
     }
-    cur_game = std::make_shared<game_handler>(receivers);
+    cur_game = std::make_shared<game_handler>(types);
 }
 std::shared_ptr<game_handler> client_state::get_cur_game() const noexcept {
     return cur_game;

@@ -8,18 +8,22 @@
 namespace war_of_ages {
 
 struct game_handler {
-private:
-    std::shared_ptr<game_state> cur_game_state;
-    std::vector<std::shared_ptr<actions_receiver>> receivers;
 public:
-    explicit game_handler(std::vector<std::shared_ptr<actions_receiver>> receivers_);
+    enum class player_type { CLIENT, BOT, NETWORK };
+    explicit game_handler(const std::vector<player_type> &types_);
     [[nodiscard]] std::shared_ptr<game_state> get_cur_game_state() const;
     void reset();
     std::vector<std::unique_ptr<game_command>> const &get_actions(int index, player_snapshot p);
     void append_action(int index, std::unique_ptr<game_command> cmd);
     void clear_actions();
+    void set_receiver(int index, player_type type);
+    player_type get_type(int index);
+private:
+    std::shared_ptr<game_state> cur_game_state;
+    std::vector<std::shared_ptr<actions_receiver>> receivers;
+    std::vector<player_type> types;
 };
 
-}
+}  // namespace war_of_ages
 
 #endif  // WAR_OF_AGES_GAME_HANDLER_H

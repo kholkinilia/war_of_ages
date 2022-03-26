@@ -3,6 +3,7 @@
 #include <TGUI/Widgets/Group.hpp>
 #include <TGUI/Widgets/Label.hpp>
 #include <TGUI/Widgets/Picture.hpp>
+#include "../include/bot_actions_receiver.h"
 #include "../include/client.h"
 #include "../include/ui_functions.h"
 
@@ -103,8 +104,10 @@ void game_screen_init(sf::View &v, tgui::Gui &gui) {
     autobattle_button->setPosition(BACKGROUND_WIDTH - DELTA_X, BUTTON_Y);
     autobattle_button->setSize(BUTTON_WIDTH, BUTTON_HEIGHT);
     autobattle_button->onPress([]() {
-        /* current_state.get_cur_game_state()->set_bot(0,
-                                                    !current_state.get_cur_game_state()->get_bot_status(0)); */
+        current_state.get_cur_game()->set_receiver(
+            0, current_state.get_cur_game()->get_type(0) == game_handler::player_type::BOT
+                   ? game_handler::player_type::CLIENT
+                   : game_handler::player_type::BOT);
     });
 
     auto new_era_button = tgui::Button::create();
@@ -161,8 +164,8 @@ void game_screen_init(sf::View &v, tgui::Gui &gui) {
     ulta_button->setTextSize(50);
     ulta_button->setPosition(BACKGROUND_WIDTH - DELTA_X * 3, BUTTON_Y + BUTTON_HEIGHT + HP_HEIGHT);
     ulta_button->setSize(BUTTON_WIDTH * 4, BUTTON_HEIGHT);
-    ulta_button->onPress([]() { current_state.get_cur_game()->append_action(0, std::make_unique<use_ult_command>());
-    });
+    ulta_button->onPress(
+        []() { current_state.get_cur_game()->append_action(0, std::make_unique<use_ult_command>()); });
 
     auto coin_image = tgui::Picture::create("../client/resources/pictures/coin.jpeg");
     coin_image->setPosition(BUTTON_WIDTH, FPS_LABEL_HEIGHT);
