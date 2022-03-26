@@ -52,6 +52,7 @@ bool unit::is_alive() const noexcept {
 }
 
 void unit::update(unit &enemy, const std::optional<unit> &next_allied_unit, float dt) noexcept {
+    m_lifetime += dt;
     m_attacking = m_walking = false;
     if (stats().attack_radius_pxls >= dist(enemy)) {
         m_attacking = true;
@@ -67,9 +68,9 @@ void unit::update(unit &enemy, const std::optional<unit> &next_allied_unit, floa
         m_attack_progress_s = 0;
     }
     if (!next_allied_unit) {
-        move(dt, FIELD_LENGTH_PXLS - enemy.position() + 1);
+        move(dt, FIELD_LENGTH_PXLS - enemy.position());
     } else {
-        move(dt, next_allied_unit->position() - next_allied_unit->stats().size.x + 1);
+        move(dt, next_allied_unit->position() - next_allied_unit->stats().size.x);
     }
 }
 
@@ -82,7 +83,7 @@ int unit::remaining_hp() const noexcept {
 }
 
 float unit::dist(unit &enemy) const noexcept {
-    return std::max(0.f, (FIELD_LENGTH_PXLS - enemy.position() - 1) - position());
+    return std::max(0.f, (FIELD_LENGTH_PXLS - enemy.position()) - position());
 }
 
 unit_type unit::type() const noexcept {
@@ -118,6 +119,10 @@ float unit::walking_time() const noexcept {
 
 float unit::attack_progress() const noexcept {
     return m_attack_progress_s;
+}
+
+float unit::lifetime() const noexcept {
+    return m_lifetime;
 }
 
 }  // namespace war_of_ages
