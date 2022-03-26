@@ -5,8 +5,7 @@
 namespace war_of_ages {
 
 game_handler::game_handler(std::vector<player_type> types_)
-    : cur_game_state(std::make_shared<game_state>(1.f * clock() / CLOCKS_PER_SEC)),
-      types(std::move(types_)) {
+    : cur_game_state(std::make_shared<game_state>(1.f * clock() / CLOCKS_PER_SEC)), types(std::move(types_)) {
     receivers.resize(2);
     set_receiver(0, types[0]);
     set_receiver(1, types[1]);
