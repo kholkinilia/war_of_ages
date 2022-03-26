@@ -31,11 +31,13 @@ sprite_supplier::sprite_supplier() {
         {unit_type::CHARIOT, "../client/resources/game/units/stone/chariot_animated.png"}};
 
     const static std::unordered_map<unit_type, std::pair<int, int>> animation_size{
-        {unit_type::PEASANT, {2, 3}}, {unit_type::ARCHER, {2, 1}}, {unit_type::CHARIOT, {3, 6}}};
+        {unit_type::PEASANT, {3, 3}}, {unit_type::ARCHER, {4, 6}}, {unit_type::CHARIOT, {3, 6}}};
 
     const static std::unordered_map<unit_type, std::vector<float>> animation_time_periods{
-        {unit_type::PEASANT, {0.5, unit::get_stats(unit_type::PEASANT).attack_duration_s}},
-        {unit_type::ARCHER, {1, unit::get_stats(unit_type::ARCHER).attack_duration_s}},
+        {unit_type::PEASANT, {0.5, unit::get_stats(unit_type::PEASANT).attack_duration_s, 1}},
+        {unit_type::ARCHER,
+         {1, unit::get_stats(unit_type::ARCHER).attack_duration_s, 1,
+          unit::get_stats(unit_type::ARCHER).attack_duration_s}},
         {unit_type::CHARIOT, {1.5, unit::get_stats(unit_type::CHARIOT).attack_duration_s, 1}}};
 
     const static std::unordered_map<cannon_type, std::string> cannon_texture_file{
@@ -120,24 +122,27 @@ sf::Sprite sprite_supplier::get_cannon_slot_sprite(std::pair<age_type, int> cs_t
 }
 
 sf::Sprite sprite_supplier::get_unit_sprite(const unit &source_unit, sprite_supplier::player_side side) {
-    if (source_unit.type() == unit_type::CHARIOT) {
-        // TODO : unify animations for all units
-        if (source_unit.is_walking()) {
-            return reflect_if_needed(
-                unit_sprite[source_unit.type()].get_sprite(0, source_unit.walking_time()), side);
-        }
+    const static int WALKING = 0;
+    const static int ATTACKING = 1;
+    const static int STANDING = 2;
+    const static int WALKING_ATTACKING = 3;
+    // TODO: avoid copy-paste
+    if (source_unit.is_walking()) {
         if (source_unit.is_attacking()) {
             return reflect_if_needed(
-                unit_sprite[source_unit.type()].get_sprite(1, source_unit.attack_progress()), side);
+                unit_sprite[source_unit.type()].get_sprite(WALKING_ATTACKING, source_unit.attack_progress()),
+                side);
         }
-        return reflect_if_needed(unit_sprite[source_unit.type()].get_sprite(2, source_unit.attack_progress()),
-                                 side);
+        return reflect_if_needed(
+            unit_sprite[source_unit.type()].get_sprite(WALKING, source_unit.walking_time()), side);
     }
     if (source_unit.is_attacking()) {
-        return reflect_if_needed(unit_sprite[source_unit.type()].get_sprite(1, source_unit.attack_progress()),
-                                 side);
+        return reflect_if_needed(
+            unit_sprite[source_unit.type()].get_sprite(ATTACKING, source_unit.attack_progress()), side);
     }
-    return reflect_if_needed(unit_sprite[source_unit.type()].get_sprite(0, source_unit.walking_time()), side);
+    // FIXME: replace attack_progress() with lifetime when implemented
+    return reflect_if_needed(
+        unit_sprite[source_unit.type()].get_sprite(STANDING, source_unit.attack_progress()), side);
 }
 
 sf::Sprite sprite_supplier::get_cannon_sprite(cannon_type c_type, sprite_supplier::player_side side) {
