@@ -17,6 +17,7 @@ public:
     void clear() {
         actions.clear();
     }
+
 protected:
     std::vector<std::unique_ptr<game_command>> actions;
 };
