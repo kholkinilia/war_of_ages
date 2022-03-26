@@ -14,7 +14,7 @@ unit_stats::unit_stats(float time_to_train_s_,
                        int damage_,
                        int cost_,
                        vec2f size_,
-                       float speed_)
+                       float speed_) noexcept
     : time_to_train_s(time_to_train_s_),
       initial_hp(initial_hp_),
       attack_duration_s(attack_duration_s_),
@@ -35,7 +35,7 @@ const unit_stats &unit::get_stats(unit_type type) noexcept {
     return stats.at(type);
 }
 
-unit::unit(unit_type type) : m_type(type), m_remaining_hp(get_stats(type).initial_hp) {
+unit::unit(unit_type type) noexcept : m_type(type), m_remaining_hp(get_stats(type).initial_hp) {
 }
 
 void unit::attack(unit &enemy) noexcept {
@@ -52,14 +52,15 @@ bool unit::is_alive() const noexcept {
 }
 
 void unit::update(unit &enemy, const std::optional<unit> &next_allied_unit, float dt) noexcept {
+    m_lifetime += dt;
     m_attacking = m_walking = false;
     if (stats().attack_radius_pxls >= dist(enemy)) {
+        m_attacking = true;
         m_attack_progress_s += dt;
         if (m_attack_progress_s - dt <= stats().attack_time_s &&
             stats().attack_time_s <= m_attack_progress_s) {
             attack(enemy);
         }
-        m_attacking = true;
         if (m_attack_progress_s >= stats().attack_duration_s) {
             m_attack_progress_s -= stats().attack_duration_s;
         }
@@ -67,9 +68,9 @@ void unit::update(unit &enemy, const std::optional<unit> &next_allied_unit, floa
         m_attack_progress_s = 0;
     }
     if (!next_allied_unit) {
-        move(dt, FIELD_LENGTH_PXLS - enemy.position() + 1);
+        move(dt, FIELD_LENGTH_PXLS - enemy.position());
     } else {
-        move(dt, next_allied_unit->position() - next_allied_unit->stats().size.x + 1);
+        move(dt, next_allied_unit->position() - next_allied_unit->stats().size.x);
     }
 }
 
@@ -81,13 +82,8 @@ int unit::remaining_hp() const noexcept {
     return m_remaining_hp;
 }
 
-bool unit::is_in(vec2f point) const noexcept {
-    return m_position - stats().size.x < point.x && point.x <= m_position && 0 <= point.y &&
-           point.y < stats().size.y;
-}
-
 float unit::dist(unit &enemy) const noexcept {
-    return std::max(0.f, (FIELD_LENGTH_PXLS - enemy.position() - 1) - position());
+    return std::max(0.f, (FIELD_LENGTH_PXLS - enemy.position()) - position());
 }
 
 unit_type unit::type() const noexcept {
@@ -116,6 +112,7 @@ bool unit::is_walking() const noexcept {
 bool unit::is_attacking() const noexcept {
     return m_attacking;
 }
+
 float unit::walking_time() const noexcept {
     return m_walking_time;
 }
@@ -135,6 +132,10 @@ std::string to_string(unit_type type) {
         default:
             return "tower";
     }
+}
+
+float unit::lifetime() const noexcept {
+    return m_lifetime;
 }
 
 }  // namespace war_of_ages
