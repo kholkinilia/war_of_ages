@@ -1,5 +1,6 @@
 #include "../include/client.h"
 #include "../include/bot_actions_receiver.h"
+#include "../include/network_actions_receiver.h"
 #include "../include/player_actions_receiver.h"
 
 namespace war_of_ages {
@@ -39,9 +40,11 @@ void client_state::reset_game() {
 }
 void client_state::create_game(game_mode mode) {
     std::vector<std::shared_ptr<actions_receiver>> receivers{std::make_shared<player_actions_receiver>(),
-                                                             std::make_shared<player_actions_receiver>()};
+                                                             nullptr};
     if (mode == game_mode::SINGLE) {
         receivers[1] = std::make_shared<bot_actions_receiver>();
+    } else {
+        receivers[1] = std::make_shared<network_actions_receiver>();
     }
     cur_game = std::make_shared<game_handler>(receivers);
 }
