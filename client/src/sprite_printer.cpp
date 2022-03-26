@@ -135,7 +135,7 @@ void print(tgui::Gui &gui, sf::RenderWindow *window, const std::shared_ptr<game_
         ->cast<tgui::Group>()
         ->get("plus_place_cannon_coin_label")
         ->cast<tgui::Label>()
-        ->setText(std::to_string(CANNONS_SLOTS_COSTS[p1.cannons.size()]));
+        ->setText('-' + std::to_string(CANNONS_SLOTS_COSTS[p1.cannons.size()]));
 
     sf::RectangleShape queued_unit_in, queued_unit_out;
     queued_unit_in.setFillColor(sf::Color::Green);
