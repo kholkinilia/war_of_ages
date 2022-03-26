@@ -48,7 +48,6 @@ if (BUILD_CLIENT)
             client/src/sprite_printer.cpp
             client/src/bot_actions_receiver.cpp
             client/src/player_actions_receiver.cpp
-            client/src/network_actions_receiver.cpp
             client/src/game_handler.cpp
             client/src/animation_handler.cpp)
     add_executable(war_of_ages ${CLIENT_PROJECT_SOURCES} ${COMMON_PROJECT_SOURCES})

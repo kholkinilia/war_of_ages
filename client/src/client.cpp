@@ -1,7 +1,5 @@
 #include "../include/client.h"
 #include "../include/bot_actions_receiver.h"
-#include "../include/network_actions_receiver.h"
-#include "../include/player_actions_receiver.h"
 
 namespace war_of_ages {
 
@@ -39,9 +37,9 @@ void client_state::reset_game() {
     cur_game->reset();
 }
 void client_state::create_game(game_mode mode) {
-    std::vector<game_handler::player_type> types{game_handler::player_type::CLIENT, game_handler::player_type::BOT};
+    std::vector<game_handler::player_type> types{game_handler::player_type::PLAYER, game_handler::player_type::BOT};
     if (mode == game_mode::MULTI) {
-        types[1] = game_handler::player_type::NETWORK;
+        types[1] = game_handler::player_type::PLAYER;
     }
     cur_game = std::make_shared<game_handler>(types);
 }

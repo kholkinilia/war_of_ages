@@ -9,8 +9,8 @@ namespace war_of_ages {
 
 struct game_handler {
 public:
-    enum class player_type { CLIENT, BOT, NETWORK };
-    explicit game_handler(const std::vector<player_type> &types_);
+    enum class player_type { PLAYER, BOT };
+    explicit game_handler(std::vector<player_type> types_);
     [[nodiscard]] std::shared_ptr<game_state> get_cur_game_state() const;
     void reset();
     std::vector<std::unique_ptr<game_command>> const &get_actions(int index, player_snapshot p);

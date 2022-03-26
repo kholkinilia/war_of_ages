@@ -106,7 +106,7 @@ void game_screen_init(sf::View &v, tgui::Gui &gui) {
     autobattle_button->onPress([]() {
         current_state.get_cur_game()->set_receiver(
             0, current_state.get_cur_game()->get_type(0) == game_handler::player_type::BOT
-                   ? game_handler::player_type::CLIENT
+                   ? game_handler::player_type::PLAYER
                    : game_handler::player_type::BOT);
     });
 
