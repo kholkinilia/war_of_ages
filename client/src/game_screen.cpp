@@ -16,11 +16,24 @@ static void setup_button(tgui::Button::Ptr &button, tgui::String name) {
     button->getRenderer()->setBorders(0);
 }
 
+[[nodiscard]] static std::string unit_to_string(unit_type type) {
+    switch (type) {
+        case unit_type::PEASANT:
+            return "peasant";
+        case unit_type::ARCHER:
+            return "archer";
+        case unit_type::CHARIOT:
+            return "chariot";
+        default:
+            return "tower";
+    }
+}
+
 [[nodiscard]] static tgui::String get_filename(action a, int i) noexcept {
     switch (a) {
         case action::BUY_UNIT:
             return tgui::String("../client/resources/game/units/stone/mini/") +
-                   to_string(static_cast<unit_type>(i)) + tgui::String(".png");
+                   unit_to_string(static_cast<unit_type>(i)) + tgui::String(".png");
         case action::BUY_CANNON:
             return tgui::String("../client/resources/game/cannons/stone/level_") + std::to_string(i + 1) +
                    tgui::String(".png");

@@ -10,8 +10,6 @@ namespace war_of_ages {
 // TODO: make tower a different struct
 enum class unit_type { PEASANT, ARCHER, CHARIOT, STONE_TOWER };
 
-std::string to_string(unit_type type);
-
 struct unit_stats {
     float time_to_train_s;
     int initial_hp;
