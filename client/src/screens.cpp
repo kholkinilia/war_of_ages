@@ -1,5 +1,6 @@
 #include "../include/screens.h"
 #include <TGUI/Widgets/Label.hpp>
+#include "../include/menu_background.h"
 
 // Screen headers
 
@@ -47,6 +48,18 @@ void screens_init(sf::View &v, tgui::Gui &gui) {
 
 void update_screens(tgui::Gui &gui, const client_state &state, sf::RenderWindow *window) {
     update_fps(gui.get("fps_label")->cast<tgui::Label>());
+    if (state.get_cur_screen() != screen::GAME_SCREEN) {
+        const static int PIECE_WIDTH = 1920 / menu_background_handler::GRID_DIM_SIZE;
+        const static int PIECE_HEIGHT = 1080 / menu_background_handler::GRID_DIM_SIZE;
+        for (int i = 0; i < menu_background_handler::GRID_DIM_SIZE; i++) {
+            for (int j = 0; j < menu_background_handler::GRID_DIM_SIZE; j++) {
+                sf::Sprite cur_piece = menu_background_handler::get_instance().get_piece(i, j);
+                cur_piece.setPosition(static_cast<float>(i * PIECE_WIDTH),
+                                      static_cast<float>(j * PIECE_HEIGHT));
+                window->draw(cur_piece);
+            }
+        }
+    }
     switch (state.get_cur_screen()) {
         case screen::TOURNAMENT_MAIN: {
             // TODO: uncomment, when tournament logic is implemented
