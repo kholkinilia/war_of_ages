@@ -1,8 +1,8 @@
 #ifndef WAR_OF_AGES_MENU_BACKGROUND_H
 #define WAR_OF_AGES_MENU_BACKGROUND_H
-#include <vector>
 #include <TGUI/Backend/SFML-Graphics.hpp>
 #include <cstddef>
+#include <vector>
 
 namespace war_of_ages {
 
@@ -27,6 +27,6 @@ public:
     [[nodiscard]] static menu_background_handler &get_instance();
 };
 
-}
+}  // namespace war_of_ages
 
 #endif  // WAR_OF_AGES_MENU_BACKGROUND_H

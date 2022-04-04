@@ -20,11 +20,6 @@ int main() {
 
     gui.get(war_of_ages::current_state.get_cur_screen_id())->setVisible(true);
 
-    sf::Texture t;
-    t.loadFromFile("../client/resources/pictures/fullHD_kittens.jpg");
-    sf::Sprite s;
-    s.setTexture(t);
-
     war_of_ages::setup_fps(gui);
 
     while (window.isOpen()) {
@@ -37,7 +32,6 @@ int main() {
         war_of_ages::check_game_end(gui);
 
         window.clear(sf::Color(50, 50, 50));
-//        window.draw(s);
 
         war_of_ages::update_screens(gui, war_of_ages::current_state, &window);
 
