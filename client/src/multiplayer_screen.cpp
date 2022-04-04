@@ -1,6 +1,10 @@
 #include "../include/multiplayer_screen.h"
-#include "../include/screen_defines.h"
 #include "../include/ui_functions.h"
+
+// TGUI widgets
+#include <TGUI/Widgets/Button.hpp>
+#include <TGUI/Widgets/EditBox.hpp>
+#include <TGUI/Widgets/Group.hpp>
 
 namespace war_of_ages {
 void multiplayer_screen_init(tgui::Gui &gui) {
