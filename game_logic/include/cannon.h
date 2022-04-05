@@ -12,23 +12,25 @@ enum class cannon_type { STONE_LEVEL_1, STONE_LEVEL_2, STONE_LEVEL_3, NONE };
 struct cannon_stats {
     bullet_type b_type;
     int cost;
-    float cooldown_s;
+    float attack_duration_s;
+    float attack_time_s;
     float attack_radius_pxls;
 };
 
 struct cannon {
 private:
     cannon_type m_type;
-    float m_time_left_to_attack = 0;
+    float m_attack_progress_s = 0;
     vec2f m_muzzle_position;
 
 public:
-    cannon(cannon_type type, vec2f muzzle_position);
+    cannon(cannon_type type, vec2f muzzle_position) noexcept;
 
-    std::optional<bullet> update(unit &enemy, float dt) noexcept;
+    [[nodiscard]] std::optional<bullet> update(unit &enemy, float dt) noexcept;
     [[nodiscard]] cannon_type type() const noexcept;
-    [[nodiscard]] vec2f muzzle_position() const noexcept;
     [[nodiscard]] const cannon_stats &stats() const noexcept;
+    [[nodiscard]] vec2f muzzle_position() const noexcept;
+    [[nodiscard]] float attack_progress() const noexcept;
 
     [[nodiscard]] const static cannon_stats &get_stats(cannon_type type) noexcept;
 };

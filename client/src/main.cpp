@@ -1,5 +1,6 @@
 #include <SFML/Graphics.hpp>
 #include <TGUI/Backend/SFML-Graphics.hpp>
+#include <chrono>
 #include "../include/client.h"
 #include "../include/screen_defines.h"
 #include "../include/screens.h"

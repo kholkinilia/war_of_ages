@@ -16,8 +16,8 @@ if (WIN32 AND NOT MSVC AND NOT BORLAND)
     set(NETWORKING_LIBS "ws2_32")
 endif ()
 
-set(BUILD_CLIENT False)
-set(BUILD_SERVER True)
+set(BUILD_CLIENT True)
+set(BUILD_SERVER False)
 
 set(COMMON_PROJECT_SOURCES
         game_logic/src/game_state.cpp
