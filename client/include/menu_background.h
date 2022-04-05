@@ -16,7 +16,7 @@ private:
     const static int SCREEN_HEIGHT = 1080;
     const static int PIECE_WIDTH = SCREEN_WIDTH / GRID_DIM_SIZE;
     const static int PIECE_HEIGHT = SCREEN_HEIGHT / GRID_DIM_SIZE;
-    constexpr const static float ANIMATION_DURATION = 0.2;
+    constexpr const static float ANIMATION_DURATION = 0.5;
     std::vector<sf::Texture> m_pieces_texture;
     std::vector<std::vector<std::size_t>> m_current_layout;
     std::vector<std::vector<sf::Vector2<float>>> m_layout_position;
