@@ -27,6 +27,7 @@ private:
     bool m_animation_processing = false;
 
     menu_background_handler();
+    [[nodiscard]] float get_shift(float time) const noexcept;
     [[nodiscard]] static std::size_t get_rand_piece() noexcept;
 
 public:

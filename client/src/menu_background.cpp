@@ -93,12 +93,15 @@ void menu_background_handler::update_animation(float time) {
     }
     for (int i = 0; i < GRID_DIM_SIZE; i++) {
         for (int j = 0; j < GRID_DIM_SIZE; j++) {
-            m_layout_position[i][j].y =
-                j * PIECE_HEIGHT - SCREEN_HEIGHT * (time - m_animation_start_time) / ANIMATION_DURATION;
-            m_buffer_position[i][j].y = SCREEN_HEIGHT + j * PIECE_HEIGHT -
-                                        SCREEN_HEIGHT * (time - m_animation_start_time) / ANIMATION_DURATION;
+            m_layout_position[i][j].y = j * PIECE_HEIGHT - get_shift(time);
+            m_buffer_position[i][j].y = SCREEN_HEIGHT + j * PIECE_HEIGHT - get_shift(time);
         }
     }
+}
+
+float menu_background_handler::get_shift(float time) const noexcept {
+    float x = (time - m_animation_start_time) / ANIMATION_DURATION * 2;
+    return SCREEN_HEIGHT * (3 * x * x - x * x * x) / 4;
 }
 
 }  // namespace war_of_ages
