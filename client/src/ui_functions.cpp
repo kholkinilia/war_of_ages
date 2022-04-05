@@ -28,7 +28,7 @@ void place_widgets(std::vector<tgui::Widget::Ptr> &widgets, int width, int heigh
 void show_screen(tgui::Gui &gui, screen new_screen, screen prev_screen) {
     gui.get(screen_id.at(prev_screen))->setVisible(false);
     gui.get(screen_id.at(new_screen))->setVisible(true);
-    if (new_screen != screen::GAME_SCREEN) {
+    if (new_screen != screen::GAME_SCREEN || prev_screen != screen::GAME_SCREEN) {
         menu_background_handler::get_instance().start_animation(1.f * clock() / CLOCKS_PER_SEC);
     }
     current_state.set_cur_screen(new_screen);
