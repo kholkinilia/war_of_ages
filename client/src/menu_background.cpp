@@ -35,10 +35,6 @@ void menu_background_handler::change_layout(std::vector<std::vector<std::size_t>
     }
 }
 
-sf::Sprite menu_background_handler::get_piece(int i, int j) const {
-    return sf::Sprite(m_pieces_texture[m_current_layout[i][j]]);
-}
-
 menu_background_handler &menu_background_handler::get_instance() {
     static menu_background_handler handler;
     return handler;

@@ -36,7 +36,6 @@ public:
     menu_background_handler &operator=(menu_background_handler &&) = default;
     ~menu_background_handler() = default;
 
-    [[nodiscard]] sf::Sprite get_piece(int i, int j) const;
     void print_background(sf::RenderWindow &window, float time);
     void start_animation(float time);
     void update_animation(float time);
