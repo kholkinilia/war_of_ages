@@ -17,7 +17,7 @@ war_of_ages::client_state current_state;
 int main() {
     sf::RenderWindow window{sf::VideoMode::getFullscreenModes()[0], "War of Ages", sf::Style::Fullscreen};
     tgui::Gui gui(window);
-
+    tgui::Theme::setDefault("../client/resources/tgui_themes/Black.txt");
     window.setVerticalSyncEnabled(true);
 
     sf::View view = window.getDefaultView();
@@ -25,11 +25,6 @@ int main() {
     war_of_ages::screens_init(view, gui);
 
     gui.get(war_of_ages::current_state.get_cur_screen_id())->setVisible(true);
-
-    sf::Texture t;
-    t.loadFromFile("../client/resources/pictures/fullHD_kittens.jpg");
-    sf::Sprite s;
-    s.setTexture(t);
 
     war_of_ages::setup_fps(gui);
 
@@ -45,8 +40,7 @@ int main() {
 
         war_of_ages::check_game_end(gui);
 
-        window.clear();
-        window.draw(s);
+        window.clear(sf::Color(50, 50, 50));
 
         war_of_ages::update_screens(gui, war_of_ages::current_state, &window);
 

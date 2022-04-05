@@ -1,6 +1,7 @@
 #include "../include/ui_functions.h"
 #include <TGUI/Widgets/Group.hpp>
 #include "../include/client.h"
+#include "../include/menu_background.h"
 
 namespace war_of_ages {
 
@@ -27,6 +28,9 @@ void place_widgets(std::vector<tgui::Widget::Ptr> &widgets, int width, int heigh
 void show_screen(tgui::Gui &gui, screen new_screen, screen prev_screen) {
     gui.get(screen_id.at(prev_screen))->setVisible(false);
     gui.get(screen_id.at(new_screen))->setVisible(true);
+    if (new_screen != screen::GAME_SCREEN || prev_screen != screen::GAME_SCREEN) {
+        menu_background_handler::get_instance().start_animation(1.f * clock() / CLOCKS_PER_SEC);
+    }
     current_state.set_cur_screen(new_screen);
     if (current_state.get_cur_game_state() == nullptr && new_screen == screen::GAME_SCREEN) {
         current_state.set_cur_game_state(std::make_shared<game_state>(1.f * clock() / CLOCKS_PER_SEC));
