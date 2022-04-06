@@ -10,7 +10,8 @@ const cannon_stats &cannon::get_stats(cannon_type type) noexcept {
     const static std::unordered_map<cannon_type, cannon_stats> stats{
         {cannon_type::STONE_LEVEL_1, cannon_stats{bullet_type::STONE_LEVEL_1, 500, 2, 2, 700}},
         {cannon_type::STONE_LEVEL_2, cannon_stats{bullet_type::STONE_LEVEL_2, 1000, 1.75, 1.75, 1000}},
-        {cannon_type::STONE_LEVEL_3, cannon_stats{bullet_type::STONE_LEVEL_3, 3000, 1.5, 1.5, 1200}}};
+        {cannon_type::STONE_LEVEL_3, cannon_stats{bullet_type::STONE_LEVEL_3, 3000, 1.5, 1.5, 1200}},
+        {cannon_type::NONE, cannon_stats{bullet_type::STONE_LEVEL_1, 0, 0, 0, 0}}};
     return stats.at(type);
 }
 
@@ -36,6 +37,8 @@ std::optional<bullet> cannon::update(unit &enemy, float dt) noexcept {
         if (m_attack_progress_s >= stats().attack_duration_s) {
             m_attack_progress_s -= stats().attack_duration_s;
         }
+    } else {
+        m_attack_progress_s = 0;
     }
     return {};
 }

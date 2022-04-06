@@ -34,8 +34,7 @@ struct bullet_stats {
     int damage;
     float speed;
     vec2f size;
-    bullet_stats(int damage_, float speed_, vec2f size_) : damage(damage_), speed(speed_), size(size_) {
-    }
+    bullet_stats(int damage_, float speed_, vec2f size_) noexcept;
 };
 
 struct bullet {

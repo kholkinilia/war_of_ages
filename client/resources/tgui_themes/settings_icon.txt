@@ -1,3 +1,0 @@
-Button {
-    Texture = "../pictures/settings_icon.png" Smooth;
-}

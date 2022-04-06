@@ -1,6 +1,11 @@
 #include "../include/settings_screen.h"
-#include "../include/screen_defines.h"
 #include "../include/ui_functions.h"
+
+// TGUI widgets
+#include <TGUI/Widgets/Button.hpp>
+#include <TGUI/Widgets/Group.hpp>
+#include <TGUI/Widgets/Label.hpp>
+#include <TGUI/Widgets/Slider.hpp>
 
 namespace war_of_ages {
 void settings_screen_init(sf::View &v, tgui::Gui &gui) {

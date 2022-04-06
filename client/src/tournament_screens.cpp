@@ -1,11 +1,12 @@
 #include "../include/tournament_screens.h"
-#include <SFML/Graphics.hpp>
-#include <TGUI/Backend/SFML-Graphics.hpp>
-#include <TGUI/TGUI.hpp>
-#include <mutex>
-#include "../include/screen_defines.h"
 #include "../include/tournament.h"
 #include "../include/ui_functions.h"
+
+// TGUI widgets
+#include <TGUI/Widgets/Button.hpp>
+#include <TGUI/Widgets/EditBox.hpp>
+#include <TGUI/Widgets/Group.hpp>
+#include <TGUI/Widgets/Label.hpp>
 
 namespace war_of_ages {
 
