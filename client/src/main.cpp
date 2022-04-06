@@ -22,6 +22,8 @@ int main() {
 
     sf::View view = window.getDefaultView();
 
+    war_of_ages::current_state.create_audio_player();
+
     war_of_ages::screens_init(view, gui);
 
     gui.get(war_of_ages::current_state.get_cur_screen_id())->setVisible(true);

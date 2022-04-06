@@ -7,7 +7,6 @@
 #include "../include/end_game_screen.h"
 #include "../include/game_screen.h"
 #include "../include/multiplayer_screen.h"
-#include "../include/pause_screen.h"
 #include "../include/settings_screen.h"
 #include "../include/sprite_printer.h"
 #include "../include/start_screen.h"
@@ -32,7 +31,7 @@ void screens_init(sf::View &v, tgui::Gui &gui) {
 
     start_screen_init(gui);
     multiplayer_screen_init(gui);
-    settings_screen_init(gui);
+    settings_screen_init(v, gui);
 
     // end Vakhtang's screens
 
@@ -41,7 +40,6 @@ void screens_init(sf::View &v, tgui::Gui &gui) {
     opponent_waiting_screen_init(gui);
     game_screen_init(v, gui);
     end_game_screen_init(gui);
-    pause_screen_init(v, gui);
 
     // end Timur's screens
 }

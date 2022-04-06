@@ -3,3 +3,7 @@
 /client/ext/
 /TGUI/
 /build/
+
+# Music
+*.wav
+*.ogg

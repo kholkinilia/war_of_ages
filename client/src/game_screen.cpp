@@ -148,7 +148,7 @@ void game_screen_init(sf::View &v, tgui::Gui &gui) {
     pause_button->setSize(BUTTON_WIDTH, BUTTON_HEIGHT);
     pause_button->onPress([&gui, &v]() {
         current_state.set_view_center(v.getCenter());
-        show_screen(gui, screen::PAUSE, screen::GAME_SCREEN);
+        show_screen(gui, screen::SETTINGS, screen::GAME_SCREEN);
     });
 
     auto ulta_button = tgui::Button::create();
