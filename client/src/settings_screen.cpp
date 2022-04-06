@@ -1,6 +1,6 @@
 #include "../include/settings_screen.h"
-#include "../include/ui_functions.h"
 #include "../include/client.h"
+#include "../include/ui_functions.h"
 
 // TGUI widgets
 #include <TGUI/Widgets/Button.hpp>
