@@ -46,5 +46,11 @@ void client_state::clear_actions() {
     player_actions[0].clear();
     player_actions[1].clear();
 }
+std::shared_ptr<sound_player> client_state::get_audio_player() const {
+    return audio_player;
+}
+void client_state::create_audio_player() {
+    audio_player = std::make_shared<sound_player>();
+}
 
 }  // namespace war_of_ages
