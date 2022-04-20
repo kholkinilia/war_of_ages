@@ -1,4 +1,5 @@
 #include <TGUI/Backend/SFML-Graphics.hpp>
+#include <TGUI/Loading/ImageLoader.hpp>
 #include <chrono>
 #include <memory>
 #include <random>
@@ -19,6 +20,10 @@ int main() {
     tgui::Gui gui(window);
     tgui::Theme::setDefault("../client/resources/tgui_themes/Black.txt");
     window.setVerticalSyncEnabled(true);
+    tgui::Vector2u imageSize;
+    std::unique_ptr<std::uint8_t[]> imagePixels = tgui::ImageLoader::loadFromFile("../client/resources/pictures/cursor.png", imageSize);
+    if (imagePixels)
+        tgui::Cursor::setStyle(tgui::Cursor::Type::Arrow, imagePixels.get(), imageSize, {0,0});
 
     sf::View view = window.getDefaultView();
 
