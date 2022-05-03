@@ -60,7 +60,7 @@ public:
         return msg;
     }
 
-    void insert_buf(std::uint8_t *buf, std::uint32_t number_of_bytes) {
+    void insert_buf(const std::uint8_t *buf, std::uint32_t number_of_bytes) {
         std::uint32_t insertion_pos = m_data.size();
         m_data.resize(m_data.size() + number_of_bytes);
         memcpy(m_data.data() + insertion_pos, buf, number_of_bytes);
@@ -80,29 +80,22 @@ public:
         static_assert(std::is_trivially_copyable_v<typename ContainerType::value_type>,
                       "Data stored in container is not trivially copyable.");
         std::uint32_t value_size = sizeof(typename ContainerType::value_type);
-        std::uint32_t insertion_pos = m_data.size();
         std::uint32_t container_size = container.size();
-        m_data.resize(m_data.size() + container_size * value_size + sizeof(container_size));
-        memcpy(m_data.data() + insertion_pos, reinterpret_cast<const std::uint8_t *>(container.data()),
-               container_size * value_size);  // TODO: check if it is ok
-        memcpy(m_data.data() + insertion_pos + value_size * container_size,
-               reinterpret_cast<std::uint8_t *>(&container_size), sizeof(container_size));
-        m_header.m_size = size();
+        insert_buf(reinterpret_cast<const std::uint8_t *>(container.data()),
+                   value_size * container.size());  // TODO: check if copying entire container.data() is ok
+        *this << container_size;
     }
 
     template <typename ContainerType>
     void extract_container(ContainerType &container) {
         static_assert(std::is_trivially_copyable_v<typename ContainerType::value_type>,
                       "Data stored in container is not trivially copyable.");
+        std::uint32_t value_size = sizeof(typename ContainerType::value_type);
         std::uint32_t container_size;
         *this >> container_size;
-        std::uint32_t value_size = sizeof(typename ContainerType::value_type);
-        std::uint32_t extraction_pos = m_data.size() - container_size * value_size;
-        container.assign(container_size, typename ContainerType::value_type{});
-        memcpy(reinterpret_cast<std::uint8_t *>(container.data()), m_data.data() + extraction_pos,
-               container_size * value_size);  // TODO: check if it is ok
-        m_data.resize(extraction_pos);
-        m_header.m_size = size();
+        container.resize(container_size, typename ContainerType::value_type{});
+        extract_buf(reinterpret_cast<std::uint8_t *>(container.data()),
+                    container_size * value_size);  // TODO: check if copying entire container.data() is ok
     }
 };
 

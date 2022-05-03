@@ -16,9 +16,9 @@ public:
     ts_deque() = default;
 
     ts_deque &operator=(const ts_deque &) = delete;
-    ts_deque &operator=(ts_deque &&) = default;
+    ts_deque &operator=(ts_deque &&) noexcept = default;
     ts_deque(const ts_deque &) = delete;
-    ts_deque(ts_deque &&) = default;
+    ts_deque(ts_deque &&) noexcept = default;
 
     ~ts_deque() = default;
 
