@@ -28,8 +28,6 @@ struct message {
     message_header<T> header;
     std::vector<std::uint8_t> body;
 
-    explicit message(T id) : header(id){};
-
     [[nodiscard]] std::size_t size() const noexcept {
         return body.size();
     }

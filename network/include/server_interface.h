@@ -52,7 +52,7 @@ public:
 
                 if (on_client_connect(new_connection)) {
                     m_active_connections.push_back(std::move(new_connection));
-                    m_active_connections.back()->connect_to_client(m_id_counter++);
+                    m_active_connections.back()->connect_to_client(this, m_id_counter++);
 
                     std::cout << "[" << m_active_connections.back().get_id() << "] Connection approved.\n";
 
@@ -126,6 +126,8 @@ protected:
     virtual bool on_client_disconnect(std::shared_ptr<connection<T>> client) {
     }
     virtual void on_message(std::shared_ptr<connection<T>> client, const message<T> &msg) {
+    }
+    virtual void on_client_validated(std::shared_ptr<connection<T>> client) {
     }
 };
 
