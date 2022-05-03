@@ -21,7 +21,6 @@ protected:
     std::unique_ptr<connection<T>> m_connection;
 
 public:
-
     virtual ~client_interface() {
         disconnect();
     }
