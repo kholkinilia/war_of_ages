@@ -21,9 +21,10 @@ int main() {
     tgui::Theme::setDefault("../client/resources/tgui_themes/Black.txt");
     window.setVerticalSyncEnabled(true);
     tgui::Vector2u imageSize;
-    std::unique_ptr<std::uint8_t[]> imagePixels = tgui::ImageLoader::loadFromFile("../client/resources/pictures/cursor.png", imageSize);
+    std::unique_ptr<std::uint8_t[]> imagePixels =
+        tgui::ImageLoader::loadFromFile("../client/resources/pictures/cursor.png", imageSize);
     if (imagePixels)
-        tgui::Cursor::setStyle(tgui::Cursor::Type::Arrow, imagePixels.get(), imageSize, {0,0});
+        tgui::Cursor::setStyle(tgui::Cursor::Type::Arrow, imagePixels.get(), imageSize, {0, 0});
 
     sf::View view = window.getDefaultView();
 
