@@ -11,6 +11,8 @@ struct ts_deque {
 private:
     std::deque<T> m_deque;
     std::mutex m_mutex;
+    std::condition_variable m_variable_blocking;
+    std::mutex m_mutex_blocking;
 
 public:
     ts_deque() = default;
@@ -45,21 +47,29 @@ public:
     void push_front(const T &val) & {
         std::unique_lock lock(m_mutex);
         m_deque.push_front(val);
+        std::unique_lock b_lock(m_mutex_blocking);
+        m_variable_blocking.notify_one();
     }
 
     void push_front(T &&val) & {
         std::unique_lock lock(m_mutex);
         m_deque.push_back(std::move(val));
+        std::unique_lock b_lock(m_mutex_blocking);
+        m_variable_blocking.notify_one();
     }
 
     void push_back(const T &val) & {
         std::unique_lock lock(m_mutex);
         m_deque.push_back(val);
+        std::unique_lock b_lock(m_mutex_blocking);
+        m_variable_blocking.notify_one();
     }
 
     void push_back(T &&val) & {
         std::unique_lock lock(m_mutex);
         m_deque.push_back(std::move(val));
+        std::unique_lock b_lock(m_mutex_blocking);
+        m_variable_blocking.notify_one();
     }
 
     T pop_front() & {
@@ -79,6 +89,13 @@ public:
     void clear() {
         std::unique_lock lock(m_mutex);
         m_deque.clear();
+    }
+
+    void wait() {
+        while (empty()) {
+            std::unique_lock lock(m_mutex_blocking);
+            m_variable_blocking.wait(lock);
+        }
     }
 };
 

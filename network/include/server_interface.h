@@ -99,7 +99,10 @@ public:
         }
     }
 
-    void update(std::size_t number_of_messages = -1) {
+    void update(std::size_t number_of_messages = -1, bool wait_in_between = false) {
+        if (wait_in_between) {
+            m_messages_received.wait();
+        }
         std::size_t messages_processed = 0;
         while (messages_processed < number_of_messages && !m_messages_received.empty()) {
             auto msg = m_messages_received.pop_front();
