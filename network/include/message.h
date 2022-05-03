@@ -8,6 +8,7 @@
 #include <memory>
 #include <type_traits>
 #include <vector>
+#include "connection_fwd.h"
 
 namespace war_of_ages {
 
@@ -15,21 +16,22 @@ namespace war_of_ages {
 /// For non-trivially copyable types such as string use existing functions (i.e. insert_container()) or
 /// implement ones.
 /// Note that all sizes stored in message are represented by std::uint32_t.
+
+template <typename T>
+struct message_header {
+    T id{};
+    std::uint32_t size = 0;
+};
+
 template <typename T>
 struct message {
-private:
-    struct message_header {
-        T m_id{};
-        std::uint32_t m_size = 0;
-        explicit message_header(T id) : m_id(id){};
-    } m_header;
-    std::vector<std::uint8_t> m_data;
+    message_header<T> header;
+    std::vector<std::uint8_t> body;
 
-public:
-    explicit message(T id) : m_header(id){};
+    explicit message(T id) : header(id){};
 
     [[nodiscard]] std::size_t size() const noexcept {
-        return sizeof(m_header) + m_data.size();
+        return body.size();
     }
 
     friend std::ostream &operator<<(std::ostream &out, const message &msg) {  // in case of debugging
@@ -41,10 +43,10 @@ public:
     friend message &operator<<(message &msg, const DataType &src) {
         static_assert(std::is_trivially_copyable_v<DataType>,
                       "Data you want to pass to a message is not trivially copyable.");
-        std::uint32_t insertion_pos = msg.m_data.size();
-        msg.m_data.resize(msg.m_data.size() + sizeof(src));
-        memcpy(msg.m_data.data() + insertion_pos, reinterpret_cast<const std::uint8_t *>(&src), sizeof(src));
-        msg.m_header.m_size = msg.size();
+        std::uint32_t insertion_pos = msg.body.size();
+        msg.body.resize(msg.body.size() + sizeof(src));
+        memcpy(msg.body.data() + insertion_pos, reinterpret_cast<const std::uint8_t *>(&src), sizeof(src));
+        msg.header.size = msg.size();
         return msg;
     }
 
@@ -52,27 +54,27 @@ public:
     friend message &operator>>(message &msg, DataType &dst) {
         static_assert(std::is_trivially_copyable_v<DataType>,
                       "Data you want to extract from a message is not trivially copyable.");
-        assert(msg.m_data.size() >= sizeof(dst));
-        std::uint32_t extraction_pos = msg.m_data.size() - sizeof(dst);
-        memcpy(reinterpret_cast<std::uint8_t *>(&dst), msg.m_data.data() + extraction_pos, sizeof(dst));
-        msg.m_data.resize(extraction_pos);
-        msg.m_header.m_size = msg.size();
+        assert(msg.body.size() >= sizeof(dst));
+        std::uint32_t extraction_pos = msg.body.size() - sizeof(dst);
+        memcpy(reinterpret_cast<std::uint8_t *>(&dst), msg.body.data() + extraction_pos, sizeof(dst));
+        msg.body.resize(extraction_pos);
+        msg.header.size = msg.size();
         return msg;
     }
 
     void insert_buf(const std::uint8_t *buf, std::uint32_t number_of_bytes) {
-        std::uint32_t insertion_pos = m_data.size();
-        m_data.resize(m_data.size() + number_of_bytes);
-        memcpy(m_data.data() + insertion_pos, buf, number_of_bytes);
-        m_header.m_size = size();
+        std::uint32_t insertion_pos = body.size();
+        body.resize(body.size() + number_of_bytes);
+        memcpy(body.data() + insertion_pos, buf, number_of_bytes);
+        header.size = size();
     }
 
     void extract_buf(std::uint8_t *buf, std::uint32_t number_of_bytes) {
-        assert(m_data.size() >= number_of_bytes);
-        std::uint32_t extraction_pos = m_data.size() - number_of_bytes;
-        memcpy(buf, m_data.data() + extraction_pos, number_of_bytes);
-        m_data.resize(extraction_pos);
-        m_header.m_size = size();
+        assert(body.size() >= number_of_bytes);
+        std::uint32_t extraction_pos = body.size() - number_of_bytes;
+        memcpy(buf, body.data() + extraction_pos, number_of_bytes);
+        body.resize(extraction_pos);
+        header.size = size();
     }
 
     template <typename ContainerType>
@@ -97,6 +99,12 @@ public:
         extract_buf(reinterpret_cast<std::uint8_t *>(container.data()),
                     container_size * value_size);  // TODO: check if copying entire container.data() is ok
     }
+};
+
+template <typename T>
+struct owned_message {
+    std::shared_ptr<connection<T>> remote = nullptr;
+    message<T> msg;
 };
 
 }  // namespace war_of_ages

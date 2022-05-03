@@ -5,7 +5,7 @@
 int main() {
     // sample of using message (remove if needed)
 
-    enum class msg_type { BUY_UNIT, ADD_TO_TOURNAMENT };
+    enum class msg_type : std::uint32_t { BUY_UNIT, ADD_TO_TOURNAMENT };
     war_of_ages::message<msg_type> msg(msg_type::ADD_TO_TOURNAMENT);
 
     int val = 10;
