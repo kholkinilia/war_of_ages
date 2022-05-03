@@ -11,16 +11,20 @@ int main() {
     int val = 10;
     std::string handle = "fixmetodo";
     std::vector<int> a{1, 2, 3, 4, 5};
+    struct {
+        int x = 7;
+        float a = 11;
+    } b[3];
 
     msg.insert_container(handle);
     msg.insert_container(a);
-    msg << val;
+    msg << val << b;
 
     a = {};
     handle = "";
     val = -1;
 
-    msg >> val;
+    msg >> b >> val;
     msg.extract_container(a);
     msg.extract_container(handle);
 
