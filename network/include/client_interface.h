@@ -21,7 +21,6 @@ protected:
     std::unique_ptr<connection<T>> m_connection;
 
 public:
-    client_interface() : m_socket(m_context){};
 
     virtual ~client_interface() {
         disconnect();
