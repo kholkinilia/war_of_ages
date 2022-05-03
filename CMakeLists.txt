@@ -17,7 +17,7 @@ if (WIN32 AND NOT MSVC AND NOT BORLAND)
 endif ()
 
 set(BUILD_CLIENT True)
-set(BUILD_SERVER False)
+set(BUILD_SERVER True)
 
 set(COMMON_PROJECT_SOURCES
         game_logic/src/game_state.cpp
