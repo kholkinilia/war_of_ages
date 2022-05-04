@@ -28,7 +28,7 @@ static void print_units(sf::RenderWindow *window,
         if (unit.type() == unit_type::STONE_TOWER) {
             y_pos = BACKGROUND_HEIGHT - TOWER_HEIGHT;
             unit_picture =
-                sprite_supplier::get_instance().get_tower_sprite(age_type::STONE, p.cannons.size(), side);
+                sprite_supplier::get_instance().get_tower_sprite(p.age, p.cannons.size(), side);
             unit_picture.setPosition(x_pos, y_pos);
             window->draw(unit_picture);
             continue;
@@ -133,7 +133,7 @@ void print(tgui::Gui &gui, sf::RenderWindow *window, const std::shared_ptr<game_
                   current_state.get_cur_game()->get_actions(1, p2), 1.f * clock() / CLOCKS_PER_SEC);
     current_state.get_cur_game()->clear_actions();
     std::tie(p1, p2) = state->snapshot_players();
-    auto background = sprite_supplier::get_instance().get_background_sprite(age_type::STONE);
+    auto background = sprite_supplier::get_instance().get_background_sprite(p1.age);
     background.setPosition(window->getView().getCenter().x - BACKGROUND_WIDTH / 2, 0);
     window->draw(background);
 
@@ -194,7 +194,7 @@ void print(tgui::Gui &gui, sf::RenderWindow *window, const std::shared_ptr<game_
         }
     }
 
-    auto road = sprite_supplier::get_instance().get_road_sprite(age_type::STONE);
+    auto road = sprite_supplier::get_instance().get_road_sprite(p1.age);
     road.setPosition(0, BACKGROUND_HEIGHT - ROAD_HEIGHT);
     window->draw(road);
     print_units(window, p1, sprite_supplier::player_side::LEFT);
