@@ -9,7 +9,8 @@
 namespace war_of_ages {
 
 struct bot_actions_receiver : actions_receiver {
-    std::vector<std::unique_ptr<game_command>> const &get_actions(player_snapshot p) final;
+    std::vector<std::unique_ptr<game_command>> const &get_actions(
+        std::pair<player_snapshot, player_snapshot> p, int player) final;
 };
 
 }  // namespace war_of_ages

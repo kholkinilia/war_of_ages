@@ -14,7 +14,6 @@ struct game_state {
 private:
     player p1, p2;
     float state_time;
-    std::vector<bool> is_bot;
 
 public:
     explicit game_state(float start_time);

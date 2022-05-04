@@ -12,6 +12,8 @@ void check_game_end(tgui::Gui &gui) {
     if (war_of_ages::current_state.get_cur_game_state() != nullptr &&
         war_of_ages::current_state.get_cur_game_state()->get_game_status() !=
             war_of_ages::game_status::PROCESSING) {
+        // current_state.reset_game();
+        // current_state.create_game(client_state::game_mode::SINGLE);
         show_screen(gui, war_of_ages::screen::END_GAME, war_of_ages::screen::GAME_SCREEN);
     }
 }
