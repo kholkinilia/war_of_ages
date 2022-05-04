@@ -25,7 +25,7 @@ static void print_units(sf::RenderWindow *window,
             x_pos = ROAD_WIDTH - x_pos;
         }
 
-        if (unit.type() == unit_type::STONE_TOWER) {
+        if (unit.type() >= unit_type::STONE_TOWER) {
             y_pos = BACKGROUND_HEIGHT - TOWER_HEIGHT;
             unit_picture = sprite_supplier::get_instance().get_tower_sprite(p.age, p.cannons.size(), side);
             unit_picture.setPosition(x_pos, y_pos);
@@ -171,21 +171,20 @@ void print(tgui::Gui &gui, sf::RenderWindow *window, const std::shared_ptr<game_
     sf::RectangleShape queued_unit_in, queued_unit_out;
     queued_unit_in.setFillColor(sf::Color::Green);
     float x_pos;
-    std::unordered_map<unit_type, float> number_of_units_in_queue = {
-        {unit_type::PEASANT, 0}, {unit_type::ARCHER, 0}, {unit_type::CHARIOT, 0}};
+    std::vector<float> number_of_units_in_queue = {0, 0, 0};
     for (int i = 0; i < p1.units_to_train.size(); i++) {
         auto unit = p1.units_to_train[i];
         queued_unit_out.setFillColor(sf::Color::White);
         queued_unit_out.setSize({BUTTON_WIDTH, HP_HEIGHT});
-        x_pos = BACKGROUND_WIDTH - 7 * DELTA_X;
-        if (unit.type() == unit_type::ARCHER)
-            x_pos -= DELTA_X;
-        if (unit.type() == unit_type::CHARIOT)
-            x_pos -= 2 * DELTA_X;
+        x_pos = BACKGROUND_WIDTH - 7 * DELTA_X -
+                (static_cast<int>(unit.type()) - 3 * static_cast<int>(p1.age)) * DELTA_X;
 
-        queued_unit_out.setPosition(
-            {x_pos + (window->getView().getCenter().x - BACKGROUND_WIDTH / 2),
-             BUTTON_HEIGHT + BUTTON_Y + (2 * (number_of_units_in_queue[unit.type()]++) + 1) * HP_HEIGHT});
+        queued_unit_out.setPosition({x_pos + (window->getView().getCenter().x - BACKGROUND_WIDTH / 2),
+                                     BUTTON_HEIGHT + BUTTON_Y +
+                                         (2 * (number_of_units_in_queue[static_cast<int>(unit.type()) -
+                                                                        3 * static_cast<int>(p1.age)]++) +
+                                          1) *
+                                             HP_HEIGHT});
         window->draw(queued_unit_out);
 
         if (i == 0) {

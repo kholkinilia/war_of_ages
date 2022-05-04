@@ -128,7 +128,9 @@ void game_screen_init(sf::View &v, tgui::Gui &gui) {
     new_era_button->setPosition(BACKGROUND_WIDTH - DELTA_X * 2, BUTTON_Y);
     new_era_button->setSize(BUTTON_WIDTH, BUTTON_HEIGHT);
     new_era_button->onPress(
-        []() { current_state.get_cur_game()->append_action(0, std::make_unique<upgrade_age_command>()); });
+        []() {
+            current_state.get_cur_game()->append_action(0, std::make_unique<upgrade_age_command>());
+        });
 
     auto plus_place_cannon_button = tgui::Button::create();
     setup_button(plus_place_cannon_button, "../client/resources/pictures/plus_embrasure.jpg");
