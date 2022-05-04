@@ -254,13 +254,13 @@ void print(tgui::Gui &gui, sf::RenderWindow *window, const std::shared_ptr<game_
     }
     for (int i = 0; i < CANNONS_PER_AGE; i++) {
         gui.get(current_state.get_cur_screen_id())
-        ->cast<tgui::Group>()
-        ->get("cannon_" + std::to_string(i))
-        ->cast<tgui::Group>()
-        ->get(std::to_string(i))
-        ->cast<tgui::Button>()
-        ->getRenderer()
-        ->setTexture(tgui::String(std::move(get_filename(action::BUY_CANNON, i, p1.age))));
+            ->cast<tgui::Group>()
+            ->get("cannon_" + std::to_string(i))
+            ->cast<tgui::Group>()
+            ->get(std::to_string(i))
+            ->cast<tgui::Button>()
+            ->getRenderer()
+            ->setTexture(tgui::String(std::move(get_filename(action::BUY_CANNON, i, p1.age))));
     }
 
     auto road = sprite_supplier::get_instance().get_road_sprite(p1.age);
