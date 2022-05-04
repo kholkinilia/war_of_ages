@@ -22,8 +22,10 @@ sprite_supplier::sprite_supplier() {
     const static std::unordered_map<age_type, std::string> road_texture_file{
         {age_type::STONE, "../client/resources/game/roads/stone/road.png"}};
 
-    const static std::unordered_map<age_type, std::string> tower_texture_file{
-        {age_type::STONE, "../client/resources/game/towers/stone/tower.png"}};
+    const static std::map<std::pair<age_type, int>, std::string> tower_texture_file{
+        {{age_type::STONE, 1}, "../client/resources/game/towers/stone/tower_1.png"},
+        {{age_type::STONE, 2}, "../client/resources/game/towers/stone/tower_2.png"},
+        {{age_type::STONE, 3}, "../client/resources/game/towers/stone/tower_3.png"}};
 
     const static std::unordered_map<unit_type, std::string> unit_texture_file{
         {unit_type::PEASANT, "../client/resources/game/units/stone/peasant_animated.png"},
@@ -112,8 +114,10 @@ sf::Sprite sprite_supplier::get_road_sprite(age_type a_type) {
     return road_sprite[a_type];
 }
 
-sf::Sprite sprite_supplier::get_tower_sprite(age_type a_type, sprite_supplier::player_side side) {
-    return reflect_if_needed(tower_sprite[a_type], side);
+sf::Sprite sprite_supplier::get_tower_sprite(age_type a_type,
+                                             int number_of_slots,
+                                             sprite_supplier::player_side side) {
+    return reflect_if_needed(tower_sprite[{a_type, number_of_slots}], side);
 }
 
 sf::Sprite sprite_supplier::get_cannon_slot_sprite(std::pair<age_type, int> cs_type,
