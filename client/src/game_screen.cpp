@@ -35,7 +35,7 @@ static void setup_button(tgui::Button::Ptr &button, tgui::String name) {
             return tgui::String("../client/resources/game/units/stone/mini/") +
                    unit_to_string(static_cast<unit_type>(i)) + tgui::String(".png");
         case action::BUY_CANNON:
-            return tgui::String("../client/resources/game/cannons/stone/level_") + std::to_string(i + 1) +
+            return tgui::String("../client/resources/game/cannons/stone/level") + std::to_string(i + 1) +
                    tgui::String(".png");
         default:
             return tgui::String("../client/resources/pictures/") + std::to_string(i + 1) +
