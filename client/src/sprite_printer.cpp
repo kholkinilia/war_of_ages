@@ -9,10 +9,10 @@
 namespace war_of_ages {
 
 static void print_units(sf::RenderWindow *window,
-                        const std::deque<unit> &units,
+                        const player_snapshot &p,
                         sprite_supplier::player_side side) {
     sf::Sprite unit_picture;
-    for (auto unit : units) {
+    for (auto unit : p.units) {
         sf::RectangleShape unit_hp_in, unit_hp_out;
         if (side == sprite_supplier::player_side::LEFT)
             unit_hp_in.setFillColor({0, 255, 0, 255});
@@ -20,36 +20,27 @@ static void print_units(sf::RenderWindow *window,
             unit_hp_in.setFillColor({255, 0, 0, 255});
 
         float x_pos = unit.position() + TOWER_WIDTH, y_pos, hp_len;
-        if (unit.type() == unit_type::STONE_TOWER)
-            x_pos -= DELTA;
         if (side == sprite_supplier::player_side::RIGHT) {
             x_pos = ROAD_WIDTH - x_pos;
         }
 
         if (unit.type() == unit_type::STONE_TOWER) {
-            hp_len = TOWER_WIDTH * 0.6;
-            y_pos = BACKGROUND_HEIGHT - TOWER_HEIGHT - 10;
-            unit_picture = sprite_supplier::get_instance().get_tower_sprite(age_type::STONE, side);
-            float hp_x = DELTA;
-            if (side == sprite_supplier::player_side::RIGHT) {
-                hp_x = ROAD_WIDTH - 1.5 * hp_x;  // Strange constant
-            }
-            unit_hp_out.setPosition(hp_x, y_pos - DELTA - hp_len);
-            unit_hp_in.setPosition(hp_x,
-                                   y_pos - DELTA - hp_len * unit.remaining_hp() / unit.stats().initial_hp);
-            unit_hp_out.setSize({HP_HEIGHT, hp_len});
-            unit_hp_in.setSize({HP_HEIGHT, hp_len * unit.remaining_hp() / unit.stats().initial_hp});
+            y_pos = BACKGROUND_HEIGHT - TOWER_HEIGHT;
+            unit_picture =
+                sprite_supplier::get_instance().get_tower_sprite(age_type::STONE, p.cannons.size(), side);
             unit_picture.setPosition(x_pos, y_pos);
+            window->draw(unit_picture);
+            continue;
         } else {
-            y_pos = BACKGROUND_HEIGHT - DELTA - unit.stats().size.y;
+            y_pos = BACKGROUND_HEIGHT - Y_COORD_DELTA - unit.stats().size.y;
             unit_picture = sprite_supplier::get_instance().get_unit_sprite(unit, side);
             hp_len = unit.stats().size.x * 0.7;
             float delta = unit.stats().size.x;
             if (side == sprite_supplier::player_side::RIGHT) {
                 delta = 0;
             }
-            unit_hp_out.setPosition(x_pos + 0.15 * unit.stats().size.x - delta, y_pos - DELTA);
-            unit_hp_in.setPosition(x_pos + 0.15 * unit.stats().size.x - delta, y_pos - DELTA);
+            unit_hp_out.setPosition(x_pos + 0.15 * unit.stats().size.x - delta, y_pos - Y_COORD_DELTA);
+            unit_hp_in.setPosition(x_pos + 0.15 * unit.stats().size.x - delta, y_pos - Y_COORD_DELTA);
             unit_hp_out.setSize({hp_len, HP_HEIGHT});
             unit_hp_in.setSize({hp_len * unit.remaining_hp() / unit.stats().initial_hp, HP_HEIGHT});
             unit_picture.setPosition(x_pos, y_pos);
@@ -61,6 +52,43 @@ static void print_units(sf::RenderWindow *window,
     }
 }
 
+void print_tower_front(sf::RenderWindow *window,
+                       const player_snapshot &p,
+                       sprite_supplier::player_side side) {
+    sf::Sprite tower_front =
+        sprite_supplier::get_instance().get_tower_front_sprite(p.age, p.cannons.size(), side);
+
+    sf::RectangleShape unit_hp_in, unit_hp_out;
+    if (side == sprite_supplier::player_side::LEFT)
+        unit_hp_in.setFillColor({0, 255, 0, 255});
+    else
+        unit_hp_in.setFillColor({255, 0, 0, 255});
+
+    auto unit = p.units[0];
+
+    float x_pos = unit.position() + TOWER_WIDTH, y_pos, hp_len;
+    if (side == sprite_supplier::player_side::RIGHT) {
+        x_pos = ROAD_WIDTH - x_pos;
+    }
+
+    hp_len = TOWER_WIDTH * 0.6;
+    y_pos = BACKGROUND_HEIGHT - TOWER_HEIGHT;
+    float hp_x = DELTA;
+    if (side == sprite_supplier::player_side::RIGHT) {
+        hp_x = ROAD_WIDTH - 1.5 * hp_x;  // Strange constant
+    }
+    unit_hp_out.setPosition(hp_x, y_pos - Y_COORD_DELTA + static_cast<float>(TOWER_HEIGHT) / 2 - hp_len);
+    unit_hp_in.setPosition(hp_x, y_pos - Y_COORD_DELTA + static_cast<float>(TOWER_HEIGHT) / 2 -
+                                     hp_len * unit.remaining_hp() / unit.stats().initial_hp);
+    unit_hp_out.setSize({HP_HEIGHT, hp_len});
+    unit_hp_in.setSize({HP_HEIGHT, hp_len * unit.remaining_hp() / unit.stats().initial_hp});
+    tower_front.setPosition(x_pos, y_pos);
+
+    window->draw(tower_front);
+    window->draw(unit_hp_out);
+    window->draw(unit_hp_in);
+}
+
 static void print_bullets(sf::RenderWindow *window,
                           const std::vector<bullet> &bullets,
                           sprite_supplier::player_side side) {
@@ -69,7 +97,7 @@ static void print_bullets(sf::RenderWindow *window,
         bullet_picture = sprite_supplier::get_instance().get_bullet_sprite(bullet.type(), side);
 
         float x_pos = bullet.pos().x + TOWER_WIDTH,
-              y_pos = BACKGROUND_HEIGHT - DELTA - bullet.pos().y - bullet.stats().size.y;
+              y_pos = BACKGROUND_HEIGHT - Y_COORD_DELTA - bullet.pos().y - bullet.stats().size.y;
         if (side == sprite_supplier::player_side::RIGHT) {
             x_pos = ROAD_WIDTH - x_pos;
         }
@@ -82,21 +110,18 @@ static void print_bullets(sf::RenderWindow *window,
 static void print_cannons(sf::RenderWindow *window,
                           const std::vector<cannon> &cannons,
                           sprite_supplier::player_side side) {
-    sf::Sprite cannon_picture, cannon_slot_picture;
+    sf::Sprite cannon_picture;
     for (int i = 0; i < cannons.size(); i++) {
         auto cannon = cannons[i];
         cannon_picture = sprite_supplier::get_instance().get_cannon_sprite(cannon.type(), side);
-        cannon_slot_picture =
-            sprite_supplier::get_instance().get_cannon_slot_sprite({age_type::STONE, i + 1}, side);
 
-        float x_pos = TOWER_WIDTH + CANNONS_SLOTS_COORD_X[i], y_pos = CANNONS_SLOTS_COORD_Y[i] + 2 * DELTA;
+        float x_pos = TOWER_WIDTH + CANNONS_SLOTS_COORD_X[i],
+              y_pos = CANNONS_SLOTS_COORD_Y[i] + Y_COORD_DELTA + CANNON_HEIGHT;
         if (side == sprite_supplier::player_side::RIGHT) {
             x_pos = ROAD_WIDTH - x_pos;
         }
 
         cannon_picture.setPosition(x_pos, BACKGROUND_HEIGHT - y_pos);
-        cannon_slot_picture.setPosition(x_pos, BACKGROUND_HEIGHT - y_pos);
-        window->draw(cannon_slot_picture);
         window->draw(cannon_picture);
     }
 }
@@ -171,8 +196,10 @@ void print(tgui::Gui &gui, sf::RenderWindow *window, const std::shared_ptr<game_
     auto road = sprite_supplier::get_instance().get_road_sprite(age_type::STONE);
     road.setPosition(0, BACKGROUND_HEIGHT - ROAD_HEIGHT);
     window->draw(road);
-    print_units(window, p1.units, sprite_supplier::player_side::LEFT);
-    print_units(window, p2.units, sprite_supplier::player_side::RIGHT);
+    print_units(window, p1, sprite_supplier::player_side::LEFT);
+    print_units(window, p2, sprite_supplier::player_side::RIGHT);
+    print_tower_front(window, p1, sprite_supplier::player_side::LEFT);
+    print_tower_front(window, p2, sprite_supplier::player_side::RIGHT);
     print_bullets(window, p1.bullets, sprite_supplier::player_side::LEFT);
     print_bullets(window, p2.bullets, sprite_supplier::player_side::RIGHT);
     print_cannons(window, p1.cannons, sprite_supplier::player_side::LEFT);
