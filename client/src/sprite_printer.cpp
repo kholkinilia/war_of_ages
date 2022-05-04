@@ -27,8 +27,7 @@ static void print_units(sf::RenderWindow *window,
 
         if (unit.type() == unit_type::STONE_TOWER) {
             y_pos = BACKGROUND_HEIGHT - TOWER_HEIGHT;
-            unit_picture =
-                sprite_supplier::get_instance().get_tower_sprite(p.age, p.cannons.size(), side);
+            unit_picture = sprite_supplier::get_instance().get_tower_sprite(p.age, p.cannons.size(), side);
             unit_picture.setPosition(x_pos, y_pos);
             window->draw(unit_picture);
             continue;
