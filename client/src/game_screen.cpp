@@ -9,38 +9,11 @@
 
 namespace war_of_ages {
 
-enum class action { BUY_UNIT, BUY_CANNON, SELL_CANNON };
-
-static void setup_button(tgui::Button::Ptr &button, tgui::String name) {
-    button->getRenderer()->setTexture(tgui::String(std::move(name)));
+static void setup_button(tgui::Button::Ptr &button, tgui::String name = "") {
+    if (name != "") {
+        button->getRenderer()->setTexture(tgui::String(std::move(name)));
+    }
     button->getRenderer()->setBorders(0);
-}
-
-[[nodiscard]] static std::string unit_to_string(unit_type type) {
-    switch (type) {
-        case unit_type::PEASANT:
-            return "peasant";
-        case unit_type::ARCHER:
-            return "archer";
-        case unit_type::CHARIOT:
-            return "chariot";
-        default:
-            return "tower";
-    }
-}
-
-[[nodiscard]] static tgui::String get_filename(action a, int i) noexcept {
-    switch (a) {
-        case action::BUY_UNIT:
-            return tgui::String("../client/resources/game/units/stone/mini/") +
-                   unit_to_string(static_cast<unit_type>(i)) + tgui::String(".png");
-        case action::BUY_CANNON:
-            return tgui::String("../client/resources/game/cannons/stone/level") + std::to_string(i + 1) +
-                   tgui::String(".png");
-        default:
-            return tgui::String("../client/resources/pictures/") + std::to_string(i + 1) +
-                   tgui::String(".png");
-    }
 }
 
 static void setup_buttons_claster(std::vector<tgui::Group::Ptr> &groups, action a) {
@@ -59,7 +32,11 @@ static void setup_buttons_claster(std::vector<tgui::Group::Ptr> &groups, action 
     for (int i = 0; i < n; i++, k++) {
         groups[i] = tgui::Group::create();
         auto button = tgui::Button::create();
-        setup_button(button, get_filename(a, i));
+        if (a != action::SELL_CANNON)
+            setup_button(button);
+        else
+            setup_button(button, tgui::String("../client/resources/pictures/") + std::to_string(i + 1) +
+                                     tgui::String(".png"));
         button->setPosition(BACKGROUND_WIDTH - DELTA_X * k, BUTTON_Y);
         button->setSize(BUTTON_WIDTH, BUTTON_HEIGHT);
         button->onPress([i, a]() {
@@ -128,9 +105,7 @@ void game_screen_init(sf::View &v, tgui::Gui &gui) {
     new_era_button->setPosition(BACKGROUND_WIDTH - DELTA_X * 2, BUTTON_Y);
     new_era_button->setSize(BUTTON_WIDTH, BUTTON_HEIGHT);
     new_era_button->onPress(
-        []() {
-            current_state.get_cur_game()->append_action(0, std::make_unique<upgrade_age_command>());
-        });
+        []() { current_state.get_cur_game()->append_action(0, std::make_unique<upgrade_age_command>()); });
 
     auto plus_place_cannon_button = tgui::Button::create();
     setup_button(plus_place_cannon_button, "../client/resources/pictures/plus_embrasure.jpg");
@@ -198,7 +173,7 @@ void game_screen_init(sf::View &v, tgui::Gui &gui) {
     auto exp_label = tgui::Label::create();
     exp_label->getRenderer()->setTextSize(0.75 * COIN_HEIGHT);
     exp_label->setPosition(BUTTON_WIDTH + COIN_WIDTH,
-                            FPS_LABEL_HEIGHT + 1.5 * COIN_HEIGHT / COST_HEIGHT + COIN_HEIGHT);
+                           FPS_LABEL_HEIGHT + 1.5 * COIN_HEIGHT / COST_HEIGHT + COIN_HEIGHT);
 
     game_screen_group->add(autobattle_button);
     game_screen_group->add(new_era_button);
