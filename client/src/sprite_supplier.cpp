@@ -72,7 +72,10 @@ sprite_supplier::sprite_supplier() {
     static std::unordered_map<cannon_type, std::string> cannon_to_string{
         {cannon_type::STONE_LEVEL_1, "level1"},
         {cannon_type::STONE_LEVEL_2, "level2"},
-        {cannon_type::STONE_LEVEL_3, "level3"}};
+        {cannon_type::STONE_LEVEL_3, "level3"},
+        {cannon_type::CASTLE_LEVEL_1, "level1"},
+        {cannon_type::CASTLE_LEVEL_2, "level2"},
+        {cannon_type::CASTLE_LEVEL_3, "level3"}};
 
     static auto get_cannon_file = [&](age_type a_type, cannon_type c_type) {
         return common_file_prefix + "cannons" + "/" + age_to_string[a_type] + "/" + cannon_to_string[c_type] +
@@ -90,7 +93,7 @@ sprite_supplier::sprite_supplier() {
                ".png";
     };
 
-    const static std::vector<age_type> drawn_ages{age_type::STONE};
+    const static std::vector<age_type> drawn_ages{age_type::STONE, age_type::CASTLE};
 
     const static std::unordered_map<age_type, std::vector<unit_type>> units_by_age{
         {age_type::STONE, {unit_type::PEASANT, unit_type::ARCHER, unit_type::CHARIOT}},
