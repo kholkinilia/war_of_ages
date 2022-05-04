@@ -205,15 +205,13 @@ void print(tgui::Gui &gui, sf::RenderWindow *window, const std::shared_ptr<game_
         auto unit = p1.units_to_train[i];
         queued_unit_out.setFillColor(sf::Color::White);
         queued_unit_out.setSize({BUTTON_WIDTH, HP_HEIGHT});
-        x_pos = BACKGROUND_WIDTH - 7 * DELTA_X -
-                (static_cast<int>(unit.type()) - 3 * static_cast<int>(p1.age)) * DELTA_X;
+        int unit_no = static_cast<int>(unit.type()) - 3 * static_cast<int>(p1.age);
+        if(unit_no < 0) unit_no += (abs(unit_no / 3) + 1) * 3;
+        x_pos = BACKGROUND_WIDTH - 7 * DELTA_X - unit_no * DELTA_X;
 
-        queued_unit_out.setPosition({x_pos + (window->getView().getCenter().x - BACKGROUND_WIDTH / 2),
-                                     BUTTON_HEIGHT + BUTTON_Y +
-                                         (2 * (number_of_units_in_queue[static_cast<int>(unit.type()) -
-                                                                        3 * static_cast<int>(p1.age)]++) +
-                                          1) *
-                                             HP_HEIGHT});
+        queued_unit_out.setPosition(
+            {x_pos + (window->getView().getCenter().x - BACKGROUND_WIDTH / 2),
+             BUTTON_HEIGHT + BUTTON_Y + (2 * (number_of_units_in_queue[unit_no]++) + 1) * HP_HEIGHT});
         window->draw(queued_unit_out);
 
         if (i == 0) {
@@ -268,11 +266,11 @@ void print(tgui::Gui &gui, sf::RenderWindow *window, const std::shared_ptr<game_
     window->draw(road);
     print_units(window, p1, sprite_supplier::player_side::LEFT);
     print_units(window, p2, sprite_supplier::player_side::RIGHT);
-    print_tower_front(window, p1, sprite_supplier::player_side::LEFT);
-    print_tower_front(window, p2, sprite_supplier::player_side::RIGHT);
     print_bullets(window, p1.bullets, sprite_supplier::player_side::LEFT);
     print_bullets(window, p2.bullets, sprite_supplier::player_side::RIGHT);
     print_cannons(window, p1.cannons, sprite_supplier::player_side::LEFT);
     print_cannons(window, p2.cannons, sprite_supplier::player_side::RIGHT);
+    print_tower_front(window, p1, sprite_supplier::player_side::LEFT);
+    print_tower_front(window, p2, sprite_supplier::player_side::RIGHT);
 }
 }  // namespace war_of_ages
