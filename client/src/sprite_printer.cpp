@@ -142,6 +142,12 @@ void print(tgui::Gui &gui, sf::RenderWindow *window, const std::shared_ptr<game_
         ->cast<tgui::Label>()
         ->setText(std::to_string(p1.money));
 
+    gui.get(current_state.get_cur_screen_id())
+        ->cast<tgui::Group>()
+        ->get("exp_label")
+        ->cast<tgui::Label>()
+        ->setText(std::to_string(p1.exp));
+
     for (int i = 0; i < CANNONS_PER_AGE; i++) {
         auto label = gui.get(current_state.get_cur_screen_id())
                          ->cast<tgui::Group>()

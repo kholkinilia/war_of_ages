@@ -189,6 +189,15 @@ void game_screen_init(sf::View &v, tgui::Gui &gui) {
     coin_label->getRenderer()->setTextSize(0.75 * COIN_HEIGHT);
     coin_label->setPosition(BUTTON_WIDTH + COIN_WIDTH, FPS_LABEL_HEIGHT + 1.5 * COIN_HEIGHT / COST_HEIGHT);
 
+    auto exp_image = tgui::Picture::create("../client/resources/pictures/exp.png");
+    exp_image->setPosition(BUTTON_WIDTH, FPS_LABEL_HEIGHT + COIN_HEIGHT);
+    exp_image->setSize(COIN_WIDTH, COIN_HEIGHT);
+
+    auto exp_label = tgui::Label::create();
+    exp_label->getRenderer()->setTextSize(0.75 * COIN_HEIGHT);
+    exp_label->setPosition(BUTTON_WIDTH + COIN_WIDTH,
+                            FPS_LABEL_HEIGHT + 1.5 * COIN_HEIGHT / COST_HEIGHT + COIN_HEIGHT);
+
     game_screen_group->add(autobattle_button);
     game_screen_group->add(new_era_button);
     game_screen_group->add(plus_place_cannon_button);
@@ -196,6 +205,8 @@ void game_screen_init(sf::View &v, tgui::Gui &gui) {
     game_screen_group->add(ulta_button);
     game_screen_group->add(coin_image);
     game_screen_group->add(coin_label, "coin_label");
+    game_screen_group->add(exp_image);
+    game_screen_group->add(exp_label, "exp_label");
     game_screen_group->add(plus_place_cannon_coin_image);
     game_screen_group->add(plus_place_cannon_coin_label, "plus_place_cannon_coin_label");
     gui.add(game_screen_group, screen_id.at(screen::GAME_SCREEN));
