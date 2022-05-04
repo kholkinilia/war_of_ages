@@ -28,9 +28,6 @@ void show_screen(tgui::Gui &gui, screen new_screen, screen prev_screen) {
     gui.get(screen_id.at(prev_screen))->setVisible(false);
     gui.get(screen_id.at(new_screen))->setVisible(true);
     current_state.set_cur_screen(new_screen);
-    if (current_state.get_cur_game_state() == nullptr && new_screen == screen::GAME_SCREEN) {
-        current_state.set_cur_game_state(std::make_shared<game_state>(1.f * clock() / CLOCKS_PER_SEC));
-    }
     if (new_screen == screen::END_GAME) {
         gui.get(screen_id.at(screen::END_GAME))
             ->cast<tgui::Group>()
@@ -39,7 +36,7 @@ void show_screen(tgui::Gui &gui, screen new_screen, screen prev_screen) {
             ->setText(current_state.get_cur_game_state()->get_game_status() == game_status::P1_WON
                           ? "Поздравляем, Вы победили!"
                           : "Вы проиграли, повезет в следующий раз");
-        current_state.set_cur_game_state(nullptr);
+        current_state.reset_game();
     }
 }
 

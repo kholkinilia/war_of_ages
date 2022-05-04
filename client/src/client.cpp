@@ -1,10 +1,10 @@
 #include "../include/client.h"
+#include "../include/bot_actions_receiver.h"
 
 namespace war_of_ages {
 
 client_state::client_state(std::string handle_, screen cur_screen_)
-    : handle(std::move(handle_)), cur_screen(cur_screen_) {
-    player_actions.resize(2);
+    : handle(std::move(handle_)), cur_screen(cur_screen_), cur_game(nullptr) {
 }
 
 std::string client_state::get_cur_screen_id() const {
@@ -23,12 +23,9 @@ std::shared_ptr<tournament> client_state::get_cur_tournament() const {
 void client_state::set_cur_screen(screen s) {
     cur_screen = s;
 }
-void client_state::set_cur_game_state(std::shared_ptr<game_state> st) {
-    cur_game_state = std::move(st);
-}
 
 std::shared_ptr<game_state> client_state::get_cur_game_state() const {
-    return cur_game_state;
+    return cur_game ? cur_game->get_cur_game_state() : nullptr;
 }
 vec2f client_state::get_view_center() const noexcept {
     return view_center;
@@ -36,15 +33,18 @@ vec2f client_state::get_view_center() const noexcept {
 void client_state::set_view_center(const vec2f &v) {
     view_center = v;
 }
-void client_state::add_action(int player, std::unique_ptr<game_command> cmd) {
-    player_actions[player].emplace_back(cmd.release());
+void client_state::reset_game() {
+    cur_game->reset();
 }
-const std::vector<std::vector<std::unique_ptr<game_command>>> &client_state::get_player_actions() const {
-    return player_actions;
+void client_state::create_game(game_mode mode) {
+    std::vector<game_handler::player_type> types{game_handler::player_type::PLAYER,
+                                                 game_handler::player_type::BOT};
+    if (mode == game_mode::MULTI) {
+        types[1] = game_handler::player_type::PLAYER;
+    }
+    cur_game = std::make_shared<game_handler>(types);
 }
-void client_state::clear_actions() {
-    player_actions[0].clear();
-    player_actions[1].clear();
+std::shared_ptr<game_handler> client_state::get_cur_game() const noexcept {
+    return cur_game;
 }
-
 }  // namespace war_of_ages

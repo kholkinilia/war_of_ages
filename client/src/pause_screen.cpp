@@ -55,7 +55,7 @@ void pause_screen_init(sf::View &v, tgui::Gui &gui) {
     start_button->setTextSize(30);
     start_button->onPress([&gui]() {
         show_screen(gui, screen::START_SCREEN, screen::PAUSE);
-        current_state.set_cur_game_state(nullptr);
+        current_state.reset_game();
     });
     start_button->setPosition("30%", "86%");
     start_button->setSize("40%", "10%");
