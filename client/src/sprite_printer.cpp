@@ -127,34 +127,6 @@ static void print_cannons(sf::RenderWindow *window,
     }
 }
 
-[[nodiscard]] static std::string to_string(age_type age) {
-    switch (age) {
-        case age_type::STONE:
-            return "stone";
-        case age_type::CASTLE:
-            return "castle";
-        case age_type::RENAISSANCE:
-            return "renaissance";
-        case age_type::MODERN:
-            return "modern";
-        case age_type::FUTURE:
-            return "future";
-    }
-}
-
-[[nodiscard]] static tgui::String get_filename(action a, int i, age_type age) noexcept {
-    switch (a) {
-        case action::BUY_UNIT:
-            return tgui::String("../client/resources/game/units/" + to_string(age) + "/mini/") +
-                   std::to_string(i + 1) + tgui::String(".png");
-        case action::BUY_CANNON:
-            return tgui::String("../client/resources/game/cannons/" + to_string(age) + "/level") +
-                   std::to_string(i + 1) + tgui::String(".png");
-        default:
-            return "";
-    }
-}
-
 void print(tgui::Gui &gui, sf::RenderWindow *window, const std::shared_ptr<game_state> &state) {
     auto [p1, p2] = state->snapshot_players();
     state->update(current_state.get_cur_game()->get_actions(0, p1),
@@ -240,27 +212,6 @@ void print(tgui::Gui &gui, sf::RenderWindow *window, const std::shared_ptr<game_
                        2 * (BUTTON_HEIGHT + BUTTON_Y));
     window->draw(ult_out);
     window->draw(ult_in);
-
-    for (int i = 0; i < UNITS_PER_AGE; i++) {
-        gui.get(current_state.get_cur_screen_id())
-            ->cast<tgui::Group>()
-            ->get("unit_" + std::to_string(i))
-            ->cast<tgui::Group>()
-            ->get(std::to_string(i))
-            ->cast<tgui::Button>()
-            ->getRenderer()
-            ->setTexture(tgui::String(std::move(get_filename(action::BUY_UNIT, i, p1.age))));
-    }
-    for (int i = 0; i < CANNONS_PER_AGE; i++) {
-        gui.get(current_state.get_cur_screen_id())
-            ->cast<tgui::Group>()
-            ->get("cannon_" + std::to_string(i))
-            ->cast<tgui::Group>()
-            ->get(std::to_string(i))
-            ->cast<tgui::Button>()
-            ->getRenderer()
-            ->setTexture(tgui::String(std::move(get_filename(action::BUY_CANNON, i, p1.age))));
-    }
 
     auto road = sprite_supplier::get_instance().get_road_sprite(p1.age);
     road.setPosition(0, BACKGROUND_HEIGHT - ROAD_HEIGHT);

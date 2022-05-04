@@ -16,6 +16,35 @@ static void setup_button(tgui::Button::Ptr &button, tgui::String name = "") {
     button->getRenderer()->setBorders(0);
 }
 
+[[nodiscard]] static std::string to_string(age_type age) {
+    switch (age) {
+        case age_type::STONE:
+            return "stone";
+        case age_type::CASTLE:
+            return "castle";
+        case age_type::RENAISSANCE:
+            return "renaissance";
+        case age_type::MODERN:
+            return "modern";
+        case age_type::FUTURE:
+            return "future";
+    }
+}
+
+[[nodiscard]] static tgui::String get_filename(action a, int i, age_type age) noexcept {
+    switch (a) {
+        case action::BUY_UNIT:
+            return tgui::String("../client/resources/game/units/" + to_string(age) + "/mini/") +
+                   std::to_string(i + 1) + tgui::String(".png");
+        case action::BUY_CANNON:
+            return tgui::String("../client/resources/game/cannons/" + to_string(age) + "/level") +
+                   std::to_string(i + 1) + tgui::String(".png");
+        default:
+            return tgui::String("../client/resources/pictures/") + std::to_string(i + 1) +
+                   tgui::String(".png");
+    }
+}
+
 static void setup_buttons_claster(std::vector<tgui::Group::Ptr> &groups, action a) {
     static int k = 4;
     int n;
@@ -32,11 +61,8 @@ static void setup_buttons_claster(std::vector<tgui::Group::Ptr> &groups, action 
     for (int i = 0; i < n; i++, k++) {
         groups[i] = tgui::Group::create();
         auto button = tgui::Button::create();
-        if (a != action::SELL_CANNON)
-            setup_button(button);
-        else
-            setup_button(button, tgui::String("../client/resources/pictures/") + std::to_string(i + 1) +
-                                     tgui::String(".png"));
+        setup_button(button,
+                     get_filename(a, i, age_type::STONE));
         button->setPosition(BACKGROUND_WIDTH - DELTA_X * k, BUTTON_Y);
         button->setSize(BUTTON_WIDTH, BUTTON_HEIGHT);
         button->onPress([i, a]() {
@@ -104,8 +130,32 @@ void game_screen_init(sf::View &v, tgui::Gui &gui) {
     setup_button(new_era_button, "../client/resources/pictures/new_era.jpg");
     new_era_button->setPosition(BACKGROUND_WIDTH - DELTA_X * 2, BUTTON_Y);
     new_era_button->setSize(BUTTON_WIDTH, BUTTON_HEIGHT);
-    new_era_button->onPress(
-        []() { current_state.get_cur_game()->append_action(0, std::make_unique<upgrade_age_command>()); });
+    new_era_button->onPress([&gui]() {
+        for (int i = 0; i < UNITS_PER_AGE; i++) {
+            gui.get(current_state.get_cur_screen_id())
+                ->cast<tgui::Group>()
+                ->get("unit_" + std::to_string(i))
+                ->cast<tgui::Group>()
+                ->get(std::to_string(i))
+                ->cast<tgui::Button>()
+                ->getRenderer()
+                ->setTexture(tgui::String(std::move(get_filename(
+                    action::BUY_UNIT, i, current_state.get_cur_game_state()->snapshot_players().first.age))));
+        }
+        for (int i = 0; i < CANNONS_PER_AGE; i++) {
+            gui.get(current_state.get_cur_screen_id())
+                ->cast<tgui::Group>()
+                ->get("cannon_" + std::to_string(i))
+                ->cast<tgui::Group>()
+                ->get(std::to_string(i))
+                ->cast<tgui::Button>()
+                ->getRenderer()
+                ->setTexture(tgui::String(std::move(
+                    get_filename(action::BUY_CANNON, i,
+                                 current_state.get_cur_game_state()->snapshot_players().first.age))));
+        }
+        current_state.get_cur_game()->append_action(0, std::make_unique<upgrade_age_command>());
+    });
 
     auto plus_place_cannon_button = tgui::Button::create();
     setup_button(plus_place_cannon_button, "../client/resources/pictures/plus_embrasure.jpg");
