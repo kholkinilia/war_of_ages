@@ -105,7 +105,7 @@ sprite_supplier::sprite_supplier() {
     const static std::unordered_map<age_type, std::vector<bullet_type>> bullets_by_age{
         {age_type::STONE,
          {bullet_type::STONE_LEVEL_1, bullet_type::STONE_LEVEL_2, bullet_type::STONE_LEVEL_3,
-         bullet_type::STONE_ULT}},
+          bullet_type::STONE_ULT}},
         {age_type::CASTLE,
          {bullet_type::CASTLE_LEVEL_1, bullet_type::CASTLE_LEVEL_2, bullet_type::CASTLE_LEVEL_3,
           bullet_type::CASTLE_ULT}}};
