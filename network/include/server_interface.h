@@ -2,6 +2,7 @@
 #define WAR_OF_AGES_SERVER_INTERFACE_H
 
 #include <algorithm>
+#include <thread>
 #include <unordered_map>
 #include "connection.h"
 #include "message.h"
@@ -13,11 +14,12 @@ template <typename T>
 struct server_interface {
 public:
     explicit server_interface(std::uint16_t port)
-        : m_acceptor(m_context, boost::asio::ip::tcp::endpoint(boost::asio::ip::tcp::v4(), port)) {
-    }
+        : m_acceptor(m_context, boost::asio::ip::tcp::endpoint(boost::asio::ip::tcp::v4(), port)){};
+
     virtual ~server_interface() {
         stop();
     }
+
     bool start() {
         try {
             wait_for_connection();
@@ -55,7 +57,6 @@ public:
                     m_active_connections.back()->connect_to_client(this, m_id_counter++);
 
                     std::cout << "[" << m_active_connections.back().get_id() << "] Connection approved.\n";
-
                 } else {
                     std::cout << "[------] Connection denied.\n";
                 }
@@ -120,15 +121,10 @@ protected:
     std::deque<std::shared_ptr<connection<T>>> m_active_connections;
     int m_id_counter = 10000;
 
-    virtual bool on_client_connect(std::shared_ptr<connection<T>> client) {
-        return false;
-    }
-    virtual bool on_client_disconnect(std::shared_ptr<connection<T>> client) {
-    }
-    virtual void on_message(std::shared_ptr<connection<T>> client, const message<T> &msg) {
-    }
-    virtual void on_client_validated(std::shared_ptr<connection<T>> client) {
-    }
+    virtual bool on_client_connect(std::shared_ptr<connection<T>> client) = 0;
+    virtual bool on_client_disconnect(std::shared_ptr<connection<T>> client) = 0;
+    virtual void on_message(std::shared_ptr<connection<T>> client, const message<T> &msg) = 0;
+    virtual void on_client_validated(std::shared_ptr<connection<T>> client) = 0;
 };
 
 }  // namespace war_of_ages
