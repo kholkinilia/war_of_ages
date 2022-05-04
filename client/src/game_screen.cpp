@@ -61,8 +61,7 @@ static void setup_buttons_claster(std::vector<tgui::Group::Ptr> &groups, action 
     for (int i = 0; i < n; i++, k++) {
         groups[i] = tgui::Group::create();
         auto button = tgui::Button::create();
-        setup_button(button,
-                     get_filename(a, i, age_type::STONE));
+        setup_button(button, get_filename(a, i, age_type::STONE));
         button->setPosition(BACKGROUND_WIDTH - DELTA_X * k, BUTTON_Y);
         button->setSize(BUTTON_WIDTH, BUTTON_HEIGHT);
         button->onPress([i, a]() {
