@@ -157,7 +157,7 @@ void print(tgui::Gui &gui, sf::RenderWindow *window, const std::shared_ptr<game_
                          ->get("coin_label")
                          ->cast<tgui::Label>();
         if (i < p1.cannons.size()) {
-            label->setText('+' + std::to_string(p1.cannons[i].stats().cost));
+            label->setText('+' + std::to_string(p1.cannons[i].stats().cost / 2));
         } else {
             label->setText("+0");
         }
