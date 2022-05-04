@@ -266,11 +266,11 @@ void print(tgui::Gui &gui, sf::RenderWindow *window, const std::shared_ptr<game_
     window->draw(road);
     print_units(window, p1, sprite_supplier::player_side::LEFT);
     print_units(window, p2, sprite_supplier::player_side::RIGHT);
+    print_tower_front(window, p1, sprite_supplier::player_side::LEFT);
+    print_tower_front(window, p2, sprite_supplier::player_side::RIGHT);
     print_bullets(window, p1.bullets, sprite_supplier::player_side::LEFT);
     print_bullets(window, p2.bullets, sprite_supplier::player_side::RIGHT);
     print_cannons(window, p1.cannons, sprite_supplier::player_side::LEFT);
     print_cannons(window, p2.cannons, sprite_supplier::player_side::RIGHT);
-    print_tower_front(window, p1, sprite_supplier::player_side::LEFT);
-    print_tower_front(window, p2, sprite_supplier::player_side::RIGHT);
 }
 }  // namespace war_of_ages
