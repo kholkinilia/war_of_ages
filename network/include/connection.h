@@ -1,9 +1,12 @@
 #ifndef WAR_OF_AGES_CONNECTION_H
 #define WAR_OF_AGES_CONNECTION_H
 
+#include <boost/asio/connect.hpp>
+#include <boost/asio/ip/tcp.hpp>
+#include <boost/asio/read.hpp>
+#include <boost/asio/write.hpp>
 #include <chrono>
 #include <random>
-#include "boost/asio.hpp"
 #include "connection_fwd.h"
 #include "message.h"
 #include "server_fwd.h"
@@ -54,12 +57,10 @@ private:
                         write_body();
                     } else {
                         m_messages_to_send.pop_front();
-
                         if (!m_messages_to_send.empty()) {
                             write_header();
                         }
                     };
-
                 } else {
                     std::cout << "[" << m_id << "] Write header failed.\n";
                     m_socket.close();
@@ -94,47 +95,6 @@ private:
         read_header();
     }
 
-    std::uint64_t scramble(std::uint64_t input) {  // just a random function for em
-        return (((input << 32) ^ (input >> 5)) * input) ^ 694201337;
-    }
-
-    void write_validation() {
-        boost::asio::async_write(m_socket, boost::asio::buffer(&m_handshake_out, sizeof(std::uint64_t)),
-                                 [this](std::error_code ec, std::size_t length) {
-                                     if (!ec) {
-                                         if (m_owner == owner::client) {
-                                             read_header();
-                                         }
-                                     } else {
-                                         m_socket.close();
-                                     }
-                                 });
-    }
-
-    void read_validation(server_inteface<T> *server = nullptr) {
-        boost::asio::async_read(m_socket, boost::asio::buffer(&m_handshake_in, sizeof(std::uint64_t)),
-                                [this, server](std::error_code ec, std::size_t length) {
-                                    if (!ec) {
-                                        if (m_owner == owner::server) {
-                                            if (m_handshake_in == m_handshake_expected) {
-                                                std::cout << "Client validated\n";
-                                                server->on_client_validated(this->shared_from_this());
-                                                read_header();
-                                            } else {
-                                                std::cout << "Client disconnected (failed validation)\n";
-                                                m_socket.close();
-                                            }
-                                        } else {
-                                            m_handshake_out = scramble(m_handshake_in);
-                                            write_validation();
-                                        }
-                                    } else {
-                                        std::cout << "Client disconnected (read_validation)\n";
-                                        m_socket.close();
-                                    };
-                                });
-    }
-
 public:
     enum class owner { server, client };
 
@@ -145,36 +105,37 @@ public:
         : m_owner(parent),
           m_context(context),
           m_socket(std::move(socket)),
-          m_messages_received(messages_received) {
-        if (m_owner == owner::server) {
-            static std::mt19937_64 rnd(clock());
-            m_handshake_out = rnd();
-            m_handshake_expected = scramble(m_handshake_out);
-        }
-    }
-    ~connection() = default;
+          m_messages_received(messages_received){};
 
-    bool connect_to_server(const boost::asio::ip::tcp::resolver::results_type &endpoints) {
+    connection(const connection &other) = delete;
+    connection(connection &&other) noexcept = default;
+    connection &operator=(const connection &other) = delete;
+    connection &operator=(connection &&other) = default;
+
+    ~connection() {
+        disconnect();
+    }
+
+    void connect_to_server(const boost::asio::ip::tcp::resolver::results_type &endpoints) {
         if (m_owner == owner::client) {
             boost::asio::async_connect(
                 m_socket, endpoints,
                 [this](std::error_code ec, const boost::asio::ip::tcp::endpoint &endpoint) {
                     if (!ec) {
-                        read_validation();
+                        read_header();
                     }
                 });
         }
     }
-    bool connect_to_client(server_inteface<T> *server, std::uint32_t client_id = 0) {
+    void connect_to_client(server_inteface<T> *server, std::uint32_t client_id = 0) {
         if (m_owner == owner::server) {
             if (m_socket.is_open()) {
                 m_id = client_id;
-                write_validation();
-                read_validation(server);
+                read_header();
             }
         }
     }
-    bool disconnect() {
+    void disconnect() {
         if (!is_connected()) {
             boost::asio::post(m_context, [this]() { m_socket.close(); });
         }
@@ -183,7 +144,7 @@ public:
         return m_socket.is_open();
     }
 
-    bool send(const message<T> &msg) {
+    void send(const message<T> &msg) {
         boost::asio::post(m_context, [this, msg]() {
             bool is_sending = !m_messages_to_send.empty();
             m_messages_to_send.push_back(msg);
@@ -208,9 +169,6 @@ private:
     message<T> m_receiving_message;
 
     std::uint32_t m_id = 0;
-    std::uint64_t m_handshake_out = 0;
-    std::uint64_t m_handshake_in = 0;
-    std::uint64_t m_handshake_expected = 0;
 };
 
 }  // namespace war_of_ages

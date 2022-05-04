@@ -21,6 +21,11 @@ protected:
     std::unique_ptr<connection<T>> m_connection;
 
 public:
+    client_interface(const client_interface &other) = delete;
+    client_interface(client_interface &&other) noexcept = default;
+    client_interface &operator=(const client_interface &other) = delete;
+    client_interface &operator=(client_interface &&other) = delete;
+
     virtual ~client_interface() {
         disconnect();
     }
@@ -52,11 +57,8 @@ public:
         }
     }
 
-    bool is_connected() {
-        if (m_connection) {
-            return m_connection->is_connected();
-        }
-        return false;
+    [[nodiscard]] bool is_connected() const {
+        return (m_connection && m_connection->is_connected());
     }
 
     ts_deque<owned_message<T>> &get_messages_received() {

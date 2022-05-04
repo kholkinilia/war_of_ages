@@ -1,6 +1,8 @@
 #ifndef WAR_OF_AGES_THREAD_SAFE_DEQUE_H
 #define WAR_OF_AGES_THREAD_SAFE_DEQUE_H
 
+#include <condition_variable>
+#include <cstddef>
 #include <deque>
 #include <mutex>
 
