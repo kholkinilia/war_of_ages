@@ -31,7 +31,11 @@ const unit_stats &unit::get_stats(unit_type type) noexcept {
         {unit_type::PEASANT, unit_stats(2, 50, 0.5, 0.5, 0, 25, 25, {100, 200}, 100)},
         {unit_type::ARCHER, unit_stats(3, 70, 1, 1, 500, 30, 50, {100, 200}, 100)},
         {unit_type::CHARIOT, unit_stats(4, 100, 1.5, 1.25, 0, 40, 100, {200, 160}, 150)},
-        {unit_type::STONE_TOWER, unit_stats(0, 5000, 0, 0, 0, 0, 0, {0, 0}, 0)}};
+        {unit_type::SWORDSMAN, unit_stats(4, 100, 1.5, 1.25, 0, 40, 100, {200, 160}, 150)},
+        {unit_type::ARBALESTER, unit_stats(4, 100, 1.5, 1.25, 0, 40, 100, {200, 160}, 150)},
+        {unit_type::KNIGHT, unit_stats(4, 100, 1.5, 1.25, 0, 40, 100, {200, 160}, 150)},
+        {unit_type::STONE_TOWER, unit_stats(0, 5000, 0, 0, 0, 0, 0, {0, 0}, 0)},
+        {unit_type::CASTLE_TOWER, unit_stats(0, 5000, 0, 0, 0, 0, 0, {0, 0}, 0)}};
     return stats.at(type);
 }
 
@@ -119,23 +123,6 @@ float unit::walking_time() const noexcept {
 
 float unit::attack_progress() const noexcept {
     return m_attack_progress_s;
-}
-
-std::string to_string(unit_type type) {
-    switch (type) {
-        case unit_type::PEASANT:
-            return "peasant";
-        case unit_type::ARCHER:
-            return "archer";
-        case unit_type::CHARIOT:
-            return "chariot";
-        default:
-            return "tower";
-    }
-}
-
-float unit::lifetime() const noexcept {
-    return m_lifetime;
 }
 
 }  // namespace war_of_ages
