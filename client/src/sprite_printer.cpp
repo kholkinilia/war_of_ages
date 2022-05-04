@@ -206,7 +206,8 @@ void print(tgui::Gui &gui, sf::RenderWindow *window, const std::shared_ptr<game_
         queued_unit_out.setFillColor(sf::Color::White);
         queued_unit_out.setSize({BUTTON_WIDTH, HP_HEIGHT});
         int unit_no = static_cast<int>(unit.type()) - 3 * static_cast<int>(p1.age);
-        if(unit_no < 0) unit_no += (abs(unit_no / 3) + 1) * 3;
+        if (unit_no < 0)
+            unit_no += (abs(unit_no / 3) + 1) * 3;
         x_pos = BACKGROUND_WIDTH - 7 * DELTA_X - unit_no * DELTA_X;
 
         queued_unit_out.setPosition(
