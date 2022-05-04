@@ -27,6 +27,11 @@ sprite_supplier::sprite_supplier() {
         {{age_type::STONE, 2}, "../client/resources/game/towers/stone/tower_2.png"},
         {{age_type::STONE, 3}, "../client/resources/game/towers/stone/tower_3.png"}};
 
+    const static std::map<std::pair<age_type, int>, std::string> tower_front_texture_file{
+        {{age_type::STONE, 1}, "../client/resources/game/towers/stone/front_1.png"},
+        {{age_type::STONE, 2}, "../client/resources/game/towers/stone/front_2.png"},
+        {{age_type::STONE, 3}, "../client/resources/game/towers/stone/front_3.png"}};
+
     const static std::unordered_map<unit_type, std::string> unit_texture_file{
         {unit_type::PEASANT, "../client/resources/game/units/stone/peasant_animated.png"},
         {unit_type::ARCHER, "../client/resources/game/units/stone/archer_animated.png"},
@@ -68,6 +73,10 @@ sprite_supplier::sprite_supplier() {
 
     for (auto &[a_type, filename] : tower_texture_file) {
         tower_sprite[a_type] = create_sprite_instance(filename, TOWER_WIDTH, TOWER_HEIGHT);
+    }
+
+    for (auto &[a_type, filename] : tower_front_texture_file) {
+        tower_front_sprite[a_type] = create_sprite_instance(filename, TOWER_WIDTH, TOWER_HEIGHT);
     }
 
     for (auto &[u_type, filename] : unit_texture_file) {
@@ -115,9 +124,15 @@ sf::Sprite sprite_supplier::get_road_sprite(age_type a_type) {
 }
 
 sf::Sprite sprite_supplier::get_tower_sprite(age_type a_type,
-                                             int number_of_slots,
+                                             std::size_t number_of_slots,
                                              sprite_supplier::player_side side) {
     return reflect_if_needed(tower_sprite[{a_type, number_of_slots}], side);
+}
+
+sf::Sprite sprite_supplier::get_tower_front_sprite(age_type a_type,
+                                                   std::size_t number_of_slots,
+                                                   sprite_supplier::player_side side) {
+    return reflect_if_needed(tower_front_sprite[{a_type, number_of_slots}], side);
 }
 
 sf::Sprite sprite_supplier::get_cannon_slot_sprite(std::pair<age_type, int> cs_type,
@@ -170,6 +185,10 @@ sprite_supplier::~sprite_supplier() {
         delete sprite.getTexture();
     }
 
+    for (auto &[a_type, sprite] : tower_front_sprite) {
+        delete sprite.getTexture();
+    }
+
     //    for (auto &[u_type, sprite] : unit_sprite) {
     //        delete sprite.getTexture();
     //    }
@@ -186,5 +205,4 @@ sprite_supplier::~sprite_supplier() {
         delete sprite.getTexture();
     }
 }
-
 }  // namespace war_of_ages

@@ -20,7 +20,8 @@ public:
 
     sf::Sprite get_background_sprite(age_type a_type);
     sf::Sprite get_road_sprite(age_type a_type);
-    sf::Sprite get_tower_sprite(age_type a_type, int number_of_slots, player_side side);
+    sf::Sprite get_tower_sprite(age_type a_type, std::size_t number_of_slots, player_side side);
+    sf::Sprite get_tower_front_sprite(age_type a_type, std::size_t number_of_slots, player_side side);
     sf::Sprite get_cannon_slot_sprite(std::pair<age_type, int> cs_type, player_side side);
     sf::Sprite get_unit_sprite(const unit &source_unit, player_side side);
     sf::Sprite get_cannon_sprite(cannon_type c_type, player_side side);
@@ -40,6 +41,7 @@ private:
     std::unordered_map<age_type, sf::Sprite> road_sprite;
 
     std::map<std::pair<age_type, int>, sf::Sprite> tower_sprite;
+    std::map<std::pair<age_type, int>, sf::Sprite> tower_front_sprite;
     std::map<std::pair<age_type, int>, sf::Sprite> cannon_slots_sprite;
 
     std::unordered_map<unit_type, animation_handler> unit_sprite;
