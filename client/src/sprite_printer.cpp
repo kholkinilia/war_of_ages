@@ -33,22 +33,22 @@ static void print_units(sf::RenderWindow *window,
             if (side == sprite_supplier::player_side::RIGHT) {
                 hp_x = ROAD_WIDTH - 1.5 * hp_x;  // Strange constant
             }
-            unit_hp_out.setPosition(hp_x, y_pos - DELTA - hp_len);
-            unit_hp_in.setPosition(hp_x,
-                                   y_pos - DELTA - hp_len * unit.remaining_hp() / unit.stats().initial_hp);
+            unit_hp_out.setPosition(hp_x, y_pos - Y_COORD_DELTA - hp_len);
+            unit_hp_in.setPosition(
+                hp_x, y_pos - Y_COORD_DELTA - hp_len * unit.remaining_hp() / unit.stats().initial_hp);
             unit_hp_out.setSize({HP_HEIGHT, hp_len});
             unit_hp_in.setSize({HP_HEIGHT, hp_len * unit.remaining_hp() / unit.stats().initial_hp});
             unit_picture.setPosition(x_pos, y_pos);
         } else {
-            y_pos = BACKGROUND_HEIGHT - DELTA - unit.stats().size.y;
+            y_pos = BACKGROUND_HEIGHT - Y_COORD_DELTA - unit.stats().size.y;
             unit_picture = sprite_supplier::get_instance().get_unit_sprite(unit, side);
             hp_len = unit.stats().size.x * 0.7;
             float delta = unit.stats().size.x;
             if (side == sprite_supplier::player_side::RIGHT) {
                 delta = 0;
             }
-            unit_hp_out.setPosition(x_pos + 0.15 * unit.stats().size.x - delta, y_pos - DELTA);
-            unit_hp_in.setPosition(x_pos + 0.15 * unit.stats().size.x - delta, y_pos - DELTA);
+            unit_hp_out.setPosition(x_pos + 0.15 * unit.stats().size.x - delta, y_pos - Y_COORD_DELTA);
+            unit_hp_in.setPosition(x_pos + 0.15 * unit.stats().size.x - delta, y_pos - Y_COORD_DELTA);
             unit_hp_out.setSize({hp_len, HP_HEIGHT});
             unit_hp_in.setSize({hp_len * unit.remaining_hp() / unit.stats().initial_hp, HP_HEIGHT});
             unit_picture.setPosition(x_pos, y_pos);
@@ -68,7 +68,7 @@ static void print_bullets(sf::RenderWindow *window,
         bullet_picture = sprite_supplier::get_instance().get_bullet_sprite(bullet.type(), side);
 
         float x_pos = bullet.pos().x + TOWER_WIDTH,
-              y_pos = BACKGROUND_HEIGHT - DELTA - bullet.pos().y - bullet.stats().size.y;
+              y_pos = BACKGROUND_HEIGHT - Y_COORD_DELTA - bullet.pos().y - bullet.stats().size.y;
         if (side == sprite_supplier::player_side::RIGHT) {
             x_pos = ROAD_WIDTH - x_pos;
         }
@@ -87,7 +87,7 @@ static void print_cannons(sf::RenderWindow *window,
         cannon_picture = sprite_supplier::get_instance().get_cannon_sprite(cannon.type(), side);
 
         float x_pos = TOWER_WIDTH + CANNONS_SLOTS_COORD_X[i],
-              y_pos = CANNONS_SLOTS_COORD_Y[i] + 2 * CANNON_HEIGHT;
+              y_pos = CANNONS_SLOTS_COORD_Y[i] + Y_COORD_DELTA + CANNON_HEIGHT;
         if (side == sprite_supplier::player_side::RIGHT) {
             x_pos = ROAD_WIDTH - x_pos;
         }

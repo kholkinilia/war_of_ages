@@ -21,6 +21,7 @@ constexpr int CANNON_WIDTH = 100;
 constexpr int CANNON_HEIGHT = 100;
 
 constexpr int DELTA = 50;
+constexpr int Y_COORD_DELTA = 50;
 
 constexpr int BUTTON_WIDTH = 70;
 constexpr int BUTTON_HEIGHT = 70;
