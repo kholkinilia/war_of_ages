@@ -15,8 +15,9 @@ const cannon_stats &cannon::get_stats(cannon_type type) noexcept {
     return stats.at(type);
 }
 
-cannon::cannon(cannon_type type, vec2f muzzle_position) noexcept
-    : m_type(type), m_muzzle_position(muzzle_position) {
+cannon::cannon(cannon_type type, vec2f cannon_position) noexcept
+    : m_type(type),
+      m_muzzle_position(vec2f{cannon_position.x, cannon_position.y + static_cast<float>(CANNON_HEIGHT) / 2}) {
 }
 
 std::optional<bullet> cannon::update(unit &enemy, float dt) noexcept {
