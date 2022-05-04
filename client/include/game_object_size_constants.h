@@ -11,16 +11,17 @@ constexpr int BACKGROUND_HEIGHT = 1080;
 constexpr int ROAD_WIDTH = 2500;
 constexpr int ROAD_HEIGHT = 500;
 
-constexpr int TOWER_WIDTH = 450;
-constexpr int TOWER_HEIGHT = 350;
+constexpr int TOWER_WIDTH = 400;
+constexpr int TOWER_HEIGHT = 700;
 
-constexpr int CANNON_SLOT_WIDTH = 60;
-constexpr int CANNON_SLOT_HEIGHT = 60;
+constexpr int CANNON_SLOT_WIDTH = 100;
+constexpr int CANNON_SLOT_HEIGHT = 100;
 
-constexpr int CANNON_WIDTH = 60;
-constexpr int CANNON_HEIGHT = 60;
+constexpr int CANNON_WIDTH = 100;
+constexpr int CANNON_HEIGHT = 100;
 
 constexpr int DELTA = 50;
+constexpr int Y_COORD_DELTA = 50;
 
 constexpr int BUTTON_WIDTH = 70;
 constexpr int BUTTON_HEIGHT = 70;
