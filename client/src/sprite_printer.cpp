@@ -199,6 +199,21 @@ void print(tgui::Gui &gui, sf::RenderWindow *window, const std::shared_ptr<game_
         }
     }
 
+    sf::RectangleShape ult_in, ult_out;
+    ult_out.setFillColor(sf::Color::Green);
+    ult_in.setFillColor(sf::Color::White);
+    ult_out.setSize({BUTTON_WIDTH * 4, HP_HEIGHT});
+    ult_in.setSize({p1.m_ult_cooldown * BUTTON_WIDTH * 4 / ULT_COOLDOWN, HP_HEIGHT});
+    ult_out.setPosition(
+        BACKGROUND_WIDTH - 3 * DELTA_X + (window->getView().getCenter().x - BACKGROUND_WIDTH / 2),
+        2 * (BUTTON_HEIGHT + BUTTON_Y));
+    ult_in.setPosition(BACKGROUND_WIDTH - 3 * DELTA_X +
+                           (ULT_COOLDOWN - p1.m_ult_cooldown) * BUTTON_WIDTH * 4 / ULT_COOLDOWN +
+                           (window->getView().getCenter().x - BACKGROUND_WIDTH / 2),
+                       2 * (BUTTON_HEIGHT + BUTTON_Y));
+    window->draw(ult_out);
+    window->draw(ult_in);
+
     auto road = sprite_supplier::get_instance().get_road_sprite(p1.age);
     road.setPosition(0, BACKGROUND_HEIGHT - ROAD_HEIGHT);
     window->draw(road);
