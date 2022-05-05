@@ -2,8 +2,10 @@
 #include <TGUI/Widgets/BitmapButton.hpp>
 #include <TGUI/Widgets/Group.hpp>
 #include <TGUI/Widgets/Label.hpp>
+#include "../include/bot_actions_receiver.h"
 #include "../include/client.h"
 #include "../include/game_object_size_constants.h"
+#include "../include/game_screen.h"
 #include "../include/sprite_supplier.h"
 
 namespace war_of_ages {
@@ -24,10 +26,9 @@ static void print_units(sf::RenderWindow *window,
             x_pos = ROAD_WIDTH - x_pos;
         }
 
-        if (unit.type() == unit_type::STONE_TOWER) {
+        if (unit.type() >= unit_type::STONE_TOWER) {
             y_pos = BACKGROUND_HEIGHT - TOWER_HEIGHT;
-            unit_picture =
-                sprite_supplier::get_instance().get_tower_sprite(age_type::STONE, p.cannons.size(), side);
+            unit_picture = sprite_supplier::get_instance().get_tower_sprite(p.age, p.cannons.size(), side);
             unit_picture.setPosition(x_pos, y_pos);
             window->draw(unit_picture);
             continue;
@@ -127,12 +128,12 @@ static void print_cannons(sf::RenderWindow *window,
 }
 
 void print(tgui::Gui &gui, sf::RenderWindow *window, const std::shared_ptr<game_state> &state) {
-    state->update(current_state.get_player_actions()[0], current_state.get_player_actions()[1],
-                  1.f * clock() / CLOCKS_PER_SEC);
-    current_state.clear_actions();
     auto [p1, p2] = state->snapshot_players();
-
-    auto background = sprite_supplier::get_instance().get_background_sprite(age_type::STONE);
+    state->update(current_state.get_cur_game()->get_actions(0, p1),
+                  current_state.get_cur_game()->get_actions(1, p2), 1.f * clock() / CLOCKS_PER_SEC);
+    current_state.get_cur_game()->clear_actions();
+    std::tie(p1, p2) = state->snapshot_players();
+    auto background = sprite_supplier::get_instance().get_background_sprite(p1.age);
     background.setPosition(window->getView().getCenter().x - BACKGROUND_WIDTH / 2, 0);
     window->draw(background);
 
@@ -142,6 +143,12 @@ void print(tgui::Gui &gui, sf::RenderWindow *window, const std::shared_ptr<game_
         ->cast<tgui::Label>()
         ->setText(std::to_string(p1.money));
 
+    gui.get(current_state.get_cur_screen_id())
+        ->cast<tgui::Group>()
+        ->get("exp_label")
+        ->cast<tgui::Label>()
+        ->setText(std::to_string(p1.exp));
+
     for (int i = 0; i < CANNONS_PER_AGE; i++) {
         auto label = gui.get(current_state.get_cur_screen_id())
                          ->cast<tgui::Group>()
@@ -150,7 +157,7 @@ void print(tgui::Gui &gui, sf::RenderWindow *window, const std::shared_ptr<game_
                          ->get("coin_label")
                          ->cast<tgui::Label>();
         if (i < p1.cannons.size()) {
-            label->setText('+' + std::to_string(p1.cannons[i].stats().cost));
+            label->setText('+' + std::to_string(p1.cannons[i].stats().cost / 2));
         } else {
             label->setText("+0");
         }
@@ -165,21 +172,19 @@ void print(tgui::Gui &gui, sf::RenderWindow *window, const std::shared_ptr<game_
     sf::RectangleShape queued_unit_in, queued_unit_out;
     queued_unit_in.setFillColor(sf::Color::Green);
     float x_pos;
-    std::unordered_map<unit_type, float> number_of_units_in_queue = {
-        {unit_type::PEASANT, 0}, {unit_type::ARCHER, 0}, {unit_type::CHARIOT, 0}};
+    std::vector<float> number_of_units_in_queue = {0, 0, 0};
     for (int i = 0; i < p1.units_to_train.size(); i++) {
         auto unit = p1.units_to_train[i];
         queued_unit_out.setFillColor(sf::Color::White);
         queued_unit_out.setSize({BUTTON_WIDTH, HP_HEIGHT});
-        x_pos = BACKGROUND_WIDTH - 7 * DELTA_X;
-        if (unit.type() == unit_type::ARCHER)
-            x_pos -= DELTA_X;
-        if (unit.type() == unit_type::CHARIOT)
-            x_pos -= 2 * DELTA_X;
+        int unit_no = static_cast<int>(unit.type()) - 3 * static_cast<int>(p1.age);
+        if (unit_no < 0)
+            unit_no += (abs(unit_no / 3) + 1) * 3;
+        x_pos = BACKGROUND_WIDTH - 7 * DELTA_X - unit_no * DELTA_X;
 
         queued_unit_out.setPosition(
             {x_pos + (window->getView().getCenter().x - BACKGROUND_WIDTH / 2),
-             BUTTON_HEIGHT + BUTTON_Y + (2 * (number_of_units_in_queue[unit.type()]++) + 1) * HP_HEIGHT});
+             BUTTON_HEIGHT + BUTTON_Y + (2 * (number_of_units_in_queue[unit_no]++) + 1) * HP_HEIGHT});
         window->draw(queued_unit_out);
 
         if (i == 0) {
@@ -193,7 +198,22 @@ void print(tgui::Gui &gui, sf::RenderWindow *window, const std::shared_ptr<game_
         }
     }
 
-    auto road = sprite_supplier::get_instance().get_road_sprite(age_type::STONE);
+    sf::RectangleShape ult_in, ult_out;
+    ult_out.setFillColor(sf::Color::Green);
+    ult_in.setFillColor(sf::Color::White);
+    ult_out.setSize({BUTTON_WIDTH * 4, HP_HEIGHT});
+    ult_in.setSize({p1.m_ult_cooldown * BUTTON_WIDTH * 4 / ULT_COOLDOWN, HP_HEIGHT});
+    ult_out.setPosition(
+        BACKGROUND_WIDTH - 3 * DELTA_X + (window->getView().getCenter().x - BACKGROUND_WIDTH / 2),
+        2 * (BUTTON_HEIGHT + BUTTON_Y));
+    ult_in.setPosition(BACKGROUND_WIDTH - 3 * DELTA_X +
+                           (ULT_COOLDOWN - p1.m_ult_cooldown) * BUTTON_WIDTH * 4 / ULT_COOLDOWN +
+                           (window->getView().getCenter().x - BACKGROUND_WIDTH / 2),
+                       2 * (BUTTON_HEIGHT + BUTTON_Y));
+    window->draw(ult_out);
+    window->draw(ult_in);
+
+    auto road = sprite_supplier::get_instance().get_road_sprite(p1.age);
     road.setPosition(0, BACKGROUND_HEIGHT - ROAD_HEIGHT);
     window->draw(road);
     print_units(window, p1, sprite_supplier::player_side::LEFT);

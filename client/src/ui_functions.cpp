@@ -33,7 +33,7 @@ void show_screen(tgui::Gui &gui, screen new_screen, screen prev_screen) {
     }
     current_state.set_cur_screen(new_screen);
     if (current_state.get_cur_game_state() == nullptr && new_screen == screen::GAME_SCREEN) {
-        current_state.set_cur_game_state(std::make_shared<game_state>(1.f * clock() / CLOCKS_PER_SEC));
+        current_state.create_game(client_state::game_mode::SINGLE);
         current_state.get_audio_player()->change(sound_player::sound_type::LOBBY,
                                                  sound_player::sound_type::BATTLE);
     }
@@ -55,7 +55,7 @@ void show_screen(tgui::Gui &gui, screen new_screen, screen prev_screen) {
     if (new_screen == screen::START_SCREEN &&
         current_state.get_audio_player()->status(sound_player::sound_type::BATTLE) ==
             sf::SoundSource::Status::Playing) {
-        current_state.set_cur_game_state(nullptr);
+        current_state.reset_game();
         current_state.get_audio_player()->change(sound_player::sound_type::BATTLE,
                                                  sound_player::sound_type::LOBBY);
     }
@@ -67,7 +67,7 @@ void show_screen(tgui::Gui &gui, screen new_screen, screen prev_screen) {
             ->setText(current_state.get_cur_game_state()->get_game_status() == game_status::P1_WON
                           ? "Поздравляем, Вы победили!"
                           : "Вы проиграли, повезет в следующий раз");
-        current_state.set_cur_game_state(nullptr);
+        current_state.reset_game();
     }
 }
 

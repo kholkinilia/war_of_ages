@@ -44,6 +44,9 @@ if (BUILD_CLIENT)
             client/src/wait_screen.cpp
             client/src/sprite_supplier.cpp
             client/src/sprite_printer.cpp
+            client/src/bot_actions_receiver.cpp
+            client/src/player_actions_receiver.cpp
+            client/src/game_handler.cpp
             client/src/menu_background.cpp
             client/src/sound_player.cpp
             client/src/animation_handler.cpp)
