@@ -34,8 +34,7 @@ void server::on_client_disconnect(std::shared_ptr<connection<messages_type>> cli
     // TODO: tournament & matches logic
 }
 
-void server::on_message(std::shared_ptr<connection<messages_type>> client,
-                        const message<messages_type> &msg) {
+void server::on_message(std::shared_ptr<connection<messages_type>> client, message<messages_type> msg) {
     // TODO: implement
 }
 

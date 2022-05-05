@@ -34,8 +34,7 @@ private:
 protected:
     bool on_client_connect(std::shared_ptr<connection<messages_type>> client) override;
     void on_client_disconnect(std::shared_ptr<connection<messages_type>> client) override;
-    void on_message(std::shared_ptr<connection<messages_type>> client,
-                    const message<messages_type> &msg) override;
+    void on_message(std::shared_ptr<connection<messages_type>> client, message<messages_type> msg) override;
 };
 }  // namespace war_of_ages
 
