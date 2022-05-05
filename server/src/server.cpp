@@ -3,7 +3,8 @@
 
 namespace war_of_ages {
 
-server::server(std::uint16_t port): server_interface<messages_type>(port) {}
+server::server(std::uint16_t port) : server_interface<messages_type>(port) {
+}
 
 void server::send_message(const std::string &handle, const message<messages_type> &msg) {
     auto it_id = m_id_by_handle.find(handle);
@@ -33,7 +34,8 @@ void server::on_client_disconnect(std::shared_ptr<connection<messages_type>> cli
     // TODO: tournament & matches logic
 }
 
-void server::on_message(std::shared_ptr<connection<messages_type>> client, const message<messages_type> &msg) {
+void server::on_message(std::shared_ptr<connection<messages_type>> client,
+                        const message<messages_type> &msg) {
     // TODO: implement
 }
 
