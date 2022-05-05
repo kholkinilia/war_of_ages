@@ -1,7 +1,7 @@
 #ifndef WAR_OF_AGES_GAME_CONSTANTS_H
 #define WAR_OF_AGES_GAME_CONSTANTS_H
 
-#include "../../client/include/game_object_size_constants.h"
+#include "../../../client/include/game_object_size_constants.h"
 namespace war_of_ages {
 
 constexpr int NUM_OF_AGES = 5;
