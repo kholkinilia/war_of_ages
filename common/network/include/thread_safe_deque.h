@@ -12,9 +12,9 @@ template <typename T>
 struct ts_deque {
 private:
     std::deque<T> m_deque;
-    std::mutex m_mutex;
+    mutable std::mutex m_mutex;
     std::condition_variable m_variable_blocking;
-    std::mutex m_mutex_blocking;
+    mutable std::mutex m_mutex_blocking;
 
 public:
     ts_deque() = default;
