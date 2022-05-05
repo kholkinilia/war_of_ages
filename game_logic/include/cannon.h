@@ -7,7 +7,15 @@
 
 namespace war_of_ages {
 
-enum class cannon_type { STONE_LEVEL_1, STONE_LEVEL_2, STONE_LEVEL_3, NONE };
+enum class cannon_type {
+    STONE_LEVEL_1,
+    STONE_LEVEL_2,
+    STONE_LEVEL_3,
+    CASTLE_LEVEL_1,
+    CASTLE_LEVEL_2,
+    CASTLE_LEVEL_3,
+    NONE
+};
 
 struct cannon_stats {
     bullet_type b_type;
