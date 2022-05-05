@@ -3,7 +3,7 @@
 
 #include <optional>
 #include <string>
-#include "../include/vec2f.h"
+#include "vec2f.h"
 
 namespace war_of_ages {
 

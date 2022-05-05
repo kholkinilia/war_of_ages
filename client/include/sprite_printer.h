@@ -3,7 +3,7 @@
 
 #include <SFML/Graphics/RenderWindow.hpp>
 #include <TGUI/Backend/SFML-Graphics.hpp>
-#include "../../game_logic/include/game_state.h"
+#include "../../common/game_logic/include/game_state.h"
 
 namespace war_of_ages {
 
