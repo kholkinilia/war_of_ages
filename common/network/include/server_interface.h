@@ -107,7 +107,7 @@ public:
         std::size_t messages_processed = 0;
         while (messages_processed < number_of_messages && !m_messages_received.empty()) {
             auto msg = m_messages_received.pop_front();
-            on_message(msg.remote, msg.msg);
+            on_message(msg.remote, std::move(msg.msg));
             messages_processed++;
         }
     }
@@ -123,7 +123,7 @@ protected:
 
     virtual bool on_client_connect(std::shared_ptr<connection<T>> client) = 0;
     virtual void on_client_disconnect(std::shared_ptr<connection<T>> client) = 0;
-    virtual void on_message(std::shared_ptr<connection<T>> client, const message<T> &msg) = 0;
+    virtual void on_message(std::shared_ptr<connection<T>> client, message<T> msg) = 0;
 };
 
 }  // namespace war_of_ages
