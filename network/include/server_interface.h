@@ -124,7 +124,6 @@ protected:
     virtual bool on_client_connect(std::shared_ptr<connection<T>> client) = 0;
     virtual bool on_client_disconnect(std::shared_ptr<connection<T>> client) = 0;
     virtual void on_message(std::shared_ptr<connection<T>> client, const message<T> &msg) = 0;
-    virtual void on_client_validated(std::shared_ptr<connection<T>> client) = 0;
 };
 
 }  // namespace war_of_ages
