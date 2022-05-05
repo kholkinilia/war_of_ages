@@ -1,8 +1,6 @@
 #include "../include/game_state.h"
 #include <memory>
 #include <vector>
-#include "../include/game_commands.h"
-#include "../include/player.h"
 
 namespace war_of_ages {
 
@@ -28,7 +26,7 @@ std::pair<player_snapshot, player_snapshot> game_state::snapshot_players() const
     return {p1.snapshot(), p2.snapshot()};
 }
 
-game_state::game_state(float start_time) : state_time(start_time) {
+game_state::game_state(float start_time) : state_time(start_time), is_bot({false, false}) {
 }
 
 game_status game_state::get_game_status() const {
