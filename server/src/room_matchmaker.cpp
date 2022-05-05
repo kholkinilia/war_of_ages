@@ -7,7 +7,6 @@ room_matchmaker &room_matchmaker::instance() {
     return inst;
 }
 
-
 bool room_matchmaker::add_user_to_room(const std::string &user_id, const std::string &room_id) {
     std::unique_lock l(m_mutex_status);
     if (users_in_rooms.find(user_id) != users_in_rooms.end()) {
@@ -40,8 +39,8 @@ bool room_matchmaker::remove_user_from_room(const std::string &user_id) {
 }
 
 bool room_matchmaker::change_user_status(const std::string &user_id,
-                                user_in_room::user_status new_status,
-                                bool force_leaving_battle) {
+                                         user_in_room::user_status new_status,
+                                         bool force_leaving_battle) {
     std::unique_lock l(m_mutex_status);
     auto it_user = users_in_rooms.find(user_id);
     if (it_user == users_in_rooms.end()) {
@@ -55,4 +54,4 @@ bool room_matchmaker::change_user_status(const std::string &user_id,
     current_status = new_status;
     return true;
 }
-}
+}  // namespace war_of_ages
