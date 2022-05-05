@@ -1,5 +1,5 @@
 #include "../include/tournament_screens.h"
-#include "../include/tournament.h"
+#include "../../common/tournament/include/tournament.h"
 #include "../include/ui_functions.h"
 
 // TGUI widgets

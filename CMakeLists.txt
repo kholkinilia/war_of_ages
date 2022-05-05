@@ -17,6 +17,7 @@ if (WIN32 AND NOT MSVC AND NOT BORLAND)
 endif ()
 
 set(COMMON_PROJECT_SOURCES
+        common/tournament/source/tournament.cpp
         common/game_logic/src/game_state.cpp
         common/game_logic/src/player.cpp
         common/game_logic/src/unit.cpp
@@ -29,7 +30,6 @@ set(CLIENT_PROJECT_SOURCES
         client/src/main.cpp
         client/src/tournament_screens.cpp
         client/src/ui_functions.cpp
-        client/src/tournament.cpp
         client/src/client.cpp
         client/src/screens.cpp
         client/src/start_screen.cpp
