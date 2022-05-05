@@ -52,6 +52,8 @@ target_link_libraries(war_of_ages tgui)
 set(SERVER_PROJECT_SOURCES
         server/src/main.cpp
         server/src/room_matchmaker.cpp
+        server/src/game.cpp
+        server/src/game_handler.cpp
         server/src/tournament.cpp)
 add_executable(war_of_ages_server ${SERVER_PROJECT_SOURCES} ${COMMON_PROJECT_SOURCES})
 target_link_libraries(war_of_ages_server ${NETWORKING_LIBS})
