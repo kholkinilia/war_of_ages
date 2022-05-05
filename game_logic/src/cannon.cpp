@@ -10,12 +10,17 @@ const cannon_stats &cannon::get_stats(cannon_type type) noexcept {
     const static std::unordered_map<cannon_type, cannon_stats> stats{
         {cannon_type::STONE_LEVEL_1, cannon_stats{bullet_type::STONE_LEVEL_1, 500, 2, 2, 700}},
         {cannon_type::STONE_LEVEL_2, cannon_stats{bullet_type::STONE_LEVEL_2, 1000, 1.75, 1.75, 1000}},
-        {cannon_type::STONE_LEVEL_3, cannon_stats{bullet_type::STONE_LEVEL_3, 3000, 1.5, 1.5, 1200}}};
+        {cannon_type::STONE_LEVEL_3, cannon_stats{bullet_type::STONE_LEVEL_3, 3000, 1.5, 1.5, 1200}},
+        {cannon_type::CASTLE_LEVEL_1, cannon_stats{bullet_type::CASTLE_LEVEL_1, 3000, 1.5, 1.5, 1200}},
+        {cannon_type::CASTLE_LEVEL_2, cannon_stats{bullet_type::CASTLE_LEVEL_2, 3000, 1.5, 1.5, 1200}},
+        {cannon_type::CASTLE_LEVEL_3, cannon_stats{bullet_type::CASTLE_LEVEL_3, 3000, 1.5, 1.5, 1200}},
+        {cannon_type::NONE, cannon_stats{bullet_type::STONE_LEVEL_1, 0, 0, 0, 0}}};
     return stats.at(type);
 }
 
-cannon::cannon(cannon_type type, vec2f muzzle_position) noexcept
-    : m_type(type), m_muzzle_position(muzzle_position) {
+cannon::cannon(cannon_type type, vec2f cannon_position) noexcept
+    : m_type(type),
+      m_muzzle_position(vec2f{cannon_position.x, cannon_position.y + static_cast<float>(CANNON_HEIGHT) / 2}) {
 }
 
 std::optional<bullet> cannon::update(unit &enemy, float dt) noexcept {
