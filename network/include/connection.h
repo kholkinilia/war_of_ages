@@ -127,7 +127,7 @@ public:
                 });
         }
     }
-    void connect_to_client(server_inteface<T> *server, std::uint32_t client_id = 0) {
+    void connect_to_client(server_interface<T> *server, std::uint32_t client_id = 0) {
         if (m_owner == owner::server) {
             if (m_socket.is_open()) {
                 m_id = client_id;
