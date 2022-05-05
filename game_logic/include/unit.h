@@ -2,12 +2,13 @@
 #define WAR_OF_AGES_UNIT_H
 
 #include <optional>
+#include <string>
 #include "../include/vec2f.h"
 
 namespace war_of_ages {
 
 // TODO: make tower a different struct
-enum class unit_type { PEASANT, ARCHER, CHARIOT, STONE_TOWER };
+enum class unit_type { PEASANT, ARCHER, CHARIOT, SWORDSMAN, ARBALESTER, KNIGHT, STONE_TOWER, CASTLE_TOWER };
 
 struct unit_stats {
     float time_to_train_s;
@@ -60,7 +61,6 @@ public:
     [[nodiscard]] bool is_attacking() const noexcept;
     [[nodiscard]] float walking_time() const noexcept;
     [[nodiscard]] float attack_progress() const noexcept;
-    [[nodiscard]] float lifetime() const noexcept;
 
     [[nodiscard]] const static unit_stats &get_stats(unit_type type) noexcept;
 };

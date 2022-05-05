@@ -1,8 +1,5 @@
 #include "../include/tournament.h"
-#include <SFML/Graphics.hpp>
-#include <TGUI/Backend/SFML-Graphics.hpp>
-#include <TGUI/TGUI.hpp>
-#include <mutex>
+#include <TGUI/Widgets/Label.hpp>
 
 namespace war_of_ages {
 
@@ -23,7 +20,7 @@ void tournament::update_places_lock_held() {
     }
 }
 
-void tournament::add_participant(const tgui::String &handle) {
+void tournament::add_participant(const std::string &handle) {
     std::unique_lock lock(m);
     if (id.count(handle) != 0) {
         assert(false);
@@ -42,7 +39,7 @@ void tournament::add_participant(const tgui::String &handle) {
     update_places_lock_held();
 }
 
-void tournament::add_result(const tgui::String &winner, const tgui::String &loser) {
+void tournament::add_result(const std::string &winner, const std::string &loser) {
     std::unique_lock lock(m);
     match_results[id[winner]][id[loser]] = result::VICTORY;
     match_results[id[loser]][id[winner]] = result::DEFEAT;
@@ -51,7 +48,7 @@ void tournament::add_result(const tgui::String &winner, const tgui::String &lose
     update_places_lock_held();
 }
 
-void tournament::remove_participant(const tgui::String &handle) {
+void tournament::remove_participant(const std::string &handle) {
     std::unique_lock lock(m);
     int remove_id = id[handle];
     for (int i = 0; i < part_number; i++) {
