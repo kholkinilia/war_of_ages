@@ -18,21 +18,27 @@ template <typename T>
 struct connection : public std::enable_shared_from_this<connection<T>> {  // to make shared_ptr from this
 private:
     void read_header() {
-        boost::asio::async_read(m_socket,
-                                boost::asio::buffer(&m_receiving_message.header, sizeof(message_header<T>)),
-                                [this](std::error_code ec, std::size_t length) {
-                                    if (!ec) {
-                                        if (m_receiving_message.header.size > 0) {
-                                            m_receiving_message.data.resize(m_receiving_message.header.size);
-                                            read_body();
-                                        } else {
-                                            add_to_received_messages();
-                                        }
-                                    } else {
-                                        std::cout << "[" << m_id << "] Read header failed.\n";
-                                        m_socket.close();
-                                    }
-                                });
+        boost::asio::async_read(
+            m_socket, boost::asio::buffer(&m_receiving_message.header, sizeof(message_header<T>)),
+            [this](std::error_code ec, std::size_t length) {
+                if (!ec) {
+                    if (m_receiving_message.header.size > 0) {
+                        if (m_receiving_message.header.size > /* just some upper bound */ 100) {
+                            std::cout << "[" << m_id << "] Received very big message ("
+                                      << m_receiving_message.header.size << " bytes).\n";
+                            m_socket.close();
+                            return;
+                        }
+                        m_receiving_message.data.resize(m_receiving_message.header.size);
+                        read_body();
+                    } else {
+                        add_to_received_messages();
+                    }
+                } else {
+                    std::cout << "[" << m_id << "] Read header failed.\n";
+                    m_socket.close();
+                }
+            });
     }
 
     void read_body() {
