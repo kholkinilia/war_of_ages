@@ -1,5 +1,5 @@
 #include <iostream>
-#include "../../network/include/network.h"
+#include "../../common/network/include/network.h"
 
 int main() {
     // sample of using message (remove if needed)

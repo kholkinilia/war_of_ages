@@ -1,7 +1,6 @@
 #ifndef WAR_OF_AGES_TOURNAMENT_H
 #define WAR_OF_AGES_TOURNAMENT_H
 
-#include <TGUI/Widgets/Grid.hpp>  // tgui::Gui, tgui::Grid
 #include <map>
 #include <mutex>
 #include <string>
@@ -10,7 +9,7 @@
 namespace war_of_ages {
 
 struct tournament {
-private:
+protected:
     enum class result { NONE, VICTORY, DEFEAT };
     static inline const int WIN_POINTS = 1;
     int part_number = 0;
@@ -30,8 +29,6 @@ public:
     void add_result(const std::string &winner, const std::string &loser);
 
     void remove_participant(const std::string &handle);
-
-    void update_grid(const tgui::Grid::Ptr &grid);
 };
 
 }  // namespace war_of_ages
