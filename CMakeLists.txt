@@ -24,7 +24,8 @@ set(COMMON_PROJECT_SOURCES
         common/game_logic/src/bullet.cpp
         common/game_logic/src/cannon.cpp
         common/game_logic/src/game_commands.cpp
-        common/game_logic/src/vec2f.cpp)
+        common/game_logic/src/vec2f.cpp
+        )
 
 set(CLIENT_PROJECT_SOURCES
         client/src/main.cpp
@@ -44,16 +45,19 @@ set(CLIENT_PROJECT_SOURCES
         client/src/player_actions_receiver.cpp
         client/src/game_handler.cpp
         client/src/sound_player.cpp
-        client/src/animation_handler.cpp)
+        client/src/animation_handler.cpp
+        )
 add_executable(war_of_ages ${CLIENT_PROJECT_SOURCES} ${COMMON_PROJECT_SOURCES})
 target_link_libraries(war_of_ages sfml-system sfml-window sfml-graphics sfml-audio)
 target_link_libraries(war_of_ages tgui)
 
 set(SERVER_PROJECT_SOURCES
         server/src/main.cpp
+        server/src/server.cpp
         server/src/room_matchmaker.cpp
         server/src/game.cpp
         server/src/game_handler.cpp
-        server/src/tournament.cpp)
+        server/src/tournament.cpp
+        )
 add_executable(war_of_ages_server ${SERVER_PROJECT_SOURCES} ${COMMON_PROJECT_SOURCES})
 target_link_libraries(war_of_ages_server ${NETWORKING_LIBS})
