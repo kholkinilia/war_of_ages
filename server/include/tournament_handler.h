@@ -22,7 +22,7 @@ public:
     tournament_handler &operator=(tournament_handler &&) = delete;
     ~tournament_handler() = default;
 
-    void create(const std::string &handle, const std::string &tournament_name, server& srv);
+    void create(const std::string &handle, const std::string &tournament_name, server &srv);
     void join(const std::string &handle, const std::string &key);
     void leave(const std::string &handle);
 

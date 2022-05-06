@@ -3,7 +3,6 @@
 
 namespace war_of_ages {
 
-
 void printable_tournament::update_grid(const tgui::Grid::Ptr &grid) {
     // TODO: think of improving performance (should be easy)
     std::unique_lock lock(m_mutex);
@@ -74,7 +73,8 @@ void printable_tournament::update_grid(const tgui::Grid::Ptr &grid) {
             if (i == j)
                 continue;
             tgui::Label::Ptr cur_result = tgui::Label::create(result_text.at(m_match_results[i][j]));
-            format_label(cur_result, SQUARE_SIZE, REGULAR_BORDER_WIDTH, result_color.at(m_match_results[i][j]));
+            format_label(cur_result, SQUARE_SIZE, REGULAR_BORDER_WIDTH,
+                         result_color.at(m_match_results[i][j]));
             grid->addWidget(cur_result, i + 1, j + 2);
         }
     }
@@ -108,7 +108,7 @@ void printable_tournament::update_grid(const tgui::Grid::Ptr &grid) {
     m_is_grid_updated = true;
 }
 
-void printable_tournament::post_add_participant(const std::string&) {
+void printable_tournament::post_add_participant(const std::string &) {
     m_is_grid_updated = false;
 }
 
@@ -116,7 +116,7 @@ void printable_tournament::post_add_result(const std::string &, const std::strin
     m_is_grid_updated = false;
 }
 
-void printable_tournament::post_remove_participant(const std::string&) {
+void printable_tournament::post_remove_participant(const std::string &) {
     m_is_grid_updated = false;
 }
 

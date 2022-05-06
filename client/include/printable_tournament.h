@@ -9,9 +9,10 @@ namespace war_of_ages {
 struct printable_tournament : tournament {
 private:
     bool m_is_grid_updated = true;
-    void post_add_participant(const std::string& handle) final;
+    void post_add_participant(const std::string &handle) final;
     void post_add_result(const std::string &winner, const std::string &loser) final;
-    void post_remove_participant(const std::string& handle) final;
+    void post_remove_participant(const std::string &handle) final;
+
 public:
     void update_grid(const tgui::Grid::Ptr &grid);
 };

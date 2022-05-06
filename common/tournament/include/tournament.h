@@ -27,7 +27,7 @@ protected:
 protected:
     virtual void post_add_participant(const std::string &handle) = 0;
     virtual void post_add_result(const std::string &winner, const std::string &loser) = 0;
-    virtual void post_remove_participant(const std::string& handle) = 0;
+    virtual void post_remove_participant(const std::string &handle) = 0;
 
 public:
     void add_participant(const std::string &handle);
