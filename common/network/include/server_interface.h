@@ -26,10 +26,10 @@ public:
 
             m_context_thread = std::thread([this]() { m_context.run(); });
         } catch (std::exception &e) {
-            std::cerr << "[SERVER] exception: " << e.what() << ".\n";
+            std::cerr << "[SERVER] exception: " << e.what() << "." << std::endl;
             return false;
         }
-        std::cout << "[SERVER] started.\n";
+        std::cout << "[SERVER] started." << std::endl;
         return true;
     }
 
@@ -40,14 +40,14 @@ public:
             m_context_thread.join();
         }
 
-        std::cout << "[SERVER] stopped.\n";
+        std::cout << "[SERVER] stopped." << std::endl;
         return true;
     }
 
     void wait_for_connection() {  // async
         m_acceptor.async_accept([this](std::error_code ec, boost::asio::ip::tcp::socket socket) {
             if (!ec) {
-                std::cout << "[SERVER] New connection: " << socket.remote_endpoint() << ".\n";
+                std::cout << "[SERVER] New connection: " << socket.remote_endpoint() << "." << std::endl;
 
                 std::shared_ptr<connection<T>> new_connection = std::make_shared<connection<T>>(
                     connection<T>::owner::server, m_context, std::move(socket), m_messages_received);
@@ -56,12 +56,12 @@ public:
                     m_active_connections.push_back(std::move(new_connection));
                     m_active_connections.back()->connect_to_client(this, m_id_counter++);
 
-                    std::cout << "[" << m_active_connections.back()->get_id() << "] Connection approved.\n";
+                    std::cout << "[" << m_active_connections.back()->get_id() << "] Connection approved." << std::endl;
                 } else {
-                    std::cout << "[------] Connection denied.\n";
+                    std::cout << "[------] Connection denied." << std::endl;
                 }
             } else {
-                std::cout << "[SERVER] Connection error: " << ec.message() << ".\n";
+                std::cout << "[SERVER] Connection error: " << ec.message() << "." << std::endl;
             }
             wait_for_connection();
         });
