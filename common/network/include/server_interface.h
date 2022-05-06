@@ -50,13 +50,13 @@ public:
                 std::cout << "[SERVER] New connection: " << socket.remote_endpoint() << ".\n";
 
                 std::shared_ptr<connection<T>> new_connection = std::make_shared<connection<T>>(
-                    connection<T>::owned::server, m_context, std::move(socket), m_messages_received);
+                    connection<T>::owner::server, m_context, std::move(socket), m_messages_received);
 
                 if (on_client_connect(new_connection)) {
                     m_active_connections.push_back(std::move(new_connection));
                     m_active_connections.back()->connect_to_client(this, m_id_counter++);
 
-                    std::cout << "[" << m_active_connections.back().get_id() << "] Connection approved.\n";
+                    std::cout << "[" << m_active_connections.back()->get_id() << "] Connection approved.\n";
                 } else {
                     std::cout << "[------] Connection denied.\n";
                 }

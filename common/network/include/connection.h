@@ -27,7 +27,7 @@ private:
                             m_socket.close();
                             return;
                         }
-                        m_receiving_message.data.resize(m_receiving_message.header.size);
+                        m_receiving_message.body.resize(m_receiving_message.header.size);
                         read_body();
                     } else {
                         add_to_received_messages();
@@ -91,9 +91,9 @@ private:
 
     void add_to_received_messages() {
         if (m_owner == owner::server) {
-            m_messages_received.push_back(this->shared_from_this(), m_receiving_message);
+            m_messages_received.push_back({this->shared_from_this(), m_receiving_message});
         } else {
-            m_messages_received.push_back(nullptr, m_receiving_message);
+            m_messages_received.push_back({nullptr, m_receiving_message});
         }
 
         read_header();
