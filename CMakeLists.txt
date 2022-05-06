@@ -59,7 +59,6 @@ set(SERVER_PROJECT_SOURCES
         server/src/room_matchmaker.cpp
         server/src/game.cpp
         server/src/game_handler.cpp
-        server/src/tournament.cpp
         server/src/tournament_handler.cpp
         server/src/server_tournament.cpp
         )
