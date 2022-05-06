@@ -55,6 +55,7 @@ target_link_libraries(war_of_ages tgui)
 set(SERVER_PROJECT_SOURCES
         server/src/main.cpp
         server/src/server.cpp
+        server/src/random_matchmaker.cpp
         server/src/room_matchmaker.cpp
         server/src/game.cpp
         server/src/game_handler.cpp
