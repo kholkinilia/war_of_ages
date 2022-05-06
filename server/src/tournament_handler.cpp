@@ -1,7 +1,7 @@
+#include "../include/tournament_handler.h"
 #include <random>
 #include "../../common/include/messages_type.h"
 #include "../../common/network/include/message.h"
-#include "../include/tournament_handler.h"
 
 namespace war_of_ages {
 
@@ -23,14 +23,14 @@ void tournament_handler::create(const std::string &handle, const std::string &to
 
 void tournament_handler::join(const std::string &handle, const std::string &key) {
     if (m_tournament.find(key) == m_tournament.end()) {
-        return; // TODO: send respond
+        return;  // TODO: send respond
     }
     m_tournament[key].add_participant(handle);
 }
 
 void tournament_handler::leave(const std::string &handle) {
     if (m_key_by_handle.find(handle) != m_key_by_handle.end()) {
-        return; // TODO: send respond
+        return;  // TODO: send respond
     }
     m_tournament[m_key_by_handle[handle]].remove_participant(handle);
 }
