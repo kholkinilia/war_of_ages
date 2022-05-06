@@ -19,16 +19,21 @@ struct game_handler {
     game_handler &operator=(const game_handler &other) = delete;
     game_handler &operator=(game_handler &&other) = delete;
 
-    void add_game(const std::string &first_handle, const std::string &second_handle);
+    void add_game(std::string handle_p1, std::string handle_p2);
     void apply_command(const std::string &handle, std::unique_ptr<game_command> command);
-    void update_games();
+    void update_games(server &server_ref);
+
+    void user_gave_up(const std::string &handle, server &server_ref);
 
 private:
     game_handler() noexcept = default;
 
+    [[nodiscard]] bool user_exists(const std::string &handle) const noexcept;
+    void remove_game(std::size_t game_index) noexcept;
+
     std::unordered_map<std::string, std::size_t> m_game_by_handle;
     std::vector<game> m_games;
-    std::mutex m_mutex;
+    mutable std::mutex m_mutex;
 };
 }  // namespace war_of_ages
 

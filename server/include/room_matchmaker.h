@@ -8,15 +8,6 @@
 
 namespace war_of_ages {
 
-struct user_in_room {
-    std::string room_id;
-    enum class user_status {
-        NOT_READY,
-        READY,
-        FIGHTING,
-    } status;
-};
-
 struct room_matchmaker {
     static room_matchmaker &instance();
     ~room_matchmaker() = default;
@@ -25,18 +16,26 @@ struct room_matchmaker {
     room_matchmaker &operator=(const room_matchmaker &other) = delete;
     room_matchmaker &operator=(room_matchmaker &&other) = delete;
 
-    bool add_user_to_room(const std::string &user_id, const std::string &room_id);
-    bool remove_user_from_room(const std::string &user_id);
-    bool change_user_status(const std::string &user_id,
-                            user_in_room::user_status new_status,
-                            bool force_leaving_battle = false);
+    bool add_user_to_room(const std::string &handle, const std::string &room_id);
+    bool remove_user_from_room(const std::string &handle);
+    void switch_readiness(const std::string &handle, bool force_leaving_battle = false);
 
 private:
+    struct user_in_room {
+        std::string room_id;
+        enum class user_status {
+            NOT_READY,
+            READY,
+            FIGHTING,
+        } status;
+    };
+
     room_matchmaker() = default;
+    [[nodiscard]] bool user_exists(const std::string &handle) const;
 
     std::unordered_map<std::string, std::vector<std::string>> rooms;  // {room_id, user_id}
     std::unordered_map<std::string, user_in_room> users_in_rooms;
-    std::mutex m_mutex_status;
+    mutable std::mutex m_mutex_status;
 };
 
 }  // namespace war_of_ages
