@@ -28,8 +28,9 @@ void war_of_ages::server_tournament::match_participants() {
     while (ready_to_play_participants.size() >= 2) {
         std::size_t p2 = rnd() % (ready_to_play_participants.size() - 1) + 1;
         std::size_t p1 = rnd() % p2;
-//        game_handler::instance().add_game(ready_to_play_participants[p1],
-//                                          ready_to_play_participants[p2]);  // TODO: pass post_game_actions
+        //        game_handler::instance().add_game(ready_to_play_participants[p1],
+        //                                          ready_to_play_participants[p2]);  // TODO: pass
+        //                                          post_game_actions
         std::swap(ready_to_play_participants[p2], ready_to_play_participants.back());
         ready_to_play_participants.pop_back();
         std::swap(ready_to_play_participants[p1], ready_to_play_participants.back());
