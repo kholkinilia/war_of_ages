@@ -83,7 +83,7 @@ void tournament_screen_init(tgui::Gui &gui) {
     auto tournament_screen_group = tgui::Group::create();
 
     tgui::Label::Ptr tournament_name = tgui::Label::create(
-        "Название турнира (TODO)");  // TODO: insert a valid name when logic is implemented
+        "Название турнира (TODO)");  // TODO: insert a valid m_name when logic is implemented
     tournament_name->setSize({"30%", "10%"});
     tournament_name->setTextSize(30);
     tournament_name->setPosition({"5%", "5%"});

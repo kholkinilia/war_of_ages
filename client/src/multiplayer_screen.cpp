@@ -24,7 +24,7 @@ void multiplayer_screen_init(tgui::Gui &gui) {
 
     tgui::Button::Ptr join_room_button = tgui::Button::create("Присоединиться");
     join_room_button->setTextSize(30);
-    // TODO: onPress: try join to room with given id (key)
+    // TODO: onPress: try join to room with given m_id (m_key)
     join_room_button->onPress([&gui]() { show_screen(gui, screen::WAIT_OPPONENT, screen::MULTIPLAYER); });
     multiplayer_screen_group->add(join_room_button);
 
