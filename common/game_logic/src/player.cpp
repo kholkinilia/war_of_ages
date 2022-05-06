@@ -6,7 +6,6 @@
 namespace war_of_ages {
 
 void player::update(player &enemy, float dt) {
-    std::scoped_lock l(m_mutex, enemy.m_mutex);
     auto &enemies = enemy.m_units;
     for (auto unit_it = m_units.rbegin(); unit_it + 1 != m_units.rend(); ++unit_it) {
         unit_it->update(enemies.back(),
@@ -45,7 +44,6 @@ void player::update(player &enemy, float dt) {
 
 void player::buy_unit(int unit_level) {
     assert(0 <= unit_level && unit_level < UNITS_PER_AGE);
-    std::unique_lock l(m_mutex);
     if (m_units_to_train.size() >= UNITS_QUEUE_SIZE) {
         return;
     }
@@ -63,7 +61,6 @@ void player::buy_unit(int unit_level) {
 
 void player::buy_cannon(int cannon_level, int slot) {
     assert(0 <= cannon_level && cannon_level < CANNONS_PER_AGE);
-    std::unique_lock l(m_mutex);
     assert(0 <= slot && slot < m_cannons.size());
     if (m_cannons[slot].type() != cannon_type::NONE) {
         return;
@@ -78,7 +75,6 @@ void player::buy_cannon(int cannon_level, int slot) {
 }
 
 void player::buy_cannon_slot() {
-    std::unique_lock l(m_mutex);
     std::size_t slot = m_cannons.size();
     if (slot >= MAX_CANNON_SLOTS) {
         return;
@@ -94,7 +90,6 @@ void player::buy_cannon_slot() {
 
 void player::sell_cannon(int slot) {
     assert(0 <= slot && slot < CANNONS_PER_AGE);
-    std::unique_lock l(m_mutex);
     if (slot >= m_cannons.size() || m_cannons[slot].type() == cannon_type::NONE) {
         return;
     }
@@ -105,7 +100,6 @@ void player::sell_cannon(int slot) {
 }
 
 void player::use_ult() {
-    std::unique_lock l(m_mutex);
     if (m_ult_cooldown > 0) {
         return;
     }
@@ -126,7 +120,6 @@ void player::use_ult() {
 }
 
 void player::upgrade_age() {
-    std::unique_lock l(m_mutex);
     int age_num = static_cast<int>(m_age);
     if (age_num + 1 == NUM_OF_AGES || m_exp < NEXT_AGE_EXP[age_num]) {
         return;
@@ -136,7 +129,6 @@ void player::upgrade_age() {
 }
 
 void player::clear_dead_objects() {
-    std::unique_lock l(m_mutex);
     m_bullets.erase(std::remove_if(m_bullets.begin(), m_bullets.end(),
                                    [](const bullet &bullet_) { return !bullet_.is_alive(); }),
                     m_bullets.end());
@@ -150,48 +142,39 @@ void player::clear_dead_objects() {
 // Getters
 
 [[nodiscard]] age_type player::age() const {
-    std::unique_lock l(m_mutex);
     return m_age;
 }
 
 [[nodiscard]] int player::exp() const {
-    std::unique_lock l(m_mutex);
     return m_exp;
 }
 
 [[nodiscard]] int player::money() const {
-    std::unique_lock l(m_mutex);
     return m_money;
 }
 
 [[nodiscard]] std::deque<unit> player::units() const {
-    std::unique_lock l(m_mutex);
     return m_units;
 }
 
 [[nodiscard]] std::vector<bullet> player::bullets() const {
-    std::unique_lock l(m_mutex);
     return m_bullets;
 }
 
 [[nodiscard]] std::vector<cannon> player::cannons() const {
-    std::unique_lock l(m_mutex);
     return m_cannons;
 }
 
 [[nodiscard]] std::deque<unit> player::units_to_train() const {
-    std::unique_lock l(m_mutex);
     return m_units_to_train;
 }
 
 [[nodiscard]] bool player::is_alive() const {
-    std::unique_lock l(m_mutex);
     assert(!m_units.empty());  // at least tower exists, we don't clear it even if it's dead
     return m_units.front().is_alive();
 }
 
 [[nodiscard]] player_snapshot player::snapshot() const {
-    std::unique_lock l(m_mutex);
     return {m_units, m_bullets, m_cannons,      m_units_to_train,    m_age,
             m_exp,   m_money,   m_ult_cooldown, m_training_time_left};
 }

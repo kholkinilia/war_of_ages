@@ -58,8 +58,6 @@ private:
         cannon{cannon_type::NONE, {CANNONS_SLOTS_COORD_X[0], CANNONS_SLOTS_COORD_Y[0]}}};
     float m_training_time_left = 0.0;
     std::deque<unit> m_units_to_train = {};
-
-    mutable std::mutex m_mutex;
 };
 }  // namespace war_of_ages
 
