@@ -23,6 +23,6 @@ private:
     random_matchmaker() = default;
     std::vector<std::string> m_users;
 };
-}
+}  // namespace war_of_ages
 
 #endif  // WAR_OF_AGES_RANDOM_MATCHMAKER_H

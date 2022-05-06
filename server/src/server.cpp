@@ -4,7 +4,9 @@
 #include "../include/random_matchmaker.h"
 #include "../include/room_matchmaker.h"
 
-#define ensure_status(status, valid_status, is_true) if (((status) == (valid_status)) != (is_true)) break
+#define ensure_status(status, valid_status, is_true) \
+    if (((status) == (valid_status)) != (is_true))   \
+    break
 
 namespace war_of_ages {
 
