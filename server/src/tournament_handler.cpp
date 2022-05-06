@@ -5,7 +5,7 @@
 
 namespace war_of_ages {
 
-void tournament_handler::create(const std::string &handle, const std::string &tournament_name, server &srv) {
+void tournament_handler::create(const std::string &handle, const std::string &tournament_name) {
     std::string key = gen_key();
 
     tournament &t = m_tournament[key];
@@ -18,18 +18,24 @@ void tournament_handler::create(const std::string &handle, const std::string &to
     msg.header.id = messages_type::TOURNAMENT_CREATE;
     msg.insert_container(key);
 
-    srv.send_message(handle, msg);
+    // TODO: send message
 }
 
 void tournament_handler::join(const std::string &handle, const std::string &key) {
+    if (m_tournament.find(key) == m_tournament.end()) {
+        return; // TODO: send respond
+    }
     m_tournament[key].add_participant(handle);
 }
 
 void tournament_handler::leave(const std::string &handle) {
+    if (m_key_by_handle.find(handle) != m_key_by_handle.end()) {
+        return; // TODO: send respond
+    }
     m_tournament[m_key_by_handle[handle]].remove_participant(handle);
 }
 
-tournament_handler &tournament_handler::get_instance() {
+tournament_handler &tournament_handler::instance() {
     static tournament_handler handler;
     return handler;
 }

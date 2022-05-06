@@ -3,6 +3,7 @@
 
 #include <vector>
 #include "../../common/tournament/include/tournament.h"
+#include "server.h"
 
 namespace war_of_ages {
 
