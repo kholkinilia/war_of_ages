@@ -1,10 +1,10 @@
 #ifndef WAR_OF_AGES_TOURNAMENT_HANDLER_H
 #define WAR_OF_AGES_TOURNAMENT_HANDLER_H
 
+#include <mutex>
 #include <unordered_map>
 #include "../include/server.h"
 #include "../include/server_tournament.h"
-#include <mutex>
 
 namespace war_of_ages {
 

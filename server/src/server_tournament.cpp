@@ -52,7 +52,6 @@ void war_of_ages::server_tournament::post_remove_participant(const std::string &
         std::remove(ready_to_play_participants.begin(), ready_to_play_participants.end(), handle),
         ready_to_play_participants.end());
 
-
     for (const auto &part : m_participants) {
         if (part == handle) {
             continue;
@@ -65,7 +64,7 @@ void war_of_ages::server_tournament::post_remove_participant(const std::string &
     }
 }
 
-void war_of_ages::server_tournament::match_participants() { // TODO: make it more intelligent
+void war_of_ages::server_tournament::match_participants() {  // TODO: make it more intelligent
     std::unique_lock lock(m_mutex);
     static std::mt19937_64 rnd(clock());
     while (ready_to_play_participants.size() >= 2) {

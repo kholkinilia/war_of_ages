@@ -21,9 +21,10 @@ void printable_tournament::update_grid(const tgui::Grid::Ptr &grid) {
     static const tgui::Color TEXT_COLOR = tgui::Color::White;
     static const std::map<game_result, std::string> result_text{
         {game_result::NONE, "."}, {game_result::VICTORY, "V"}, {game_result::DEFEAT, "D"}};
-    static const std::map<game_result, tgui::Color> result_color{{game_result::NONE, REGULAR_BACKGROUND_COLOR},
-                                                            {game_result::VICTORY, tgui::Color(0, 100, 0)},
-                                                            {game_result::DEFEAT, tgui::Color(100, 0, 0)}};
+    static const std::map<game_result, tgui::Color> result_color{
+        {game_result::NONE, REGULAR_BACKGROUND_COLOR},
+        {game_result::VICTORY, tgui::Color(0, 100, 0)},
+        {game_result::DEFEAT, tgui::Color(100, 0, 0)}};
     // end table parameters
 
     grid->removeAllWidgets();
