@@ -1,0 +1,8 @@
+//
+// Created by iluxa on 06.05.2022.
+//
+
+#ifndef WAR_OF_AGES_SERVER_TOURNAMENT_H
+#define WAR_OF_AGES_SERVER_TOURNAMENT_H
+
+#endif //WAR_OF_AGES_SERVER_TOURNAMENT_H
