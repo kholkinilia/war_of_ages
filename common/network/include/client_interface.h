@@ -30,7 +30,7 @@ public:
         disconnect();
     }
 
-    void send_message(const message<T>& msg) {
+    void send_message(const message<T> &msg) {
         if (is_connected()) {
             m_connection->send(msg);
         }
