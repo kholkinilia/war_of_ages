@@ -5,6 +5,7 @@
 #include <cstddef>
 #include <cstdint>
 #include <cstring>
+#include <deque>
 #include <iostream>
 #include <memory>
 #include <type_traits>
@@ -34,22 +35,26 @@ struct message {
     }
 
     friend std::ostream &operator<<(std::ostream &out, const message &msg) {  // in case of debugging
-        out << "Message (id=" << msg.header.id << "): size=" << msg.size() << "\n";
+        out << "Message (m_id=" << msg.header.id << "): size=" << msg.size() << "\n";
         return out;
     }
 
     template <typename DataType>
     friend message &operator<<(message &msg, const DataType &src) {
-        static_assert(std::is_trivially_copyable_v<DataType>,
-                      "Data you want to pass to a message is not trivially copyable.");
+        if (!std::is_trivially_copyable_v<DataType>) {
+            std::cerr << "Data you want to pass to a message is not trivially copyable.";
+            assert(false);
+        }
         msg.insert_buf(reinterpret_cast<const std::uint8_t *>(&src), sizeof(DataType));
         return msg;
     }
 
     template <typename DataType>
     friend message &operator>>(message &msg, DataType &dst) {
-        static_assert(std::is_trivially_copyable_v<DataType>,
-                      "Data you want to extract from a message is not trivially copyable.");
+        if (!std::is_trivially_copyable_v<DataType>) {
+            std::cerr << "Data you want to pass to a message is not trivially copyable.";
+            assert(false);
+        }
         msg.extract_buf(reinterpret_cast<std::uint8_t *>(&dst), sizeof(DataType));
         return msg;
     }
@@ -71,25 +76,28 @@ struct message {
 
     template <typename ContainerType>
     void insert_container(const ContainerType &container) {
-        static_assert(std::is_trivially_copyable_v<typename ContainerType::value_type>,
-                      "Data stored in container is not trivially copyable.");
-        std::uint32_t value_size = sizeof(typename ContainerType::value_type);
-        std::uint32_t container_size = container.size();
-        insert_buf(reinterpret_cast<const std::uint8_t *>(container.data()),
-                   container.size() * value_size);  // TODO: check if copying entire container.data() is ok
-        *this << container_size;
+        if (std::is_trivially_copyable_v<ContainerType>) {
+            *this << container;
+        } else {
+            for (auto &element : container) {
+                *this << element;
+            }
+            *this << static_cast<std::uint32_t>(container.size());
+        }
     }
 
     template <typename ContainerType>
     void extract_container(ContainerType &container) {
-        static_assert(std::is_trivially_copyable_v<typename ContainerType::value_type>,
-                      "Data stored in container is not trivially copyable.");
-        std::uint32_t value_size = sizeof(typename ContainerType::value_type);
-        std::uint32_t container_size = container.size();
-        *this >> container_size;
-        container.resize(container_size, typename ContainerType::value_type{});
-        extract_buf(reinterpret_cast<std::uint8_t *>(container.data()),
-                    container_size * value_size);  // TODO: check if copying entire container.data() is ok
+        if (std::is_trivially_copyable_v<ContainerType>) {
+            *this >> container;
+        } else {
+            std::uint32_t container_size;
+            *this >> container_size;
+            container.resize(container_size);
+            for (std::uint32_t i = container_size - 1; i + 1 != 0; --i) {
+                *this >> container[i];
+            }
+        }
     }
 };
 
