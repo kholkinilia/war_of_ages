@@ -23,7 +23,7 @@ private:
                     if (m_receiving_message.header.size > 0) {
                         if (m_receiving_message.header.size > /* just some upper bound */ 100) {
                             std::cout << "[" << m_id << "] Received very big message ("
-                                      << m_receiving_message.header.size << " bytes).\n";
+                                      << m_receiving_message.header.size << " bytes)." << std::endl;
                             m_socket.close();
                             return;
                         }
@@ -33,7 +33,7 @@ private:
                         add_to_received_messages();
                     }
                 } else {
-                    std::cout << "[" << m_id << "] Read header failed.\n";
+                    std::cout << "[" << m_id << "] Read header failed." << std::endl;
                     m_socket.close();
                 }
             });
@@ -46,7 +46,7 @@ private:
                 if (!ec) {
                     add_to_received_messages();
                 } else {
-                    std::cout << "[" << m_id << "] Read body failed.\n";
+                    std::cout << "[" << m_id << "] Read body failed." << std::endl;
                     m_socket.close();
                 }
             });
@@ -66,7 +66,7 @@ private:
                         }
                     };
                 } else {
-                    std::cout << "[" << m_id << "] Write header failed.\n";
+                    std::cout << "[" << m_id << "] Write header failed." << std::endl;
                     m_socket.close();
                 }
             });
@@ -83,7 +83,7 @@ private:
                                              write_header();
                                          }
                                      } else {
-                                         std::cout << "[" << m_id << "] Write body failed.\n";
+                                         std::cout << "[" << m_id << "] Write body failed." << std::endl;
                                          m_socket.close();
                                      }
                                  });
