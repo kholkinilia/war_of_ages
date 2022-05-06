@@ -6,13 +6,16 @@ game_handler &game_handler::instance() noexcept {
     return inst;
 }
 
-void game_handler::add_game(std::string handle_p1, std::string handle_p2) {
+void game_handler::add_game(
+    std::string handle_p1,
+    std::string handle_p2,
+    std::function<void(const std::string &handle_winner, const std::string &handle_loser)> game_post_action) {
     assert(!user_exists(handle_p1) && !user_exists(handle_p2));
     std::unique_lock l(m_mutex);
     m_game_by_handle.insert({handle_p1, m_games.size()});
     m_game_by_handle.insert({handle_p2, m_games.size()});
     // FIXME
-    // m_games.push_back(game(std::move(handle_p1), std::move(handle_p2));
+    // m_games.push_back(game(std::move(handle_p1), std::move(handle_p2), std::move(game_post_action);
 }
 
 void game_handler::apply_command(const std::string &handle, std::unique_ptr<game_command> command) {

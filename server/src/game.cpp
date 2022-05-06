@@ -1,13 +1,17 @@
 #include "../include/game.h"
-#include "../include/server.h"
 #include <ctime>
+#include "../include/server.h"
 
 // FIXME: get rid of '0' in m_state.update(). In a good way game_state should calculate time by itself
 
 namespace war_of_ages {
-game::game(std::string handle_p1, std::string handle_p2) noexcept
+game::game(std::string handle_p1,
+           std::string handle_p2,
+           std::function<void(const std::string &handle_winner, const std::string &handle_loser)>
+               game_post_action) noexcept
     : m_handle_p1(std::move(handle_p1)),
       m_handle_p2(std::move(handle_p2)),
+      m_game_post_action(std::move(game_post_action)),
       m_state(1.f * clock() / CLOCKS_PER_SEC) {
     // TODO: send GAME_START message
 }
@@ -28,6 +32,11 @@ void game::update() {
     m_state.update({}, {}, 0);
     if (is_finished()) {
         // TODO: send GAME_FINISHED message
+        if (m_state.get_game_status() == game_status::P1_WON) {
+            m_game_post_action(m_handle_p1, m_handle_p2);
+        } else {
+            m_game_post_action(m_handle_p2, m_handle_p1);
+        }
     } else {
         send_snapshots();
     }
@@ -35,6 +44,7 @@ void game::update() {
 
 void game::user_gave_up(const std::string &handle) {
     // TODO: implement
+    m_game_post_action((handle == m_handle_p1 ? m_handle_p2 : m_handle_p1), handle);
 }
 
 bool game::is_finished() const noexcept {

@@ -18,7 +18,9 @@ bool random_matchmaker::add_user(std::string handle) {
     }
     m_users.push_back(std::move(handle));
     if (m_users.size() == 2) {
-        game_handler::instance().add_game(std::move(m_users[0]), std::move(m_users[1]));
+        game_handler::instance().add_game(
+            std::move(m_users[0]), std::move(m_users[1]),
+            [](const std::string &handle_winner, const std::string &handler_loser) { /* DO NOTHING */ });
         m_users.clear();
     }
     return true;

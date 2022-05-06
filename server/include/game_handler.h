@@ -2,6 +2,7 @@
 #define WAR_OF_AGES_GAME_HANDLER_H
 
 #include <cstddef>
+#include <functional>
 #include <memory>
 #include <mutex>
 #include <string>
@@ -19,7 +20,10 @@ struct game_handler {
     game_handler &operator=(const game_handler &other) = delete;
     game_handler &operator=(game_handler &&other) = delete;
 
-    void add_game(std::string handle_p1, std::string handle_p2);
+    void add_game(std::string handle_p1,
+                  std::string handle_p2,
+                  std::function<void(const std::string &handle_winner, const std::string &handle_loser)>
+                      game_post_action);
     void apply_command(const std::string &handle, std::unique_ptr<game_command> command);
     void update_games();
 
