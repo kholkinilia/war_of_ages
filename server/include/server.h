@@ -27,7 +27,7 @@ public:
     server &operator=(const server &other) = delete;
     server &operator=(server &&other) = delete;
 
-    static void set_port(std::uint16_t port);
+    static void set_port(std::uint16_t port) noexcept;
 
     void send_message(const std::string &handle, const message<messages_type> &msg);
     [[nodiscard]] user_status get_user_status(std::uint32_t user_id) const;
@@ -42,7 +42,7 @@ private:
     std::unordered_map<std::uint32_t, std::string> m_handle_by_id;
     std::unordered_map<std::string, std::uint32_t> m_id_by_handle;
     std::unordered_map<std::uint32_t, user_status> m_status_by_id;
-    mutable std::mutex m_mutex_status;
+    mutable std::mutex m_mutex;
 
 protected:
     bool on_client_connect(std::shared_ptr<connection<messages_type>> client) override;
