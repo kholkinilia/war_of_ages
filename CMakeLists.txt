@@ -13,7 +13,7 @@ if (WIN32 AND NOT MSVC AND NOT BORLAND)
     # Boost::Asio automatically links with necessary
     # libraries when using Visual C++ or Borland C++,
     # see BOOST_ASIO_NO_DEFAULT_LINKED_LIBS.
-    set(NETWORKING_LIBS "ws2_32")
+    set(NETWORKING_LIBS "ws2_32" "wsock32")
 endif ()
 
 set(COMMON_PROJECT_SOURCES

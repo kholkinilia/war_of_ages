@@ -1,38 +1,18 @@
 #include <iostream>
 #include "../../common/network/include/network.h"
 #include "../include/server.h"
+#include "../include/game_handler.h"
 
 int main() {
+    std::ios_base::sync_with_stdio(0); std::cin.tie(0); std::cout.tie(0);
     war_of_ages::server::set_port(12345);
-    // sample of using message (remove if needed)
-
-    enum class msg_type : std::uint32_t { BUY_UNIT, ADD_TO_TOURNAMENT };
-    war_of_ages::message<msg_type> msg;
-    msg.header.id = msg_type::ADD_TO_TOURNAMENT;
-
-    int val = 10;
-    std::string handle = "fixmetodo";
-    std::vector<int> a{1, 2, 3, 4, 5};
-    struct {
-        int x = 7;
-        float a = 11;
-    } b[3];
-
-    msg.insert_container(handle);
-    msg.insert_container(a);
-    msg << val << b;
-
-    a = {};
-    handle = "";
-    val = -1;
-
-    msg >> b >> val;
-    msg.extract_container(a);
-    msg.extract_container(handle);
-
-    std::cout << val << "\n" << handle << "\n";
-    for (int i : a) {
-        std::cout << i << " ";
+    war_of_ages::server::instance().start();
+    std::thread([]() {
+        while (true) {
+            war_of_ages::server::instance().update(-1, true);
+        }
+    }).detach();
+    while (true) {
+        war_of_ages::game_handler::instance().update_games();
     }
-    std::cout << std::endl;
 }
