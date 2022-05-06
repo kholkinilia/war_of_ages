@@ -56,7 +56,8 @@ public:
                     m_active_connections.push_back(std::move(new_connection));
                     m_active_connections.back()->connect_to_client(this, m_id_counter++);
 
-                    std::cout << "[" << m_active_connections.back()->get_id() << "] Connection approved." << std::endl;
+                    std::cout << "[" << m_active_connections.back()->get_id() << "] Connection approved."
+                              << std::endl;
                 } else {
                     std::cout << "[------] Connection denied." << std::endl;
                 }
