@@ -13,38 +13,61 @@ game::game(std::string handle_p1,
       m_handle_p2(std::move(handle_p2)),
       m_game_post_action(std::move(game_post_action)),
       m_state(1.f * clock() / CLOCKS_PER_SEC) {
-    // TODO: send GAME_START message
+    message<messages_type> msg_p1, msg_p2;
+    msg_p1.header.id = msg_p2.header.id = messages_type::GAME_START;
+    msg_p1.insert_container(m_handle_p2);
+    msg_p2.insert_container(m_handle_p1);
+    server::instance().send_message(m_handle_p1, msg_p1);
+    server::instance().send_message(m_handle_p2, msg_p2);
 }
 
 void game::apply_command(const std::string &handle, std::unique_ptr<game_command> command) noexcept {
+    assert(handle == m_handle_p1 || handle == m_handle_p2);
     std::vector<std::unique_ptr<game_command>> current_player_actions;
     current_player_actions.push_back(std::move(command));
     if (handle == m_handle_p1) {
         m_state.update(current_player_actions, {}, 0);
-    } else if (handle == m_handle_p2) {
-        m_state.update({}, current_player_actions, 0);
     } else {
-        assert(false);
+        m_state.update({}, current_player_actions, 0);
     }
 }
 
 void game::update() {
     m_state.update({}, {}, 0);
     if (is_finished()) {
-        // TODO: send GAME_FINISHED message
+        message<messages_type> msg_p1, msg_p2;
+        msg_p1.header.id = msg_p2.header.id = messages_type::GAME_FINISHED;
         if (m_state.get_game_status() == game_status::P1_WON) {
+            msg_p1 << static_cast<std::uint8_t>(1);
+            msg_p2 << static_cast<std::uint8_t>(0);
             m_game_post_action(m_handle_p1, m_handle_p2);
         } else {
+            msg_p1 << static_cast<std::uint8_t>(0);
+            msg_p2 << static_cast<std::uint8_t>(1);
             m_game_post_action(m_handle_p2, m_handle_p1);
         }
+        server::instance().send_message(m_handle_p1, msg_p1);
+        server::instance().send_message(m_handle_p2, msg_p2);
     } else {
         send_snapshots();
     }
 }
 
 void game::user_gave_up(const std::string &handle) {
-    // TODO: implement
-    m_game_post_action((handle == m_handle_p1 ? m_handle_p2 : m_handle_p1), handle);
+    assert(handle == m_handle_p1 || handle == m_handle_p2);
+    message<messages_type> msg_winner, msg_loser;
+    msg_winner.header.id = msg_loser.header.id = messages_type::GAME_GIVE_UP;
+    msg_winner << static_cast<std::uint8_t>(1);
+    msg_loser << static_cast<std::uint8_t>(0);
+    if (handle == m_handle_p2) {
+        m_game_post_action(m_handle_p1, m_handle_p2);
+        server::instance().send_message(m_handle_p1, msg_winner);
+        server::instance().send_message(m_handle_p2, msg_loser);
+    } else {
+        m_game_post_action(m_handle_p2, m_handle_p1);
+        server::instance().send_message(m_handle_p2, msg_winner);
+        server::instance().send_message(m_handle_p1, msg_loser);
+    }
 }
 
 bool game::is_finished() const noexcept {
@@ -60,9 +83,12 @@ const std::string &game::get_handle_p2() const noexcept {
 }
 
 message<messages_type> game::get_msg_snapshot(const player_snapshot &p_snapshot) noexcept {
-    message<messages_type> result_msg;
-    // TODO: create a GAME_STATE message
-    return result_msg;
+    message<messages_type> msg;
+    msg.header.id = messages_type::GAME_STATE;
+    msg << p_snapshot.units << p_snapshot.bullets << p_snapshot.cannons << p_snapshot.units_to_train
+        << p_snapshot.age << p_snapshot.exp << p_snapshot.money << p_snapshot.m_ult_cooldown
+        << p_snapshot.m_training_time_left;
+    return msg;
 }
 
 void game::send_snapshots() const {

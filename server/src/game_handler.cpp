@@ -14,8 +14,7 @@ void game_handler::add_game(
     std::unique_lock l(m_mutex);
     m_game_by_handle.insert({handle_p1, m_games.size()});
     m_game_by_handle.insert({handle_p2, m_games.size()});
-    // FIXME
-    // m_games.push_back(game(std::move(handle_p1), std::move(handle_p2), std::move(game_post_action);
+    m_games.emplace_back(std::move(handle_p1), std::move(handle_p2), std::move(game_post_action));
 }
 
 void game_handler::apply_command(const std::string &handle, std::unique_ptr<game_command> command) {
@@ -57,8 +56,7 @@ void game_handler::remove_game(std::size_t game_index) noexcept {
     m_game_by_handle.erase(game_.get_handle_p2());
     m_game_by_handle[m_games.back().get_handle_p1()] = game_index;
     m_game_by_handle[m_games.back().get_handle_p2()] = game_index;
-    // FIXME
-    // std::swap(m_games[game_index], m_games.back());
+    std::swap(m_games[game_index], m_games.back());
     m_games.pop_back();
 }
 

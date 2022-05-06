@@ -16,7 +16,7 @@ server &server::instance() {
     return inst;
 }
 
-void server::set_port(std::uint16_t port) {
+void server::set_port(std::uint16_t port) noexcept {
     m_port = port;
 }
 
@@ -24,42 +24,46 @@ server::server() : server_interface<messages_type>(m_port) {
 }
 
 void server::send_message(const std::string &handle, const message<messages_type> &msg) {
+    std::unique_lock l(m_mutex);
     server_interface::send_message(m_connection_by_id.at(m_id_by_handle.at(handle)), msg);
 }
 
 user_status server::get_user_status(std::uint32_t user_id) const {
-    std::unique_lock l(m_mutex_status);
+    std::unique_lock l(m_mutex);
     return m_status_by_id.at(user_id);
 }
 
 void server::set_user_status(std::uint32_t user_id, user_status new_status) {
-    std::unique_lock l(m_mutex_status);
+    std::unique_lock l(m_mutex);
     m_status_by_id[user_id] = new_status;
 }
 
 bool server::on_client_connect(std::shared_ptr<connection<messages_type>> client) {
+    std::unique_lock l(m_mutex);
     m_connection_by_id.insert({client->get_id(), client});
-    std::unique_lock l(m_mutex_status);
     m_status_by_id.insert({client->get_id(), user_status::MENU});
     return true;
 }
 
 void server::on_client_disconnect(std::shared_ptr<connection<messages_type>> client) {
-    std::uint32_t id = client->get_id();
-    m_connection_by_id.erase(id);
-    auto handle_it = m_handle_by_id.find(id);
-    if (handle_it != m_handle_by_id.end()) {
+    std::uint32_t uid = client->get_id();
+    auto status = get_user_status(uid);
+
+    std::unique_lock l(m_mutex);
+    if (status != user_status::AUTHORIZATION) {
+        auto handle_it = m_handle_by_id.find(uid);
+        assert(handle_it != m_handle_by_id.end());
         m_id_by_handle.erase(handle_it->second);
         m_handle_by_id.erase(handle_it);
     }
-    std::unique_lock l(m_mutex_status);
-    m_status_by_id.erase(id);
+    m_connection_by_id.erase(uid);
+    m_status_by_id.erase(uid);
     // TODO: tournament & matches logic
 }
 
 void server::on_message(std::shared_ptr<connection<messages_type>> client, message<messages_type> msg) {
-    std::uint32_t valid_size = valid_body_size.at(msg.header.id);
-    if (msg.header.size != valid_size && valid_size != -1) {
+    if (std::uint32_t valid_size = valid_body_size.at(msg.header.id);
+        msg.header.size != valid_size && valid_size != -1) {
         client->disconnect();
         return;
     }
@@ -73,8 +77,10 @@ void server::on_message(std::shared_ptr<connection<messages_type>> client, messa
         // TODO: handle login attempt
         return;
     }
+    std::unique_lock l(m_mutex);
     assert(m_handle_by_id.find(uid) != m_handle_by_id.end());
     const std::string &handle = m_handle_by_id.at(uid);
+    l.unlock();
 
     switch (msg.header.id) {
         case messages_type::AUTH_LOGOUT: {
