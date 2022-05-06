@@ -30,9 +30,10 @@ enum class messages_type {
     TOURNAMENT_CREATE,
     TOURNAMENT_JOIN,
     TOURNAMENT_LEAVE,
+    TOURNAMENT_STATE,
     TOURNAMENT_ADD_PLAYER,
     TOURNAMENT_REMOVE_PLAYER,
-    TOURNAMENT_GAME_RESULT,
+    TOURNAMENT_ADD_RESULT,
     TOURNAMENT_START_GAME,
     TOURNAMENT_FINISHED,
 
@@ -65,9 +66,10 @@ const std::unordered_map<messages_type, std::uint32_t> valid_body_size = {
     // TODO: fill by Ilya
     {messages_type::TOURNAMENT_JOIN, -1},
     {messages_type::TOURNAMENT_LEAVE, -1},
+    {messages_type::TOURNAMENT_STATE, -1},
     {messages_type::TOURNAMENT_ADD_PLAYER, -1},
     {messages_type::TOURNAMENT_REMOVE_PLAYER, -1},
-    {messages_type::TOURNAMENT_GAME_RESULT, -1},
+    {messages_type::TOURNAMENT_ADD_RESULT, -1},
     {messages_type::TOURNAMENT_START_GAME, -1},
     {messages_type::TOURNAMENT_FINISHED, -1},
 

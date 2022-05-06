@@ -2,36 +2,28 @@
 #include <random>
 #include "../../common/include/messages_type.h"
 #include "../../common/network/include/message.h"
+#include "../include/server.h"
 
 namespace war_of_ages {
 
 void tournament_handler::create(const std::string &handle, const std::string &tournament_name) {
+    std::unique_lock lock(m_mutex);
     std::string key = gen_key();
 
     tournament &t = m_tournament[key];
     m_key_by_handle[handle] = key;
-    t.add_participant(handle);
-    t.set_name(tournament_name);
     t.set_key(key);
-
-    message<messages_type> msg;
-    msg.header.id = messages_type::TOURNAMENT_CREATE;
-    msg.insert_container(key);
-
-    // TODO: send message
+    t.set_name(tournament_name);
+    t.add_participant(handle);
 }
 
 void tournament_handler::join(const std::string &handle, const std::string &key) {
-    if (m_tournament.find(key) == m_tournament.end()) {
-        return;  // TODO: send respond
-    }
+    std::unique_lock lock(m_mutex);
     m_tournament[key].add_participant(handle);
 }
 
 void tournament_handler::leave(const std::string &handle) {
-    if (m_key_by_handle.find(handle) != m_key_by_handle.end()) {
-        return;  // TODO: send respond
-    }
+    std::unique_lock lock(m_mutex);
     m_tournament[m_key_by_handle[handle]].remove_participant(handle);
 }
 
@@ -49,6 +41,11 @@ std::string tournament_handler::gen_key() {
         res += characters[rnd() % characters.size()];
     }
     return res;
+}
+
+void tournament_handler::add_result(const std::string &winner, const std::string &loser) {
+    std::unique_lock lock(m_mutex);
+    m_tournament[m_key_by_handle[winner]].add_result(winner, loser);
 }
 
 }  // namespace war_of_ages

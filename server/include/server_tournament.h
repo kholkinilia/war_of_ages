@@ -13,7 +13,6 @@ private:
     void post_add_participant(const std::string &handle) final;
     void post_add_result(const std::string &winner, const std::string &loser) final;
     void post_remove_participant(const std::string &handle) final;
-
     void match_participants();
 };
 

@@ -1,6 +1,7 @@
 #ifndef WAR_OF_AGES_TOURNAMENT_H
 #define WAR_OF_AGES_TOURNAMENT_H
 
+#include <cstddef>
 #include <map>
 #include <mutex>
 #include <string>
@@ -8,21 +9,28 @@
 
 namespace war_of_ages {
 
+enum class game_result : std::uint8_t { NONE, VICTORY, DEFEAT };
+
+struct tournament_snapshot {
+    std::string name;
+    std::string key;
+    std::vector<std::string> participants;
+    std::vector<std::vector<game_result>> match_results;
+};
+
 struct tournament {
 protected:
-    enum class result { NONE, VICTORY, DEFEAT };
     static inline const int WIN_POINTS = 1;
     std::string m_name;
     std::string m_key;
-    int m_part_number = 0;
     std::vector<std::string> m_participants;
-    std::map<std::string, int> m_id;
-    std::vector<std::vector<result>> m_match_results;
+    std::vector<std::vector<game_result>> m_match_results;
     std::vector<int> m_sum;
-    std::vector<int> m_place;
+    std::vector<std::size_t> m_place;
     mutable std::mutex m_mutex;
 
     void update_places_lock_held();
+    [[nodiscard]] std::size_t get_id(const std::string &handle) const noexcept;
 
 protected:
     virtual void post_add_participant(const std::string &handle) = 0;
@@ -30,6 +38,15 @@ protected:
     virtual void post_remove_participant(const std::string &handle) = 0;
 
 public:
+    tournament() = default;
+    explicit tournament(const tournament_snapshot &snapshot)
+        : m_name(snapshot.name),
+          m_key(snapshot.key),
+          m_participants(snapshot.participants),
+          m_match_results(snapshot.match_results) {
+        update_places_lock_held();
+    }
+
     void add_participant(const std::string &handle);
 
     void add_result(const std::string &winner, const std::string &loser);
@@ -39,6 +56,8 @@ public:
     void set_name(const std::string &new_name);
 
     void set_key(const std::string &new_key);
+
+    [[nodiscard]] tournament_snapshot get_snapshot() const;
 
     [[nodiscard]] std::string get_name() const;
 
