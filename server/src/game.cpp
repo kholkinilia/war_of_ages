@@ -1,4 +1,5 @@
 #include "../include/game.h"
+#include "../include/server.h"
 #include <ctime>
 
 // FIXME: get rid of '0' in m_state.update(). In a good way game_state should calculate time by itself
@@ -23,16 +24,16 @@ void game::apply_command(const std::string &handle, std::unique_ptr<game_command
     }
 }
 
-void game::update(server &server_ref) {
+void game::update() {
     m_state.update({}, {}, 0);
     if (is_finished()) {
         // TODO: send GAME_FINISHED message
     } else {
-        send_snapshots(server_ref);
+        send_snapshots();
     }
 }
 
-void game::user_gave_up(const std::string &handle, server &server_ref) {
+void game::user_gave_up(const std::string &handle) {
     // TODO: implement
 }
 
@@ -54,11 +55,11 @@ message<messages_type> game::get_msg_snapshot(const player_snapshot &p_snapshot)
     return result_msg;
 }
 
-void game::send_snapshots(server &server_ref) const {
+void game::send_snapshots() const {
     auto [snapshot_p1, snapshot_p2] = m_state.snapshot_players();
     message<messages_type> msg_p1 = get_msg_snapshot(snapshot_p1);
     message<messages_type> msg_p2 = get_msg_snapshot(snapshot_p2);
-    server_ref.send_message(m_handle_p1, msg_p1);
-    server_ref.send_message(m_handle_p2, msg_p2);
+    server::instance().send_message(m_handle_p1, msg_p1);
+    server::instance().send_message(m_handle_p2, msg_p2);
 }
 }  // namespace war_of_ages

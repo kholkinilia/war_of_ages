@@ -23,23 +23,23 @@ void game_handler::apply_command(const std::string &handle, std::unique_ptr<game
     m_games[m_game_by_handle.at(handle)].apply_command(handle, std::move(command));
 }
 
-void game_handler::update_games(server &server_ref) {
+void game_handler::update_games() {
     std::unique_lock l(m_mutex);
     for (std::size_t game_index = 0; game_index < m_games.size(); ++game_index) {
         auto &game_ = m_games[game_index];
-        game_.update(server_ref);
+        game_.update();
         if (game_.is_finished()) {
             remove_game(game_index);
         }
     }
 }
 
-void game_handler::user_gave_up(const std::string &handle, server &server_ref) {
+void game_handler::user_gave_up(const std::string &handle) {
     if (!user_exists(handle)) {
         return;
     }
     std::size_t game_index = m_game_by_handle.at(handle);
-    m_games[game_index].user_gave_up(handle, server_ref);
+    m_games[game_index].user_gave_up(handle);
     remove_game(game_index);
 }
 

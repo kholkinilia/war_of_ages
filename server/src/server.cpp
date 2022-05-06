@@ -10,7 +10,16 @@
 
 namespace war_of_ages {
 
-server::server(std::uint16_t port) : server_interface<messages_type>(port) {
+server &server::instance() {
+    static server inst;
+    return inst;
+}
+
+void server::set_port(std::uint16_t port) {
+    m_port = port;
+}
+
+server::server() : server_interface<messages_type>(m_port) {
 }
 
 void server::send_message(const std::string &handle, const message<messages_type> &msg) {
@@ -98,7 +107,7 @@ void server::on_message(std::shared_ptr<connection<messages_type>> client, messa
         case messages_type::GAME_GIVE_UP: {
             ensure_status(status, user_status::MENU, false);
             ensure_status(status, user_status::AUTHORIZATION, false);
-            game_handler::instance().user_gave_up(handle, *this);
+            game_handler::instance().user_gave_up(handle);
         } break;
         case messages_type::RANDOMGAME_JOIN: {
             ensure_status(status, user_status::MENU, true);

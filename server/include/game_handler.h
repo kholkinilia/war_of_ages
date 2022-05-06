@@ -21,9 +21,9 @@ struct game_handler {
 
     void add_game(std::string handle_p1, std::string handle_p2);
     void apply_command(const std::string &handle, std::unique_ptr<game_command> command);
-    void update_games(server &server_ref);
+    void update_games();
 
-    void user_gave_up(const std::string &handle, server &server_ref);
+    void user_gave_up(const std::string &handle);
 
 private:
     game_handler() noexcept = default;

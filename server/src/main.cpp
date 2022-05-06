@@ -1,7 +1,9 @@
 #include <iostream>
 #include "../../common/network/include/network.h"
+#include "../include/server.h"
 
 int main() {
+    war_of_ages::server::set_port(12345);
     // sample of using message (remove if needed)
 
     enum class msg_type : std::uint32_t { BUY_UNIT, ADD_TO_TOURNAMENT };
