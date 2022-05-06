@@ -25,7 +25,7 @@ void tournament::update_places_lock_held() {
 void tournament::add_participant(const std::string &handle) {
     std::unique_lock lock(m_mutex);
     std::size_t id = get_id(handle);
-    if (id == m_participants.size()) {
+    if (id != m_participants.size()) {
         assert(false);
         return;
     }

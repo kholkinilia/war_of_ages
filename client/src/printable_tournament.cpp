@@ -45,32 +45,32 @@ void printable_tournament::update_grid(const tgui::Grid::Ptr &grid) {
     format_label(handle_label, HANDLE_WIDTH, THICK_BORDER_WIDTH, REGULAR_BACKGROUND_COLOR);
     grid->addWidget(handle_label, 0, 0);
 
-    for (int i = 0; i < m_part_number; i++) {
+    for (std::size_t i = 0; i < m_participants.size(); i++) {
         tgui::Label::Ptr handle = tgui::Label::create(m_participants[i]);
         format_label(handle, HANDLE_WIDTH, THICK_BORDER_WIDTH, REGULAR_BACKGROUND_COLOR);
         grid->addWidget(handle, i + 1, 0);
     }
 
-    for (int i = 0; i < m_part_number; i++) {
+    for (std::size_t i = 0; i < m_participants.size(); i++) {
         tgui::Label::Ptr number = tgui::Label::create(std::to_string(i + 1));
         format_label(number, SQUARE_SIZE, THICK_BORDER_WIDTH, REGULAR_BACKGROUND_COLOR);
         grid->addWidget(number, i + 1, 1);
     }
 
-    for (int i = 0; i < m_part_number; i++) {  // TODO: make it not be a copy-paste
+    for (std::size_t i = 0; i < m_participants.size(); i++) {  // TODO: make it not be a copy-paste
         tgui::Label::Ptr number = tgui::Label::create(std::to_string(i + 1));
         format_label(number, SQUARE_SIZE, THICK_BORDER_WIDTH, REGULAR_BACKGROUND_COLOR);
         grid->addWidget(number, 0, i + 2);
     }
 
-    for (int i = 0; i < m_part_number + 1; i++) {
+    for (std::size_t i = 0; i <= m_participants.size(); i++) {
         tgui::Label::Ptr blank = tgui::Label::create();
         format_label(blank, SQUARE_SIZE, REGULAR_BORDER_WIDTH, BLANK_CELL_BACKGROUND_COLOR);
         grid->addWidget(blank, i, i + 1);
     }
 
-    for (int i = 0; i < m_part_number; i++) {
-        for (int j = 0; j < m_part_number; j++) {
+    for (std::size_t i = 0; i < m_participants.size(); i++) {
+        for (std::size_t j = 0; j < m_participants.size(); j++) {
             if (i == j)
                 continue;
             tgui::Label::Ptr cur_result = tgui::Label::create(result_text.at(m_match_results[i][j]));
@@ -86,7 +86,7 @@ void printable_tournament::update_grid(const tgui::Grid::Ptr &grid) {
     sum_tool_tip->getRenderer()->setTextColor(TEXT_COLOR);
     sum_label->setToolTip(sum_tool_tip);
     format_label(sum_label, SQUARE_SIZE, THICK_BORDER_WIDTH, REGULAR_BACKGROUND_COLOR);
-    grid->addWidget(sum_label, 0, m_part_number + 2);
+    grid->addWidget(sum_label, 0, m_participants.size() + 2);
 
     tgui::Label::Ptr place_label = tgui::Label::create("М");
     tgui::Label::Ptr place_tool_tip = tgui::Label::create("Текущее место");
@@ -94,16 +94,16 @@ void printable_tournament::update_grid(const tgui::Grid::Ptr &grid) {
     place_tool_tip->getRenderer()->setTextColor(TEXT_COLOR);
     place_label->setToolTip(place_tool_tip);
     format_label(place_label, SQUARE_SIZE, THICK_BORDER_WIDTH, REGULAR_BACKGROUND_COLOR);
-    grid->addWidget(place_label, 0, m_part_number + 3);
+    grid->addWidget(place_label, 0, m_participants.size() + 3);
 
-    for (int i = 0; i < m_part_number; i++) {
+    for (std::size_t i = 0; i < m_participants.size(); i++) {
         tgui::Label::Ptr part_sum = tgui::Label::create(std::to_string(m_sum[i]));
         format_label(part_sum, SQUARE_SIZE, THICK_BORDER_WIDTH, REGULAR_BACKGROUND_COLOR);
-        grid->addWidget(part_sum, i + 1, m_part_number + 2);
+        grid->addWidget(part_sum, i + 1, m_participants.size() + 2);
 
         tgui::Label::Ptr part_place = tgui::Label::create(std::to_string(m_place[i]));
         format_label(part_place, SQUARE_SIZE, THICK_BORDER_WIDTH, REGULAR_BACKGROUND_COLOR);
-        grid->addWidget(part_place, i + 1, m_part_number + 3);
+        grid->addWidget(part_place, i + 1, m_participants.size() + 3);
     }
 
     m_is_grid_updated = true;
