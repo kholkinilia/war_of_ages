@@ -30,6 +30,12 @@ public:
         disconnect();
     }
 
+    void send_message(const message<T> &msg) {
+        if (is_connected()) {
+            m_connection->send(msg);
+        }
+    }
+
     bool connect(const std::string &host, const uint16_t port) {
         try {
             boost::asio::ip::tcp::resolver resolver(m_context);
