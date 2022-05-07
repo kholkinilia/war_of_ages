@@ -41,8 +41,8 @@ void tournament_join_screen_init(tgui::Gui &gui) {
 
     place_widgets(widgets);
 
-    gui.add(tournament_join_screen_group, screen_id.at(screen::TOURNAMENT_JOINING));
-    gui.get(screen_id.at(screen::TOURNAMENT_JOINING))->setVisible(false);
+    gui.add(tournament_join_screen_group, screen_handler::screen_id.at(screen_handler::screen_type::TOURNAMENT_JOINING));
+    gui.get(screen_handler::screen_id.at(screen_handler::screen_type::TOURNAMENT_JOINING))->setVisible(false);
 }
 
 void tournament_creation_screen_init(tgui::Gui &gui) {
@@ -77,8 +77,8 @@ void tournament_creation_screen_init(tgui::Gui &gui) {
 
     place_widgets(widgets);
 
-    gui.add(tournament_creation_screen_group, screen_id.at(screen::TOURNAMENT_CREATION));
-    gui.get(screen_id.at(screen::TOURNAMENT_CREATION))->setVisible(false);
+    gui.add(tournament_creation_screen_group, screen_handler::screen_id.at(screen_handler::screen_type::TOURNAMENT_CREATION));
+    gui.get(screen_handler::screen_id.at(screen_handler::screen_type::TOURNAMENT_CREATION))->setVisible(false);
 }
 
 void tournament_screen_init(tgui::Gui &gui) {
@@ -125,8 +125,8 @@ void tournament_screen_init(tgui::Gui &gui) {
     t.update_grid(tournament_grid);
     // end sample tournament
 
-    gui.add(tournament_screen_group, screen_id.at(screen::TOURNAMENT_MAIN));
-    gui.get(screen_id.at(screen::TOURNAMENT_MAIN))->setVisible(false);
+    gui.add(tournament_screen_group, screen_handler::screen_id.at(screen_handler::screen_type::TOURNAMENT_MAIN));
+    gui.get(screen_handler::screen_id.at(screen_handler::screen_type::TOURNAMENT_MAIN))->setVisible(false);
 }
 
 }  // namespace war_of_ages

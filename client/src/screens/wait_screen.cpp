@@ -21,8 +21,8 @@ void opponent_waiting_screen_init(tgui::Gui &gui) {
 
     std::vector<tgui::Widget::Ptr> widgets = {loading, return_button};
     place_widgets(widgets);
-    gui.add(opponent_waiting_screen_group, screen_id.at(screen::WAIT_OPPONENT));
-    gui.get(screen_id.at(screen::WAIT_OPPONENT))->setVisible(false);
+    gui.add(opponent_waiting_screen_group, screen_handler::screen_id.at(screen_handler::screen_type::WAIT_OPPONENT));
+    gui.get(screen_handler::screen_id.at(screen_handler::screen_type::WAIT_OPPONENT))->setVisible(false);
 }
 
 }  // namespace war_of_ages

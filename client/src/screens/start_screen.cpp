@@ -55,7 +55,7 @@ void start_screen_init(tgui::Gui &gui) {
     settings_screen_button->onPress([&gui]() { screen_handler::instance().change_screen(screen_handler::screen_type::SETTINGS); });
     start_screen_group->add(settings_screen_button);
 
-    gui.add(start_screen_group, screen_id.at(screen::START_SCREEN));
-    gui.get(screen_id.at(screen::START_SCREEN))->setVisible(false);
+    gui.add(start_screen_group, screen_handler::screen_id.at(screen_handler::screen_type::START_SCREEN));
+    gui.get(screen_handler::screen_id.at(screen_handler::screen_type::START_SCREEN))->setVisible(false);
 }
 }  // namespace war_of_ages

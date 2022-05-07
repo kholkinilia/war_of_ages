@@ -11,6 +11,7 @@
 #include "../include/screens/wait_screen.h"
 #include "../include/sfml_printer.h"
 #include "../include/ui_functions.h"
+#include "../include/client.h"
 
 namespace war_of_ages {
 

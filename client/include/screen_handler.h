@@ -2,7 +2,6 @@
 #define WAR_OF_AGES_SCREEN_HANDLER_H
 
 #include <TGUI/Backend/SFML-Graphics.hpp>  // tgui::Gui
-#include "client.h"
 #include "../../common/game_logic/include/player.h"
 
 namespace war_of_ages {

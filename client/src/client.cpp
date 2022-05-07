@@ -3,24 +3,24 @@
 
 namespace war_of_ages {
 
-client_state::client_state(std::string handle_, screen cur_screen_)
+client_state::client_state(std::string handle_, screen_handler::screen_type cur_screen_)
     : handle(std::move(handle_)), cur_screen(cur_screen_), cur_game(nullptr) {
 }
 
 std::string client_state::get_cur_screen_id() const {
-    return screen_id.at(cur_screen);
+    return screen_handler::screen_id.at(cur_screen);
 }
 std::string client_state::get_handle() const {
     return handle;
 }
-screen client_state::get_cur_screen() const {
+screen_handler::screen_type client_state::get_cur_screen() const {
     return cur_screen;
 }
 std::shared_ptr<tournament> client_state::get_cur_tournament() const {
     return cur_tournament;
 }
 
-void client_state::set_cur_screen(screen s) {
+void client_state::set_cur_screen(screen_handler::screen_type s) {
     cur_screen = s;
 }
 

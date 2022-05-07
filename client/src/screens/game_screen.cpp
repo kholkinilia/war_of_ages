@@ -236,7 +236,7 @@ void game_screen_init(sf::View &v, tgui::Gui &gui) {
     game_screen_group->add(exp_label, "exp_label");
     game_screen_group->add(plus_place_cannon_coin_image);
     game_screen_group->add(plus_place_cannon_coin_label, "plus_place_cannon_coin_label");
-    gui.add(game_screen_group, screen_id.at(screen::GAME_SCREEN));
-    gui.get(screen_id.at(screen::GAME_SCREEN))->setVisible(false);
+    gui.add(game_screen_group, screen_handler::screen_id.at(screen_handler::screen_type::GAME_SCREEN));
+    gui.get(screen_handler::screen_id.at(screen_handler::screen_type::GAME_SCREEN))->setVisible(false);
 }
 }  // namespace war_of_ages

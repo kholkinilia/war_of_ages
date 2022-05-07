@@ -78,7 +78,7 @@ void settings_screen_init(sf::View &v, tgui::Gui &gui) {
     start_button->setSize("40%", "10%");
     settings_screen_group->add(start_button);
 
-    gui.add(settings_screen_group, screen_id.at(screen::SETTINGS));
-    gui.get(screen_id.at(screen::SETTINGS))->setVisible(false);
+    gui.add(settings_screen_group, screen_handler::screen_id.at(screen_handler::screen_type::SETTINGS));
+    gui.get(screen_handler::screen_id.at(screen_handler::screen_type::SETTINGS))->setVisible(false);
 }
 }  // namespace war_of_ages

@@ -1,8 +1,7 @@
 #include "../../include/screens/end_game_screen.h"
 #include "../../include/client.h"
-#include "../../include/screens/screen_defines.h"
-#include "../../include/ui_functions.h"
 #include "../../include/screen_handler.h"
+#include "../../include/ui_functions.h"
 
 // TGUI widgets
 #include <TGUI/Widgets/Button.hpp>
@@ -35,7 +34,7 @@ void end_game_screen_init(tgui::Gui &gui) {
     std::vector<tgui::Widget::Ptr> widgets = {result, start_button};
     place_widgets(widgets);
 
-    gui.add(end_game_screen_group, screen_id.at(screen::END_GAME));
-    gui.get(screen_id.at(screen::END_GAME))->setVisible(false);
+    gui.add(end_game_screen_group, screen_handler::screen_id.at(screen_handler::screen_type::END_GAME));
+    gui.get(screen_handler::screen_id.at(screen_handler::screen_type::END_GAME))->setVisible(false);
 }
 }  // namespace war_of_ages
