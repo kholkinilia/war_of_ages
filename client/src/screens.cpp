@@ -3,15 +3,15 @@
 
 // Screen headers
 
-#include "../include/end_game_screen.h"
-#include "../include/game_screen.h"
-#include "../include/multiplayer_screen.h"
-#include "../include/settings_screen.h"
+#include "../include/screens/end_game_screen.h"
+#include "../include/screens/game_screen.h"
+#include "../include/screens/multiplayer_screen.h"
+#include "../include/screens/settings_screen.h"
+#include "../include/screens/start_screen.h"
+#include "../include/screens/tournament_screens.h"
+#include "../include/screens/wait_screen.h"
 #include "../include/sprite_printer.h"
-#include "../include/start_screen.h"
-#include "../include/tournament_screens.h"
 #include "../include/ui_functions.h"
-#include "../include/wait_screen.h"
 
 namespace war_of_ages {
 

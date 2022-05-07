@@ -4,7 +4,7 @@
 #include <TGUI/Backend/SFML-Graphics.hpp>
 #include <TGUI/Widgets/Label.hpp>
 #include <vector>
-#include "screen_defines.h"
+#include "screens/screen_defines.h"
 
 namespace war_of_ages {
 

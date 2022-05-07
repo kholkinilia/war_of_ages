@@ -1,7 +1,7 @@
-#include "../include/end_game_screen.h"
-#include "../include/client.h"
-#include "../include/screen_defines.h"
-#include "../include/ui_functions.h"
+#include "../../include/screens/end_game_screen.h"
+#include "../../include/client.h"
+#include "../../include/screens/screen_defines.h"
+#include "../../include/ui_functions.h"
 
 // TGUI widgets
 #include <TGUI/Widgets/Button.hpp>

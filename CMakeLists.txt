@@ -29,16 +29,16 @@ set(COMMON_PROJECT_SOURCES
 
 set(CLIENT_PROJECT_SOURCES
         client/src/main.cpp
-        client/src/tournament_screens.cpp
+        client/src/screens/tournament_screens.cpp
         client/src/ui_functions.cpp
         client/src/client.cpp
         client/src/screens.cpp
-        client/src/start_screen.cpp
-        client/src/settings_screen.cpp
-        client/src/multiplayer_screen.cpp
-        client/src/game_screen.cpp
-        client/src/end_game_screen.cpp
-        client/src/wait_screen.cpp
+        client/src/screens/start_screen.cpp
+        client/src/screens/settings_screen.cpp
+        client/src/screens/multiplayer_screen.cpp
+        client/src/screens/game_screen.cpp
+        client/src/screens/end_game_screen.cpp
+        client/src/screens/wait_screen.cpp
         client/src/sprite_supplier.cpp
         client/src/sprite_printer.cpp
         client/src/bot_actions_receiver.cpp

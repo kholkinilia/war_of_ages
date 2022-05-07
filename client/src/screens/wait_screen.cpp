@@ -1,5 +1,5 @@
-#include "../include/wait_screen.h"
-#include "../include/ui_functions.h"
+#include "../../include/screens/wait_screen.h"
+#include "../../include/ui_functions.h"
 
 // TGUI widgets
 #include <TGUI/Widgets/Button.hpp>

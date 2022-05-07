@@ -5,7 +5,7 @@
 #include <memory>
 #include "../../common/tournament/include/tournament.h"
 #include "game_handler.h"
-#include "screen_defines.h"
+#include "screens/screen_defines.h"
 #include "sound_player.h"
 
 namespace war_of_ages {

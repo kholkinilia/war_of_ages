@@ -1,5 +1,5 @@
-#include "../include/multiplayer_screen.h"
-#include "../include/ui_functions.h"
+#include "../../include/screens/multiplayer_screen.h"
+#include "../../include/ui_functions.h"
 
 // TGUI widgets
 #include <TGUI/Widgets/Button.hpp>

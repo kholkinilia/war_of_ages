@@ -1,6 +1,6 @@
-#include "../include/tournament_screens.h"
-#include "../include/tournament_handler.h"
-#include "../include/ui_functions.h"
+#include "../../include/screens/tournament_screens.h"
+#include "../../include/tournament_handler.h"
+#include "../../include/ui_functions.h"
 
 // TGUI widgets
 #include <TGUI/Widgets/Button.hpp>
