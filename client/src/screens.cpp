@@ -10,7 +10,7 @@
 #include "../include/screens/start_screen.h"
 #include "../include/screens/tournament_screens.h"
 #include "../include/screens/wait_screen.h"
-#include "../include/sprite_printer.h"
+#include "../include/sfml_printer.h"
 #include "../include/ui_functions.h"
 
 namespace war_of_ages {
@@ -44,23 +44,6 @@ void screens_init(sf::View &v, tgui::Gui &gui) {
 }
 
 void update_screens(tgui::Gui &gui, const client_state &state, sf::RenderWindow *window) {
-    update_fps(gui.get("fps_label")->cast<tgui::Label>());
-    switch (state.get_cur_screen()) {
-        case screen::TOURNAMENT_MAIN: {
-            // TODO: uncomment, when tournament logic is implemented
-            // state.get_cur_tournament()->update_grid(gui.get(screen_id.at(screen::TOURNAMENT_MAIN))
-            //                                            ->cast<tgui::Group>()
-            //                                            ->get("tournament_grid")
-            //                                            ->cast<tgui::Grid>());
-        }
-        case screen::GAME_SCREEN: {
-            if (state.get_cur_game_state() == nullptr)
-                return;
-            print(gui, window, state.get_cur_game_state());
-        }
-        default:
-            break;
-    }
 }
 
 }  // namespace war_of_ages

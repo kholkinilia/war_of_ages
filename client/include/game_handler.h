@@ -2,7 +2,7 @@
 #define WAR_OF_AGES_GAME_HANDLER_H
 
 #include <memory>
-#include "../../game_logic/include/game_state.h"
+#include "../../common/game_logic/include/game_state.h"
 #include "actions_receiver.h"
 
 namespace war_of_ages {

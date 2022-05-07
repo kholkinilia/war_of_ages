@@ -3,7 +3,7 @@
 
 #include <memory>
 #include <vector>
-#include "../../game_logic/include/game_commands.h"
+#include "../../common/game_logic/include/game_commands.h"
 
 namespace war_of_ages {
 

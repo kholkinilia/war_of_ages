@@ -73,67 +73,6 @@ tgui::Layout2d get_layout(int width_percent, int height_percent) {
 }
 
 void update_fps(std::shared_ptr<tgui::Label> label) {
-    static float prev_frames_update_time = 1.f * clock() / CLOCKS_PER_SEC;
-    static long long frames_counter = 0;
-    const int UPDATE_FPS_GAP = 10;
-
-    if (frames_counter % UPDATE_FPS_GAP == 0) {
-        float new_time = 1.f * clock() / CLOCKS_PER_SEC;
-        label->setText(std::to_string(UPDATE_FPS_GAP * 1. / (new_time - prev_frames_update_time)));
-        prev_frames_update_time = new_time;
-    }
-    frames_counter++;
-}
-
-void setup_fps(tgui::Gui &gui) {
-    auto fps_label = tgui::Label::create();
-    fps_label->getRenderer()->setTextColor(tgui::Color::Red);
-    fps_label->setPosition(0, 0);
-    gui.add(fps_label, "fps_label");
-}
-
-void handle_window_events(tgui::Gui &gui, sf::RenderWindow *window, sf::View *view) {
-    static float prev_x;
-    static bool moving = false;
-
-    sf::Event event{};
-    while (window->pollEvent(event)) {
-        gui.handleEvent(event);
-        switch (event.type) {
-            case sf::Event::Closed:
-                window->close();
-                break;
-            case sf::Event::MouseButtonPressed:
-                if (event.mouseButton.button == 0) {
-                    moving = true;
-                    prev_x = event.mouseButton.x;
-                }
-                break;
-            case sf::Event::MouseButtonReleased:
-                if (event.mouseButton.button == 0) {
-                    moving = false;
-                }
-                break;
-            case sf::Event::MouseMoved: {
-                if (!moving || current_state.get_cur_screen() != screen::GAME_SCREEN)
-                    break;
-
-                float delta = prev_x - event.mouseMove.x;
-                if (view->getCenter().x + delta < 1.f * BACKGROUND_WIDTH / 2) {
-                    delta = 1.f * BACKGROUND_WIDTH / 2 - view->getCenter().x;
-                }
-                if (view->getCenter().x + delta > ROAD_WIDTH - 1.f * BACKGROUND_WIDTH / 2) {
-                    delta = ROAD_WIDTH - 1.f * BACKGROUND_WIDTH / 2 - view->getCenter().x;
-                }
-                view->move(delta, 0.0f);
-
-                prev_x = event.mouseMove.x;
-                break;
-            }
-            default:
-                break;
-        }
-    }
 }
 
 }  // namespace war_of_ages

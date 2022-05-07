@@ -18,8 +18,6 @@ void update_fps(std::shared_ptr<tgui::Label> label);
 
 void setup_fps(tgui::Gui &gui);
 
-void handle_window_events(tgui::Gui &gui, sf::RenderWindow *window, sf::View *view);
-
 }  // namespace war_of_ages
 
 #endif  // WAR_OF_AGES_UI_FUNCTIONS_H
