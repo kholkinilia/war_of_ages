@@ -5,7 +5,6 @@
 #include <memory>
 #include "game_handler.h"
 #include "screens/screen_defines.h"
-#include "sound_player.h"
 #include "tournament.h"
 
 namespace war_of_ages {
@@ -20,7 +19,6 @@ private:
     screen cur_screen;
     std::shared_ptr<tournament> cur_tournament;
     std::shared_ptr<game_handler> cur_game;
-    std::shared_ptr<sound_player> audio_player;
     vec2f view_center;
 
 public:
@@ -31,7 +29,6 @@ public:
     [[nodiscard]] screen get_cur_screen() const;
     [[nodiscard]] std::shared_ptr<tournament> get_cur_tournament() const;
     [[nodiscard]] std::shared_ptr<game_state> get_cur_game_state() const;
-    [[nodiscard]] std::shared_ptr<sound_player> get_audio_player() const;
     [[nodiscard]] vec2f get_view_center() const noexcept;
     [[nodiscard]] std::shared_ptr<game_handler> get_cur_game() const noexcept;
 
@@ -40,7 +37,6 @@ public:
 
     void create_game(game_mode mode);
     void reset_game();
-    void create_audio_player();
 };
 
 extern client_state current_state;
