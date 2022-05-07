@@ -10,7 +10,9 @@ namespace war_of_ages {
 
 void place_widgets(std::vector<tgui::Widget::Ptr> &widgets, int width = 40, int height = 10, int space = 5);
 
-void show_screen(tgui::Gui &gui, screen_handler::screen_type new_screen, screen_handler::screen_type prev_screen);
+void show_screen(tgui::Gui &gui,
+                 screen_handler::screen_type new_screen,
+                 screen_handler::screen_type prev_screen);
 
 tgui::Layout2d get_layout(int width_percent, int height_percent);
 

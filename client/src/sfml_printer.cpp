@@ -248,7 +248,8 @@ void sfml_printer::handle_window_events() {
                 }
                 break;
             case sf::Event::MouseMoved: {
-                if (!moving || screen_handler::instance().get_screen_type() != screen_handler::screen_type::GAME_SCREEN)
+                if (!moving ||
+                    screen_handler::instance().get_screen_type() != screen_handler::screen_type::GAME_SCREEN)
                     break;
 
                 float delta = prev_x - event.mouseMove.x;
