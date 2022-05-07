@@ -1,7 +1,7 @@
 #include "../include/game_state.h"
+#include <ctime>
 #include <memory>
 #include <vector>
-#include <ctime>
 
 namespace war_of_ages {
 
