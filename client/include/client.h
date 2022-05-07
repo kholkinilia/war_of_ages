@@ -4,7 +4,7 @@
 #include <TGUI/Backend/SFML-Graphics.hpp>  // tgui::Gui
 #include <memory>
 #include "game_handler.h"
-#include "screen_defines.h"
+#include "screens/screen_defines.h"
 #include "sound_player.h"
 #include "tournament.h"
 

@@ -1,5 +1,5 @@
-#include "../include/end_game_screen.h"
 #include "../include/screens.h"
+#include "../include/screens/end_game_screen.h"
 #include "../include/ui_functions.h"
 
 namespace war_of_ages {
