@@ -1,6 +1,7 @@
 #include "../include/screen_handler.h"
 #include <TGUI/Widgets/Group.hpp>
 #include <TGUI/Widgets/Label.hpp>
+#include "../include/client.h"
 #include "../include/screens/end_game_screen.h"
 #include "../include/screens/game_screen.h"
 #include "../include/screens/multiplayer_screen.h"
@@ -10,7 +11,6 @@
 #include "../include/screens/wait_screen.h"
 #include "../include/sfml_printer.h"
 #include "../include/ui_functions.h"
-#include "../include/client.h"
 
 namespace war_of_ages {
 

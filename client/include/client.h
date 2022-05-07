@@ -22,7 +22,9 @@ private:
     vec2f view_center;
 
 public:
-    explicit client_state(std::string handle_ = "handle", screen_handler::screen_type cur_screen_ = screen_handler::screen_type::START_SCREEN);
+    explicit client_state(
+        std::string handle_ = "handle",
+        screen_handler::screen_type cur_screen_ = screen_handler::screen_type::START_SCREEN);
 
     [[nodiscard]] std::string get_handle() const;
     [[nodiscard]] std::string get_cur_screen_id() const;
