@@ -69,6 +69,7 @@ void application::update_screens() {
             state->update(current_state.get_cur_game()->get_actions(0, p2),
                           current_state.get_cur_game()->get_actions(1, p2),
                           static_cast<float>(clock()) / CLOCKS_PER_SEC);
+            current_state.get_cur_game()->clear_actions();
             sfml_printer::instance().print_game({p1, p2});
             // TODO: update game and get snapshot
             // sfml_printer::instance().print_game()
