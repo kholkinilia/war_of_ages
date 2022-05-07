@@ -6,8 +6,8 @@
 // TGUI widgets
 #include <TGUI/Widgets/Button.hpp>
 #include <TGUI/Widgets/Group.hpp>
-#include "../../include/sound_player.h"
 #include "../../include/application.h"
+#include "../../include/sound_player.h"
 
 namespace war_of_ages {
 void start_screen_init(tgui::Gui &gui) {
