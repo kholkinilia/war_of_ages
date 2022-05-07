@@ -25,47 +25,6 @@ void place_widgets(std::vector<tgui::Widget::Ptr> &widgets, int width, int heigh
     }
 }
 
-void show_screen(tgui::Gui &gui, screen new_screen, screen prev_screen) {
-    gui.get(screen_id.at(prev_screen))->setVisible(false);
-    gui.get(screen_id.at(new_screen))->setVisible(true);
-    current_state.set_cur_screen(new_screen);
-    if (current_state.get_cur_game_state() == nullptr && new_screen == screen::GAME_SCREEN) {
-        current_state.create_game(client_state::game_mode::SINGLE);
-        sound_player::instance().change(sound_player::sound_type::LOBBY, sound_player::sound_type::BATTLE);
-    }
-    // Settings screen does not contain resume_button
-    if (new_screen == screen::SETTINGS) {
-        switch (prev_screen) {
-            case screen::GAME_SCREEN:
-                gui.get<tgui::Group>(screen_id.at(screen::SETTINGS))->get("resume_button")->setVisible(true);
-                break;
-            case screen::START_SCREEN:
-                gui.get<tgui::Group>(screen_id.at(screen::SETTINGS))->get("resume_button")->setVisible(false);
-                break;
-            default:
-                break;
-        }
-    }
-    // return from game to START_SCREEN (be careful with tournaments in the future)
-    // TODO: recognize exit from game in another way. I don't sure if this works when music ends
-    if (new_screen == screen::START_SCREEN &&
-        sound_player::instance().status(sound_player::sound_type::BATTLE) ==
-            sf::SoundSource::Status::Playing) {
-        current_state.reset_game();
-        sound_player::instance().change(sound_player::sound_type::BATTLE, sound_player::sound_type::LOBBY);
-    }
-    if (new_screen == screen::END_GAME) {
-        gui.get(screen_id.at(screen::END_GAME))
-            ->cast<tgui::Group>()
-            ->get("result_label")
-            ->cast<tgui::Label>()
-            ->setText(current_state.get_cur_game_state()->get_game_status() == game_status::P1_WON
-                          ? "Поздравляем, Вы победили!"
-                          : "Вы проиграли, повезет в следующий раз");
-        current_state.reset_game();
-    }
-}
-
 tgui::Layout2d get_layout(int width_percent, int height_percent) {
     return {tgui::String(std::to_string(width_percent) + "%"),
             tgui::String(std::to_string(height_percent) + "%")};

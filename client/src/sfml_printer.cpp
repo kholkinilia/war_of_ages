@@ -130,10 +130,6 @@ static void print_cannons(sf::RenderWindow *window,
 
 void sfml_printer::print_game(const std::pair<player_snapshot, player_snapshot> &snapshots) {
     auto [p1, p2] = snapshots;
-    //    state->update(current_state.get_cur_game()->get_actions(0, p1),
-    //                  current_state.get_cur_game()->get_actions(1, p2), 1.f * clock() / CLOCKS_PER_SEC);
-    //    current_state.get_cur_game()->clear_actions();
-    //    std::tie(p1, p2) = state->snapshot_players();
     auto background = sprite_supplier::get_instance().get_background_sprite(p1.age);
     background.setPosition(m_window.getView().getCenter().x - BACKGROUND_WIDTH / 2, 0);
     m_window.draw(background);

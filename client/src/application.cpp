@@ -1,8 +1,9 @@
 #include "../include/application.h"
-#include "../include/screen_handler.h"
-#include "../include/sfml_printer.h"
-#include "../include/screens/end_game_screen.h"
 #include <TGUI/Widgets/Label.hpp>
+#include "../include/client.h"
+#include "../include/screen_handler.h"
+#include "../include/screens/end_game_screen.h"
+#include "../include/sfml_printer.h"
 
 namespace war_of_ages {
 
@@ -18,7 +19,6 @@ void application::run() {
     s.setTexture(t);
 
     while (sfml_printer::instance().get_window().isOpen()) {
-
         sfml_printer::instance().handle_window_events();
 
         if (screen_handler::instance().get_screen_type() != screen_handler::screen_type::GAME_SCREEN) {
@@ -64,6 +64,12 @@ void application::update_screens() {
             //                                            ->cast<tgui::Grid>());
         } break;
         case screen_handler::screen_type::GAME_SCREEN: {
+            auto state = current_state.get_cur_game_state();
+            auto [p1, p2] = state->snapshot_players();
+            state->update(current_state.get_cur_game()->get_actions(0, p2),
+                          current_state.get_cur_game()->get_actions(1, p2),
+                          static_cast<float>(clock()) / CLOCKS_PER_SEC);
+            sfml_printer::instance().print_game({p1, p2});
             // TODO: update game and get snapshot
             // sfml_printer::instance().print_game()
         } break;
@@ -72,4 +78,4 @@ void application::update_screens() {
     }
 }
 
-}
+}  // namespace war_of_ages

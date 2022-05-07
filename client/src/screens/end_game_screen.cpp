@@ -2,6 +2,7 @@
 #include "../../include/client.h"
 #include "../../include/screens/screen_defines.h"
 #include "../../include/ui_functions.h"
+#include "../../include/screen_handler.h"
 
 // TGUI widgets
 #include <TGUI/Widgets/Button.hpp>
@@ -13,7 +14,7 @@ void check_game_end(tgui::Gui &gui) {
     if (war_of_ages::current_state.get_cur_game_state() != nullptr &&
         war_of_ages::current_state.get_cur_game_state()->get_game_status() !=
             war_of_ages::game_status::PROCESSING) {
-        show_screen(gui, war_of_ages::screen::END_GAME, war_of_ages::screen::GAME_SCREEN);
+        screen_handler::instance().change_screen(screen_handler::screen_type::END_GAME);
     }
 }
 
@@ -28,7 +29,7 @@ void end_game_screen_init(tgui::Gui &gui) {
 
     auto start_button = tgui::Button::create("В главное меню");
     start_button->setTextSize(30);
-    start_button->onPress([&gui]() { show_screen(gui, screen::START_SCREEN, screen::END_GAME); });
+    start_button->onPress([&gui]() { screen_handler::instance().change_screen(screen_handler::screen_type::START_SCREEN); });
     end_game_screen_group->add(start_button);
 
     std::vector<tgui::Widget::Ptr> widgets = {result, start_button};

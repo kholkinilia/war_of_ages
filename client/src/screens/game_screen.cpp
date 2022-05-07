@@ -6,6 +6,7 @@
 #include "../../include/bot_actions_receiver.h"
 #include "../../include/client.h"
 #include "../../include/ui_functions.h"
+#include "../../include/screen_handler.h"
 
 namespace war_of_ages {
 
@@ -196,7 +197,7 @@ void game_screen_init(sf::View &v, tgui::Gui &gui) {
     pause_button->setSize(BUTTON_WIDTH, BUTTON_HEIGHT);
     pause_button->onPress([&gui, &v]() {
         current_state.set_view_center(v.getCenter());
-        show_screen(gui, screen::SETTINGS, screen::GAME_SCREEN);
+        screen_handler::instance().change_screen(screen_handler::screen_type::SETTINGS);
     });
 
     auto ulta_button = tgui::Button::create();

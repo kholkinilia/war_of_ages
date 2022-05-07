@@ -2,6 +2,7 @@
 #include "../../include/client.h"
 #include "../../include/sound_player.h"
 #include "../../include/ui_functions.h"
+#include "../../include/screen_handler.h"
 
 // TGUI widgets
 #include <TGUI/Widgets/Button.hpp>
@@ -63,7 +64,7 @@ void settings_screen_init(sf::View &v, tgui::Gui &gui) {
     resume_button->onPress([&gui, &v]() {
         current_state.get_cur_game_state()->return_from_pause(1.f * clock() / CLOCKS_PER_SEC);
         v.setCenter(current_state.get_view_center());
-        show_screen(gui, screen::GAME_SCREEN, screen::SETTINGS);
+        screen_handler::instance().change_screen(screen_handler::screen_type::GAME_SCREEN);
     });
     resume_button->setPosition("30%", "73%");
     resume_button->setSize("40%", "10%");
@@ -72,7 +73,7 @@ void settings_screen_init(sf::View &v, tgui::Gui &gui) {
     auto start_button = tgui::Button::create("В главное меню");
     start_button->setRenderer(black_theme.getRenderer("Button"));
     start_button->setTextSize(30);
-    start_button->onPress([&gui]() { show_screen(gui, screen::START_SCREEN, screen::SETTINGS); });
+    start_button->onPress([&gui]() { screen_handler::instance().change_screen(screen_handler::screen_type::START_SCREEN); });
     start_button->setPosition("30%", "86%");
     start_button->setSize("40%", "10%");
     settings_screen_group->add(start_button);
