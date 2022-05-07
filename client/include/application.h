@@ -19,7 +19,6 @@ private:
     static void update_screens();
 
 public:
-
     static void init();
     void run();
     void set_state(state new_state);

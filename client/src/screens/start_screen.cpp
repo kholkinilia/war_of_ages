@@ -1,7 +1,7 @@
 #include "../../include/screens/start_screen.h"
 #include "../../include/client.h"
-#include "../../include/ui_functions.h"
 #include "../../include/screen_handler.h"
+#include "../../include/ui_functions.h"
 
 // TGUI widgets
 #include <TGUI/Widgets/Button.hpp>
@@ -14,7 +14,8 @@ void start_screen_init(tgui::Gui &gui) {
     tgui::Button::Ptr singleplayer_button = tgui::Button::create("Одиночная игра");
     singleplayer_button->setTextSize(30);
     singleplayer_button->onPress([&gui]() {
-        screen_handler::instance().change_screen(screen_handler::screen_type::GAME_SCREEN);;
+        screen_handler::instance().change_screen(screen_handler::screen_type::GAME_SCREEN);
+        ;
         current_state.create_game(client_state::game_mode::SINGLE);
     });
     start_screen_group->add(singleplayer_button);
@@ -29,8 +30,9 @@ void start_screen_init(tgui::Gui &gui) {
 
     tgui::Button::Ptr tournament_button = tgui::Button::create("Турниры");
     tournament_button->setTextSize(30);
-    tournament_button->onPress(
-        [&gui]() { screen_handler::instance().change_screen(screen_handler::screen_type::TOURNAMENT_JOINING); });
+    tournament_button->onPress([&gui]() {
+        screen_handler::instance().change_screen(screen_handler::screen_type::TOURNAMENT_JOINING);
+    });
     start_screen_group->add(tournament_button);
 
     tgui::Button::Ptr statistics_button = tgui::Button::create("Статистика");
@@ -52,7 +54,8 @@ void start_screen_init(tgui::Gui &gui) {
     settings_screen_button->getRenderer()->setBorders(0);
     settings_screen_button->setSize("4.5%", "8%");
     settings_screen_button->setPosition("90%", "5%");
-    settings_screen_button->onPress([&gui]() { screen_handler::instance().change_screen(screen_handler::screen_type::SETTINGS); });
+    settings_screen_button->onPress(
+        [&gui]() { screen_handler::instance().change_screen(screen_handler::screen_type::SETTINGS); });
     start_screen_group->add(settings_screen_button);
 
     gui.add(start_screen_group, screen_id.at(screen::START_SCREEN));

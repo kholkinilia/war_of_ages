@@ -1,8 +1,8 @@
 #include "../../include/screens/settings_screen.h"
 #include "../../include/client.h"
+#include "../../include/screen_handler.h"
 #include "../../include/sound_player.h"
 #include "../../include/ui_functions.h"
-#include "../../include/screen_handler.h"
 
 // TGUI widgets
 #include <TGUI/Widgets/Button.hpp>
@@ -73,7 +73,8 @@ void settings_screen_init(sf::View &v, tgui::Gui &gui) {
     auto start_button = tgui::Button::create("В главное меню");
     start_button->setRenderer(black_theme.getRenderer("Button"));
     start_button->setTextSize(30);
-    start_button->onPress([&gui]() { screen_handler::instance().change_screen(screen_handler::screen_type::START_SCREEN); });
+    start_button->onPress(
+        [&gui]() { screen_handler::instance().change_screen(screen_handler::screen_type::START_SCREEN); });
     start_button->setPosition("30%", "86%");
     start_button->setSize("40%", "10%");
     settings_screen_group->add(start_button);

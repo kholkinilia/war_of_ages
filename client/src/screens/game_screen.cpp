@@ -5,8 +5,8 @@
 #include <TGUI/Widgets/Picture.hpp>
 #include "../../include/bot_actions_receiver.h"
 #include "../../include/client.h"
-#include "../../include/ui_functions.h"
 #include "../../include/screen_handler.h"
+#include "../../include/ui_functions.h"
 
 namespace war_of_ages {
 
