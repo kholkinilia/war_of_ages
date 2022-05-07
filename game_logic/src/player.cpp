@@ -141,40 +141,40 @@ void player::clear_dead_objects() {
 
 // Getters
 
-[[nodiscard]] age_type player::age() const {
+age_type player::age() const {
     return m_age;
 }
 
-[[nodiscard]] int player::exp() const {
+int player::exp() const {
     return m_exp;
 }
 
-[[nodiscard]] int player::money() const {
+int player::money() const {
     return m_money;
 }
 
-[[nodiscard]] std::deque<unit> player::units() const {
+std::deque<unit> player::units() const {
     return m_units;
 }
 
-[[nodiscard]] std::vector<bullet> player::bullets() const {
+std::vector<bullet> player::bullets() const {
     return m_bullets;
 }
 
-[[nodiscard]] std::vector<cannon> player::cannons() const {
+std::vector<cannon> player::cannons() const {
     return m_cannons;
 }
 
-[[nodiscard]] std::deque<unit> player::units_to_train() const {
+std::deque<unit> player::units_to_train() const {
     return m_units_to_train;
 }
 
-[[nodiscard]] bool player::is_alive() const {
+bool player::is_alive() const {
     assert(!m_units.empty());  // at least tower exists, we don't clear it even if it's dead
     return m_units.front().is_alive();
 }
 
-[[nodiscard]] player_snapshot player::snapshot() const {
+player_snapshot player::snapshot() const {
     return {m_units, m_bullets, m_cannons,      m_units_to_train,    m_age,
             m_exp,   m_money,   m_ult_cooldown, m_training_time_left};
 }
