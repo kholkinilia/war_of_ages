@@ -130,7 +130,7 @@ static void print_cannons(sf::RenderWindow *window,
 void print(tgui::Gui &gui, sf::RenderWindow *window, const std::shared_ptr<game_state> &state) {
     auto [p1, p2] = state->snapshot_players();
     state->update(current_state.get_cur_game()->get_actions(0, p1),
-                  current_state.get_cur_game()->get_actions(1, p2), 1.f * clock() / CLOCKS_PER_SEC);
+                  current_state.get_cur_game()->get_actions(1, p2));
     current_state.get_cur_game()->clear_actions();
     std::tie(p1, p2) = state->snapshot_players();
     auto background = sprite_supplier::get_instance().get_background_sprite(p1.age);
