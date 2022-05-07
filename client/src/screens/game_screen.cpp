@@ -155,7 +155,6 @@ void game_screen_init(sf::View &v, tgui::Gui &gui) {
                                  current_state.get_cur_game_state()->snapshot_players().first.age))));
         }
         current_state.get_cur_game()->append_action(0, std::make_unique<upgrade_age_command>());
-
     });
 
     auto plus_place_cannon_button = tgui::Button::create();
