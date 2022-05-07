@@ -136,20 +136,20 @@ void sfml_printer::print_game(const std::pair<player_snapshot, player_snapshot> 
 
     auto &gui = screen_handler::instance().get_gui();  // TODO: think whether it should be here
 
-    gui.get(current_state.get_cur_screen_id())
+    gui.get(screen_handler::screen_id.at(screen_handler::screen_type::GAME_SCREEN))
         ->cast<tgui::Group>()
         ->get("coin_label")
         ->cast<tgui::Label>()
         ->setText(std::to_string(p1.money));
 
-    gui.get(current_state.get_cur_screen_id())
+    gui.get(screen_handler::screen_id.at(screen_handler::screen_type::GAME_SCREEN))
         ->cast<tgui::Group>()
         ->get("exp_label")
         ->cast<tgui::Label>()
         ->setText(std::to_string(p1.exp));
 
     for (int i = 0; i < CANNONS_PER_AGE; i++) {
-        auto label = gui.get(current_state.get_cur_screen_id())
+        auto label = gui.get(screen_handler::screen_id.at(screen_handler::screen_type::GAME_SCREEN))
                          ->cast<tgui::Group>()
                          ->get("sell_cannon_" + std::to_string(i))
                          ->cast<tgui::Group>()
@@ -162,7 +162,7 @@ void sfml_printer::print_game(const std::pair<player_snapshot, player_snapshot> 
         }
     }
 
-    gui.get(current_state.get_cur_screen_id())
+    gui.get(screen_handler::screen_id.at(screen_handler::screen_type::GAME_SCREEN))
         ->cast<tgui::Group>()
         ->get("plus_place_cannon_coin_label")
         ->cast<tgui::Label>()
