@@ -6,6 +6,8 @@
 // TGUI widgets
 #include <TGUI/Widgets/Button.hpp>
 #include <TGUI/Widgets/Group.hpp>
+#include "../../include/sound_player.h"
+#include "../../include/application.h"
 
 namespace war_of_ages {
 void start_screen_init(tgui::Gui &gui) {
@@ -14,8 +16,9 @@ void start_screen_init(tgui::Gui &gui) {
     tgui::Button::Ptr singleplayer_button = tgui::Button::create("Одиночная игра");
     singleplayer_button->setTextSize(30);
     singleplayer_button->onPress([&gui]() {
+        application::instance().set_state(application::state::SINGLE_PLAYER_GAME);
         screen_handler::instance().change_screen(screen_handler::screen_type::GAME_SCREEN);
-        ;
+        sound_player::instance().change(sound_player::sound_type::LOBBY, sound_player::sound_type::BATTLE);
         current_state.create_game(client_state::game_mode::SINGLE);
     });
     start_screen_group->add(singleplayer_button);

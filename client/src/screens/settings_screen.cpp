@@ -9,6 +9,7 @@
 #include <TGUI/Widgets/Group.hpp>
 #include <TGUI/Widgets/Label.hpp>
 #include <TGUI/Widgets/Slider.hpp>
+#include "../../include/application.h"
 
 namespace war_of_ages {
 void settings_screen_init(sf::View &v, tgui::Gui &gui) {
@@ -73,8 +74,14 @@ void settings_screen_init(sf::View &v, tgui::Gui &gui) {
     auto start_button = tgui::Button::create("В главное меню");
     start_button->setRenderer(black_theme.getRenderer("Button"));
     start_button->setTextSize(30);
-    start_button->onPress(
-        [&gui]() { screen_handler::instance().change_screen(screen_handler::screen_type::START_SCREEN); });
+    start_button->onPress([&gui]() {
+        if (application::instance().get_state() == application::state::SINGLE_PLAYER_GAME) {
+            sound_player::instance().change(sound_player::sound_type::BATTLE,
+                                            sound_player::sound_type::LOBBY);
+        }
+        screen_handler::instance().change_screen(screen_handler::screen_type::START_SCREEN);
+        application::instance().set_state(application::state::MENU);
+    });
     start_button->setPosition("30%", "86%");
     start_button->setSize("40%", "10%");
     settings_screen_group->add(start_button);
