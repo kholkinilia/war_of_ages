@@ -39,13 +39,7 @@ protected:
 
 public:
     tournament() = default;
-    explicit tournament(const tournament_snapshot &snapshot)
-        : m_name(snapshot.name),
-          m_key(snapshot.key),
-          m_participants(snapshot.participants),
-          m_match_results(snapshot.match_results) {
-        update_places_lock_held();
-    }
+    void set_tournament(const tournament_snapshot &snapshot);
 
     void add_participant(const std::string &handle);
 

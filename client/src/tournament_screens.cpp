@@ -1,5 +1,5 @@
 #include "../include/tournament_screens.h"
-#include "../include/printable_tournament.h"
+#include "../include/tournament_handler.h"
 #include "../include/ui_functions.h"
 
 // TGUI widgets
@@ -105,7 +105,8 @@ void tournament_screen_init(tgui::Gui &gui) {
     // place_widgets(widgets);
 
     // TODO: remove sample tournament, when tournaments are implemented
-    printable_tournament t;
+    tournament_handler t;
+    t.set_grid(tournament_grid);
     t.add_participant("part1");
     t.add_participant("part2");
     t.add_participant("part3");
@@ -119,8 +120,7 @@ void tournament_screen_init(tgui::Gui &gui) {
     t.add_result("part1", "part2");
     t.add_result("part3", "part2");
     t.add_result("part2", "part4");
-    t.add_result("part2", "part1");
-    t.update_grid(tournament_grid);
+    t.update_grid();
     // end sample tournament
 
     gui.add(tournament_screen_group, screen_id.at(screen::TOURNAMENT_MAIN));

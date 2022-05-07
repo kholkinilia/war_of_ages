@@ -1,9 +1,9 @@
-#include "../include/printable_tournament.h"
+#include "../include/tournament_handler.h"
 #include <TGUI/Widgets/Label.hpp>
 
 namespace war_of_ages {
 
-void printable_tournament::update_grid(const tgui::Grid::Ptr &grid) {
+void tournament_handler::update_grid() {
     // TODO: think of improving performance (should be easy)
     std::unique_lock lock(m_mutex);
     if (m_is_grid_updated) {
@@ -27,7 +27,7 @@ void printable_tournament::update_grid(const tgui::Grid::Ptr &grid) {
         {game_result::DEFEAT, tgui::Color(100, 0, 0)}};
     // end table parameters
 
-    grid->removeAllWidgets();
+    m_grid->removeAllWidgets();
 
     static auto format_label = [=](const tgui::Label::Ptr &label, int width, int border_width,
                                    tgui::Color background_color) {
@@ -43,30 +43,30 @@ void printable_tournament::update_grid(const tgui::Grid::Ptr &grid) {
 
     tgui::Label::Ptr handle_label = tgui::Label::create("Хэндл");
     format_label(handle_label, HANDLE_WIDTH, THICK_BORDER_WIDTH, REGULAR_BACKGROUND_COLOR);
-    grid->addWidget(handle_label, 0, 0);
+    m_grid->addWidget(handle_label, 0, 0);
 
     for (std::size_t i = 0; i < m_participants.size(); i++) {
         tgui::Label::Ptr handle = tgui::Label::create(m_participants[i]);
         format_label(handle, HANDLE_WIDTH, THICK_BORDER_WIDTH, REGULAR_BACKGROUND_COLOR);
-        grid->addWidget(handle, i + 1, 0);
+        m_grid->addWidget(handle, i + 1, 0);
     }
 
     for (std::size_t i = 0; i < m_participants.size(); i++) {
         tgui::Label::Ptr number = tgui::Label::create(std::to_string(i + 1));
         format_label(number, SQUARE_SIZE, THICK_BORDER_WIDTH, REGULAR_BACKGROUND_COLOR);
-        grid->addWidget(number, i + 1, 1);
+        m_grid->addWidget(number, i + 1, 1);
     }
 
     for (std::size_t i = 0; i < m_participants.size(); i++) {  // TODO: make it not be a copy-paste
         tgui::Label::Ptr number = tgui::Label::create(std::to_string(i + 1));
         format_label(number, SQUARE_SIZE, THICK_BORDER_WIDTH, REGULAR_BACKGROUND_COLOR);
-        grid->addWidget(number, 0, i + 2);
+        m_grid->addWidget(number, 0, i + 2);
     }
 
     for (std::size_t i = 0; i <= m_participants.size(); i++) {
         tgui::Label::Ptr blank = tgui::Label::create();
         format_label(blank, SQUARE_SIZE, REGULAR_BORDER_WIDTH, BLANK_CELL_BACKGROUND_COLOR);
-        grid->addWidget(blank, i, i + 1);
+        m_grid->addWidget(blank, i, i + 1);
     }
 
     for (std::size_t i = 0; i < m_participants.size(); i++) {
@@ -76,7 +76,7 @@ void printable_tournament::update_grid(const tgui::Grid::Ptr &grid) {
             tgui::Label::Ptr cur_result = tgui::Label::create(result_text.at(m_match_results[i][j]));
             format_label(cur_result, SQUARE_SIZE, REGULAR_BORDER_WIDTH,
                          result_color.at(m_match_results[i][j]));
-            grid->addWidget(cur_result, i + 1, j + 2);
+            m_grid->addWidget(cur_result, i + 1, j + 2);
         }
     }
 
@@ -86,7 +86,7 @@ void printable_tournament::update_grid(const tgui::Grid::Ptr &grid) {
     sum_tool_tip->getRenderer()->setTextColor(TEXT_COLOR);
     sum_label->setToolTip(sum_tool_tip);
     format_label(sum_label, SQUARE_SIZE, THICK_BORDER_WIDTH, REGULAR_BACKGROUND_COLOR);
-    grid->addWidget(sum_label, 0, m_participants.size() + 2);
+    m_grid->addWidget(sum_label, 0, m_participants.size() + 2);
 
     tgui::Label::Ptr place_label = tgui::Label::create("М");
     tgui::Label::Ptr place_tool_tip = tgui::Label::create("Текущее место");
@@ -94,31 +94,34 @@ void printable_tournament::update_grid(const tgui::Grid::Ptr &grid) {
     place_tool_tip->getRenderer()->setTextColor(TEXT_COLOR);
     place_label->setToolTip(place_tool_tip);
     format_label(place_label, SQUARE_SIZE, THICK_BORDER_WIDTH, REGULAR_BACKGROUND_COLOR);
-    grid->addWidget(place_label, 0, m_participants.size() + 3);
+    m_grid->addWidget(place_label, 0, m_participants.size() + 3);
 
     for (std::size_t i = 0; i < m_participants.size(); i++) {
         tgui::Label::Ptr part_sum = tgui::Label::create(std::to_string(m_sum[i]));
         format_label(part_sum, SQUARE_SIZE, THICK_BORDER_WIDTH, REGULAR_BACKGROUND_COLOR);
-        grid->addWidget(part_sum, i + 1, m_participants.size() + 2);
+        m_grid->addWidget(part_sum, i + 1, m_participants.size() + 2);
 
         tgui::Label::Ptr part_place = tgui::Label::create(std::to_string(m_place[i]));
         format_label(part_place, SQUARE_SIZE, THICK_BORDER_WIDTH, REGULAR_BACKGROUND_COLOR);
-        grid->addWidget(part_place, i + 1, m_participants.size() + 3);
+        m_grid->addWidget(part_place, i + 1, m_participants.size() + 3);
     }
 
     m_is_grid_updated = true;
 }
 
-void printable_tournament::post_add_participant(const std::string &) {
+void tournament_handler::post_add_participant(const std::string &) {
     m_is_grid_updated = false;
 }
 
-void printable_tournament::post_add_result(const std::string &, const std::string &) {
+void tournament_handler::post_add_result(const std::string &, const std::string &) {
     m_is_grid_updated = false;
 }
 
-void printable_tournament::post_remove_participant(const std::string &) {
+void tournament_handler::post_remove_participant(const std::string &) {
     m_is_grid_updated = false;
+}
+void tournament_handler::set_grid(tgui::Grid::Ptr &grid) {
+    m_grid = grid;
 }
 
 }  // namespace war_of_ages

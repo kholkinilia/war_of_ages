@@ -2,7 +2,7 @@
 #include <algorithm>
 #include <cassert>
 #include <cstddef>
-
+#include <iostream>
 namespace war_of_ages {
 
 void tournament::update_places_lock_held() {
@@ -12,7 +12,7 @@ void tournament::update_places_lock_held() {
         cnt[m_sum[i]]++;
     }
     std::size_t cur_place = 1;
-    for (std::size_t i = m_participants.size() * WIN_POINTS; i != 0; i--) {
+    for (std::size_t i = m_participants.size() * WIN_POINTS; i + 1 != 0; i--) {
         final_place[i] = cur_place;
         cur_place += cnt[i];
     }
@@ -101,6 +101,15 @@ std::size_t tournament::get_id(const std::string &handle) const noexcept {
 
 tournament_snapshot tournament::get_snapshot() const {
     return {m_name, m_key, m_participants, m_match_results};
+}
+
+void tournament::set_tournament(const tournament_snapshot &snapshot) {
+    std::unique_lock lock(m_mutex);
+    m_name = snapshot.name;
+    m_key = snapshot.key;
+    m_participants = snapshot.participants;
+    m_match_results = snapshot.match_results;
+    update_places_lock_held();
 }
 
 }  // namespace war_of_ages

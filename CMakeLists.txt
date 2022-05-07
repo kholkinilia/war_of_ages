@@ -46,7 +46,7 @@ set(CLIENT_PROJECT_SOURCES
         client/src/game_handler.cpp
         client/src/sound_player.cpp
         client/src/animation_handler.cpp
-        client/src/printable_tournament.cpp
+        client/src/tournament_handler.cpp
         )
 add_executable(war_of_ages ${CLIENT_PROJECT_SOURCES} ${COMMON_PROJECT_SOURCES})
 target_link_libraries(war_of_ages sfml-system sfml-window sfml-graphics sfml-audio)
