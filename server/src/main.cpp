@@ -1,4 +1,3 @@
-#include <iostream>
 #include "../../common/network/include/network.h"
 #include "../include/game_handler.h"
 #include "../include/server.h"

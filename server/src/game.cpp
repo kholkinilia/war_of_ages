@@ -1,8 +1,5 @@
 #include "../include/game.h"
-#include <ctime>
 #include "../include/server.h"
-
-// FIXME: get rid of '0' in m_state.update(). In a good way game_state should calculate time by itself
 
 namespace war_of_ages {
 game::game(std::string handle_p1,
@@ -11,8 +8,7 @@ game::game(std::string handle_p1,
                game_post_action) noexcept
     : m_handle_p1(std::move(handle_p1)),
       m_handle_p2(std::move(handle_p2)),
-      m_game_post_action(std::move(game_post_action)),
-      m_state(1.f * clock() / CLOCKS_PER_SEC) {
+      m_game_post_action(std::move(game_post_action)) {
     message<messages_type> msg_p1, msg_p2;
     msg_p1.header.id = msg_p2.header.id = messages_type::GAME_START;
     msg_p1.insert_container(m_handle_p2);
@@ -26,14 +22,14 @@ void game::apply_command(const std::string &handle, std::unique_ptr<game_command
     std::vector<std::unique_ptr<game_command>> current_player_actions;
     current_player_actions.push_back(std::move(command));
     if (handle == m_handle_p1) {
-        m_state.update(current_player_actions, {}, 0);
+        m_state.update(current_player_actions, {});
     } else {
-        m_state.update({}, current_player_actions, 0);
+        m_state.update({}, current_player_actions);
     }
 }
 
 void game::update() {
-    m_state.update({}, {}, 0);
+    m_state.update({}, {});
     if (is_finished()) {
         message<messages_type> msg_p1, msg_p2;
         msg_p1.header.id = msg_p2.header.id = messages_type::GAME_FINISHED;
