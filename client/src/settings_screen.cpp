@@ -61,7 +61,7 @@ void settings_screen_init(sf::View &v, tgui::Gui &gui) {
     resume_button->setRenderer(black_theme.getRenderer("Button"));
     resume_button->setTextSize(30);
     resume_button->onPress([&gui, &v]() {
-        current_state.get_cur_game_state()->return_from_pause(1.f * clock() / CLOCKS_PER_SEC);
+        current_state.get_cur_game_state()->return_from_pause();
         v.setCenter(current_state.get_view_center());
         show_screen(gui, screen::GAME_SCREEN, screen::SETTINGS);
     });

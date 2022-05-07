@@ -1,12 +1,13 @@
 #include "../include/game_state.h"
 #include <memory>
 #include <vector>
+#include <ctime>
 
 namespace war_of_ages {
 
 void game_state::update(const std::vector<std::unique_ptr<game_command>> &p1_commands,
-                        const std::vector<std::unique_ptr<game_command>> &p2_commands,
-                        float time) {
+                        const std::vector<std::unique_ptr<game_command>> &p2_commands) {
+    float time = static_cast<float>(std::clock()) / CLOCKS_PER_SEC;
     p1.update(p2, time - state_time);
     p2.update(p1, time - state_time);
     state_time = time;
@@ -26,7 +27,7 @@ std::pair<player_snapshot, player_snapshot> game_state::snapshot_players() const
     return {p1.snapshot(), p2.snapshot()};
 }
 
-game_state::game_state(float start_time) : state_time(start_time) {
+game_state::game_state() : state_time(static_cast<float>(std::clock()) / CLOCKS_PER_SEC) {
 }
 
 game_status game_state::get_game_status() const {
@@ -39,7 +40,8 @@ game_status game_state::get_game_status() const {
     return game_status::PROCESSING;
 }
 
-void game_state::return_from_pause(float return_time) noexcept {
+void game_state::return_from_pause() noexcept {
+    float return_time = static_cast<float>(std::clock()) / CLOCKS_PER_SEC;
     state_time = return_time;
 }
 
