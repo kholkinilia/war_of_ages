@@ -13,9 +13,6 @@ std::string client_state::get_cur_screen_id() const {
 std::string client_state::get_handle() const {
     return handle;
 }
-screen_handler::screen_type client_state::get_cur_screen() const {
-    return cur_screen;
-}
 std::shared_ptr<tournament> client_state::get_cur_tournament() const {
     return cur_tournament;
 }

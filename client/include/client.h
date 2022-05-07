@@ -26,7 +26,6 @@ public:
 
     [[nodiscard]] std::string get_handle() const;
     [[nodiscard]] std::string get_cur_screen_id() const;
-    [[nodiscard]] screen_handler::screen_type get_cur_screen() const;
     [[nodiscard]] std::shared_ptr<tournament> get_cur_tournament() const;
     [[nodiscard]] std::shared_ptr<game_state> get_cur_game_state() const;
     [[nodiscard]] vec2f get_view_center() const noexcept;
