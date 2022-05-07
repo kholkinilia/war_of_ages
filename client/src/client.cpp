@@ -7,9 +7,6 @@ client_state::client_state(std::string handle_, screen_handler::screen_type cur_
     : handle(std::move(handle_)), cur_screen(cur_screen_), cur_game(nullptr) {
 }
 
-std::string client_state::get_cur_screen_id() const {
-    return screen_handler::screen_id.at(cur_screen);
-}
 std::string client_state::get_handle() const {
     return handle;
 }

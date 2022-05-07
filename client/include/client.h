@@ -27,7 +27,6 @@ public:
         screen_handler::screen_type cur_screen_ = screen_handler::screen_type::START_SCREEN);
 
     [[nodiscard]] std::string get_handle() const;
-    [[nodiscard]] std::string get_cur_screen_id() const;
     [[nodiscard]] std::shared_ptr<tournament> get_cur_tournament() const;
     [[nodiscard]] std::shared_ptr<game_state> get_cur_game_state() const;
     [[nodiscard]] vec2f get_view_center() const noexcept;

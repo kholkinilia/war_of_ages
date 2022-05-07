@@ -132,7 +132,7 @@ void game_screen_init(sf::View &v, tgui::Gui &gui) {
     new_era_button->setSize(BUTTON_WIDTH, BUTTON_HEIGHT);
     new_era_button->onPress([&gui]() {
         for (int i = 0; i < UNITS_PER_AGE; i++) {
-            gui.get(current_state.get_cur_screen_id())
+            gui.get(screen_handler::screen_id.at(screen_handler::instance().get_screen_type()))
                 ->cast<tgui::Group>()
                 ->get("unit_" + std::to_string(i))
                 ->cast<tgui::Group>()
@@ -143,7 +143,7 @@ void game_screen_init(sf::View &v, tgui::Gui &gui) {
                     action::BUY_UNIT, i, current_state.get_cur_game_state()->snapshot_players().first.age))));
         }
         for (int i = 0; i < CANNONS_PER_AGE; i++) {
-            gui.get(current_state.get_cur_screen_id())
+            gui.get(screen_handler::screen_id.at(screen_handler::instance().get_screen_type()))
                 ->cast<tgui::Group>()
                 ->get("cannon_" + std::to_string(i))
                 ->cast<tgui::Group>()
@@ -155,6 +155,7 @@ void game_screen_init(sf::View &v, tgui::Gui &gui) {
                                  current_state.get_cur_game_state()->snapshot_players().first.age))));
         }
         current_state.get_cur_game()->append_action(0, std::make_unique<upgrade_age_command>());
+
     });
 
     auto plus_place_cannon_button = tgui::Button::create();
