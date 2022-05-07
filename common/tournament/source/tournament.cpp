@@ -2,7 +2,6 @@
 #include <algorithm>
 #include <cassert>
 #include <cstddef>
-#include <iostream>
 namespace war_of_ages {
 
 void tournament::update_places_lock_held() {
