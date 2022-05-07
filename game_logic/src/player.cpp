@@ -106,7 +106,7 @@ void player::sell_cannon(int slot) {
 
 void player::use_ult() {
     std::unique_lock l(m_mutex);
-    if (m_ult_cooldown != 0) {
+    if (m_ult_cooldown > 0) {
         return;
     }
     m_ult_cooldown = ULT_COOLDOWN;
