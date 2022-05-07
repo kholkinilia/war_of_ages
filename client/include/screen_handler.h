@@ -2,8 +2,8 @@
 #define WAR_OF_AGES_SCREEN_HANDLER_H
 
 #include <TGUI/Backend/SFML-Graphics.hpp>  // tgui::Gui
-#include "client.h"
 #include "../../common/game_logic/include/player.h"
+#include "client.h"
 
 namespace war_of_ages {
 
@@ -33,7 +33,6 @@ struct screen_handler {
         {screen_type::END_GAME, "end_game_screen"}};
 
 private:
-
     tgui::Gui m_gui;
     screen_type m_screen_type = screen_type::START_SCREEN;
 

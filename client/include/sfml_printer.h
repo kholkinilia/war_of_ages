@@ -23,7 +23,7 @@ public:
     [[nodiscard]] sf::RenderWindow &get_window();
     [[nodiscard]] sf::View &get_view();
 
-    [[nodiscard]] static sfml_printer& instance();
+    [[nodiscard]] static sfml_printer &instance();
 };
 
 }  // namespace war_of_ages
