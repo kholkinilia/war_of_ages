@@ -1,6 +1,7 @@
 #include "../../include/screens/settings_screen.h"
 #include "../../include/client.h"
 #include "../../include/ui_functions.h"
+#include "../../include/sound_player.h"
 
 // TGUI widgets
 #include <TGUI/Widgets/Button.hpp>
@@ -39,16 +40,16 @@ void settings_screen_init(sf::View &v, tgui::Gui &gui) {
     lobby_music_volume_slider->setPosition("54%", "50%");
 
     battle_music_volume_slider->onValueChange([&battle_sounds_volume_slider](float new_value) {
-        current_state.get_audio_player()->set_volume(sound_player::sound_type::BATTLE, new_value);
+        sound_player::instance().set_volume(sound_player::sound_type::BATTLE, new_value);
     });
     lobby_music_volume_slider->onValueChange([&lobby_music_volume_slider](float new_value) {
-        current_state.get_audio_player()->set_volume(sound_player::sound_type::LOBBY, new_value);
+        sound_player::instance().set_volume(sound_player::sound_type::LOBBY, new_value);
     });
     battle_music_volume_slider->setValue(
-        current_state.get_audio_player()->get_volume(sound_player::sound_type::BATTLE));
+        sound_player::instance().get_volume(sound_player::sound_type::BATTLE));
     // battle_sounds_volume_slider->setValue(50);
     lobby_music_volume_slider->setValue(
-        current_state.get_audio_player()->get_volume(sound_player::sound_type::LOBBY));
+        sound_player::instance().get_volume(sound_player::sound_type::LOBBY));
 
     settings_screen_group->add(battle_music_volume_label);
     settings_screen_group->add(battle_sounds_volume_label);

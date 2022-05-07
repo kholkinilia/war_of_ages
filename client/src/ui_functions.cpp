@@ -1,6 +1,7 @@
 #include "../include/ui_functions.h"
 #include <TGUI/Widgets/Group.hpp>
 #include "../include/client.h"
+#include "../include/sound_player.h"
 
 namespace war_of_ages {
 
@@ -30,7 +31,7 @@ void show_screen(tgui::Gui &gui, screen new_screen, screen prev_screen) {
     current_state.set_cur_screen(new_screen);
     if (current_state.get_cur_game_state() == nullptr && new_screen == screen::GAME_SCREEN) {
         current_state.create_game(client_state::game_mode::SINGLE);
-        current_state.get_audio_player()->change(sound_player::sound_type::LOBBY,
+        sound_player::instance().change(sound_player::sound_type::LOBBY,
                                                  sound_player::sound_type::BATTLE);
     }
     // Settings screen does not contain resume_button
@@ -49,10 +50,10 @@ void show_screen(tgui::Gui &gui, screen new_screen, screen prev_screen) {
     // return from game to START_SCREEN (be careful with tournaments in the future)
     // TODO: recognize exit from game in another way. I don't sure if this works when music ends
     if (new_screen == screen::START_SCREEN &&
-        current_state.get_audio_player()->status(sound_player::sound_type::BATTLE) ==
+        sound_player::instance().status(sound_player::sound_type::BATTLE) ==
             sf::SoundSource::Status::Playing) {
         current_state.reset_game();
-        current_state.get_audio_player()->change(sound_player::sound_type::BATTLE,
+        sound_player::instance().change(sound_player::sound_type::BATTLE,
                                                  sound_player::sound_type::LOBBY);
     }
     if (new_screen == screen::END_GAME) {

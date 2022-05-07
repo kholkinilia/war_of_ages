@@ -47,11 +47,5 @@ void client_state::create_game(game_mode mode) {
 std::shared_ptr<game_handler> client_state::get_cur_game() const noexcept {
     return cur_game;
 }
-std::shared_ptr<sound_player> client_state::get_audio_player() const {
-    return audio_player;
-}
-void client_state::create_audio_player() {
-    audio_player = std::make_shared<sound_player>();
-}
 
 }  // namespace war_of_ages
