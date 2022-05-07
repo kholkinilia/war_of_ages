@@ -28,7 +28,8 @@ void end_game_screen_init(tgui::Gui &gui) {
 
     auto start_button = tgui::Button::create("В главное меню");
     start_button->setTextSize(30);
-    start_button->onPress([&gui]() { screen_handler::instance().change_screen(screen_handler::screen_type::START_SCREEN); });
+    start_button->onPress(
+        [&gui]() { screen_handler::instance().change_screen(screen_handler::screen_type::START_SCREEN); });
     end_game_screen_group->add(start_button);
 
     std::vector<tgui::Widget::Ptr> widgets = {result, start_button};

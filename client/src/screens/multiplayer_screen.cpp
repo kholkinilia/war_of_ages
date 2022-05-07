@@ -1,6 +1,6 @@
 #include "../../include/screens/multiplayer_screen.h"
-#include "../../include/ui_functions.h"
 #include "../../include/screen_handler.h"
+#include "../../include/ui_functions.h"
 
 // TGUI widgets
 #include <TGUI/Widgets/Button.hpp>
@@ -14,7 +14,8 @@ void multiplayer_screen_init(tgui::Gui &gui) {
     tgui::Button::Ptr random_game_button = tgui::Button::create("Случайная игра");
     random_game_button->setTextSize(30);
     // TODO: onPress: search game & switch to waiting screen if success
-    random_game_button->onPress([&gui]() { screen_handler::instance().change_screen(screen_handler::screen_type::WAIT_OPPONENT); });
+    random_game_button->onPress(
+        [&gui]() { screen_handler::instance().change_screen(screen_handler::screen_type::WAIT_OPPONENT); });
     multiplayer_screen_group->add(random_game_button);
 
     tgui::EditBox::Ptr room_id_editbox = tgui::EditBox::create();
@@ -26,12 +27,14 @@ void multiplayer_screen_init(tgui::Gui &gui) {
     tgui::Button::Ptr join_room_button = tgui::Button::create("Присоединиться");
     join_room_button->setTextSize(30);
     // TODO: onPress: try join to room with given id (key)
-    join_room_button->onPress([&gui]() { screen_handler::instance().change_screen(screen_handler::screen_type::WAIT_OPPONENT); });
+    join_room_button->onPress(
+        [&gui]() { screen_handler::instance().change_screen(screen_handler::screen_type::WAIT_OPPONENT); });
     multiplayer_screen_group->add(join_room_button);
 
     tgui::Button::Ptr return_back_button = tgui::Button::create("Назад");
     return_back_button->setTextSize(30);
-    return_back_button->onPress([&gui]() { screen_handler::instance().change_screen(screen_handler::screen_type::START_SCREEN); });
+    return_back_button->onPress(
+        [&gui]() { screen_handler::instance().change_screen(screen_handler::screen_type::START_SCREEN); });
     multiplayer_screen_group->add(return_back_button);
 
     std::vector<tgui::Widget::Ptr> widgets{random_game_button, room_id_editbox, join_room_button,

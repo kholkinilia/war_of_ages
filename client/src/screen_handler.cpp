@@ -1,7 +1,6 @@
 #include "../include/screen_handler.h"
 #include <TGUI/Widgets/Group.hpp>
 #include <TGUI/Widgets/Label.hpp>
-
 #include "../include/screens/end_game_screen.h"
 #include "../include/screens/game_screen.h"
 #include "../include/screens/multiplayer_screen.h"
@@ -29,10 +28,14 @@ void screen_handler::change_screen(screen_handler::screen_type new_screen) {
     if (new_screen == screen_type::SETTINGS) {
         switch (prev_screen) {
             case screen_type::GAME_SCREEN:
-                m_gui.get<tgui::Group>(screen_id.at(screen_type::SETTINGS))->get("resume_button")->setVisible(true);
+                m_gui.get<tgui::Group>(screen_id.at(screen_type::SETTINGS))
+                    ->get("resume_button")
+                    ->setVisible(true);
                 break;
             case screen_type::START_SCREEN:
-                m_gui.get<tgui::Group>(screen_id.at(screen_type::SETTINGS))->get("resume_button")->setVisible(false);
+                m_gui.get<tgui::Group>(screen_id.at(screen_type::SETTINGS))
+                    ->get("resume_button")
+                    ->setVisible(false);
                 break;
             default:
                 break;
@@ -98,4 +101,4 @@ void screen_handler::update_fps() {
     }
     frames_counter++;
 }
-}
+}  // namespace war_of_ages
