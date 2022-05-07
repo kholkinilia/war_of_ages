@@ -1,7 +1,7 @@
 #include "../../include/screens/settings_screen.h"
 #include "../../include/client.h"
-#include "../../include/ui_functions.h"
 #include "../../include/sound_player.h"
+#include "../../include/ui_functions.h"
 
 // TGUI widgets
 #include <TGUI/Widgets/Button.hpp>
@@ -48,8 +48,7 @@ void settings_screen_init(sf::View &v, tgui::Gui &gui) {
     battle_music_volume_slider->setValue(
         sound_player::instance().get_volume(sound_player::sound_type::BATTLE));
     // battle_sounds_volume_slider->setValue(50);
-    lobby_music_volume_slider->setValue(
-        sound_player::instance().get_volume(sound_player::sound_type::LOBBY));
+    lobby_music_volume_slider->setValue(sound_player::instance().get_volume(sound_player::sound_type::LOBBY));
 
     settings_screen_group->add(battle_music_volume_label);
     settings_screen_group->add(battle_sounds_volume_label);

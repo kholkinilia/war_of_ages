@@ -31,8 +31,7 @@ void show_screen(tgui::Gui &gui, screen new_screen, screen prev_screen) {
     current_state.set_cur_screen(new_screen);
     if (current_state.get_cur_game_state() == nullptr && new_screen == screen::GAME_SCREEN) {
         current_state.create_game(client_state::game_mode::SINGLE);
-        sound_player::instance().change(sound_player::sound_type::LOBBY,
-                                                 sound_player::sound_type::BATTLE);
+        sound_player::instance().change(sound_player::sound_type::LOBBY, sound_player::sound_type::BATTLE);
     }
     // Settings screen does not contain resume_button
     if (new_screen == screen::SETTINGS) {
@@ -53,8 +52,7 @@ void show_screen(tgui::Gui &gui, screen new_screen, screen prev_screen) {
         sound_player::instance().status(sound_player::sound_type::BATTLE) ==
             sf::SoundSource::Status::Playing) {
         current_state.reset_game();
-        sound_player::instance().change(sound_player::sound_type::BATTLE,
-                                                 sound_player::sound_type::LOBBY);
+        sound_player::instance().change(sound_player::sound_type::BATTLE, sound_player::sound_type::LOBBY);
     }
     if (new_screen == screen::END_GAME) {
         gui.get(screen_id.at(screen::END_GAME))
