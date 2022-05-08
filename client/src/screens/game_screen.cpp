@@ -96,6 +96,7 @@ static void setup_buttons_cluster(std::vector<tgui::Group::Ptr> &groups, action 
                         default:
                             assert(!"Unreachable code!");
                     }
+                    break;
                 }
                 case application::state::MULTIPLAYER_GAME: {
                     message<messages_type> msg;
@@ -129,6 +130,7 @@ static void setup_buttons_cluster(std::vector<tgui::Group::Ptr> &groups, action 
                             assert(!"Unreachable code!");
                     }
                     client::instance().send_message(msg);
+                    break;
                 }
                 default:
                     assert(!"Unreachable code!");
