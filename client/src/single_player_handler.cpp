@@ -1,0 +1,41 @@
+#include "../include/single_player_handler.h"
+#include "../include/bot_actions_supplier.h"
+#include "../include/player_actions_supplier.h"
+
+namespace war_of_ages {
+
+void single_player_handler::change_player_type(player_type new_type) {
+    m_player_type = new_type;
+}
+
+single_player_handler::player_type single_player_handler::get_type() const noexcept {
+    return m_player_type;
+}
+
+void single_player_handler::update_game() {
+    auto [p1, p2] = m_game_state->snapshot_players();
+    m_game_state->update(
+        m_player_type == player_type::BOT ? bot_actions_supplier::get_actions({p1, p2})
+                                          : player_actions_supplier::instance().get_actions(),
+        bot_actions_supplier::get_actions({p2, p1}), static_cast<float>(clock()) / CLOCKS_PER_SEC);
+}
+
+void single_player_handler::start_game() {
+    m_game_state = std::make_unique<game_state>(static_cast<float>(clock()) / CLOCKS_PER_SEC);
+}
+
+single_player_handler &single_player_handler::instance() {
+    static single_player_handler handler;
+    return handler;
+}
+
+std::pair<player_snapshot, player_snapshot> single_player_handler::get_snapshot() const noexcept {
+    return m_game_state->snapshot_players();
+}
+
+void single_player_handler::finish_game() {
+    m_game_state = nullptr;
+    player_actions_supplier::instance().clear_actions();
+}
+
+}  // namespace war_of_ages

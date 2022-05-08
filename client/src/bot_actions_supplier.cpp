@@ -1,10 +1,10 @@
 #include "../include/bot_actions_supplier.h"
-#include "../include/client.h"
 
 namespace war_of_ages {
 
-std::vector<std::unique_ptr<game_command>> bot_actions_supplier::pop_actions() {
-    player_snapshot p;  // TODO : get it from game_handler, when implemented
+std::vector<std::unique_ptr<game_command>> bot_actions_supplier::get_actions(
+    const std::pair<player_snapshot, player_snapshot> &snapshot) {
+    auto p = snapshot.first;
     p.money = 100;
     std::vector<std::unique_ptr<game_command>> actions;
     actions.reserve(p.money / unit::get_stats(unit_type::PEASANT).cost);
@@ -14,10 +14,8 @@ std::vector<std::unique_ptr<game_command>> bot_actions_supplier::pop_actions() {
     return actions;
 }
 
-void bot_actions_supplier::add_action(std::unique_ptr<game_command>) {
+bot_actions_supplier &bot_actions_supplier::instance() {
+    static bot_actions_supplier supplier;
+    return supplier;
 }
-
-void bot_actions_supplier::clear_actions() {
-}
-
 }  // namespace war_of_ages

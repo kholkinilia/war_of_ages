@@ -45,7 +45,7 @@ if (BUILD_CLIENT)
             client/src/sfml_printer.cpp
             client/src/bot_actions_supplier.cpp
             client/src/player_actions_supplier.cpp
-            client/src/game_handler.cpp
+            client/src/single_player_handler.cpp
             client/src/sound_player.cpp
             client/src/animation_supplier.cpp
             client/src/screen_handler.cpp

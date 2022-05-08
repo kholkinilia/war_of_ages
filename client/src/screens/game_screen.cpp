@@ -123,9 +123,9 @@ void screen_handler::game_screen_init(sf::View &v) {
     autobattle_button->setSize(BUTTON_WIDTH, BUTTON_HEIGHT);
     autobattle_button->onPress([]() {
         current_state.get_cur_game()->set_receiver(
-            0, current_state.get_cur_game()->get_type(0) == game_handler::player_type::BOT
-                   ? game_handler::player_type::PLAYER
-                   : game_handler::player_type::BOT);
+            0, current_state.get_cur_game()->get_type(0) == single_player_handler::player_type::BOT
+                   ? single_player_handler::player_type::PLAYER
+                   : single_player_handler::player_type::BOT);
     });
 
     auto new_era_button = tgui::Button::create();

@@ -5,18 +5,29 @@
 #include <queue>
 #include <vector>
 #include "../../common/game_logic/include/game_commands.h"
-#include "actions_supplier.h"
 
 namespace war_of_ages {
 
-struct player_actions_supplier : actions_supplier {
-protected:
-    std::deque<std::unique_ptr<game_command>> actions;
+struct player_actions_supplier {
+private:
+    std::deque<std::unique_ptr<game_command>> m_actions;
+    std::mutex m_mutex;
+
+    player_actions_supplier() = default;
 
 public:
-    [[nodiscard]] std::vector<std::unique_ptr<game_command>> pop_actions() final;
-    void add_action(std::unique_ptr<game_command>) final;
-    void clear_actions() final;
+    player_actions_supplier(const player_actions_supplier &) = delete;
+    player_actions_supplier(player_actions_supplier &&) = delete;
+    player_actions_supplier &operator=(const player_actions_supplier &) = delete;
+    player_actions_supplier &operator=(player_actions_supplier &&) = delete;
+
+    ~player_actions_supplier() = default;
+
+    [[nodiscard]] std::vector<std::unique_ptr<game_command>> get_actions();
+    void add_action(std::unique_ptr<game_command> cmd);
+    void clear_actions();
+
+    static player_actions_supplier &instance();
 };
 
 }  // namespace war_of_ages
