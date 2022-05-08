@@ -17,7 +17,6 @@ private:
 protected:
     boost::asio::io_context m_context;
     std::thread context_thread;
-    boost::asio::ip::tcp::socket m_socket;
     std::unique_ptr<connection<T>> m_connection;
 
 public:
