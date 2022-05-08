@@ -1,5 +1,5 @@
 #include "../include/client.h"
-#include "../include/bot_actions_receiver.h"
+#include "../include/bot_actions_supplier.h"
 
 namespace war_of_ages {
 
