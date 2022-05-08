@@ -13,6 +13,9 @@ client::client() : client_interface() {
     m_handle = "handle";
 }
 
+void client::process_current_messages() {
+}
+
 void client::set_handle(std::string handle) noexcept {
     m_handle = std::move(handle);
 }
