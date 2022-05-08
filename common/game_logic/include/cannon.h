@@ -27,12 +27,13 @@ struct cannon_stats {
 
 struct cannon {
 private:
-    cannon_type m_type;
+    cannon_type m_type = cannon_type::NONE;
     float m_attack_progress_s = 0;
     vec2f m_muzzle_position;
 
 public:
     cannon(cannon_type type, vec2f muzzle_position) noexcept;
+    cannon() = default;
 
     [[nodiscard]] std::optional<bullet> update(unit &enemy, float dt) noexcept;
     [[nodiscard]] cannon_type type() const noexcept;
