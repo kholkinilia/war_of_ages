@@ -39,6 +39,7 @@ struct bullet_stats {
 
 struct bullet {
     bullet(bullet_type type, const vec2f &start, const vec2f &target) noexcept;
+    bullet() = default;
 
     void update(std::deque<unit> &enemies, float dt);
 
@@ -56,7 +57,7 @@ private:
     [[nodiscard]] int damage() const noexcept;
     [[nodiscard]] float speed() const noexcept;
 
-    bullet_type m_type;
+    bullet_type m_type = bullet_type::STONE_ULT;
     vec2f m_pos;
     vec2f m_dir;
     bool m_is_alive = true;
