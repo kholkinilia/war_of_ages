@@ -1,3 +1,4 @@
+#include "../../include/client.h"
 #include "../../include/screen_handler.h"
 
 // TGUI widgets
@@ -11,9 +12,12 @@ void screen_handler::multiplayer_screen_init() {
 
     tgui::Button::Ptr random_game_button = tgui::Button::create("Случайная игра");
     random_game_button->setTextSize(30);
-    // TODO: onPress: search game & switch to waiting screen if success
-    random_game_button->onPress(
-        [&]() { screen_handler::instance().change_screen(screen_handler::screen_type::WAIT_OPPONENT); });
+    random_game_button->onPress([&]() {
+        message<messages_type> msg;
+        msg.header.id = messages_type::RANDOMGAME_JOIN;
+        client::instance().send_message(msg);
+        screen_handler::instance().change_screen(screen_handler::screen_type::WAIT_OPPONENT);
+    });
     multiplayer_screen_group->add(random_game_button);
 
     tgui::EditBox::Ptr room_id_editbox = tgui::EditBox::create();
