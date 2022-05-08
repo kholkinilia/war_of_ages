@@ -8,7 +8,7 @@ client &client::instance() {
     return inst;
 }
 
-client::client(): client_interface() {
+client::client() : client_interface() {
     // TODO: read handle from local config.txt
     m_handle = "handle";
 }
