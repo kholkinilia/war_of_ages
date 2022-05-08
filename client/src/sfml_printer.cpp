@@ -290,4 +290,20 @@ sf::RenderWindow &sfml_printer::get_window() noexcept {
     return m_window;
 }
 
+void sfml_printer::update(sf::Sprite background) {  // TODO: remove background sprite, when background merged
+    handle_window_events();
+
+    if (screen_handler::instance().get_screen_type() != screen_handler::screen_type::GAME_SCREEN) {
+        m_view.setCenter(BACKGROUND_WIDTH / 2, BACKGROUND_HEIGHT / 2);
+    }
+
+    sfml_printer::instance().get_window().clear();
+    sfml_printer::instance().get_window().draw(background);
+}
+
+void sfml_printer::draw() {
+    m_window.display();
+    m_window.setView(sfml_printer::instance().get_view());
+}
+
 }  // namespace war_of_ages

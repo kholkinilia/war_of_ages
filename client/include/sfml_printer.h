@@ -19,6 +19,9 @@ public:
     void print_game(const std::pair<player_snapshot, player_snapshot> &snapshots);
     void handle_window_events();
 
+    void update(sf::Sprite background);
+    void draw();
+
     [[nodiscard]] sf::RenderWindow &get_window() noexcept;
     [[nodiscard]] sf::View &get_view() noexcept;
 
