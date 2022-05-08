@@ -21,7 +21,7 @@ void screen_handler::tournament_join_screen_init() {
     tgui::EditBox::Ptr tournament_key_box = tgui::EditBox::create();
     tournament_key_box->setInputValidator("[a-zA-Z0-9]{0,20}");
     tournament_key_box->setTextSize(30);
-    tournament_key_box->setDefaultText("введите код доступа к турнуру");
+    tournament_key_box->setDefaultText("введите код доступа к турниру");
     tournament_join_screen_group->add(tournament_key_box);
 
     tgui::Button::Ptr join_tournament_button = tgui::Button::create("Присоединиться");
