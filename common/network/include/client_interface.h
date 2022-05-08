@@ -62,6 +62,13 @@ public:
         if (is_connected()) {
             m_connection->disconnect();
         }
+        m_context.stop();
+
+        if (m_context_thread.joinable()) {
+            m_context_thread.join();
+        }
+
+        m_connection.release();
     }
 
     [[nodiscard]] bool is_connected() const {
