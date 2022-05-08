@@ -1,4 +1,3 @@
-#include "../../include/client.h"
 #include "../../include/screen_handler.h"
 
 // TGUI widgets

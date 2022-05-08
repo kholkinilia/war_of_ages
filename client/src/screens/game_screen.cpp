@@ -47,7 +47,7 @@ static void setup_button(tgui::Button::Ptr &button, tgui::String name = "") {
     }
 }
 
-static void setup_buttons_claster(std::vector<tgui::Group::Ptr> &groups, action a) {
+static void setup_buttons_cluster(std::vector<tgui::Group::Ptr> &groups, action a) {
     static int k = 4;
     int n;
     switch (a) {
@@ -175,19 +175,19 @@ void screen_handler::game_screen_init(sf::View &v) {
                                               FPS_LABEL_HEIGHT + 3);
 
     std::vector<tgui::Group::Ptr> cannon_groups(CANNONS_PER_AGE);
-    setup_buttons_claster(cannon_groups, action::BUY_CANNON);
+    setup_buttons_cluster(cannon_groups, action::BUY_CANNON);
     for (int i = 0; i < CANNONS_PER_AGE; i++) {
         game_screen_group->add(cannon_groups[i], "cannon_" + std::to_string(i));
     }
 
     std::vector<tgui::Group::Ptr> unit_groups(UNITS_PER_AGE);
-    setup_buttons_claster(unit_groups, action::BUY_UNIT);
+    setup_buttons_cluster(unit_groups, action::BUY_UNIT);
     for (int i = 0; i < UNITS_PER_AGE; i++) {
         game_screen_group->add(unit_groups[i], "unit_" + std::to_string(i));
     }
 
     std::vector<tgui::Group::Ptr> sell_cannon_groups(CANNONS_PER_AGE);
-    setup_buttons_claster(sell_cannon_groups, action::SELL_CANNON);
+    setup_buttons_cluster(sell_cannon_groups, action::SELL_CANNON);
     for (int i = 0; i < CANNONS_PER_AGE; i++) {
         game_screen_group->add(sell_cannon_groups[i], "sell_cannon_" + std::to_string(i));
     }
