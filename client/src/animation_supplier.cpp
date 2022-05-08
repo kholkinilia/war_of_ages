@@ -2,11 +2,11 @@
 namespace war_of_ages {
 
 animation_supplier::animation_supplier(const std::string &texture_filename,
-                                     std::vector<float> time_period,
-                                     int rows,
-                                     int columns,
-                                     int each_width_pxls,
-                                     int each_height_pxls)
+                                       std::vector<float> time_period,
+                                       int rows,
+                                       int columns,
+                                       int each_width_pxls,
+                                       int each_height_pxls)
     : m_time_period(std::move(time_period)),
       m_rows(rows),
       m_columns(columns),

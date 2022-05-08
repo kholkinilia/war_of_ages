@@ -18,11 +18,11 @@ private:
 
 public:
     animation_supplier(const std::string &texture_filename,
-                      std::vector<float> time_period,
-                      int rows,
-                      int columns,
-                      int each_width_pxls,
-                      int each_height_pxls);
+                       std::vector<float> time_period,
+                       int rows,
+                       int columns,
+                       int each_width_pxls,
+                       int each_height_pxls);
     animation_supplier() = default;
 
     [[nodiscard]] sf::Sprite get_sprite(int line, float time) noexcept;

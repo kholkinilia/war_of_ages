@@ -124,9 +124,9 @@ sprite_supplier::sprite_supplier() {
             auto sz = animation_size.at(u_type);
             unit_sprite.insert(
                 {u_type,
-                 animation_supplier(get_unit_file(a_type, u_type), animation_time_periods.at(u_type), sz.first,
-                                   sz.second, static_cast<int>(unit::get_stats(u_type).size.x),
-                                   static_cast<int>(unit::get_stats(u_type).size.y))});
+                 animation_supplier(get_unit_file(a_type, u_type), animation_time_periods.at(u_type),
+                                    sz.first, sz.second, static_cast<int>(unit::get_stats(u_type).size.x),
+                                    static_cast<int>(unit::get_stats(u_type).size.y))});
         }
         for (auto c_type : cannons_by_age.at(a_type)) {
             cannon_sprite[c_type] =
