@@ -25,7 +25,8 @@ void client::login() {
     message<messages_type> msg;
     msg.header.id = messages_type::AUTH_LOGIN;
     std::unique_lock l(m_mutex_handle_n_password);
-    msg << m_handle << m_password;
+    msg.insert_container(m_handle);
+    msg.insert_container(m_password);
     send_message(msg);
 }
 
