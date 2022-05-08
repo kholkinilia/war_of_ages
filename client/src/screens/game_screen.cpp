@@ -2,6 +2,7 @@
 #include <TGUI/Widgets/Group.hpp>
 #include <TGUI/Widgets/Label.hpp>
 #include <TGUI/Widgets/Picture.hpp>
+#include <unordered_map>
 #include "../../include/bot_actions_supplier.h"
 #include "../../include/client.h"
 #include "../../include/screen_handler.h"
@@ -18,32 +19,24 @@ static void setup_button(tgui::Button::Ptr &button, tgui::String name = "") {
     button->getRenderer()->setBorders(0);
 }
 
-[[nodiscard]] static std::string to_string(age_type age) {
-    switch (age) {
-        case age_type::STONE:
-            return "stone";
-        case age_type::CASTLE:
-            return "castle";
-        case age_type::RENAISSANCE:
-            return "renaissance";
-        case age_type::MODERN:
-            return "modern";
-        case age_type::FUTURE:
-            return "future";
-    }
-}
+static const std::unordered_map<age_type, std::string> age_to_string = {
+    {age_type::STONE, "stone"},   {age_type::CASTLE, "castle"}, {age_type::RENAISSANCE, "renaissance"},
+    {age_type::MODERN, "modern"}, {age_type::FUTURE, "future"},
+};
 
 [[nodiscard]] static tgui::String get_filename(action a, int i, age_type age) noexcept {
     switch (a) {
         case action::BUY_UNIT:
-            return tgui::String("../client/resources/game/units/" + to_string(age) + "/mini/") +
+            return tgui::String("../client/resources/game/units/" + age_to_string.at(age) + "/mini/") +
                    std::to_string(i + 1) + tgui::String(".png");
         case action::BUY_CANNON:
-            return tgui::String("../client/resources/game/cannons/" + to_string(age) + "/level") +
+            return tgui::String("../client/resources/game/cannons/" + age_to_string.at(age) + "/level") +
                    std::to_string(i + 1) + tgui::String(".png");
-        default:
+        case action::SELL_CANNON:
             return tgui::String("../client/resources/pictures/") + std::to_string(i + 1) +
                    tgui::String(".png");
+        default:
+            assert (!"Unreachable code!");
     }
 }
 
@@ -57,8 +50,11 @@ static void setup_buttons_cluster(std::vector<tgui::Group::Ptr> &groups, action 
         case action::BUY_CANNON:
             n = CANNONS_PER_AGE;
             break;
-        default:
+        case action::SELL_CANNON:
             n = MAX_CANNON_SLOTS;
+            break;
+        default:
+            assert (!"Unreachable code!");
     }
     for (int i = 0; i < n; i++, k++) {
         groups[i] = tgui::Group::create();
@@ -84,8 +80,11 @@ static void setup_buttons_cluster(std::vector<tgui::Group::Ptr> &groups, action 
                     current_state.get_cur_game()->append_action(
                         0, std::make_unique<buy_cannon_command>(i, slot));
                     break;
-                default:
+                case action::SELL_CANNON:
                     current_state.get_cur_game()->append_action(0, std::make_unique<sell_cannon_command>(i));
+                    break;
+                default:
+                    assert (!"Unreachable code!");
             }
         });
         groups[i]->add(button, std::to_string(i));
@@ -106,8 +105,10 @@ static void setup_buttons_cluster(std::vector<tgui::Group::Ptr> &groups, action 
                 coin_label->setText('-' +
                                     std::to_string(cannon::get_stats(static_cast<cannon_type>(i)).cost));
                 break;
-            default:
+            case action::SELL_CANNON:
                 break;
+            default:
+                assert (!"Unreachable code!");
         }
         groups[i]->add(coin_label, "coin_label");
     }
