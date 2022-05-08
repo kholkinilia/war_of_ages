@@ -10,7 +10,7 @@
 #include "../../common/game_logic/include/bullet.h"
 #include "../../common/game_logic/include/cannon.h"
 #include "../../common/game_logic/include/unit.h"
-#include "../include/animation_handler.h"
+#include "../include/animation_supplier.h"
 
 namespace war_of_ages {
 
@@ -44,7 +44,7 @@ private:
     std::map<std::pair<age_type, int>, sf::Sprite> tower_front_sprite;
     std::map<std::pair<age_type, int>, sf::Sprite> cannon_slots_sprite;
 
-    std::unordered_map<unit_type, animation_handler> unit_sprite;
+    std::unordered_map<unit_type, animation_supplier> unit_sprite;
     std::unordered_map<cannon_type, sf::Sprite> cannon_sprite;
     std::unordered_map<bullet_type, sf::Sprite> bullet_sprite;
 

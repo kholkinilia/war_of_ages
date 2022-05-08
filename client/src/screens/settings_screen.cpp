@@ -1,6 +1,8 @@
-#include "../../include/screens/settings_screen.h"
+#include "../../include/application.h"
 #include "../../include/client.h"
-#include "../../include/ui_functions.h"
+#include "../../include/screen_handler.h"
+#include "../../include/sfml_printer.h"
+#include "../../include/sound_player.h"
 
 // TGUI widgets
 #include <TGUI/Widgets/Button.hpp>
@@ -9,7 +11,7 @@
 #include <TGUI/Widgets/Slider.hpp>
 
 namespace war_of_ages {
-void settings_screen_init(sf::View &v, tgui::Gui &gui) {
+void screen_handler::settings_screen_init(sf::View &v) {
     // TODO: try make this shit more readable and well-formed
     auto settings_screen_group = tgui::Group::create();
 
@@ -39,16 +41,15 @@ void settings_screen_init(sf::View &v, tgui::Gui &gui) {
     lobby_music_volume_slider->setPosition("54%", "50%");
 
     battle_music_volume_slider->onValueChange([&battle_sounds_volume_slider](float new_value) {
-        current_state.get_audio_player()->set_volume(sound_player::sound_type::BATTLE, new_value);
+        sound_player::instance().set_volume(sound_player::sound_type::BATTLE, new_value);
     });
     lobby_music_volume_slider->onValueChange([&lobby_music_volume_slider](float new_value) {
-        current_state.get_audio_player()->set_volume(sound_player::sound_type::LOBBY, new_value);
+        sound_player::instance().set_volume(sound_player::sound_type::LOBBY, new_value);
     });
     battle_music_volume_slider->setValue(
-        current_state.get_audio_player()->get_volume(sound_player::sound_type::BATTLE));
+        sound_player::instance().get_volume(sound_player::sound_type::BATTLE));
     // battle_sounds_volume_slider->setValue(50);
-    lobby_music_volume_slider->setValue(
-        current_state.get_audio_player()->get_volume(sound_player::sound_type::LOBBY));
+    lobby_music_volume_slider->setValue(sound_player::instance().get_volume(sound_player::sound_type::LOBBY));
 
     settings_screen_group->add(battle_music_volume_label);
     settings_screen_group->add(battle_sounds_volume_label);
@@ -60,10 +61,11 @@ void settings_screen_init(sf::View &v, tgui::Gui &gui) {
     tgui::Button::Ptr resume_button = tgui::Button::create("Продолжить игру");
     resume_button->setRenderer(black_theme.getRenderer("Button"));
     resume_button->setTextSize(30);
-    resume_button->onPress([&gui, &v]() {
-        current_state.get_cur_game_state()->return_from_pause();
-        v.setCenter(current_state.get_view_center());
-        show_screen(gui, screen::GAME_SCREEN, screen::SETTINGS);
+    resume_button->onPress([&]() {
+        m_gui.get("background_group")->setVisible(false);
+        // FIXME: make this work for multiplayer too
+        single_player_handler::instance().return_from_pause();
+        screen_handler::instance().change_screen(screen_handler::screen_type::GAME_SCREEN);
     });
     resume_button->setPosition("30%", "73%");
     resume_button->setSize("40%", "10%");
@@ -72,12 +74,19 @@ void settings_screen_init(sf::View &v, tgui::Gui &gui) {
     auto start_button = tgui::Button::create("В главное меню");
     start_button->setRenderer(black_theme.getRenderer("Button"));
     start_button->setTextSize(30);
-    start_button->onPress([&gui]() { show_screen(gui, screen::START_SCREEN, screen::SETTINGS); });
+    start_button->onPress([&]() {
+        if (application::instance().get_state() == application::state::SINGLE_PLAYER_GAME) {
+            sound_player::instance().change(sound_player::sound_type::BATTLE,
+                                            sound_player::sound_type::LOBBY);
+        }
+        screen_handler::instance().change_screen(screen_handler::screen_type::START_SCREEN);
+        application::instance().set_state(application::state::MENU);
+    });
     start_button->setPosition("30%", "86%");
     start_button->setSize("40%", "10%");
     settings_screen_group->add(start_button);
 
-    gui.add(settings_screen_group, screen_id.at(screen::SETTINGS));
-    gui.get(screen_id.at(screen::SETTINGS))->setVisible(false);
+    m_gui.add(settings_screen_group, screen_handler::screen_id.at(screen_handler::screen_type::SETTINGS));
+    m_gui.get(screen_handler::screen_id.at(screen_handler::screen_type::SETTINGS))->setVisible(false);
 }
 }  // namespace war_of_ages

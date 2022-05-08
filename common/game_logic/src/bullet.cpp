@@ -41,27 +41,27 @@ void bullet::update(std::deque<unit> &enemies, float dt) {
 
 // Getters
 
-[[nodiscard]] bullet_type bullet::type() const noexcept {
+bullet_type bullet::type() const noexcept {
     return m_type;
 }
 
-[[nodiscard]] vec2f bullet::pos() const noexcept {
+vec2f bullet::pos() const noexcept {
     return m_pos;
 }
 
-[[nodiscard]] vec2f bullet::dir() const noexcept {
+vec2f bullet::dir() const noexcept {
     return m_dir;
 }
 
-[[nodiscard]] bool bullet::is_alive() const noexcept {
+bool bullet::is_alive() const noexcept {
     return m_is_alive;
 }
 
-[[nodiscard]] const bullet_stats &bullet::stats() const noexcept {
+const bullet_stats &bullet::stats() const noexcept {
     return get_stats(m_type);
 }
 
-[[nodiscard]] const bullet_stats &bullet::get_stats(bullet_type type) {
+const bullet_stats &bullet::get_stats(bullet_type type) {
     const static std::unordered_map<bullet_type, bullet_stats> stats = {
         {bullet_type::STONE_LEVEL_1, {10, 400, {40, 40}}},
         {bullet_type::STONE_LEVEL_2, {20, 400, {30, 30}}},
@@ -86,11 +86,11 @@ void bullet::update(std::deque<unit> &enemies, float dt) {
     return stats.at(type);
 }
 
-[[nodiscard]] int bullet::damage() const noexcept {
+int bullet::damage() const noexcept {
     return stats().damage;
 }
 
-[[nodiscard]] float bullet::speed() const noexcept {
+float bullet::speed() const noexcept {
     return stats().speed;
 }
 }  // namespace war_of_ages
