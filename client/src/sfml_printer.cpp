@@ -2,7 +2,6 @@
 #include <TGUI/Widgets/Group.hpp>
 #include <TGUI/Widgets/Label.hpp>
 #include <utility>
-#include "../include/client.h"
 #include "../include/game_object_size_constants.h"
 #include "../include/screen_handler.h"
 #include "../include/sprite_supplier.h"

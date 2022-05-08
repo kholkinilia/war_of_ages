@@ -2,7 +2,6 @@
 #include <TGUI/Widgets/Group.hpp>
 #include <TGUI/Widgets/Label.hpp>
 #include "../include/application.h"
-#include "../include/client.h"
 #include "../include/sfml_printer.h"
 #include "../include/single_player_handler.h"
 

@@ -1,7 +1,7 @@
 #include "../../include/application.h"
-#include "../../include/client.h"
 #include "../../include/screen_handler.h"
 #include "../../include/sfml_printer.h"
+#include "../../include/single_player_handler.h"
 #include "../../include/sound_player.h"
 
 // TGUI widgets

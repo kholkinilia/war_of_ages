@@ -17,14 +17,15 @@ private:
 protected:
     boost::asio::io_context m_context;
     std::thread context_thread;
-    boost::asio::ip::tcp::socket m_socket;
     std::unique_ptr<connection<T>> m_connection;
 
 public:
+    client_interface() = default;
+
     client_interface(const client_interface &other) = delete;
     client_interface(client_interface &&other) noexcept = default;
     client_interface &operator=(const client_interface &other) = delete;
-    client_interface &operator=(client_interface &&other) = delete;
+    client_interface &operator=(client_interface &&other) = default;
 
     virtual ~client_interface() {
         disconnect();
