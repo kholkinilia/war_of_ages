@@ -26,11 +26,10 @@ public:
     void finish_game();
 
     void change_player_type(player_type new_type);
-    [[nodiscard]]player_type get_type() const noexcept;
+    [[nodiscard]] player_type get_type() const noexcept;
     [[nodiscard]] std::pair<player_snapshot, player_snapshot> get_snapshot() const noexcept;
 
-    [[nodiscard]]static single_player_handler &instance();
-
+    [[nodiscard]] static single_player_handler &instance();
 };
 
 }  // namespace war_of_ages
