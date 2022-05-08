@@ -5,6 +5,7 @@
 #include "../../include/bot_actions_receiver.h"
 #include "../../include/client.h"
 #include "../../include/screen_handler.h"
+#include "../../include/sfml_printer.h"
 
 namespace war_of_ages {
 
@@ -155,7 +156,6 @@ void screen_handler::game_screen_init(sf::View &v) {
                                  current_state.get_cur_game_state()->snapshot_players().first.age))));
         }
         current_state.get_cur_game()->append_action(0, std::make_unique<upgrade_age_command>());
-
     });
 
     auto plus_place_cannon_button = tgui::Button::create();
@@ -197,7 +197,7 @@ void screen_handler::game_screen_init(sf::View &v) {
     pause_button->setPosition(0, FPS_LABEL_HEIGHT);
     pause_button->setSize(BUTTON_WIDTH, BUTTON_HEIGHT);
     pause_button->onPress([&]() {
-        current_state.set_view_center(v.getCenter());
+        sfml_printer::instance().set_game_view_center(v.getCenter());
         screen_handler::instance().change_screen(screen_handler::screen_type::SETTINGS);
     });
 

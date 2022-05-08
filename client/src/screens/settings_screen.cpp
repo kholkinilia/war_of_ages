@@ -1,5 +1,7 @@
+#include "../../include/application.h"
 #include "../../include/client.h"
 #include "../../include/screen_handler.h"
+#include "../../include/sfml_printer.h"
 #include "../../include/sound_player.h"
 
 // TGUI widgets
@@ -7,7 +9,6 @@
 #include <TGUI/Widgets/Group.hpp>
 #include <TGUI/Widgets/Label.hpp>
 #include <TGUI/Widgets/Slider.hpp>
-#include "../../include/application.h"
 
 namespace war_of_ages {
 void screen_handler::settings_screen_init(sf::View &v) {
@@ -62,7 +63,7 @@ void screen_handler::settings_screen_init(sf::View &v) {
     resume_button->setTextSize(30);
     resume_button->onPress([&]() {
         current_state.get_cur_game_state()->return_from_pause(1.f * clock() / CLOCKS_PER_SEC);
-        v.setCenter(current_state.get_view_center());
+        sfml_printer::instance().get_view().setCenter(sfml_printer::instance().get_game_view_center());
         screen_handler::instance().change_screen(screen_handler::screen_type::GAME_SCREEN);
     });
     resume_button->setPosition("30%", "73%");
