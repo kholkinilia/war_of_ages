@@ -22,7 +22,7 @@ void application::run() {
         sfml_printer::instance().handle_window_events();
 
         if (screen_handler::instance().get_screen_type() != screen_handler::screen_type::GAME_SCREEN) {
-            sfml_printer::instance().set_view_center(BACKGROUND_WIDTH / 2, BACKGROUND_HEIGHT / 2);
+            sfml_printer::instance().get_view().setCenter(BACKGROUND_WIDTH / 2, BACKGROUND_HEIGHT / 2);
         }
 
         war_of_ages::check_game_end(screen_handler::instance().get_gui());

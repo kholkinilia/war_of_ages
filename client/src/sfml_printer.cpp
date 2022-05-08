@@ -284,16 +284,20 @@ void sfml_printer::init() {
     m_view = m_window.getDefaultView();
 }
 
-sf::View &sfml_printer::get_view() {
+sf::View &sfml_printer::get_view() noexcept {
     return m_view;
 }
 
-sf::RenderWindow &sfml_printer::get_window() {
+sf::RenderWindow &sfml_printer::get_window() noexcept {
     return m_window;
 }
 
-void sfml_printer::set_view_center(int x, int y) {
-    m_view.setCenter(x, y);
+sf::Vector2f sfml_printer::get_game_view_center() const noexcept {
+    return m_game_view_center;
+}
+
+void sfml_printer::set_game_view_center(sf::Vector2f new_center) noexcept {
+    m_game_view_center = new_center;
 }
 
 }  // namespace war_of_ages

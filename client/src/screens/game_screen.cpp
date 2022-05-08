@@ -7,6 +7,7 @@
 #include "../../include/client.h"
 #include "../../include/screen_handler.h"
 #include "../../include/ui_functions.h"
+#include "../../include/sfml_printer.h"
 
 namespace war_of_ages {
 
@@ -196,7 +197,7 @@ void game_screen_init(sf::View &v, tgui::Gui &gui) {
     pause_button->setPosition(0, FPS_LABEL_HEIGHT);
     pause_button->setSize(BUTTON_WIDTH, BUTTON_HEIGHT);
     pause_button->onPress([&gui, &v]() {
-        current_state.set_view_center(v.getCenter());
+        sfml_printer::instance().set_game_view_center(v.getCenter());
         screen_handler::instance().change_screen(screen_handler::screen_type::SETTINGS);
     });
 
