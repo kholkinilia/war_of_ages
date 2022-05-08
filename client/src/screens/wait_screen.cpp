@@ -1,5 +1,5 @@
-#include "../../include/screen_handler.h"
 #include "../../include/client.h"
+#include "../../include/screen_handler.h"
 
 // TGUI widgets
 #include <TGUI/Widgets/Button.hpp>
@@ -15,11 +15,10 @@ void screen_handler::opponent_waiting_screen_init() {
 
     auto return_button = tgui::Button::create("В главное меню");
     return_button->setTextSize(30);
-    return_button->onPress(
-        [&]() {
-            client::instance().ignore_server();
-            screen_handler::instance().change_screen(screen_handler::screen_type::START_SCREEN);
-        });
+    return_button->onPress([&]() {
+        client::instance().ignore_server();
+        screen_handler::instance().change_screen(screen_handler::screen_type::START_SCREEN);
+    });
     opponent_waiting_screen_group->add(return_button);
 
     std::vector<tgui::Widget::Ptr> widgets = {loading, return_button};

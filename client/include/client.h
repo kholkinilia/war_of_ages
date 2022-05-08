@@ -16,7 +16,7 @@ public:
     client(client &&other) = delete;
     client &operator=(const client &other) = delete;
     client &operator=(client &&other) = delete;
-    
+
     void clear_messages();
     [[nodiscard]] std::vector<owned_message<messages_type>> retrieve_messages();
 
@@ -25,8 +25,8 @@ public:
     void set_handle(std::string handle);
     void set_password(std::string password);
 
-    [[nodiscard]]  std::string get_handle() const;
-    [[nodiscard]]  std::string get_password() const;
+    [[nodiscard]] std::string get_handle() const;
+    [[nodiscard]] std::string get_password() const;
 
 private:
     client();

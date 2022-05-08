@@ -5,9 +5,9 @@
 #include <TGUI/Widgets/Button.hpp>
 #include <TGUI/Widgets/Group.hpp>
 #include "../../include/application.h"
+#include "../../include/client.h"
 #include "../../include/sfml_printer.h"
 #include "../../include/sound_player.h"
-#include "../../include/client.h"
 
 namespace war_of_ages::client {
 void screen_handler::start_screen_init() {
