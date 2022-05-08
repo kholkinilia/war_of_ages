@@ -22,6 +22,6 @@ private:
     std::pair<player_snapshot, player_snapshot> m_snapshots;
     mutable std::mutex m_mutex;
 };
-}
+}  // namespace war_of_ages::client
 
 #endif  // WAR_OF_AGES_MULTIPLAYER_GAME_HANDLER_H

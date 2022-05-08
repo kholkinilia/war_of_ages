@@ -15,4 +15,4 @@ void multiplayer_snapshots_handler::set_snapshots(std::pair<player_snapshot, pla
     std::unique_lock l(m_mutex);
     m_snapshots = std::move(new_snapshots);
 }
-}
+}  // namespace war_of_ages::client
