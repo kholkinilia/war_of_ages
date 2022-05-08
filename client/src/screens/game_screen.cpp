@@ -6,8 +6,8 @@
 #include "../../include/bot_actions_receiver.h"
 #include "../../include/client.h"
 #include "../../include/screen_handler.h"
-#include "../../include/ui_functions.h"
 #include "../../include/sfml_printer.h"
+#include "../../include/ui_functions.h"
 
 namespace war_of_ages {
 
