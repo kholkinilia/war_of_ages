@@ -16,7 +16,7 @@ private:
 
 protected:
     boost::asio::io_context m_context;
-    std::thread context_thread;
+    std::thread m_context_thread;
     std::unique_ptr<connection<T>> m_connection;
 
 public:
@@ -49,7 +49,7 @@ public:
 
             m_connection->connect_to_server(endpoints);
 
-            std::thread([this]() { m_context.run(); }).detach();
+            m_context_thread = std::thread([this]() { m_context.run(); });
 
         } catch (std::exception &e) {
             std::cerr << "Client exception: " << e.what() << "\n";
