@@ -45,15 +45,8 @@ void application::update_screens() {
             //                                            ->cast<tgui::Grid>());
         } break;
         case screen_handler::screen_type::GAME_SCREEN: {
-            auto state = current_state.get_cur_game_state();
-            auto [p1, p2] = state->snapshot_players();
-            state->update(current_state.get_cur_game()->get_actions(0),
-                          current_state.get_cur_game()->get_actions(1),
-                          static_cast<float>(clock()) / CLOCKS_PER_SEC);
-            current_state.get_cur_game()->clear_actions();
-            sfml_printer::instance().print_game({p1, p2});
-            // TODO: update game and get snapshot
-            // sfml_printer::instance().print_game()
+            single_player_handler::instance().update_game();
+            sfml_printer::instance().print_game(single_player_handler::instance().get_snapshot());
         } break;
         default:
             break;
