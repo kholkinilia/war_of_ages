@@ -20,13 +20,13 @@ set(BUILD_CLIENT True)
 set(BUILD_SERVER False)
 
 set(COMMON_PROJECT_SOURCES
-        game_logic/src/game_state.cpp
-        game_logic/src/player.cpp
-        game_logic/src/unit.cpp
-        game_logic/src/bullet.cpp
-        game_logic/src/cannon.cpp
-        game_logic/src/game_commands.cpp
-        game_logic/src/vec2f.cpp)
+        common/game_logic/src/game_state.cpp
+        common/game_logic/src/player.cpp
+        common/game_logic/src/unit.cpp
+        common/game_logic/src/bullet.cpp
+        common/game_logic/src/cannon.cpp
+        common/game_logic/src/game_commands.cpp
+        common/game_logic/src/vec2f.cpp)
 
 if (BUILD_CLIENT)
     set(CLIENT_PROJECT_SOURCES

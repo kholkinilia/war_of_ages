@@ -1,8 +1,8 @@
 #include "../include/sprite_supplier.h"
-#include "../../game_logic/include/age.h"
-#include "../../game_logic/include/bullet.h"
-#include "../../game_logic/include/cannon.h"
-#include "../../game_logic/include/unit.h"
+#include "../../common/game_logic/include/age.h"
+#include "../../common/game_logic/include/bullet.h"
+#include "../../common/game_logic/include/cannon.h"
+#include "../../common/game_logic/include/unit.h"
 #include "../include/game_object_size_constants.h"
 
 namespace war_of_ages {
