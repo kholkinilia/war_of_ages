@@ -5,7 +5,6 @@
 
 namespace war_of_ages {
 
-
 void game_screen_init(sf::View &v, tgui::Gui &gui);
 
 }  // namespace war_of_ages

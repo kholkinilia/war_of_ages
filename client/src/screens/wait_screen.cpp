@@ -21,7 +21,7 @@ void screen_handler::opponent_waiting_screen_init() {
     std::vector<tgui::Widget::Ptr> widgets = {loading, return_button};
     place_widgets(widgets);
     m_gui.add(opponent_waiting_screen_group,
-            screen_handler::screen_id.at(screen_handler::screen_type::WAIT_OPPONENT));
+              screen_handler::screen_id.at(screen_handler::screen_type::WAIT_OPPONENT));
     m_gui.get(screen_handler::screen_id.at(screen_handler::screen_type::WAIT_OPPONENT))->setVisible(false);
 }
 

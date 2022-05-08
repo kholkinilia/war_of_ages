@@ -37,9 +37,9 @@ private:
     screen_type m_screen_type = screen_type::START_SCREEN;
 
     static void place_widgets(std::vector<tgui::Widget::Ptr> &widgets,
-                       int width = 40,
-                       int height = 10,
-                       int space = 5);
+                              int width = 40,
+                              int height = 10,
+                              int space = 5);
 
     void tournament_screen_init();
     void tournament_creation_screen_init();

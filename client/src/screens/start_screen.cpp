@@ -31,9 +31,8 @@ void screen_handler::start_screen_init() {
 
     tgui::Button::Ptr tournament_button = tgui::Button::create("Турниры");
     tournament_button->setTextSize(30);
-    tournament_button->onPress([&]() {
-        screen_handler::instance().change_screen(screen_handler::screen_type::TOURNAMENT_JOINING);
-    });
+    tournament_button->onPress(
+        [&]() { screen_handler::instance().change_screen(screen_handler::screen_type::TOURNAMENT_JOINING); });
     start_screen_group->add(tournament_button);
 
     tgui::Button::Ptr statistics_button = tgui::Button::create("Статистика");

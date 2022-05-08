@@ -40,8 +40,9 @@ void screen_handler::tournament_join_screen_init() {
     place_widgets(widgets);
 
     m_gui.add(tournament_join_screen_group,
-            screen_handler::screen_id.at(screen_handler::screen_type::TOURNAMENT_JOINING));
-    m_gui.get(screen_handler::screen_id.at(screen_handler::screen_type::TOURNAMENT_JOINING))->setVisible(false);
+              screen_handler::screen_id.at(screen_handler::screen_type::TOURNAMENT_JOINING));
+    m_gui.get(screen_handler::screen_id.at(screen_handler::screen_type::TOURNAMENT_JOINING))
+        ->setVisible(false);
 }
 
 void screen_handler::tournament_creation_screen_init() {
@@ -77,7 +78,7 @@ void screen_handler::tournament_creation_screen_init() {
     place_widgets(widgets);
 
     m_gui.add(tournament_creation_screen_group,
-            screen_handler::screen_id.at(screen_handler::screen_type::TOURNAMENT_CREATION));
+              screen_handler::screen_id.at(screen_handler::screen_type::TOURNAMENT_CREATION));
     m_gui.get(screen_handler::screen_id.at(screen_handler::screen_type::TOURNAMENT_CREATION))
         ->setVisible(false);
 }
@@ -127,7 +128,7 @@ void screen_handler::tournament_screen_init() {
     // end sample tournament
 
     m_gui.add(tournament_screen_group,
-            screen_handler::screen_id.at(screen_handler::screen_type::TOURNAMENT_MAIN));
+              screen_handler::screen_id.at(screen_handler::screen_type::TOURNAMENT_MAIN));
     m_gui.get(screen_handler::screen_id.at(screen_handler::screen_type::TOURNAMENT_MAIN))->setVisible(false);
 }
 

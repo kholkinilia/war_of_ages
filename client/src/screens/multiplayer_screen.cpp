@@ -39,7 +39,8 @@ void screen_handler::multiplayer_screen_init() {
                                            return_back_button};
 
     place_widgets(widgets);
-    m_gui.add(multiplayer_screen_group, screen_handler::screen_id.at(screen_handler::screen_type::MULTIPLAYER));
+    m_gui.add(multiplayer_screen_group,
+              screen_handler::screen_id.at(screen_handler::screen_type::MULTIPLAYER));
     m_gui.get(screen_handler::screen_id.at(screen_handler::screen_type::MULTIPLAYER))->setVisible(false);
 }
 }  // namespace war_of_ages
