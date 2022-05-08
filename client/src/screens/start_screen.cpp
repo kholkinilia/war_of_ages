@@ -7,7 +7,7 @@
 #include "../../include/application.h"
 #include "../../include/sound_player.h"
 
-namespace war_of_ages {
+namespace war_of_ages::client {
 void screen_handler::start_screen_init() {
     auto start_screen_group = tgui::Group::create();
 
@@ -63,4 +63,4 @@ void screen_handler::start_screen_init() {
     m_gui.add(start_screen_group, screen_handler::screen_id.at(screen_handler::screen_type::START_SCREEN));
     m_gui.get(screen_handler::screen_id.at(screen_handler::screen_type::START_SCREEN))->setVisible(false);
 }
-}  // namespace war_of_ages
+}  // namespace war_of_ages::client

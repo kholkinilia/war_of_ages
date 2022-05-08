@@ -1,7 +1,7 @@
 #include "../include/game.h"
 #include "../include/server.h"
 
-namespace war_of_ages {
+namespace war_of_ages::server {
 game::game(std::string handle_p1,
            std::string handle_p2,
            std::function<void(const std::string &handle_winner, const std::string &handle_loser)>
@@ -94,4 +94,4 @@ void game::send_snapshots() const {
     server::instance().send_message(m_handle_p1, msg_p1);
     server::instance().send_message(m_handle_p2, msg_p2);
 }
-}  // namespace war_of_ages
+}  // namespace war_of_ages::server

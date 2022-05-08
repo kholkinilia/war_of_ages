@@ -3,7 +3,7 @@
 #include "../include/screen_handler.h"
 #include "../include/sfml_printer.h"
 
-namespace war_of_ages {
+namespace war_of_ages::client {
 
 void application::init() {
     sfml_printer::instance().init();
@@ -53,4 +53,4 @@ void application::update_screens() {
     }
 }
 
-}  // namespace war_of_ages
+}  // namespace war_of_ages::client

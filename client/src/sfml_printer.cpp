@@ -7,7 +7,7 @@
 #include "../include/screen_handler.h"
 #include "../include/sprite_supplier.h"
 
-namespace war_of_ages {
+namespace war_of_ages::client {
 
 static void print_units(sf::RenderWindow *window,
                         const player_snapshot &p,
@@ -300,4 +300,4 @@ void sfml_printer::draw() {
     m_window.display();
 }
 
-}  // namespace war_of_ages
+}  // namespace war_of_ages::client

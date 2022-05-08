@@ -8,7 +8,7 @@
 #include "../../common/include/messages_type.h"
 #include "../../common/network/include/message.h"
 
-namespace war_of_ages {
+namespace war_of_ages::server {
 
 struct game {
     game(std::string handle_p1,
@@ -33,6 +33,6 @@ private:
     game_state m_state;
     std::function<void(const std::string &handle_winner, const std::string &handle_loser)> m_game_post_action;
 };
-}  // namespace war_of_ages
+}  // namespace war_of_ages::server
 
 #endif  // WAR_OF_AGES_GAME_H

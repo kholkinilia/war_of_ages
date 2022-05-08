@@ -2,7 +2,7 @@
 #include <algorithm>
 #include "../include/game_handler.h"
 
-namespace war_of_ages {
+namespace war_of_ages::server {
 random_matchmaker &random_matchmaker::instance() {
     static random_matchmaker inst;
     return inst;
@@ -34,4 +34,4 @@ bool random_matchmaker::remove_user(const std::string &handle) {
     return true;
 }
 
-}  // namespace war_of_ages
+}  // namespace war_of_ages::server

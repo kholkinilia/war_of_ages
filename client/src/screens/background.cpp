@@ -4,7 +4,7 @@
 #include <TGUI/Widgets/Group.hpp>
 #include <TGUI/Widgets/Picture.hpp>
 
-namespace war_of_ages {
+namespace war_of_ages::client {
 void screen_handler::background_init() {
     auto background_group = tgui::Group::create();
 
@@ -15,4 +15,4 @@ void screen_handler::background_init() {
     m_gui.add(background_group, "background_group");
     m_gui.get("background_group")->setVisible(true);
 }
-}  // namespace war_of_ages
+}  // namespace war_of_ages::client

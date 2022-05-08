@@ -11,7 +11,7 @@
 #include "../../common/game_logic/include/game_commands.h"
 #include "game.h"
 
-namespace war_of_ages {
+namespace war_of_ages::server {
 struct game_handler {
     [[nodiscard]] static game_handler &instance() noexcept;
     ~game_handler() = default;
@@ -39,6 +39,6 @@ private:
     std::vector<game> m_games;
     mutable std::mutex m_mutex;
 };
-}  // namespace war_of_ages
+}  // namespace war_of_ages::server
 
 #endif  // WAR_OF_AGES_GAME_HANDLER_H

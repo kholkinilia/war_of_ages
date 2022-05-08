@@ -5,7 +5,7 @@
 #include <TGUI/Widgets/EditBox.hpp>
 #include <TGUI/Widgets/Group.hpp>
 
-namespace war_of_ages {
+namespace war_of_ages::client {
 void screen_handler::multiplayer_screen_init() {
     auto multiplayer_screen_group = tgui::Group::create();
 
@@ -43,4 +43,4 @@ void screen_handler::multiplayer_screen_init() {
               screen_handler::screen_id.at(screen_handler::screen_type::MULTIPLAYER));
     m_gui.get(screen_handler::screen_id.at(screen_handler::screen_type::MULTIPLAYER))->setVisible(false);
 }
-}  // namespace war_of_ages
+}  // namespace war_of_ages::client

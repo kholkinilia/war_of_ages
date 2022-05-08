@@ -1,6 +1,6 @@
 #include "../include/game_handler.h"
 
-namespace war_of_ages {
+namespace war_of_ages::server {
 game_handler &game_handler::instance() noexcept {
     static game_handler inst;
     return inst;
@@ -60,4 +60,4 @@ void game_handler::remove_game(std::size_t game_index) noexcept {
     m_games.pop_back();
 }
 
-}  // namespace war_of_ages
+}  // namespace war_of_ages::server

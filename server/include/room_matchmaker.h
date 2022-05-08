@@ -6,7 +6,7 @@
 #include <unordered_map>
 #include <vector>
 
-namespace war_of_ages {
+namespace war_of_ages::server {
 
 struct room_matchmaker {
     static room_matchmaker &instance();
@@ -38,6 +38,6 @@ private:
     mutable std::mutex m_mutex_status;
 };
 
-}  // namespace war_of_ages
+}  // namespace war_of_ages::server
 
 #endif  // WAR_OF_AGES_ROOM_MATCHMAKER_H

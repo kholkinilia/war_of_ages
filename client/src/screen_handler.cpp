@@ -6,7 +6,7 @@
 #include "../include/sfml_printer.h"
 #include "../include/single_player_handler.h"
 
-namespace war_of_ages {
+namespace war_of_ages::client {
 
 static tgui::Layout2d get_layout(int width_percent, int height_percent) {
     return {tgui::String(std::to_string(width_percent) + "%"),
@@ -135,4 +135,4 @@ void screen_handler::draw() {
     m_gui.draw();
 }
 
-}  // namespace war_of_ages
+}  // namespace war_of_ages::client

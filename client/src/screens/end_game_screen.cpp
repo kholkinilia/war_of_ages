@@ -5,7 +5,7 @@
 #include <TGUI/Widgets/Group.hpp>
 #include <TGUI/Widgets/Label.hpp>
 
-namespace war_of_ages {
+namespace war_of_ages::client {
 
 void screen_handler::end_game_screen_init() {
     auto end_game_screen_group = tgui::Group::create();
@@ -28,4 +28,4 @@ void screen_handler::end_game_screen_init() {
     m_gui.add(end_game_screen_group, screen_handler::screen_id.at(screen_handler::screen_type::END_GAME));
     m_gui.get(screen_handler::screen_id.at(screen_handler::screen_type::END_GAME))->setVisible(false);
 }
-}  // namespace war_of_ages
+}  // namespace war_of_ages::client

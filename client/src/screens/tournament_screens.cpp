@@ -7,7 +7,7 @@
 #include <TGUI/Widgets/Group.hpp>
 #include <TGUI/Widgets/Label.hpp>
 
-namespace war_of_ages {
+namespace war_of_ages::client {
 
 void screen_handler::tournament_join_screen_init() {
     auto tournament_join_screen_group = tgui::Group::create();
@@ -109,7 +109,7 @@ void screen_handler::tournament_screen_init() {
     // place_widgets(widgets);
 
     // TODO: remove sample tournament, when tournaments are implemented
-    tournament_handler t;
+    tournament_handler &t = tournament_handler::instance();
     t.set_grid(tournament_grid);
     t.add_participant("part1");
     t.add_participant("part2");
@@ -137,4 +137,4 @@ void screen_handler::update() {
     update_fps();
 }
 
-}  // namespace war_of_ages
+}  // namespace war_of_ages::client

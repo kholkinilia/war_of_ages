@@ -1,7 +1,7 @@
 #ifndef WAR_OF_AGES_APPLICATION_H
 #define WAR_OF_AGES_APPLICATION_H
 
-namespace war_of_ages {
+namespace war_of_ages::client {
 
 struct application {
     enum class state {
@@ -28,6 +28,6 @@ public:
     [[nodiscard]] static application &instance();
 };
 
-}  // namespace war_of_ages
+}  // namespace war_of_ages::client
 
 #endif  // WAR_OF_AGES_APPLICATION_H

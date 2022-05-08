@@ -5,7 +5,7 @@
 #include <TGUI/Widgets/Group.hpp>
 #include <TGUI/Widgets/Picture.hpp>
 
-namespace war_of_ages {
+namespace war_of_ages::client {
 
 void screen_handler::opponent_waiting_screen_init() {
     auto opponent_waiting_screen_group = tgui::Group::create();
@@ -25,4 +25,4 @@ void screen_handler::opponent_waiting_screen_init() {
     m_gui.get(screen_handler::screen_id.at(screen_handler::screen_type::WAIT_OPPONENT))->setVisible(false);
 }
 
-}  // namespace war_of_ages
+}  // namespace war_of_ages::client

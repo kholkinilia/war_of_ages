@@ -3,7 +3,7 @@
 #include <cassert>
 #include "../include/game_handler.h"
 
-namespace war_of_ages {
+namespace war_of_ages::server {
 room_matchmaker &room_matchmaker::instance() {
     static room_matchmaker inst;
     return inst;
@@ -79,4 +79,4 @@ void room_matchmaker::switch_readiness(const std::string &handle, bool force_lea
             assert(0);
     }
 }
-}  // namespace war_of_ages
+}  // namespace war_of_ages::server
