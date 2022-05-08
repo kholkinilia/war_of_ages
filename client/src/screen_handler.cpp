@@ -15,6 +15,14 @@ static tgui::Layout2d get_layout(int width_percent, int height_percent) {
             tgui::String(std::to_string(height_percent) + "%")};
 }
 
+void screen_handler::check_game_end() {
+    if (war_of_ages::current_state.get_cur_game_state() != nullptr &&
+        war_of_ages::current_state.get_cur_game_state()->get_game_status() !=
+            war_of_ages::game_status::PROCESSING) {
+        screen_handler::instance().change_screen(screen_handler::screen_type::END_GAME);
+    }
+}
+
 void screen_handler::place_widgets(std::vector<tgui::Widget::Ptr> &widgets,
                                    int width,
                                    int height,

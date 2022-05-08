@@ -58,10 +58,13 @@ public:
     void init(sf::RenderWindow &window);
     void change_screen(screen_type new_screen);
 
+
     void update_fps();
 
     [[nodiscard]] screen_type get_screen_type() const noexcept;
     [[nodiscard]] tgui::Gui &get_gui() noexcept;
+
+    static void check_game_end(); // TODO: this is no good
 
     [[nodiscard]] static screen_handler &instance();
 };

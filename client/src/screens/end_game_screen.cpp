@@ -7,13 +7,6 @@
 #include <TGUI/Widgets/Label.hpp>
 
 namespace war_of_ages {
-void check_game_end(tgui::Gui &gui) {
-    if (war_of_ages::current_state.get_cur_game_state() != nullptr &&
-        war_of_ages::current_state.get_cur_game_state()->get_game_status() !=
-            war_of_ages::game_status::PROCESSING) {
-        screen_handler::instance().change_screen(screen_handler::screen_type::END_GAME);
-    }
-}
 
 void screen_handler::end_game_screen_init() {
     auto end_game_screen_group = tgui::Group::create();

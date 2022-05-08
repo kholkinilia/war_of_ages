@@ -2,7 +2,6 @@
 #include <TGUI/Widgets/Label.hpp>
 #include "../include/client.h"
 #include "../include/screen_handler.h"
-#include "../include/screens/end_game_screen.h"
 #include "../include/sfml_printer.h"
 
 namespace war_of_ages {
@@ -25,7 +24,7 @@ void application::run() {
             sfml_printer::instance().get_view().setCenter(BACKGROUND_WIDTH / 2, BACKGROUND_HEIGHT / 2);
         }
 
-        war_of_ages::check_game_end(screen_handler::instance().get_gui());
+        screen_handler::check_game_end();
 
         sfml_printer::instance().get_window().clear();
         sfml_printer::instance().get_window().draw(s);
