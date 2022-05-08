@@ -2,7 +2,7 @@
 #include <TGUI/Widgets/Group.hpp>
 #include <TGUI/Widgets/Label.hpp>
 #include <TGUI/Widgets/Picture.hpp>
-#include "../../include/bot_actions_receiver.h"
+#include "../../include/bot_actions_supplier.h"
 #include "../../include/client.h"
 #include "../../include/screen_handler.h"
 #include "../../include/sfml_printer.h"

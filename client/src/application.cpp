@@ -47,8 +47,8 @@ void application::update_screens() {
         case screen_handler::screen_type::GAME_SCREEN: {
             auto state = current_state.get_cur_game_state();
             auto [p1, p2] = state->snapshot_players();
-            state->update(current_state.get_cur_game()->get_actions(0, p2),
-                          current_state.get_cur_game()->get_actions(1, p2),
+            state->update(current_state.get_cur_game()->get_actions(0),
+                          current_state.get_cur_game()->get_actions(1),
                           static_cast<float>(clock()) / CLOCKS_PER_SEC);
             current_state.get_cur_game()->clear_actions();
             sfml_printer::instance().print_game({p1, p2});

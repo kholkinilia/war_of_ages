@@ -43,11 +43,11 @@ if (BUILD_CLIENT)
             client/src/screens/wait_screen.cpp
             client/src/sprite_supplier.cpp
             client/src/sfml_printer.cpp
-            client/src/bot_actions_receiver.cpp
-            client/src/player_actions_receiver.cpp
+            client/src/bot_actions_supplier.cpp
+            client/src/player_actions_supplier.cpp
             client/src/game_handler.cpp
             client/src/sound_player.cpp
-            client/src/animation_handler.cpp
+            client/src/animation_supplier.cpp
             client/src/screen_handler.cpp
             client/src/application.cpp
             )
