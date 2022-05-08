@@ -20,6 +20,9 @@ public:
     void print_game(const std::pair<player_snapshot, player_snapshot> &snapshots);
     void handle_window_events();
 
+    void update(sf::Sprite background);
+    void draw();
+
     void set_game_view_center(sf::Vector2f new_center) noexcept;
     [[nodiscard]] sf::Vector2f get_game_view_center() const noexcept;
     [[nodiscard]] sf::RenderWindow &get_window() noexcept;

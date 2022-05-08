@@ -129,4 +129,9 @@ void screen_handler::update_fps() {
     }
     frames_counter++;
 }
+
+void screen_handler::draw() {
+    m_gui.draw();
+}
+
 }  // namespace war_of_ages

@@ -12,31 +12,20 @@ void application::init() {
 }
 
 void application::run() {
-    sf::Texture t;
-    t.loadFromFile("../client/resources/pictures/fullHD_kittens.jpg");
-    sf::Sprite s;
-    s.setTexture(t);
+    sf::Texture kittens; // TODO: remove kittens when background is merged
+    kittens.loadFromFile("../client/resources/pictures/fullHD_kittens.jpg");
+    sf::Sprite background;
+    background.setTexture(kittens);
 
     while (sfml_printer::instance().get_window().isOpen()) {
-        sfml_printer::instance().handle_window_events();
 
-        if (screen_handler::instance().get_screen_type() != screen_handler::screen_type::GAME_SCREEN) {
-            sfml_printer::instance().get_view().setCenter(BACKGROUND_WIDTH / 2, BACKGROUND_HEIGHT / 2);
-        }
-
-        screen_handler::check_game_end();
-
-        sfml_printer::instance().get_window().clear();
-        sfml_printer::instance().get_window().draw(s);
-
-        screen_handler::instance().update_fps();
+        screen_handler::instance().update();
+        sfml_printer::instance().update(background);
 
         update_screens();
 
-        screen_handler::instance().get_gui().draw();
-
-        sfml_printer::instance().get_window().display();
-        sfml_printer::instance().get_window().setView(sfml_printer::instance().get_view());
+        screen_handler::instance().draw();
+        sfml_printer::instance().draw();
     }
 }
 
