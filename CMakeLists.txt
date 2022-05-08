@@ -52,6 +52,7 @@ set(CLIENT_PROJECT_SOURCES
 add_executable(war_of_ages ${CLIENT_PROJECT_SOURCES} ${COMMON_PROJECT_SOURCES})
 target_link_libraries(war_of_ages sfml-system sfml-window sfml-graphics sfml-audio)
 target_link_libraries(war_of_ages tgui)
+target_link_libraries(war_of_ages ${NETWORKING_LIBS})
 
 set(SERVER_PROJECT_SOURCES
         server/src/main.cpp

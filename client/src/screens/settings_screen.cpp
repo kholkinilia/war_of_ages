@@ -2,6 +2,7 @@
 #include "../../include/screen_handler.h"
 #include "../../include/sfml_printer.h"
 #include "../../include/sound_player.h"
+#include "../../include/single_player_handler.h"
 
 // TGUI widgets
 #include <TGUI/Widgets/Button.hpp>

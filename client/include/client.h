@@ -1,29 +1,29 @@
 #ifndef WAR_OF_AGES_CLIENT_H
 #define WAR_OF_AGES_CLIENT_H
 
-#include <TGUI/Backend/SFML-Graphics.hpp>  // tgui::Gui
-#include <memory>
-#include "../include/tournament_handler.h"
-#include "screen_handler.h"
-#include "single_player_handler.h"
+#include <string>
+#include "../../common/include/messages_type.h"
+#include "../../common/network/include/client_interface.h"
 
 namespace war_of_ages::client {
 
 // Will be implemented to the end by Timur
 
-struct client_state {
-private:
-    std::string handle;
-    std::shared_ptr<tournament_handler> cur_tournament;
-
+struct client final : client_interface<messages_type> {
 public:
-    explicit client_state(std::string handle_ = "handle");
+    [[nodiscard]] static client &instance();
+    ~client() final = default;
+    client(const client &other) = delete;
+    client(client &&other) = delete;
+    client &operator=(const client &other) = delete;
+    client &operator=(client &&other) = delete;
 
-    [[nodiscard]] std::string get_handle() const;
-    [[nodiscard]] std::shared_ptr<tournament_handler> get_cur_tournament() const;
+    [[nodiscard]] const std::string &get_handle() const noexcept;
+
+private:
+    client();
+    std::string m_handle;
 };
-
-extern client_state current_state;
 
 }  // namespace war_of_ages::client
 

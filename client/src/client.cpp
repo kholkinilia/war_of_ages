@@ -3,15 +3,18 @@
 
 namespace war_of_ages::client {
 
-client_state::client_state(std::string handle_) : handle(std::move(handle_)) {
+client &client::instance() {
+    static client inst;
+    return inst;
 }
 
-std::string client_state::get_handle() const {
-    return handle;
+client::client(): client_interface() {
+    // TODO: read handle from local config.txt
+    m_handle = "handle";
 }
 
-std::shared_ptr<tournament_handler> client_state::get_cur_tournament() const {
-    return cur_tournament;
+const std::string &client::get_handle() const noexcept {
+    return m_handle;
 }
 
 }  // namespace war_of_ages::client
