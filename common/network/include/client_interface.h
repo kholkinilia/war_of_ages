@@ -49,6 +49,8 @@ public:
 
             m_connection->connect_to_server(endpoints);
 
+            std::cerr << "Connected to the server: " << endpoints->endpoint();
+
             m_context_thread = std::thread([this]() { m_context.run(); });
 
         } catch (std::exception &e) {

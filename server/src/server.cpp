@@ -30,6 +30,7 @@ void server::send_message(const std::string &handle, const message<messages_type
 
 user_status server::get_user_status(std::uint32_t user_id) const {
     std::unique_lock l(m_mutex);
+    std::cout << "Try: uid == " << user_id << std::endl;
     return m_status_by_id.at(user_id);
 }
 
@@ -39,9 +40,13 @@ void server::set_user_status(std::uint32_t user_id, user_status new_status) {
 }
 
 bool server::on_client_connect(std::shared_ptr<connection<messages_type>> client) {
+    static int cnt = 10000;
+    
     std::unique_lock l(m_mutex);
-    m_connection_by_id.insert({client->get_id(), client});
-    m_status_by_id.insert({client->get_id(), user_status::MENU});
+    m_connection_by_id.insert({cnt, client});
+    m_status_by_id.insert({cnt, user_status::AUTHORIZATION});
+    std::cout << "INSERETED {" << cnt << ", user_status::AUTHORIZATION}" << std::endl;
+    cnt++;
     return true;
 }
 
@@ -65,21 +70,37 @@ void server::on_client_disconnect(std::shared_ptr<connection<messages_type>> cli
 }
 
 void server::on_message(std::shared_ptr<connection<messages_type>> client, message<messages_type> msg) {
+    std::cout << "on_message(" << int(msg.header.id) << ", " << msg.header.size << ")" << std::endl;
     if (std::uint32_t valid_size = valid_body_size.at(msg.header.id);
         msg.header.size != valid_size && valid_size != -1) {
         client->disconnect();
         return;
     }
-
+	std::cout << "BREAKPOINT 1" << std::endl;
     std::uint32_t uid = client->get_id();
+    std::cout << "BREAKPOINT 2" << std::endl;
     user_status status = get_user_status(uid);
+    std::cout << "BREAKPOINT 3" << std::endl;
     if (status == user_status::AUTHORIZATION) {
         if (msg.header.id != messages_type::AUTH_LOGIN) {
             return;
         }
+        std::cout << "BREAKPOINT 4" << std::endl;
+        std::uint32_t uid = client->get_id();
+        std::string user_password, user_handle;
+        msg.extract_container(user_password);
+        msg.extract_container(user_handle);
+        std::cout << "BREAKPOINT 5" << std::endl;
+
+        std::unique_lock l(m_mutex);
+        m_handle_by_id.insert({uid, user_handle});
+        m_id_by_handle.insert({user_handle, uid});
+        m_status_by_id[uid] = user_status::MENU;
+        std::cout << "BREAKPOINT 6" << std::endl;
         // TODO: handle login attempt
         return;
     }
+    std::cout << "MUST NOT BE HERE!" << std::endl;
     std::unique_lock l(m_mutex);
     assert(m_handle_by_id.find(uid) != m_handle_by_id.end());
     const std::string &handle = m_handle_by_id.at(uid);

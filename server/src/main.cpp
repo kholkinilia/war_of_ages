@@ -11,6 +11,6 @@ int main() {
         }
     }).detach();
     while (true) {
-        war_of_ages::server::game_handler::instance().update_games();
+        // war_of_ages::server::game_handler::instance().update_games();
     }
 }

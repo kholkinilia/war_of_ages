@@ -10,7 +10,8 @@ client &client::instance() {
 
 client::client() : client_interface() {
     // TODO: read handle from local config.txt
-    m_handle = "handle";
+    m_handle = "a";
+    m_password = "b";
 }
 
 std::vector<owned_message<messages_type>> client::retrieve_messages() {

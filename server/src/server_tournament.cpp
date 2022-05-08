@@ -5,7 +5,7 @@
 #include "../include/game_handler.h"
 #include "../include/tournament_handler.h"
 
-void war_of_ages::server_tournament::post_add_participant(const std::string &handle) {
+void war_of_ages::server::server_tournament::post_add_participant(const std::string &handle) {
     ready_to_play_participants.push_back(handle);
 
     message<messages_type> msg_to_handle;
@@ -32,7 +32,7 @@ void war_of_ages::server_tournament::post_add_participant(const std::string &han
     match_participants();
 }
 
-void war_of_ages::server_tournament::post_add_result(const std::string &winner, const std::string &loser) {
+void war_of_ages::server::server_tournament::post_add_result(const std::string &winner, const std::string &loser) {
     ready_to_play_participants.push_back(winner);
     ready_to_play_participants.push_back(loser);
     message<messages_type> msg;
@@ -47,7 +47,7 @@ void war_of_ages::server_tournament::post_add_result(const std::string &winner, 
     match_participants();
 }
 
-void war_of_ages::server_tournament::post_remove_participant(const std::string &handle) {
+void war_of_ages::server::server_tournament::post_remove_participant(const std::string &handle) {
     ready_to_play_participants.erase(
         std::remove(ready_to_play_participants.begin(), ready_to_play_participants.end(), handle),
         ready_to_play_participants.end());
@@ -64,7 +64,7 @@ void war_of_ages::server_tournament::post_remove_participant(const std::string &
     }
 }
 
-void war_of_ages::server_tournament::match_participants() {  // TODO: make it more intelligent
+void war_of_ages::server::server_tournament::match_participants() {  // TODO: make it more intelligent
     std::unique_lock lock(m_mutex);
     static std::mt19937_64 rnd(clock());
     while (ready_to_play_participants.size() >= 2) {
