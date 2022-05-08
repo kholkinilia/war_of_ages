@@ -64,25 +64,14 @@ void application::update_screens() {
                     } break;
                     case messages_type::GAME_STATE: {
                         player_snapshot snapshot_p1, snapshot_p2;
-                        /*
-                        std::deque<unit> units;
-                        std::vector<bullet> bullets;
-                        std::vector<cannon> cannons;
-                        std::deque<unit> units_to_train;
-                        age_type age;
-                        int exp;
-                        int money;
-                        float m_ult_cooldown;
-                        float m_training_time_left;
-                         */
 
-                        msg >> snapshot_p2.m_training_time_left >> snapshot_p2.m_ult_cooldown >> snapshot_p2.money >> snapshot_p2.exp;
+                        msg >> snapshot_p2.m_training_time_left >> snapshot_p2.m_ult_cooldown >> snapshot_p2.money >> snapshot_p2.exp >> snapshot_p2.age;
                         msg.extract_container(snapshot_p2.units_to_train);
                         msg.extract_container(snapshot_p2.cannons);
                         msg.extract_container(snapshot_p2.bullets);
                         msg.extract_container(snapshot_p2.units);
 
-                        msg >> snapshot_p1.m_training_time_left >> snapshot_p1.m_ult_cooldown >> snapshot_p1.money >> snapshot_p1.exp;
+                        msg >> snapshot_p1.m_training_time_left >> snapshot_p1.m_ult_cooldown >> snapshot_p1.money >> snapshot_p1.exp >> snapshot_p1.age;
                         msg.extract_container(snapshot_p1.units_to_train);
                         msg.extract_container(snapshot_p1.cannons);
                         msg.extract_container(snapshot_p1.bullets);

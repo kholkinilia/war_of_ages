@@ -81,8 +81,11 @@ const std::string &game::get_handle_p2() const noexcept {
 message<messages_type> game::get_msg_snapshot(const player_snapshot &p_snapshot) noexcept {
     message<messages_type> msg;
     msg.header.id = messages_type::GAME_STATE;
-    msg << p_snapshot.units << p_snapshot.bullets << p_snapshot.cannons << p_snapshot.units_to_train
-        << p_snapshot.age << p_snapshot.exp << p_snapshot.money << p_snapshot.m_ult_cooldown
+    msg.insert_container(p_snapshot.units);
+    msg.insert_container(p_snapshot.bullets);
+    msg.insert_container(p_snapshot.cannons);
+    msg.insert_container(p_snapshot.units_to_train);
+    msg << p_snapshot.age << p_snapshot.exp << p_snapshot.money << p_snapshot.m_ult_cooldown
         << p_snapshot.m_training_time_left;
     return msg;
 }
