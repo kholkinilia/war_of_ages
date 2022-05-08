@@ -5,7 +5,7 @@
 #include "../../common/tournament/include/tournament.h"
 #include "server.h"
 
-namespace war_of_ages {
+namespace war_of_ages::server {
 
 struct server_tournament : tournament {
 private:
@@ -16,6 +16,6 @@ private:
     void match_participants();
 };
 
-}  // namespace war_of_ages
+}  // namespace war_of_ages::server
 
 #endif  // WAR_OF_AGES_SERVER_TOURNAMENT_H

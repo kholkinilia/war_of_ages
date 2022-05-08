@@ -4,7 +4,7 @@
 #include "../../common/network/include/message.h"
 #include "../include/server.h"
 
-namespace war_of_ages {
+namespace war_of_ages::server {
 
 void tournament_handler::create(const std::string &handle, const std::string &tournament_name) {
     std::unique_lock lock(m_mutex);
@@ -48,4 +48,4 @@ void tournament_handler::add_result(const std::string &winner, const std::string
     m_tournament[m_key_by_handle[winner]].add_result(winner, loser);
 }
 
-}  // namespace war_of_ages
+}  // namespace war_of_ages::server

@@ -6,7 +6,7 @@
 #include <vector>
 #include "../../common/game_logic/include/game_commands.h"
 
-namespace war_of_ages {
+namespace war_of_ages::client {
 
 struct player_actions_supplier {
 private:
@@ -30,6 +30,6 @@ public:
     static player_actions_supplier &instance();
 };
 
-}  // namespace war_of_ages
+}  // namespace war_of_ages::client
 
 #endif  // WAR_OF_AGES_PLAYER_ACTIONS_SUPPLIER_H

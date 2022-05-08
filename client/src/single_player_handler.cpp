@@ -2,7 +2,7 @@
 #include "../include/bot_actions_supplier.h"
 #include "../include/player_actions_supplier.h"
 
-namespace war_of_ages {
+namespace war_of_ages::client {
 
 single_player_handler &single_player_handler::instance() {
     static single_player_handler handler;
@@ -46,4 +46,4 @@ std::pair<player_snapshot, player_snapshot> single_player_handler::get_snapshot(
     return m_game_state->snapshot_players();
 }
 
-}  // namespace war_of_ages
+}  // namespace war_of_ages::client

@@ -4,7 +4,7 @@
 #include <memory>
 #include "../../common/game_logic/include/game_state.h"
 
-namespace war_of_ages {
+namespace war_of_ages::client {
 
 struct single_player_handler {
     enum class player_type { PLAYER, BOT };
@@ -34,6 +34,6 @@ public:
     [[nodiscard]] static single_player_handler &instance();
 };
 
-}  // namespace war_of_ages
+}  // namespace war_of_ages::client
 
 #endif  // WAR_OF_AGES_SINGLE_PLAYER_HANDLER_H

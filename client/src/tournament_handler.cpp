@@ -1,7 +1,7 @@
 #include "../include/tournament_handler.h"
 #include <TGUI/Widgets/Label.hpp>
 
-namespace war_of_ages {
+namespace war_of_ages::client {
 
 void tournament_handler::update_grid() {
     // TODO: think of improving performance (should be easy)
@@ -120,8 +120,14 @@ void tournament_handler::post_add_result(const std::string &, const std::string 
 void tournament_handler::post_remove_participant(const std::string &) {
     m_is_grid_updated = false;
 }
+
 void tournament_handler::set_grid(tgui::Grid::Ptr &grid) {
     m_grid = grid;
 }
 
-}  // namespace war_of_ages
+tournament_handler &tournament_handler::instance() {
+    static tournament_handler handler;
+    return handler;
+}
+
+}  // namespace war_of_ages::client

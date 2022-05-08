@@ -1,5 +1,5 @@
 #include "../include/animation_supplier.h"
-namespace war_of_ages {
+namespace war_of_ages::client {
 
 animation_supplier::animation_supplier(const std::string &texture_filename,
                                        std::vector<float> time_period,
@@ -23,4 +23,4 @@ sf::Sprite animation_supplier::get_sprite(int line, float time) noexcept {
                         line * m_each_height_pxls, m_each_width_pxls, m_each_height_pxls)};
 }
 
-}  // namespace war_of_ages
+}  // namespace war_of_ages::client

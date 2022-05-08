@@ -9,7 +9,7 @@
 #include <TGUI/Widgets/Label.hpp>
 #include <TGUI/Widgets/Slider.hpp>
 
-namespace war_of_ages {
+namespace war_of_ages::client {
 void screen_handler::settings_screen_init(sf::View &v) {
     // TODO: try make this shit more readable and well-formed
     auto settings_screen_group = tgui::Group::create();
@@ -88,4 +88,4 @@ void screen_handler::settings_screen_init(sf::View &v) {
     m_gui.add(settings_screen_group, screen_handler::screen_id.at(screen_handler::screen_type::SETTINGS));
     m_gui.get(screen_handler::screen_id.at(screen_handler::screen_type::SETTINGS))->setVisible(false);
 }
-}  // namespace war_of_ages
+}  // namespace war_of_ages::client

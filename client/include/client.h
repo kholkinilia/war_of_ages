@@ -7,7 +7,7 @@
 #include "screen_handler.h"
 #include "single_player_handler.h"
 
-namespace war_of_ages {
+namespace war_of_ages::client {
 
 // Will be implemented to the end by Timur
 
@@ -25,6 +25,6 @@ public:
 
 extern client_state current_state;
 
-}  // namespace war_of_ages
+}  // namespace war_of_ages::client
 
 #endif  // WAR_OF_AGES_CLIENT_H

@@ -1,7 +1,7 @@
 #include "../include/sound_player.h"
 #include <filesystem>
 
-namespace war_of_ages {
+namespace war_of_ages::client {
 sound_player &sound_player::instance() noexcept {
     static sound_player inst;
     return inst;
@@ -58,4 +58,4 @@ std::string sound_player::to_string(sound_type type) {
             return "";
     }
 }
-}  // namespace war_of_ages
+}  // namespace war_of_ages::client

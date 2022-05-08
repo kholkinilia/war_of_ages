@@ -11,7 +11,7 @@
 
 // FIXME: call not only singleplayer in buttons' onPress()
 
-namespace war_of_ages {
+namespace war_of_ages::client {
 
 enum class action { BUY_UNIT, BUY_CANNON, SELL_CANNON };
 
@@ -246,4 +246,4 @@ void screen_handler::game_screen_init(sf::View &v) {
     m_gui.add(game_screen_group, screen_handler::screen_id.at(screen_handler::screen_type::GAME_SCREEN));
     m_gui.get(screen_handler::screen_id.at(screen_handler::screen_type::GAME_SCREEN))->setVisible(false);
 }
-}  // namespace war_of_ages
+}  // namespace war_of_ages::client

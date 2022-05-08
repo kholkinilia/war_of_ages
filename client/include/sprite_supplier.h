@@ -12,7 +12,7 @@
 #include "../../common/game_logic/include/unit.h"
 #include "../include/animation_supplier.h"
 
-namespace war_of_ages {
+namespace war_of_ages::client {
 
 struct sprite_supplier {
 public:
@@ -54,6 +54,6 @@ private:
     static sf::Sprite reflect_if_needed(sf::Sprite sprite, player_side side);
 };
 
-}  // namespace war_of_ages
+}  // namespace war_of_ages::client
 
 #endif  // WAR_OF_AGES_SPRITE_SUPPLIER_H

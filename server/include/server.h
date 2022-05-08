@@ -8,7 +8,7 @@
 #include "../../common/include/messages_type.h"
 #include "../../common/network/include/server_interface.h"
 
-namespace war_of_ages {
+namespace war_of_ages::server {
 
 enum class user_status {
     AUTHORIZATION,
@@ -49,6 +49,6 @@ protected:
     void on_client_disconnect(std::shared_ptr<connection<messages_type>> client) override;
     void on_message(std::shared_ptr<connection<messages_type>> client, message<messages_type> msg) override;
 };
-}  // namespace war_of_ages
+}  // namespace war_of_ages::server
 
 #endif  // WAR_OF_AGES_NET_SERVER_H

@@ -5,7 +5,7 @@
 #include "../../common/game_logic/include/unit.h"
 #include "../include/game_object_size_constants.h"
 
-namespace war_of_ages {
+namespace war_of_ages::client {
 
 sf::Sprite sprite_supplier::create_sprite_instance(const std::string &filename, int width, int height) {
     auto *texture = new sf::Texture();
@@ -242,4 +242,4 @@ sprite_supplier::~sprite_supplier() {
         delete sprite.getTexture();
     }
 }
-}  // namespace war_of_ages
+}  // namespace war_of_ages::client

@@ -5,7 +5,7 @@
 #include <string>
 #include <unordered_map>
 
-namespace war_of_ages {
+namespace war_of_ages::client {
 
 struct sound_player {
     enum class sound_type { BATTLE, LOBBY, ENUM_END };
@@ -32,6 +32,6 @@ private:
     [[nodiscard]] static std::string to_string(sound_type type);
 };
 
-}  // namespace war_of_ages
+}  // namespace war_of_ages::client
 
 #endif  // WAR_OF_AGES_SOUND_PLAYER_H

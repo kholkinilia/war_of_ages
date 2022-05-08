@@ -5,7 +5,7 @@
 #include <string>
 #include <vector>
 
-namespace war_of_ages {
+namespace war_of_ages::server {
 struct random_matchmaker {
     static random_matchmaker &instance();
     ~random_matchmaker() = default;
@@ -23,6 +23,6 @@ private:
     random_matchmaker() = default;
     std::vector<std::string> m_users;
 };
-}  // namespace war_of_ages
+}  // namespace war_of_ages::server
 
 #endif  // WAR_OF_AGES_RANDOM_MATCHMAKER_H

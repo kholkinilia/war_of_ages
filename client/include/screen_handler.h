@@ -5,7 +5,7 @@
 #include <TGUI/Backend/SFML-Graphics.hpp>  // tgui::Gui
 #include "../../common/game_logic/include/player.h"
 
-namespace war_of_ages {
+namespace war_of_ages::client {
 
 struct screen_handler {
     enum class screen_type {
@@ -70,6 +70,6 @@ public:
     [[nodiscard]] static screen_handler &instance();
 };
 
-}  // namespace war_of_ages
+}  // namespace war_of_ages::client
 
 #endif  // WAR_OF_AGES_SCREEN_HANDLER_H

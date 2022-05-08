@@ -1,7 +1,7 @@
 #ifndef WAR_OF_AGES_GAME_OBJECT_SIZE_CONSTANTS_H
 #define WAR_OF_AGES_GAME_OBJECT_SIZE_CONSTANTS_H
 
-namespace war_of_ages {
+namespace war_of_ages::client {
 
 // TODO: Timur will make those constants decent (they are almost random now)
 
@@ -40,6 +40,6 @@ constexpr int COST_HEIGHT = 30;
 constexpr float CANNON_COEF = 0.775;
 constexpr int CANNON_DELTA = 15;
 
-}  // namespace war_of_ages
+}  // namespace war_of_ages::client
 
 #endif  // WAR_OF_AGES_GAME_OBJECT_SIZE_CONSTANTS_H

@@ -1,6 +1,6 @@
 #include "../include/bot_actions_supplier.h"
 
-namespace war_of_ages {
+namespace war_of_ages::client {
 
 std::vector<std::unique_ptr<game_command>> bot_actions_supplier::get_actions(
     const std::pair<player_snapshot, player_snapshot> &snapshot) {
@@ -18,4 +18,4 @@ bot_actions_supplier &bot_actions_supplier::instance() {
     static bot_actions_supplier supplier;
     return supplier;
 }
-}  // namespace war_of_ages
+}  // namespace war_of_ages::client

@@ -6,7 +6,7 @@
 #include "../include/server.h"
 #include "../include/server_tournament.h"
 
-namespace war_of_ages {
+namespace war_of_ages::server {
 
 struct tournament_handler {
 private:
@@ -32,6 +32,6 @@ public:
 
     static tournament_handler &instance();
 };
-}  // namespace war_of_ages
+}  // namespace war_of_ages::server
 
 #endif  // WAR_OF_AGES_TOURNAMENT_HANDLER_H

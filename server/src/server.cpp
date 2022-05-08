@@ -9,7 +9,7 @@
     if (((status) == (valid_status)) != (is_true))   \
     break
 
-namespace war_of_ages {
+namespace war_of_ages::server {
 
 server &server::instance() {
     static server inst;
@@ -169,4 +169,4 @@ void server::on_message(std::shared_ptr<connection<messages_type>> client, messa
     }
 }
 
-}  // namespace war_of_ages
+}  // namespace war_of_ages::server
