@@ -1,7 +1,9 @@
 #ifndef WAR_OF_AGES_CLIENT_H
 #define WAR_OF_AGES_CLIENT_H
 
+#include <mutex>
 #include <string>
+#include <vector>
 #include "../../common/include/messages_type.h"
 #include "../../common/network/include/client_interface.h"
 
@@ -14,18 +16,23 @@ public:
     client(client &&other) = delete;
     client &operator=(const client &other) = delete;
     client &operator=(client &&other) = delete;
+    
+    void clear_messages();
+    [[nodiscard]] std::vector<owned_message<messages_type>> retrieve_messages();
 
-    void process_current_messages();
+    void login();
+    void ignore_server();
+    void set_handle(std::string handle);
+    void set_password(std::string password);
 
-    void set_handle(std::string handle) noexcept;
-    void set_password(std::string password) noexcept;
-
-    [[nodiscard]] const std::string &get_handle() const noexcept;
+    [[nodiscard]]  std::string get_handle() const;
+    [[nodiscard]]  std::string get_password() const;
 
 private:
     client();
     std::string m_handle;
     std::string m_password;
+    mutable std::mutex m_mutex_handle_n_password;
 };
 
 }  // namespace war_of_ages::client

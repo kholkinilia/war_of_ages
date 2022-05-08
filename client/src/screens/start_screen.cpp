@@ -7,6 +7,7 @@
 #include "../../include/application.h"
 #include "../../include/sfml_printer.h"
 #include "../../include/sound_player.h"
+#include "../../include/client.h"
 
 namespace war_of_ages::client {
 void screen_handler::start_screen_init() {
@@ -27,7 +28,10 @@ void screen_handler::start_screen_init() {
     tgui::Button::Ptr multiplayer_button = tgui::Button::create("Мультиплеер");
     multiplayer_button->setTextSize(30);
     multiplayer_button->onPress(
-        [&]() { screen_handler::instance().change_screen(screen_handler::screen_type::MULTIPLAYER); });
+        [&]() {
+            client::instance().login();
+            screen_handler::instance().change_screen(screen_handler::screen_type::MULTIPLAYER);
+        });
     start_screen_group->add(multiplayer_button);
 
     tgui::Button::Ptr tournament_button = tgui::Button::create("Турниры");
