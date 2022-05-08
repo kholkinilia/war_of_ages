@@ -11,7 +11,7 @@
 #include <TGUI/Widgets/Slider.hpp>
 
 namespace war_of_ages::client {
-void screen_handler::settings_screen_init(sf::View &v) {
+void screen_handler::settings_screen_init() {
     // TODO: try make this shit more readable and well-formed
     auto settings_screen_group = tgui::Group::create();
 

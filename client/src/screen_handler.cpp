@@ -89,10 +89,11 @@ void screen_handler::init(sf::RenderWindow &window) {
     tournament_join_screen_init();
     start_screen_init();
     multiplayer_screen_init();
-    settings_screen_init(sfml_printer::instance().get_view());
+    settings_screen_init();
     opponent_waiting_screen_init();
-    game_screen_init(sfml_printer::instance().get_view());
+    game_screen_init();
     end_game_screen_init();
+    wait_for_server_screen_init();
 
     m_gui.get(screen_id.at(m_screen_type))->setVisible(true);
 

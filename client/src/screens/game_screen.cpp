@@ -161,7 +161,7 @@ static void setup_buttons_cluster(std::vector<tgui::Group::Ptr> &groups, action 
     }
 }
 
-void screen_handler::game_screen_init(sf::View &v) {
+void screen_handler::game_screen_init() {
     auto game_screen_group = tgui::Group::create();
 
     auto autobattle_button = tgui::Button::create();
