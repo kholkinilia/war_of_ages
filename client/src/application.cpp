@@ -1,9 +1,9 @@
 #include "../include/application.h"
 #include "../include/client.h"
+#include "../include/multiplayer_snapshots_handler.h"
 #include "../include/screen_handler.h"
 #include "../include/sfml_printer.h"
 #include "../include/single_player_handler.h"
-#include "../include/multiplayer_snapshots_handler.h"
 
 namespace war_of_ages::client {
 
@@ -65,13 +65,15 @@ void application::update_screens() {
                     case messages_type::GAME_STATE: {
                         player_snapshot snapshot_p1, snapshot_p2;
 
-                        msg >> snapshot_p2.m_training_time_left >> snapshot_p2.m_ult_cooldown >> snapshot_p2.money >> snapshot_p2.exp >> snapshot_p2.age;
+                        msg >> snapshot_p2.m_training_time_left >> snapshot_p2.m_ult_cooldown >>
+                            snapshot_p2.money >> snapshot_p2.exp >> snapshot_p2.age;
                         msg.extract_container(snapshot_p2.units_to_train);
                         msg.extract_container(snapshot_p2.cannons);
                         msg.extract_container(snapshot_p2.bullets);
                         msg.extract_container(snapshot_p2.units);
 
-                        msg >> snapshot_p1.m_training_time_left >> snapshot_p1.m_ult_cooldown >> snapshot_p1.money >> snapshot_p1.exp >> snapshot_p1.age;
+                        msg >> snapshot_p1.m_training_time_left >> snapshot_p1.m_ult_cooldown >>
+                            snapshot_p1.money >> snapshot_p1.exp >> snapshot_p1.age;
                         msg.extract_container(snapshot_p1.units_to_train);
                         msg.extract_container(snapshot_p1.cannons);
                         msg.extract_container(snapshot_p1.bullets);
@@ -84,20 +86,20 @@ void application::update_screens() {
                 }
             }
 
-//                        switch (screen_handler::instance().get_screen_type()) {
-//                            case screen_handler::screen_type::TOURNAMENT_MAIN: {
-//                                // TODO: uncomment, when tournament logic is implemented
-//                                //
-//                                state.get_cur_tournament()->update_grid(gui.get(screen_id.at(screen::TOURNAMENT_MAIN))
-//                                //                                            ->cast<tgui::Group>()
-//                                //                                            ->get("tournament_grid")
-//                                //                                            ->cast<tgui::Grid>());
-//                            } break;
-//                            case screen_handler::screen_type::GAME_SCREEN: {
-//                            } break;
-//                            default:
-//                                break;
-//                        }
+            //                        switch (screen_handler::instance().get_screen_type()) {
+            //                            case screen_handler::screen_type::TOURNAMENT_MAIN: {
+            //                                // TODO: uncomment, when tournament logic is implemented
+            //                                //
+            //                                state.get_cur_tournament()->update_grid(gui.get(screen_id.at(screen::TOURNAMENT_MAIN))
+            //                                // ->cast<tgui::Group>()
+            //                                // ->get("tournament_grid")
+            //                                // ->cast<tgui::Grid>());
+            //                            } break;
+            //                            case screen_handler::screen_type::GAME_SCREEN: {
+            //                            } break;
+            //                            default:
+            //                                break;
+            //                        }
         } break;
         case state::WAITING_FOR_SERVER: {
         } break;
