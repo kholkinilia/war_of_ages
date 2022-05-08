@@ -16,7 +16,7 @@ animation_handler::animation_handler(const std::string &texture_filename,
     m_texture.loadFromFile(texture_filename);
 }
 
-[[nodiscard]] sf::Sprite animation_handler::get_sprite(int line, float time) noexcept {
+sf::Sprite animation_handler::get_sprite(int line, float time) noexcept {
     return {m_texture,
             sf::IntRect(static_cast<int>((time / m_time_period[line]) * static_cast<float>(m_columns)) %
                             m_columns * m_each_width_pxls,

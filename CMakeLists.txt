@@ -35,7 +35,6 @@ if (BUILD_CLIENT)
             client/src/ui_functions.cpp
             client/src/tournament.cpp
             client/src/client.cpp
-            client/src/screens.cpp
             client/src/screens/start_screen.cpp
             client/src/screens/settings_screen.cpp
             client/src/screens/multiplayer_screen.cpp

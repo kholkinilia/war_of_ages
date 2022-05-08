@@ -16,15 +16,12 @@ struct client_state {
 
 private:
     std::string handle;
-    screen_handler::screen_type cur_screen;
     std::shared_ptr<tournament> cur_tournament;
     std::shared_ptr<game_handler> cur_game;
     vec2f view_center;
 
 public:
-    explicit client_state(
-        std::string handle_ = "handle",
-        screen_handler::screen_type cur_screen_ = screen_handler::screen_type::START_SCREEN);
+    explicit client_state(std::string handle_ = "handle");
 
     [[nodiscard]] std::string get_handle() const;
     [[nodiscard]] std::shared_ptr<tournament> get_cur_tournament() const;
@@ -33,7 +30,6 @@ public:
     [[nodiscard]] std::shared_ptr<game_handler> get_cur_game() const noexcept;
 
     void set_view_center(const vec2f &v);
-    void set_cur_screen(screen_handler::screen_type s);
 
     void create_game(game_mode mode);
     void reset_game();

@@ -1,7 +1,4 @@
 #include "../include/ui_functions.h"
-#include <TGUI/Widgets/Group.hpp>
-#include "../include/client.h"
-#include "../include/sound_player.h"
 
 namespace war_of_ages {
 
@@ -28,9 +25,6 @@ void place_widgets(std::vector<tgui::Widget::Ptr> &widgets, int width, int heigh
 tgui::Layout2d get_layout(int width_percent, int height_percent) {
     return {tgui::String(std::to_string(width_percent) + "%"),
             tgui::String(std::to_string(height_percent) + "%")};
-}
-
-void update_fps(std::shared_ptr<tgui::Label> label) {
 }
 
 }  // namespace war_of_ages
