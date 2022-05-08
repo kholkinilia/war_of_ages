@@ -3,13 +3,14 @@
 #include <TGUI/Widgets/Label.hpp>
 #include <TGUI/Widgets/Picture.hpp>
 #include <unordered_map>
+#include "../../include/application.h"
 #include "../../include/bot_actions_supplier.h"
+#include "../../include/client.h"
+#include "../../include/multiplayer_snapshots_handler.h"
 #include "../../include/player_actions_supplier.h"
 #include "../../include/screen_handler.h"
 #include "../../include/sfml_printer.h"
 #include "../../include/single_player_handler.h"
-
-// FIXME: call not only singleplayer in buttons' onPress()
 
 namespace war_of_ages::client {
 
@@ -67,27 +68,70 @@ static void setup_buttons_cluster(std::vector<tgui::Group::Ptr> &groups, action 
         button->setSize(BUTTON_WIDTH, BUTTON_HEIGHT);
         button->onPress([i, a]() {
             int slot = 0;
-            switch (a) {
-                case action::BUY_UNIT:
-                    player_actions_supplier::instance().add_action(std::make_unique<buy_unit_command>(i));
-                    break;
-                case action::BUY_CANNON: {
-                    /* FIXME: do not get snapshot one more time */
-                    auto cannons = single_player_handler::instance().get_snapshot().first.cannons;
-                    for (int j = 0; j < cannons.size(); j++) {
-                        auto c = cannons[j];
-                        if (c.type() == cannon_type::NONE) {
-                            slot = j;
+            switch (application::instance().get_state()) {
+                case application::state::SINGLE_PLAYER_GAME: {
+                    switch (a) {
+                        case action::BUY_UNIT:
+                            player_actions_supplier::instance().add_action(
+                                std::make_unique<buy_unit_command>(i));
+                            break;
+                        case action::BUY_CANNON: {
+                            /* FIXME: do not get snapshot one more time */
+                            auto cannons = single_player_handler::instance().get_snapshot().first.cannons;
+                            for (int j = 0; j < cannons.size(); j++) {
+                                auto c = cannons[j];
+                                if (c.type() == cannon_type::NONE) {
+                                    slot = j;
+                                    break;
+                                }
+                            }
+                            player_actions_supplier::instance().add_action(
+                                std::make_unique<buy_cannon_command>(i, slot));
                             break;
                         }
+                        case action::SELL_CANNON:
+                            player_actions_supplier::instance().add_action(
+                                std::make_unique<sell_cannon_command>(i));
+                            break;
+                        default:
+                            assert(!"Unreachable code!");
                     }
-                    player_actions_supplier::instance().add_action(
-                        std::make_unique<buy_cannon_command>(i, slot));
                     break;
                 }
-                case action::SELL_CANNON:
-                    player_actions_supplier::instance().add_action(std::make_unique<sell_cannon_command>(i));
+                case application::state::MULTIPLAYER_GAME: {
+                    message<messages_type> msg;
+                    switch (a) {
+                        case action::BUY_UNIT: {
+                            msg.header.id = messages_type::GAME_BUY_UNIT;
+                            msg << static_cast<std::uint8_t>(i);
+                            break;
+                        }
+                        case action::BUY_CANNON: {
+                            /* FIXME: do not get snapshot one more time */
+                            auto cannons =
+                                multiplayer_snapshots_handler::instance().get_snapshots().first.cannons;
+                            for (int j = 0; j < cannons.size(); j++) {
+                                auto c = cannons[j];
+                                if (c.type() == cannon_type::NONE) {
+                                    slot = j;
+                                    break;
+                                }
+                            }
+                            msg.header.id = messages_type::GAME_BUY_CANNON;
+                            msg << static_cast<std::uint8_t>(i) << static_cast<std::uint8_t>(slot);
+                            break;
+                        }
+                        case action::SELL_CANNON: {
+                            msg.header.id = messages_type::GAME_SELL_CANNON;
+                            msg << static_cast<std::uint8_t>(i);
+                            break;
+                        }
+                        default:
+                            assert(!"Unreachable code!");
+                    }
+                    client::instance().send_message(msg);
                     break;
+                }
                 default:
                     assert(!"Unreachable code!");
             }
@@ -138,29 +182,18 @@ void screen_handler::game_screen_init() {
     new_era_button->setPosition(BACKGROUND_WIDTH - DELTA_X * 2, BUTTON_Y);
     new_era_button->setSize(BUTTON_WIDTH, BUTTON_HEIGHT);
     new_era_button->onPress([&]() {
-        /* FIXME: fix this shit (do not update here) */
-        player_actions_supplier::instance().add_action(std::make_unique<upgrade_age_command>());
-        single_player_handler::instance().update_game();
-        auto age = single_player_handler::instance().get_snapshot().first.age;
-        for (int i = 0; i < UNITS_PER_AGE; i++) {
-            m_gui.get(screen_handler::screen_id.at(screen_handler::instance().get_screen_type()))
-                ->cast<tgui::Group>()
-                ->get("unit_" + std::to_string(i))
-                ->cast<tgui::Group>()
-                ->get(std::to_string(i))
-                ->cast<tgui::Button>()
-                ->getRenderer()
-                ->setTexture(tgui::String(std::move(get_filename(action::BUY_UNIT, i, age))));
-        }
-        for (int i = 0; i < CANNONS_PER_AGE; i++) {
-            m_gui.get(screen_handler::screen_id.at(screen_handler::instance().get_screen_type()))
-                ->cast<tgui::Group>()
-                ->get("cannon_" + std::to_string(i))
-                ->cast<tgui::Group>()
-                ->get(std::to_string(i))
-                ->cast<tgui::Button>()
-                ->getRenderer()
-                ->setTexture(tgui::String(std::move(get_filename(action::BUY_CANNON, i, age))));
+        switch (application::instance().get_state()) {
+            case application::state::SINGLE_PLAYER_GAME:
+                player_actions_supplier::instance().add_action(std::make_unique<upgrade_age_command>());
+                break;
+            case application::state::MULTIPLAYER_GAME: {
+                message<messages_type> msg;
+                msg.header.id = messages_type::GAME_UPGRADE_AGE;
+                client::instance().send_message(msg);
+                break;
+            }
+            default:
+                assert(!"Unreachable code!");
         }
     });
 
@@ -169,7 +202,19 @@ void screen_handler::game_screen_init() {
     plus_place_cannon_button->setPosition(BACKGROUND_WIDTH - DELTA_X * 3, BUTTON_Y);
     plus_place_cannon_button->setSize(BUTTON_WIDTH, BUTTON_HEIGHT);
     plus_place_cannon_button->onPress([]() {
-        player_actions_supplier::instance().add_action(std::make_unique<buy_cannon_slot_command>());
+        switch (application::instance().get_state()) {
+            case application::state::SINGLE_PLAYER_GAME:
+                player_actions_supplier::instance().add_action(std::make_unique<buy_cannon_slot_command>());
+                break;
+            case application::state::MULTIPLAYER_GAME: {
+                message<messages_type> msg;
+                msg.header.id = messages_type::GAME_BUY_CANNON_SLOT;
+                client::instance().send_message(msg);
+                break;
+            }
+            default:
+                assert(!"Unreachable code!");
+        }
     });
     auto plus_place_cannon_coin_image = tgui::Picture::create("../client/resources/pictures/coin.jpeg");
     plus_place_cannon_coin_image->setPosition(BACKGROUND_WIDTH - DELTA_X * 3, FPS_LABEL_HEIGHT);
@@ -212,8 +257,21 @@ void screen_handler::game_screen_init() {
     ulta_button->setTextSize(50);
     ulta_button->setPosition(BACKGROUND_WIDTH - DELTA_X * 3, BUTTON_Y + BUTTON_HEIGHT + HP_HEIGHT);
     ulta_button->setSize(BUTTON_WIDTH * 4, BUTTON_HEIGHT);
-    ulta_button->onPress(
-        []() { player_actions_supplier::instance().add_action(std::make_unique<use_ult_command>()); });
+    ulta_button->onPress([]() {
+        switch (application::instance().get_state()) {
+            case application::state::SINGLE_PLAYER_GAME:
+                player_actions_supplier::instance().add_action(std::make_unique<use_ult_command>());
+                break;
+            case application::state::MULTIPLAYER_GAME: {
+                message<messages_type> msg;
+                msg.header.id = messages_type::GAME_USE_ULT;
+                client::instance().send_message(msg);
+                break;
+            }
+            default:
+                assert(!"Unreachable code!");
+        }
+    });
 
     auto coin_image = tgui::Picture::create("../client/resources/pictures/coin.jpeg");
     coin_image->setPosition(BUTTON_WIDTH, FPS_LABEL_HEIGHT);
