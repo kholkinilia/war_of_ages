@@ -46,5 +46,4 @@ std::pair<player_snapshot, player_snapshot> single_player_handler::get_snapshot(
     return m_game_state->snapshot_players();
 }
 
-
 }  // namespace war_of_ages

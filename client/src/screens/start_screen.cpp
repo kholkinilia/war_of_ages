@@ -1,5 +1,5 @@
-#include "../../include/single_player_handler.h"
 #include "../../include/screen_handler.h"
+#include "../../include/single_player_handler.h"
 
 // TGUI widgets
 #include <TGUI/Widgets/Button.hpp>
