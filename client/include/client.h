@@ -5,7 +5,7 @@
 #include <memory>
 #include "screen_handler.h"
 #include "single_player_handler.h"
-#include "tournament.h"
+#include "../include/tournament_handler.h"
 
 namespace war_of_ages {
 
@@ -14,13 +14,13 @@ namespace war_of_ages {
 struct client_state {
 private:
     std::string handle;
-    std::shared_ptr<tournament> cur_tournament;
+    std::shared_ptr<tournament_handler> cur_tournament;
 
 public:
     explicit client_state(std::string handle_ = "handle");
 
     [[nodiscard]] std::string get_handle() const;
-    [[nodiscard]] std::shared_ptr<tournament> get_cur_tournament() const;
+    [[nodiscard]] std::shared_ptr<tournament_handler> get_cur_tournament() const;
 };
 
 extern client_state current_state;

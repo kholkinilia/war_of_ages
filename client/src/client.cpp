@@ -10,7 +10,7 @@ std::string client_state::get_handle() const {
     return handle;
 }
 
-std::shared_ptr<tournament> client_state::get_cur_tournament() const {
+std::shared_ptr<tournament_handler> client_state::get_cur_tournament() const {
     return cur_tournament;
 }
 
