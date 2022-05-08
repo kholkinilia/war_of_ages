@@ -28,6 +28,9 @@ void screen_handler::start_screen_init() {
     tgui::Button::Ptr multiplayer_button = tgui::Button::create("Мультиплеер");
     multiplayer_button->setTextSize(30);
     multiplayer_button->onPress([&]() {
+        if (!client::instance().is_connected()) {
+            client::instance().connect("192.168.0.43", 12345);  // FIXME: (obvious)
+        }
         client::instance().login();
         screen_handler::instance().change_screen(screen_handler::screen_type::MULTIPLAYER);
     });
