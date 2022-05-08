@@ -18,11 +18,18 @@ public:
     client &operator=(const client &other) = delete;
     client &operator=(client &&other) = delete;
 
+    void send_message(const message<messages_type> &msg);
+    void process_current_messages();
+
+    void set_handle(std::string handle) noexcept;
+    void set_password(std::string password) noexcept;
+
     [[nodiscard]] const std::string &get_handle() const noexcept;
 
 private:
     client();
     std::string m_handle;
+    std::string m_password;
 };
 
 }  // namespace war_of_ages::client
