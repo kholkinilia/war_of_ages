@@ -1,3 +1,5 @@
+#include "../../../common/include/messages_type.h"
+#include "../../include/client.h"
 #include "../../include/screen_handler.h"
 #include "../../include/tournament_handler.h"
 
@@ -26,6 +28,16 @@ void screen_handler::tournament_join_screen_init() {
 
     tgui::Button::Ptr join_tournament_button = tgui::Button::create("Присоединиться");
     join_tournament_button->setTextSize(30);
+    join_tournament_button->onPress([&] {
+        message<messages_type> msg;
+        msg.header.id = messages_type::TOURNAMENT_JOIN;
+        std::string key = static_cast<std::string>(tournament_key_box->getText());
+        msg.insert_container(key);
+
+        client::instance().send_message(msg);
+
+        change_screen(screen_type::WAITING_FOR_SERVER);
+    });
     tournament_join_screen_group->add(join_tournament_button);
 
     tgui::Button::Ptr return_back_button = tgui::Button::create("Назад");
@@ -62,8 +74,16 @@ void screen_handler::tournament_creation_screen_init() {
 
     tgui::Button::Ptr create_tournament_button = tgui::Button::create("Создать турнир");
     create_tournament_button->setTextSize(30);
-    create_tournament_button->onPress(
-        [&] { screen_handler::instance().change_screen(screen_handler::screen_type::TOURNAMENT_MAIN); });
+    create_tournament_button->onPress([&] {
+        message<messages_type> msg;
+        msg.header.id = messages_type::TOURNAMENT_CREATE;
+        std::string name = static_cast<std::string>(tournament_name_box->getText());
+        msg.insert_container(name);
+
+        client::instance().send_message(msg);
+
+        change_screen(screen_type::WAITING_FOR_SERVER);
+    });
     tournament_creation_screen_group->add(create_tournament_button);
 
     tgui::Button::Ptr return_back_button = tgui::Button::create("Назад");
@@ -86,46 +106,36 @@ void screen_handler::tournament_creation_screen_init() {
 void screen_handler::tournament_screen_init() {
     auto tournament_screen_group = tgui::Group::create();
 
-    tgui::Label::Ptr tournament_name = tgui::Label::create(
-        "Название турнира (TODO)");  // TODO: insert a valid name when logic is implemented
+    tgui::Label::Ptr tournament_name = tgui::Label::create("Название турнира (TODO)");
     tournament_name->setSize({"30%", "10%"});
     tournament_name->setTextSize(30);
     tournament_name->setPosition({"5%", "5%"});
-    tournament_screen_group->add(tournament_name);
+    tournament_screen_group->add(tournament_name, "tournament_name");
+
+    tgui::Label::Ptr tournament_key = tgui::Label::create("Ключ турнира (TODO)");
+    tournament_key->setSize({"30%", "10%"});
+    tournament_key->setTextSize(30);
+    tournament_key->setPosition({"5%", "20%"});
+    tournament_screen_group->add(tournament_key, "tournament_key");
 
     tgui::Button::Ptr return_back_button = tgui::Button::create("Назад");
     return_back_button->setTextSize(30);
     return_back_button->setSize({"30%", "10%"});
-    return_back_button->setPosition({"5%", "20%"});
-    return_back_button->onPress(
-        [&] { screen_handler::instance().change_screen(screen_handler::screen_type::TOURNAMENT_JOINING); });
+    return_back_button->setPosition({"5%", "35%"});
+    return_back_button->onPress([&] {
+        message<messages_type> msg;
+        msg.header.id = messages_type::TOURNAMENT_LEAVE;
+        client::instance().send_message(msg);
+
+        screen_handler::instance().change_screen(screen_handler::screen_type::TOURNAMENT_JOINING);
+    });
     tournament_screen_group->add(return_back_button);
 
     tgui::Grid::Ptr tournament_grid = tgui::Grid::create();
     tournament_grid->setPosition({"40%", "5%"});
     tournament_screen_group->add(tournament_grid, "tournament_grid");
 
-    // std::vector<tgui::Widget::Ptr> widgets{return_back_button};
-    // place_widgets(widgets);
-
-    // TODO: remove sample tournament, when tournaments are implemented
-    tournament_handler &t = tournament_handler::instance();
-    t.set_grid(tournament_grid);
-    t.add_participant("part1");
-    t.add_participant("part2");
-    t.add_participant("part3");
-    t.add_participant("part4");
-    t.add_participant("part5");
-    t.add_participant("part6");
-    t.add_participant("part7");
-    t.add_participant("part8");
-    t.add_participant("part9");
-    t.add_participant("part10");
-    t.add_result("part1", "part2");
-    t.add_result("part3", "part2");
-    t.add_result("part2", "part4");
-    t.update_grid();
-    // end sample tournament
+    tournament_handler::instance().set_grid(tournament_grid);
 
     m_gui.add(tournament_screen_group,
               screen_handler::screen_id.at(screen_handler::screen_type::TOURNAMENT_MAIN));

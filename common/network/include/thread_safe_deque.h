@@ -5,6 +5,7 @@
 #include <cstddef>
 #include <deque>
 #include <mutex>
+#include <vector>
 
 namespace war_of_ages {
 
@@ -85,6 +86,16 @@ public:
         std::unique_lock lock(m_mutex);
         auto res = m_deque.back();
         m_deque.pop_back();
+        return res;
+    }
+
+    std::vector<T> retrieve(std::size_t number_of_elements = -1) {
+        std::unique_lock lock(m_mutex);
+        std::vector<T> res;
+        while (number_of_elements-- && !m_deque.empty()) {
+            res.push_back(m_deque.front());
+            m_deque.pop_front();
+        }
         return res;
     }
 

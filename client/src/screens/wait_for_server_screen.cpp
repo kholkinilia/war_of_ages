@@ -21,7 +21,7 @@ void screen_handler::wait_for_server_screen_init() {
     place_widgets(widgets);
 
     m_gui.add(wait_screen_group, screen_id.at(screen_type::WAITING_FOR_SERVER));
-    m_gui.get(screen_id.at(screen_type::WAITING_FOR_SERVER));
+    m_gui.get(screen_id.at(screen_type::WAITING_FOR_SERVER))->setVisible(false);
 }
 
 }  // namespace war_of_ages::client
