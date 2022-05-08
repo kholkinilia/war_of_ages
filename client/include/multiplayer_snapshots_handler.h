@@ -2,8 +2,8 @@
 #include <utility>
 #include "../../common/game_logic/include/player.h"
 
-#ifndef WAR_OF_AGES_MULTIPLAYER_GAME_HANDLER_H
-#define WAR_OF_AGES_MULTIPLAYER_GAME_HANDLER_H
+#ifndef WAR_OF_AGES_MULTIPLAYER_SNAPSHOTS_HANDLER_H
+#define WAR_OF_AGES_MULTIPLAYER_SNAPSHOTS_HANDLER_H
 
 namespace war_of_ages::client {
 struct multiplayer_snapshots_handler {
@@ -24,4 +24,4 @@ private:
 };
 }  // namespace war_of_ages::client
 
-#endif  // WAR_OF_AGES_MULTIPLAYER_GAME_HANDLER_H
+#endif  // WAR_OF_AGES_MULTIPLAYER_SNAPSHOTS_HANDLER_H

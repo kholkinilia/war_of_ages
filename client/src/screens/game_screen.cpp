@@ -98,7 +98,7 @@ static void setup_buttons_cluster(std::vector<tgui::Group::Ptr> &groups, action 
                     }
                     break;
                 }
-                case application::state::MULTIPLAYER_GAME: {
+                case application::state::MULTIPLAYER: {
                     message<messages_type> msg;
                     switch (a) {
                         case action::BUY_UNIT: {
@@ -186,7 +186,7 @@ void screen_handler::game_screen_init() {
             case application::state::SINGLE_PLAYER_GAME:
                 player_actions_supplier::instance().add_action(std::make_unique<upgrade_age_command>());
                 break;
-            case application::state::MULTIPLAYER_GAME: {
+            case application::state::MULTIPLAYER: {
                 message<messages_type> msg;
                 msg.header.id = messages_type::GAME_UPGRADE_AGE;
                 client::instance().send_message(msg);
@@ -206,7 +206,7 @@ void screen_handler::game_screen_init() {
             case application::state::SINGLE_PLAYER_GAME:
                 player_actions_supplier::instance().add_action(std::make_unique<buy_cannon_slot_command>());
                 break;
-            case application::state::MULTIPLAYER_GAME: {
+            case application::state::MULTIPLAYER: {
                 message<messages_type> msg;
                 msg.header.id = messages_type::GAME_BUY_CANNON_SLOT;
                 client::instance().send_message(msg);
@@ -262,7 +262,7 @@ void screen_handler::game_screen_init() {
             case application::state::SINGLE_PLAYER_GAME:
                 player_actions_supplier::instance().add_action(std::make_unique<use_ult_command>());
                 break;
-            case application::state::MULTIPLAYER_GAME: {
+            case application::state::MULTIPLAYER: {
                 message<messages_type> msg;
                 msg.header.id = messages_type::GAME_USE_ULT;
                 client::instance().send_message(msg);

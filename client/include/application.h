@@ -7,11 +7,8 @@ struct application {
     enum class state {
         WAITING_FOR_SERVER,
         MENU,
-        TOURNAMENT,
-        ROOM,
-        RANDOM_MATCHMAKING,
         SINGLE_PLAYER_GAME,
-        MULTIPLAYER_GAME,
+        MULTIPLAYER,
     };
 
 private:
