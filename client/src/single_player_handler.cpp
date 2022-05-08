@@ -10,7 +10,7 @@ single_player_handler &single_player_handler::instance() {
 }
 
 void single_player_handler::start_game() {
-    m_game_state = std::make_unique<game_state>(static_cast<float>(clock()) / CLOCKS_PER_SEC);
+    m_game_state = std::make_unique<game_state>();
 }
 
 void single_player_handler::update_game() {
@@ -18,7 +18,7 @@ void single_player_handler::update_game() {
     m_game_state->update(
         m_player_type == player_type::BOT ? bot_actions_supplier::get_actions({p1, p2})
                                           : player_actions_supplier::instance().get_actions(),
-        bot_actions_supplier::get_actions({p2, p1}), static_cast<float>(clock()) / CLOCKS_PER_SEC);
+        bot_actions_supplier::get_actions({p2, p1}));
 }
 
 void single_player_handler::finish_game() {
@@ -27,7 +27,7 @@ void single_player_handler::finish_game() {
 }
 
 void single_player_handler::return_from_pause() {
-    m_game_state->return_from_pause(static_cast<float>(clock()) / CLOCKS_PER_SEC);
+    m_game_state->return_from_pause();
 }
 
 void single_player_handler::change_player_type(player_type new_type) {
