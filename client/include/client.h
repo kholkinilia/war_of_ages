@@ -3,9 +3,9 @@
 
 #include <TGUI/Backend/SFML-Graphics.hpp>  // tgui::Gui
 #include <memory>
+#include "../include/tournament_handler.h"
 #include "screen_handler.h"
 #include "single_player_handler.h"
-#include "../include/tournament_handler.h"
 
 namespace war_of_ages {
 
