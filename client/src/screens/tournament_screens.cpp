@@ -1,7 +1,5 @@
-#include "../../include/screens/tournament_screens.h"
 #include "../../include/screen_handler.h"
 #include "../../include/tournament.h"
-#include "../../include/ui_functions.h"
 
 // TGUI widgets
 #include <TGUI/Widgets/Button.hpp>
@@ -11,7 +9,7 @@
 
 namespace war_of_ages {
 
-void tournament_join_screen_init(tgui::Gui &gui) {
+void screen_handler::tournament_join_screen_init() {
     auto tournament_join_screen_group = tgui::Group::create();
 
     tgui::Button::Ptr create_tournament_button = tgui::Button::create("Создать турнир");
@@ -41,12 +39,12 @@ void tournament_join_screen_init(tgui::Gui &gui) {
 
     place_widgets(widgets);
 
-    gui.add(tournament_join_screen_group,
+    m_gui.add(tournament_join_screen_group,
             screen_handler::screen_id.at(screen_handler::screen_type::TOURNAMENT_JOINING));
-    gui.get(screen_handler::screen_id.at(screen_handler::screen_type::TOURNAMENT_JOINING))->setVisible(false);
+    m_gui.get(screen_handler::screen_id.at(screen_handler::screen_type::TOURNAMENT_JOINING))->setVisible(false);
 }
 
-void tournament_creation_screen_init(tgui::Gui &gui) {
+void screen_handler::tournament_creation_screen_init() {
     auto tournament_creation_screen_group = tgui::Group::create();
 
     tgui::EditBox::Ptr tournament_name_box = tgui::EditBox::create();
@@ -78,13 +76,13 @@ void tournament_creation_screen_init(tgui::Gui &gui) {
 
     place_widgets(widgets);
 
-    gui.add(tournament_creation_screen_group,
+    m_gui.add(tournament_creation_screen_group,
             screen_handler::screen_id.at(screen_handler::screen_type::TOURNAMENT_CREATION));
-    gui.get(screen_handler::screen_id.at(screen_handler::screen_type::TOURNAMENT_CREATION))
+    m_gui.get(screen_handler::screen_id.at(screen_handler::screen_type::TOURNAMENT_CREATION))
         ->setVisible(false);
 }
 
-void tournament_screen_init(tgui::Gui &gui) {
+void screen_handler::tournament_screen_init() {
     auto tournament_screen_group = tgui::Group::create();
 
     tgui::Label::Ptr tournament_name = tgui::Label::create(
@@ -128,9 +126,9 @@ void tournament_screen_init(tgui::Gui &gui) {
     t.update_grid(tournament_grid);
     // end sample tournament
 
-    gui.add(tournament_screen_group,
+    m_gui.add(tournament_screen_group,
             screen_handler::screen_id.at(screen_handler::screen_type::TOURNAMENT_MAIN));
-    gui.get(screen_handler::screen_id.at(screen_handler::screen_type::TOURNAMENT_MAIN))->setVisible(false);
+    m_gui.get(screen_handler::screen_id.at(screen_handler::screen_type::TOURNAMENT_MAIN))->setVisible(false);
 }
 
 }  // namespace war_of_ages

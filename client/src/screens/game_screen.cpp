@@ -1,4 +1,3 @@
-#include "../../include/screens/game_screen.h"
 #include <TGUI/Widgets/Button.hpp>
 #include <TGUI/Widgets/Group.hpp>
 #include <TGUI/Widgets/Label.hpp>
@@ -6,9 +5,10 @@
 #include "../../include/bot_actions_receiver.h"
 #include "../../include/client.h"
 #include "../../include/screen_handler.h"
-#include "../../include/ui_functions.h"
 
 namespace war_of_ages {
+
+enum class action { BUY_UNIT, BUY_CANNON, SELL_CANNON };
 
 static void setup_button(tgui::Button::Ptr &button, tgui::String name = "") {
     if (name != "") {
@@ -112,7 +112,7 @@ static void setup_buttons_claster(std::vector<tgui::Group::Ptr> &groups, action 
     }
 }
 
-void game_screen_init(sf::View &v, tgui::Gui &gui) {
+void screen_handler::game_screen_init(sf::View &v) {
     auto game_screen_group = tgui::Group::create();
 
     auto autobattle_button = tgui::Button::create();
@@ -130,9 +130,9 @@ void game_screen_init(sf::View &v, tgui::Gui &gui) {
     setup_button(new_era_button, "../client/resources/pictures/new_era.jpg");
     new_era_button->setPosition(BACKGROUND_WIDTH - DELTA_X * 2, BUTTON_Y);
     new_era_button->setSize(BUTTON_WIDTH, BUTTON_HEIGHT);
-    new_era_button->onPress([&gui]() {
+    new_era_button->onPress([&]() {
         for (int i = 0; i < UNITS_PER_AGE; i++) {
-            gui.get(screen_handler::screen_id.at(screen_handler::instance().get_screen_type()))
+            m_gui.get(screen_handler::screen_id.at(screen_handler::instance().get_screen_type()))
                 ->cast<tgui::Group>()
                 ->get("unit_" + std::to_string(i))
                 ->cast<tgui::Group>()
@@ -143,7 +143,7 @@ void game_screen_init(sf::View &v, tgui::Gui &gui) {
                     action::BUY_UNIT, i, current_state.get_cur_game_state()->snapshot_players().first.age))));
         }
         for (int i = 0; i < CANNONS_PER_AGE; i++) {
-            gui.get(screen_handler::screen_id.at(screen_handler::instance().get_screen_type()))
+            m_gui.get(screen_handler::screen_id.at(screen_handler::instance().get_screen_type()))
                 ->cast<tgui::Group>()
                 ->get("cannon_" + std::to_string(i))
                 ->cast<tgui::Group>()
@@ -196,7 +196,7 @@ void game_screen_init(sf::View &v, tgui::Gui &gui) {
     setup_button(pause_button, "../client/resources/pictures/settings_icon.png");
     pause_button->setPosition(0, FPS_LABEL_HEIGHT);
     pause_button->setSize(BUTTON_WIDTH, BUTTON_HEIGHT);
-    pause_button->onPress([&gui, &v]() {
+    pause_button->onPress([&]() {
         current_state.set_view_center(v.getCenter());
         screen_handler::instance().change_screen(screen_handler::screen_type::SETTINGS);
     });
@@ -237,7 +237,7 @@ void game_screen_init(sf::View &v, tgui::Gui &gui) {
     game_screen_group->add(exp_label, "exp_label");
     game_screen_group->add(plus_place_cannon_coin_image);
     game_screen_group->add(plus_place_cannon_coin_label, "plus_place_cannon_coin_label");
-    gui.add(game_screen_group, screen_handler::screen_id.at(screen_handler::screen_type::GAME_SCREEN));
-    gui.get(screen_handler::screen_id.at(screen_handler::screen_type::GAME_SCREEN))->setVisible(false);
+    m_gui.add(game_screen_group, screen_handler::screen_id.at(screen_handler::screen_type::GAME_SCREEN));
+    m_gui.get(screen_handler::screen_id.at(screen_handler::screen_type::GAME_SCREEN))->setVisible(false);
 }
 }  // namespace war_of_ages

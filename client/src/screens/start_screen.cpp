@@ -1,7 +1,5 @@
-#include "../../include/screens/start_screen.h"
 #include "../../include/client.h"
 #include "../../include/screen_handler.h"
-#include "../../include/ui_functions.h"
 
 // TGUI widgets
 #include <TGUI/Widgets/Button.hpp>
@@ -10,12 +8,12 @@
 #include "../../include/sound_player.h"
 
 namespace war_of_ages {
-void start_screen_init(tgui::Gui &gui) {
+void screen_handler::start_screen_init() {
     auto start_screen_group = tgui::Group::create();
 
     tgui::Button::Ptr singleplayer_button = tgui::Button::create("Одиночная игра");
     singleplayer_button->setTextSize(30);
-    singleplayer_button->onPress([&gui]() {
+    singleplayer_button->onPress([&]() {
         application::instance().set_state(application::state::SINGLE_PLAYER_GAME);
         screen_handler::instance().change_screen(screen_handler::screen_type::GAME_SCREEN);
         sound_player::instance().change(sound_player::sound_type::LOBBY, sound_player::sound_type::BATTLE);
@@ -25,7 +23,7 @@ void start_screen_init(tgui::Gui &gui) {
 
     tgui::Button::Ptr multiplayer_button = tgui::Button::create("Мультиплеер");
     multiplayer_button->setTextSize(30);
-    multiplayer_button->onPress([&gui]() {
+    multiplayer_button->onPress([&]() {
         screen_handler::instance().change_screen(screen_handler::screen_type::MULTIPLAYER);
         current_state.create_game(client_state::game_mode::MULTI);
     });
@@ -33,7 +31,7 @@ void start_screen_init(tgui::Gui &gui) {
 
     tgui::Button::Ptr tournament_button = tgui::Button::create("Турниры");
     tournament_button->setTextSize(30);
-    tournament_button->onPress([&gui]() {
+    tournament_button->onPress([&]() {
         screen_handler::instance().change_screen(screen_handler::screen_type::TOURNAMENT_JOINING);
     });
     start_screen_group->add(tournament_button);
@@ -58,10 +56,10 @@ void start_screen_init(tgui::Gui &gui) {
     settings_screen_button->setSize("4.5%", "8%");
     settings_screen_button->setPosition("90%", "5%");
     settings_screen_button->onPress(
-        [&gui]() { screen_handler::instance().change_screen(screen_handler::screen_type::SETTINGS); });
+        [&]() { screen_handler::instance().change_screen(screen_handler::screen_type::SETTINGS); });
     start_screen_group->add(settings_screen_button);
 
-    gui.add(start_screen_group, screen_handler::screen_id.at(screen_handler::screen_type::START_SCREEN));
-    gui.get(screen_handler::screen_id.at(screen_handler::screen_type::START_SCREEN))->setVisible(false);
+    m_gui.add(start_screen_group, screen_handler::screen_id.at(screen_handler::screen_type::START_SCREEN));
+    m_gui.get(screen_handler::screen_id.at(screen_handler::screen_type::START_SCREEN))->setVisible(false);
 }
 }  // namespace war_of_ages

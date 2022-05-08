@@ -1,6 +1,7 @@
 #ifndef WAR_OF_AGES_SCREEN_HANDLER_H
 #define WAR_OF_AGES_SCREEN_HANDLER_H
 
+#include <SFML/Graphics.hpp>
 #include <TGUI/Backend/SFML-Graphics.hpp>  // tgui::Gui
 #include "../../common/game_logic/include/player.h"
 
@@ -34,6 +35,21 @@ struct screen_handler {
 private:
     tgui::Gui m_gui;
     screen_type m_screen_type = screen_type::START_SCREEN;
+
+    static void place_widgets(std::vector<tgui::Widget::Ptr> &widgets,
+                       int width = 40,
+                       int height = 10,
+                       int space = 5);
+
+    void tournament_screen_init();
+    void tournament_creation_screen_init();
+    void tournament_join_screen_init();
+    void start_screen_init();
+    void multiplayer_screen_init();
+    void settings_screen_init(sf::View &view);
+    void opponent_waiting_screen_init();
+    void game_screen_init(sf::View &view);
+    void end_game_screen_init();
 
     screen_handler() = default;
     void set_window(sf::RenderWindow &window);

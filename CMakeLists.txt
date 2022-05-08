@@ -32,10 +32,8 @@ if (BUILD_CLIENT)
     set(CLIENT_PROJECT_SOURCES
             client/src/main.cpp
             client/src/screens/tournament_screens.cpp
-            client/src/ui_functions.cpp
             client/src/tournament.cpp
             client/src/client.cpp
-            client/src/screens.cpp
             client/src/screens/start_screen.cpp
             client/src/screens/settings_screen.cpp
             client/src/screens/multiplayer_screen.cpp
@@ -48,7 +46,10 @@ if (BUILD_CLIENT)
             client/src/player_actions_receiver.cpp
             client/src/game_handler.cpp
             client/src/sound_player.cpp
-            client/src/animation_handler.cpp client/src/screen_handler.cpp client/src/application.cpp)
+            client/src/animation_handler.cpp
+            client/src/screen_handler.cpp
+            client/src/application.cpp
+            )
     add_executable(war_of_ages ${CLIENT_PROJECT_SOURCES} ${COMMON_PROJECT_SOURCES})
     target_link_libraries(war_of_ages sfml-system sfml-window sfml-graphics sfml-audio)
     target_link_libraries(war_of_ages tgui)

@@ -2,20 +2,40 @@
 #include <TGUI/Widgets/Group.hpp>
 #include <TGUI/Widgets/Label.hpp>
 #include "../include/client.h"
-#include "../include/screens/end_game_screen.h"
-#include "../include/screens/game_screen.h"
-#include "../include/screens/multiplayer_screen.h"
-#include "../include/screens/settings_screen.h"
-#include "../include/screens/start_screen.h"
-#include "../include/screens/tournament_screens.h"
-#include "../include/screens/wait_screen.h"
 #include "../include/sfml_printer.h"
-#include "../include/ui_functions.h"
 
 namespace war_of_ages {
 
 void screen_handler::set_window(sf::RenderWindow &window) {
     m_gui.setWindow(window);
+}
+
+static tgui::Layout2d get_layout(int width_percent, int height_percent) {
+    return {tgui::String(std::to_string(width_percent) + "%"),
+            tgui::String(std::to_string(height_percent) + "%")};
+}
+
+void screen_handler::place_widgets(std::vector<tgui::Widget::Ptr> &widgets,
+                                   int width,
+                                   int height,
+                                   int space) {
+    /// Places widgets in the center of a screen in the order specified by their order in widgets vector.
+    ///
+    /// Width: width of each Widget in percent of screen width. (default = 40)
+    /// Height: height of each Widget in percent of screen height. (default = 10)
+    /// Space: a gap between each pair of adjacent Widgets in percent of screen height. (default = 5)
+    ///
+    /// Normally you don't want to specify width, height or space parameters, because it will lead to
+    /// differences between screens.
+
+    int length = static_cast<int>(widgets.size()) * (height + space) - space;
+    int cur_y_pos = (100 - length) / 2;
+    int x_pos = (100 - width) / 2;
+    for (auto &w : widgets) {
+        w->setSize(get_layout(width, height));
+        w->setPosition(get_layout(x_pos, cur_y_pos));
+        cur_y_pos += height + space;
+    }
 }
 
 void screen_handler::change_screen(screen_handler::screen_type new_screen) {
@@ -56,15 +76,15 @@ void screen_handler::change_screen(screen_handler::screen_type new_screen) {
 void screen_handler::init(sf::RenderWindow &window) {
     m_gui.setWindow(window);
 
-    tournament_screen_init(m_gui);
-    tournament_creation_screen_init(m_gui);
-    tournament_join_screen_init(m_gui);
-    start_screen_init(m_gui);
-    multiplayer_screen_init(m_gui);
-    settings_screen_init(sfml_printer::instance().get_view(), m_gui);
-    opponent_waiting_screen_init(m_gui);
-    game_screen_init(sfml_printer::instance().get_view(), m_gui);
-    end_game_screen_init(m_gui);
+    tournament_screen_init();
+    tournament_creation_screen_init();
+    tournament_join_screen_init();
+    start_screen_init();
+    multiplayer_screen_init();
+    settings_screen_init(sfml_printer::instance().get_view());
+    opponent_waiting_screen_init();
+    game_screen_init(sfml_printer::instance().get_view());
+    end_game_screen_init();
 
     m_gui.get(screen_id.at(m_screen_type))->setVisible(true);
 

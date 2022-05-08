@@ -1,8 +1,6 @@
-#include "../../include/screens/settings_screen.h"
 #include "../../include/client.h"
 #include "../../include/screen_handler.h"
 #include "../../include/sound_player.h"
-#include "../../include/ui_functions.h"
 
 // TGUI widgets
 #include <TGUI/Widgets/Button.hpp>
@@ -12,7 +10,7 @@
 #include "../../include/application.h"
 
 namespace war_of_ages {
-void settings_screen_init(sf::View &v, tgui::Gui &gui) {
+void screen_handler::settings_screen_init(sf::View &v) {
     // TODO: try make this shit more readable and well-formed
     auto settings_screen_group = tgui::Group::create();
 
@@ -62,7 +60,7 @@ void settings_screen_init(sf::View &v, tgui::Gui &gui) {
     tgui::Button::Ptr resume_button = tgui::Button::create("Продолжить игру");
     resume_button->setRenderer(black_theme.getRenderer("Button"));
     resume_button->setTextSize(30);
-    resume_button->onPress([&gui, &v]() {
+    resume_button->onPress([&]() {
         current_state.get_cur_game_state()->return_from_pause(1.f * clock() / CLOCKS_PER_SEC);
         v.setCenter(current_state.get_view_center());
         screen_handler::instance().change_screen(screen_handler::screen_type::GAME_SCREEN);
@@ -74,7 +72,7 @@ void settings_screen_init(sf::View &v, tgui::Gui &gui) {
     auto start_button = tgui::Button::create("В главное меню");
     start_button->setRenderer(black_theme.getRenderer("Button"));
     start_button->setTextSize(30);
-    start_button->onPress([&gui]() {
+    start_button->onPress([&]() {
         if (application::instance().get_state() == application::state::SINGLE_PLAYER_GAME) {
             sound_player::instance().change(sound_player::sound_type::BATTLE,
                                             sound_player::sound_type::LOBBY);
@@ -86,7 +84,7 @@ void settings_screen_init(sf::View &v, tgui::Gui &gui) {
     start_button->setSize("40%", "10%");
     settings_screen_group->add(start_button);
 
-    gui.add(settings_screen_group, screen_handler::screen_id.at(screen_handler::screen_type::SETTINGS));
-    gui.get(screen_handler::screen_id.at(screen_handler::screen_type::SETTINGS))->setVisible(false);
+    m_gui.add(settings_screen_group, screen_handler::screen_id.at(screen_handler::screen_type::SETTINGS));
+    m_gui.get(screen_handler::screen_id.at(screen_handler::screen_type::SETTINGS))->setVisible(false);
 }
 }  // namespace war_of_ages

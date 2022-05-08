@@ -5,7 +5,6 @@
 
 namespace war_of_ages {
 
-enum class action { BUY_UNIT, BUY_CANNON, SELL_CANNON };
 
 void game_screen_init(sf::View &v, tgui::Gui &gui);
 
