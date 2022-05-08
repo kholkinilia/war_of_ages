@@ -1,5 +1,4 @@
 #include "../include/application.h"
-#include "../include/client.h"
 #include "../include/screen_handler.h"
 #include "../include/sfml_printer.h"
 

@@ -3,7 +3,7 @@
 
 namespace war_of_ages {
 
-war_of_ages::client_state current_state;
+client_state current_state;
 
 }  // namespace war_of_ages
 
