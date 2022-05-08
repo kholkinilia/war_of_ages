@@ -1,5 +1,4 @@
 #include "../include/application.h"
-#include <TGUI/Widgets/Label.hpp>
 #include "../include/client.h"
 #include "../include/screen_handler.h"
 #include "../include/sfml_printer.h"
@@ -12,14 +11,9 @@ void application::init() {
 }
 
 void application::run() {
-    sf::Texture kittens;  // TODO: remove kittens when background is merged
-    kittens.loadFromFile("../client/resources/pictures/fullHD_kittens.jpg");
-    sf::Sprite background;
-    background.setTexture(kittens);
-
     while (sfml_printer::instance().get_window().isOpen()) {
         screen_handler::instance().update();
-        sfml_printer::instance().update(background);
+        sfml_printer::instance().update();
 
         update_screens();
 

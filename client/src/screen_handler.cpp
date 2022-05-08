@@ -6,10 +6,6 @@
 
 namespace war_of_ages {
 
-void screen_handler::set_window(sf::RenderWindow &window) {
-    m_gui.setWindow(window);
-}
-
 static tgui::Layout2d get_layout(int width_percent, int height_percent) {
     return {tgui::String(std::to_string(width_percent) + "%"),
             tgui::String(std::to_string(height_percent) + "%")};
@@ -84,6 +80,7 @@ void screen_handler::change_screen(screen_handler::screen_type new_screen) {
 void screen_handler::init(sf::RenderWindow &window) {
     m_gui.setWindow(window);
 
+    background_init();
     tournament_screen_init();
     tournament_creation_screen_init();
     tournament_join_screen_init();

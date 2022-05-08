@@ -34,6 +34,7 @@ if (BUILD_CLIENT)
             client/src/screens/tournament_screens.cpp
             client/src/tournament.cpp
             client/src/client.cpp
+            client/src/screens/background.cpp
             client/src/screens/start_screen.cpp
             client/src/screens/settings_screen.cpp
             client/src/screens/multiplayer_screen.cpp
