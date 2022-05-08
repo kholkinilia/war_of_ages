@@ -299,7 +299,7 @@ void sfml_printer::set_game_view_center(sf::Vector2f new_center) noexcept {
     m_game_view_center = new_center;
 }
 
-void sfml_printer::update(sf::Sprite background) { // TODO: remove background sprite, when background merged
+void sfml_printer::update(sf::Sprite background) {  // TODO: remove background sprite, when background merged
     handle_window_events();
 
     if (screen_handler::instance().get_screen_type() != screen_handler::screen_type::GAME_SCREEN) {
