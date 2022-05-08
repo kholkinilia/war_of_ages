@@ -1,3 +1,5 @@
+#include "../../../common/include/messages_type.h"
+#include "../../include/client.h"
 #include "../../include/screen_handler.h"
 #include "../../include/tournament_handler.h"
 
@@ -26,6 +28,16 @@ void screen_handler::tournament_join_screen_init() {
 
     tgui::Button::Ptr join_tournament_button = tgui::Button::create("Присоединиться");
     join_tournament_button->setTextSize(30);
+    join_tournament_button->onPress([&] {
+        message<messages_type> msg;
+        msg.header.id = messages_type::TOURNAMENT_JOIN;
+        std::string key = static_cast<std::string>(tournament_key_box->getText());
+        msg.insert_container(key);
+
+        client::instance().send_message(msg);
+
+        change_screen(screen_type::WAITING_FOR_SERVER);
+    });
     tournament_join_screen_group->add(join_tournament_button);
 
     tgui::Button::Ptr return_back_button = tgui::Button::create("Назад");
