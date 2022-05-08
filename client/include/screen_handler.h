@@ -22,6 +22,8 @@ struct screen_handler {
         END_GAME,
     };
     const static inline std::map<screen_type, std::string> screen_id{
+        {screen_type::ROOM_SCREEN, "room_screen"},
+        {screen_type::WAITING_FOR_SERVER, "waiting_for_server"},
         {screen_type::TOURNAMENT_CREATION, "tournament_creation"},
         {screen_type::TOURNAMENT_JOINING, "tournament_joining"},
         {screen_type::TOURNAMENT_MAIN, "tournament_main"},
@@ -47,10 +49,11 @@ private:
     void tournament_join_screen_init();
     void start_screen_init();
     void multiplayer_screen_init();
-    void settings_screen_init(sf::View &view);
+    void settings_screen_init();
     void opponent_waiting_screen_init();
-    void game_screen_init(sf::View &view);
+    void game_screen_init();
     void end_game_screen_init();
+    void wait_for_server_screen_init();
 
     static void check_game_end();  // TODO: this is no good
     void update_fps();
