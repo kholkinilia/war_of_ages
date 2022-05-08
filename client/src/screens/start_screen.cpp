@@ -5,6 +5,7 @@
 #include <TGUI/Widgets/Button.hpp>
 #include <TGUI/Widgets/Group.hpp>
 #include "../../include/application.h"
+#include "../../include/sfml_printer.h"
 #include "../../include/sound_player.h"
 
 namespace war_of_ages::client {
@@ -25,10 +26,8 @@ void screen_handler::start_screen_init() {
 
     tgui::Button::Ptr multiplayer_button = tgui::Button::create("Мультиплеер");
     multiplayer_button->setTextSize(30);
-    multiplayer_button->onPress([&]() {
-        screen_handler::instance().change_screen(screen_handler::screen_type::MULTIPLAYER);
-        // TODO: make this work (switch to multiplayer)
-    });
+    multiplayer_button->onPress(
+        [&]() { screen_handler::instance().change_screen(screen_handler::screen_type::MULTIPLAYER); });
     start_screen_group->add(multiplayer_button);
 
     tgui::Button::Ptr tournament_button = tgui::Button::create("Турниры");
@@ -44,7 +43,7 @@ void screen_handler::start_screen_init() {
 
     tgui::Button::Ptr exit_button = tgui::Button::create("Выйти");
     exit_button->setTextSize(30);
-    exit_button->onPress(exit, 0);  // FIXME: Implement closing app in the other way
+    exit_button->onPress([]() { sfml_printer::instance().get_window().close(); });
     start_screen_group->add(exit_button);
 
     std::vector<tgui::Widget::Ptr> widgets{singleplayer_button, multiplayer_button, tournament_button,
