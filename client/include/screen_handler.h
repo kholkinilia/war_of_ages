@@ -41,6 +41,7 @@ private:
                               int height = 10,
                               int space = 5);
 
+    void background_init();
     void tournament_screen_init();
     void tournament_creation_screen_init();
     void tournament_join_screen_init();
@@ -52,7 +53,6 @@ private:
     void end_game_screen_init();
 
     screen_handler() = default;
-    void set_window(sf::RenderWindow &window);
 
 public:
     void init(sf::RenderWindow &window);

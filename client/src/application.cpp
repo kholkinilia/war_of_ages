@@ -1,5 +1,4 @@
 #include "../include/application.h"
-#include <TGUI/Widgets/Label.hpp>
 #include "../include/client.h"
 #include "../include/screen_handler.h"
 #include "../include/sfml_printer.h"
@@ -12,22 +11,12 @@ void application::init() {
 }
 
 void application::run() {
-    sf::Texture t;
-    t.loadFromFile("../client/resources/pictures/fullHD_kittens.jpg");
-    sf::Sprite s;
-    s.setTexture(t);
-
     while (sfml_printer::instance().get_window().isOpen()) {
         sfml_printer::instance().handle_window_events();
-
-        if (screen_handler::instance().get_screen_type() != screen_handler::screen_type::GAME_SCREEN) {
-            sfml_printer::instance().get_view().setCenter(BACKGROUND_WIDTH / 2, BACKGROUND_HEIGHT / 2);
-        }
 
         screen_handler::check_game_end();
 
         sfml_printer::instance().get_window().clear();
-        sfml_printer::instance().get_window().draw(s);
 
         screen_handler::instance().update_fps();
 

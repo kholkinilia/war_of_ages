@@ -197,7 +197,7 @@ void screen_handler::game_screen_init(sf::View &v) {
     pause_button->setPosition(0, FPS_LABEL_HEIGHT);
     pause_button->setSize(BUTTON_WIDTH, BUTTON_HEIGHT);
     pause_button->onPress([&]() {
-        sfml_printer::instance().set_game_view_center(v.getCenter());
+        m_gui.get("background_group")->setVisible(true);
         screen_handler::instance().change_screen(screen_handler::screen_type::SETTINGS);
     });
 

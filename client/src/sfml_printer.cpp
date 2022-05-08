@@ -1,5 +1,4 @@
 #include "../include/sfml_printer.h"
-#include <TGUI/Widgets/BitmapButton.hpp>
 #include <TGUI/Widgets/Group.hpp>
 #include <TGUI/Widgets/Label.hpp>
 #include <utility>
@@ -289,14 +288,6 @@ sf::View &sfml_printer::get_view() noexcept {
 
 sf::RenderWindow &sfml_printer::get_window() noexcept {
     return m_window;
-}
-
-sf::Vector2f sfml_printer::get_game_view_center() const noexcept {
-    return m_game_view_center;
-}
-
-void sfml_printer::set_game_view_center(sf::Vector2f new_center) noexcept {
-    m_game_view_center = new_center;
 }
 
 }  // namespace war_of_ages
