@@ -1,8 +1,10 @@
 #include "../include/screen_handler.h"
 #include <TGUI/Widgets/Group.hpp>
 #include <TGUI/Widgets/Label.hpp>
+#include "../include/application.h"
 #include "../include/client.h"
 #include "../include/sfml_printer.h"
+#include "../include/single_player_handler.h"
 
 namespace war_of_ages {
 
@@ -11,10 +13,11 @@ static tgui::Layout2d get_layout(int width_percent, int height_percent) {
             tgui::String(std::to_string(height_percent) + "%")};
 }
 
+// FIXME: remove this & think about it in other place
 void screen_handler::check_game_end() {
-    if (war_of_ages::current_state.get_cur_game_state() != nullptr &&
-        war_of_ages::current_state.get_cur_game_state()->get_game_status() !=
-            war_of_ages::game_status::PROCESSING) {
+    // FIXME: call not only singleplayer
+    if (application::instance().get_state() == application::state::SINGLE_PLAYER_GAME &&
+        single_player_handler::instance().get_game_status() != game_status::PROCESSING) {
         screen_handler::instance().change_screen(screen_handler::screen_type::END_GAME);
     }
 }
@@ -66,14 +69,15 @@ void screen_handler::change_screen(screen_handler::screen_type new_screen) {
         }
     }
     if (new_screen == screen_type::END_GAME) {
+        // FIXME: call not only singleplayer (if we make END_GAME screen either for singleplayer&multiplayer)
         m_gui.get(screen_id.at(screen_type::END_GAME))
             ->cast<tgui::Group>()
             ->get("result_label")
             ->cast<tgui::Label>()
-            ->setText(current_state.get_cur_game_state()->get_game_status() == game_status::P1_WON
+            ->setText(single_player_handler::instance().get_game_status() == game_status::P1_WON
                           ? "Поздравляем, Вы победили!"
                           : "Вы проиграли, повезет в следующий раз");
-        current_state.reset_game();
+        single_player_handler::instance().finish_game();
     }
 }
 

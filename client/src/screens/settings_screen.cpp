@@ -63,7 +63,8 @@ void screen_handler::settings_screen_init(sf::View &v) {
     resume_button->setTextSize(30);
     resume_button->onPress([&]() {
         m_gui.get("background_group")->setVisible(false);
-        current_state.get_cur_game_state()->return_from_pause(1.f * clock() / CLOCKS_PER_SEC);
+        // FIXME: make this work for multiplayer too
+        single_player_handler::instance().return_from_pause();
         screen_handler::instance().change_screen(screen_handler::screen_type::GAME_SCREEN);
     });
     resume_button->setPosition("30%", "73%");

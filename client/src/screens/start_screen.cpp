@@ -1,4 +1,4 @@
-#include "../../include/client.h"
+#include "../../include/single_player_handler.h"
 #include "../../include/screen_handler.h"
 
 // TGUI widgets
@@ -17,7 +17,7 @@ void screen_handler::start_screen_init() {
         application::instance().set_state(application::state::SINGLE_PLAYER_GAME);
         screen_handler::instance().change_screen(screen_handler::screen_type::GAME_SCREEN);
         sound_player::instance().change(sound_player::sound_type::LOBBY, sound_player::sound_type::BATTLE);
-        current_state.create_game(client_state::game_mode::SINGLE);
+        single_player_handler::instance().start_game();
         m_gui.get("background_group")->setVisible(false);
         m_gui.get(screen_handler::screen_id.at(screen_handler::screen_type::START_SCREEN))->setVisible(false);
     });
@@ -27,7 +27,7 @@ void screen_handler::start_screen_init() {
     multiplayer_button->setTextSize(30);
     multiplayer_button->onPress([&]() {
         screen_handler::instance().change_screen(screen_handler::screen_type::MULTIPLAYER);
-        current_state.create_game(client_state::game_mode::MULTI);
+        // TODO: make this work (switch to multiplayer)
     });
     start_screen_group->add(multiplayer_button);
 

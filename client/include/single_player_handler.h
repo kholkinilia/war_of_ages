@@ -21,11 +21,13 @@ public:
     single_player_handler &operator=(const single_player_handler &) = delete;
     single_player_handler &operator=(single_player_handler &&) = delete;
 
-    void update_game();
     void start_game();
+    void update_game();
     void finish_game();
+    void return_from_pause();
 
     void change_player_type(player_type new_type);
+    [[nodiscard]] game_status get_game_status() const noexcept;
     [[nodiscard]] player_type get_type() const noexcept;
     [[nodiscard]] std::pair<player_snapshot, player_snapshot> get_snapshot() const noexcept;
 

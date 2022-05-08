@@ -12,8 +12,6 @@ namespace war_of_ages {
 // Will be implemented to the end by Timur
 
 struct client_state {
-    enum class game_mode { SINGLE, MULTI };
-
 private:
     std::string handle;
     std::shared_ptr<tournament> cur_tournament;
