@@ -2,6 +2,11 @@
 #include <filesystem>
 
 namespace war_of_ages {
+sound_player &sound_player::instance() noexcept {
+    static sound_player inst;
+    return inst;
+}
+
 sound_player::sound_player() {
     for (int i = 0; i < static_cast<int>(sound_type::ENUM_END); i++) {
         auto cur_sound = static_cast<sound_type>(i);
