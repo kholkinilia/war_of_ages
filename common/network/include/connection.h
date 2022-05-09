@@ -125,28 +125,27 @@ private:
 
     void read_validation(server_interface<T> *server = nullptr) {
         if (m_owner == owner::server) {
-            boost::asio::async_read(m_socket, boost::asio::buffer(&m_handshake_in, sizeof(std::uint64_t)),
-                                    [this, server](std::error_code ec, std::size_t length) {
-                                        if (!ec) {
-                                            if (m_handshake_in == m_handshake_expected) {
-                                                std::cerr << "[" << m_id << "] Validation succeeded" << std::endl;
-                                                server->on_client_validated(this->shared_from_this());
+            boost::asio::async_read(
+                m_socket, boost::asio::buffer(&m_handshake_in, sizeof(std::uint64_t)),
+                [this, server](std::error_code ec, std::size_t length) {
+                    if (!ec) {
+                        if (m_handshake_in == m_handshake_expected) {
+                            std::cerr << "[" << m_id << "] Validation succeeded" << std::endl;
+                            server->on_client_validated(this->shared_from_this());
 
-                                                read_header();
-                                            } else {
-                                                std::cerr
-                                                    << "[" << m_id << "] Client disconnected ("
-                                                    << "expected validation respond: " << m_handshake_expected
-                                                    << ", "
-                                                    << "got: " << m_handshake_in << ")" << std::endl;
-                                                m_socket.close();
-                                            }
-                                        } else {
-                                            std::cerr << "[" << m_id << "] Failed reading validation\n"
-                                                      << ec.message() << std::endl;
-                                            m_socket.close();
-                                        }
-                                    });
+                            read_header();
+                        } else {
+                            std::cerr << "[" << m_id << "] Client disconnected ("
+                                      << "expected validation respond: " << m_handshake_expected << ", "
+                                      << "got: " << m_handshake_in << ")" << std::endl;
+                            m_socket.close();
+                        }
+                    } else {
+                        std::cerr << "[" << m_id << "] Failed reading validation\n"
+                                  << ec.message() << std::endl;
+                        m_socket.close();
+                    }
+                });
         } else {
             boost::system::error_code ec;
             m_socket.template read_some(boost::asio::buffer(&m_handshake_in, sizeof(std::uint64_t)), ec);
