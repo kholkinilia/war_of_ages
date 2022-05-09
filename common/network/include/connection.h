@@ -114,7 +114,7 @@ private:
         boost::asio::async_read(
             m_socket,
             boost::asio::buffer(reinterpret_cast<std::uint8_t *>(&m_handshake_in), sizeof(std::uint64_t)),
-            [this, server](std::error_code ec, std::size_t length){
+            [this, server](std::error_code ec, std::size_t length) {
                 if (!ec) {
                     if (m_owner == owner::server) {
                         if (m_handshake_in == m_handshake_expected) {
@@ -134,7 +134,7 @@ private:
             });
     }
 
-    std::uint64_t scramble(std::uint64_t x) { // some complex function
+    std::uint64_t scramble(std::uint64_t x) {  // some complex function
         return (x >> 10) ^ (x * x << 2 ^ 2345) ^ 694201337;
     }
 
