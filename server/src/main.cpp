@@ -12,7 +12,7 @@ int main() {
     }).detach();
     ///  Looks normal for both clients
     while (true) {
-        int n = 3000000;
+        int n = 300000;
         for (long long i = 0; i != n + 1; ++i) {
             if (i == n) {
                 i = 0;
