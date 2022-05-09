@@ -61,12 +61,13 @@ void server::on_client_disconnect(std::shared_ptr<connection<messages_type>> cli
     if (status != user_status::AUTHORIZATION) {
         auto handle_it = m_handle_by_id.find(uid);
         assert(handle_it != m_handle_by_id.end());
-        m_id_by_handle.erase(handle_it->second);
+        std::string handle = handle_it->second;
+        m_id_by_handle.erase(handle);
         m_handle_by_id.erase(handle_it);
         l.unlock();
 
-        tournament_handler::instance().leave(handle_it->second);
-        // TODO: matches logic
+        game_handler::instance().user_disconnected(handle);
+        tournament_handler::instance().leave(handle);
     }
 }
 

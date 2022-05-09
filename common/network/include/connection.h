@@ -197,6 +197,7 @@ public:
             if (!ec) {
                 read_validation();
             } else {
+                m_socket.close();
                 std::cerr << "Failed to connect to server.\n" << ec.message() << std::endl;
             }
         }

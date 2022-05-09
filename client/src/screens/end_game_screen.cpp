@@ -1,4 +1,5 @@
 #include "../../include/screen_handler.h"
+#include "../../include/sound_player.h"
 
 // TGUI widgets
 #include <TGUI/Widgets/Button.hpp>
@@ -18,8 +19,10 @@ void screen_handler::end_game_screen_init() {
 
     auto start_button = tgui::Button::create("В главное меню");
     start_button->setTextSize(30);
-    start_button->onPress(
-        [&]() { screen_handler::instance().change_screen(screen_handler::screen_type::START_SCREEN); });
+    start_button->onPress([&]() {
+        screen_handler::instance().change_screen(screen_handler::screen_type::START_SCREEN);
+        sound_player::instance().change(sound_player::sound_type::BATTLE, sound_player::sound_type::LOBBY);
+    });
     end_game_screen_group->add(start_button);
 
     std::vector<tgui::Widget::Ptr> widgets = {result, start_button};

@@ -28,6 +28,7 @@ struct game_handler {
     void update_games();
 
     void user_gave_up(const std::string &handle);
+    void user_disconnected(const std::string &handle);
 
 private:
     game_handler() noexcept = default;

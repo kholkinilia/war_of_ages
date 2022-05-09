@@ -62,7 +62,6 @@ void screen_handler::settings_screen_init() {
     resume_button->setRenderer(black_theme.getRenderer("Button"));
     resume_button->setTextSize(30);
     resume_button->onPress([&]() {
-        m_gui.get("background_group")->setVisible(false);
         if (application::instance().get_state() == application::state::SINGLE_PLAYER_GAME) {
             single_player_handler::instance().return_from_pause();
         }

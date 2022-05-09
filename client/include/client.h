@@ -27,11 +27,15 @@ public:
 
     [[nodiscard]] std::string get_handle() const;
     [[nodiscard]] std::string get_password() const;
+    [[nodiscard]] std::string get_server_ip() const;
+    [[nodiscard]] std::uint16_t get_server_port() const;
 
 private:
     client();
     std::string m_handle;
     std::string m_password;
+    std::string m_server_ip;
+    std::uint16_t m_server_port;
     mutable std::mutex m_mutex_handle_n_password;
 };
 

@@ -20,21 +20,21 @@ void screen_handler::start_screen_init() {
         screen_handler::instance().change_screen(screen_handler::screen_type::GAME_SCREEN);
         sound_player::instance().change(sound_player::sound_type::LOBBY, sound_player::sound_type::BATTLE);
         single_player_handler::instance().start_game();
-        m_gui.get("background_group")->setVisible(false);
-        m_gui.get(screen_handler::screen_id.at(screen_handler::screen_type::START_SCREEN))->setVisible(false);
     });
     start_screen_group->add(singleplayer_button);
 
     tgui::Button::Ptr multiplayer_button = tgui::Button::create("Мультиплеер");
     multiplayer_button->setTextSize(30);
     multiplayer_button->onPress([&]() {
+        client::instance().clear_messages();
         if (!client::instance().is_connected()) {
-            client::instance().connect("192.168.0.95" /* .43 Vakhtang, .95 Ilya */,
-                                       12345);  // FIXME: (obvious)
+            if (client::instance().connect(client::instance().get_server_ip(),
+                                           client::instance().get_server_port())) {
+                client::instance().login();
+                screen_handler::instance().change_screen(screen_handler::screen_type::MULTIPLAYER);
+                application::instance().set_state(application::state::MULTIPLAYER);
+            }
         }
-        client::instance().login();
-        screen_handler::instance().change_screen(screen_handler::screen_type::MULTIPLAYER);
-        application::instance().set_state(application::state::MULTIPLAYER);
     });
     start_screen_group->add(multiplayer_button);
 
