@@ -33,6 +33,7 @@ public:
 
     void send_message(const message<T> &msg) {
         if (is_connected()) {
+            std::this_thread::sleep_for(std::chrono::milliseconds(100));
             m_connection->send(msg);
         }
     }
