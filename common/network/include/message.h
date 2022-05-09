@@ -35,7 +35,7 @@ struct message {
     }
 
     friend std::ostream &operator<<(std::ostream &out, const message &msg) {  // in case of debugging
-        out << "Message (m_id=" << msg.header.id << "): size=" << msg.size() << "\n";
+        out << "Message (m_id=" << static_cast<std::uint32_t>(msg.header.id) << "): size=" << msg.size() << std::endl;
         return out;
     }
 
