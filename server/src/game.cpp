@@ -30,9 +30,9 @@ void game::apply_command(const std::string &handle, std::unique_ptr<game_command
 
 void game::update() {
     m_state.update({}, {});
-//    std::cout << "updating game\n";
+    //    std::cout << "updating game\n";
     if (is_finished()) {
-//        std::cout << "game is finidhed\n";
+        //        std::cout << "game is finidhed\n";
         message<messages_type> msg_p1, msg_p2;
         msg_p1.header.id = msg_p2.header.id = messages_type::GAME_FINISHED;
         if (m_state.get_game_status() == game_status::P1_WON) {
@@ -47,7 +47,7 @@ void game::update() {
         server::instance().send_message(m_handle_p1, msg_p1);
         server::instance().send_message(m_handle_p2, msg_p2);
     } else {
-//        std::cout << "sending snapshot\n";
+        //        std::cout << "sending snapshot\n";
         send_snapshots();
     }
 }

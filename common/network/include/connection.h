@@ -53,16 +53,16 @@ public:
     }
 
     void write_header() {
-//        std::cout << "command to write header" << std::endl;
+        //        std::cout << "command to write header" << std::endl;
         boost::asio::async_write(
             m_socket, boost::asio::buffer(&m_messages_to_send.front().header, sizeof(message_header<T>)),
             [this](std::error_code ec, std::size_t length) {
                 if (!ec) {
-//                    std::cout << "header written!" << std::endl;
+                    //                    std::cout << "header written!" << std::endl;
                     if (m_messages_to_send.front().body.size() > 0) {
                         write_body();
                     } else {
-//                        std::cout << "that's so!" << std::endl;
+                        //                        std::cout << "that's so!" << std::endl;
                         m_messages_to_send.pop_front();
                         if (!m_messages_to_send.empty()) {
                             write_header();
@@ -82,7 +82,8 @@ public:
                                                      m_messages_to_send.front().header.size),
                                  [this](std::error_code ec, std::size_t length) {
                                      if (!ec) {
-//                                         std::cout << "body written!" << std::endl;
+                                         //                                         std::cout << "body
+                                         //                                         written!" << std::endl;
                                          m_messages_to_send.pop_front();
                                          if (!m_messages_to_send.empty()) {
                                              write_header();
