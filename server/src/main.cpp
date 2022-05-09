@@ -35,12 +35,12 @@ int main() {
     //    }
 
     ///  Crashes with uncaught exception ( .at() )
-//    #include <chrono>
-//    ...
-//    while (true) {
-//        std::chrono::time_point start = std::chrono::system_clock::now();
-//        war_of_ages::server::game_handler::instance().update_games();
-//        std::chrono::time_point end = std::chrono::system_clock::now();
-//        std::this_thread::sleep_for(std::chrono::milliseconds(17 - (end - start).count()));
-//    }
+    //    #include <chrono>
+    //    ...
+    //    while (true) {
+    //        std::chrono::time_point start = std::chrono::system_clock::now();
+    //        war_of_ages::server::game_handler::instance().update_games();
+    //        std::chrono::time_point end = std::chrono::system_clock::now();
+    //        std::this_thread::sleep_for(std::chrono::milliseconds(17 - (end - start).count()));
+    //    }
 }
