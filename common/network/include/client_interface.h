@@ -52,16 +52,16 @@ public:
                                                 boost::asio::ip::tcp::socket(m_context), m_messages_received);
 
             m_connection->connect_to_server(endpoints);
-
+            if (!is_connected()) {
+                return false;
+            }
             std::cerr << "Connected to the server: " << endpoints->endpoint() << std::endl;
-
             m_context_thread = std::thread([this]() { m_context.run(); });
-
+            return true;
         } catch (std::exception &e) {
             std::cerr << "Client exception: " << e.what() << "\n";
             return false;
         }
-        return m_connection->is_connected();
     };
 
     void disconnect() {

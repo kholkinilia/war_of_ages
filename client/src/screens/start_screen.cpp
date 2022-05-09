@@ -29,12 +29,14 @@ void screen_handler::start_screen_init() {
     multiplayer_button->setTextSize(30);
     multiplayer_button->onPress([&]() {
         if (!client::instance().is_connected()) {
-            client::instance().connect(client::instance().get_server_ip(),
-                                       client::instance().get_server_port());
+            if (client::instance().connect(client::instance().get_server_ip(),
+                                           client::instance().get_server_port())) {
+                client::instance().login();
+                screen_handler::instance().change_screen(screen_handler::screen_type::MULTIPLAYER);
+                application::instance().set_state(application::state::MULTIPLAYER);
+                std::cout << client::instance().is_connected();
+            }
         }
-        client::instance().login();
-        screen_handler::instance().change_screen(screen_handler::screen_type::MULTIPLAYER);
-        application::instance().set_state(application::state::MULTIPLAYER);
     });
     start_screen_group->add(multiplayer_button);
 
