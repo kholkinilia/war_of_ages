@@ -30,6 +30,11 @@ void game_handler::update_games() {
     for (std::size_t game_index = 0; game_index < m_games.size(); ++game_index) {
         auto &game_ = m_games[game_index];
         game_.update();
+        // Client disconnected -> removed this game in sequence: game::update() -> server::send_message() ->
+        // server::on_client_disconnect() -> game_handler::user_disconnected()
+        if (game_index >= m_games.size()) {
+            break;
+        }
         if (game_.is_finished()) {
             remove_game(game_index);
         }
