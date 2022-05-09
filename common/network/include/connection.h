@@ -95,43 +95,69 @@ private:
     }
 
     void write_validation() {
-        boost::asio::async_write(
-            m_socket,
-            boost::asio::buffer(reinterpret_cast<std::uint8_t *>(&m_handshake_in), sizeof(std::uint64_t)),
-            [this](std::error_code ec, std::size_t length) {
-                if (!ec) {
-                    if (m_owner == owner::client) {
-                        read_header();
-                    }
-                } else {
-                    std::cerr << "[" << m_id << "] Validation failed\n" << ec.message() << std::endl;
-                    m_socket.close();
-                }
-            });
+        if (m_owner == owner::server) {
+            std::cerr << "[Server] Writing validation: " << m_handshake_out << std::endl;
+            boost::asio::async_write(m_socket,
+                                     boost::asio::buffer(reinterpret_cast<std::uint8_t *>(&m_handshake_out),
+                                                         sizeof(std::uint64_t)),
+                                     [this](std::error_code ec, std::size_t length) {
+                                         if (ec) {
+                                             std::cerr << "[" << m_id << "] Validation failed\n"
+                                                       << ec.message() << std::endl;
+                                             m_socket.close();
+                                         }
+                                     });
+        } else {
+            std::cerr << "[Client] Send validation: " << m_handshake_out << std::endl;
+            boost::system::error_code ec;
+            m_socket.template write_some(
+                boost::asio::buffer(reinterpret_cast<std::uint8_t *>(&m_handshake_out),
+                                    sizeof(std::uint64_t)),
+                ec);
+            if (!ec) {
+                read_header();
+            } else {
+                std::cerr << "[" << m_id << "] Validation failed\n" << ec.message() << std::endl;
+                m_socket.close();
+            }
+        }
     }
 
     void read_validation(server_interface<T> *server = nullptr) {
-        boost::asio::async_read(
-            m_socket,
-            boost::asio::buffer(reinterpret_cast<std::uint8_t *>(&m_handshake_in), sizeof(std::uint64_t)),
-            [this, server](std::error_code ec, std::size_t length) {
-                if (!ec) {
-                    if (m_owner == owner::server) {
-                        if (m_handshake_in == m_handshake_expected) {
-                            std::cout << "Client validated" << std::endl;
-                            server->on_client_validated(this->shared_from_this());
+        if (m_owner == owner::server) {
+            boost::asio::async_read(m_socket, boost::asio::buffer(&m_handshake_in, sizeof(std::uint64_t)),
+                                    [this, server](std::error_code ec, std::size_t length) {
+                                        if (!ec) {
+                                            if (m_handshake_in == m_handshake_expected) {
+                                                std::cerr << "[" << m_id << "] Validation succeeded" << std::endl;
+                                                server->on_client_validated(this->shared_from_this());
 
-                            read_header();
-                        } else {
-                            std::cerr << "Client disconnected (failed validation)" << std::endl;
-                            m_socket.close();
-                        };
-                    } else {
-                        m_handshake_out = scramble(m_handshake_in);
-                        write_validation();
-                    }
-                }
-            });
+                                                read_header();
+                                            } else {
+                                                std::cerr
+                                                    << "[" << m_id << "] Client disconnected ("
+                                                    << "expected validation respond: " << m_handshake_expected
+                                                    << ", "
+                                                    << "got: " << m_handshake_in << ")" << std::endl;
+                                                m_socket.close();
+                                            }
+                                        } else {
+                                            std::cerr << "[" << m_id << "] Failed reading validation\n"
+                                                      << ec.message() << std::endl;
+                                            m_socket.close();
+                                        }
+                                    });
+        } else {
+            boost::system::error_code ec;
+            m_socket.template read_some(boost::asio::buffer(&m_handshake_in, sizeof(std::uint64_t)), ec);
+            if (!ec) {
+                m_handshake_out = scramble(m_handshake_in);
+                write_validation();
+            } else {
+                std::cerr << "[Client] Failed reading validation\n" << ec.message() << std::endl;
+                m_socket.close();
+            }
+        }
     }
 
     std::uint64_t scramble(std::uint64_t x) {  // some complex function
@@ -167,15 +193,13 @@ public:
 
     void connect_to_server(const boost::asio::ip::tcp::resolver::results_type &endpoints) {
         if (m_owner == owner::client) {
-            boost::asio::async_connect(
-                m_socket, endpoints,
-                [this](std::error_code ec, const boost::asio::ip::tcp::endpoint &endpoint) {
-                    if (!ec) {
-                        read_validation();
-                    } else {
-                        std::cerr << "Failed to connect to server.\n" << ec.message() << std::endl;
-                    }
-                });
+            boost::system::error_code ec;
+            m_socket.connect(endpoints->endpoint(), ec);
+            if (!ec) {
+                read_validation();
+            } else {
+                std::cerr << "Failed to connect to server.\n" << ec.message() << std::endl;
+            }
         }
     }
 

@@ -49,7 +49,7 @@ public:
 
             m_connection->connect_to_server(endpoints);
 
-            std::cerr << "Connected to the server: " << endpoints->endpoint();
+            std::cerr << "Connected to the server: " << endpoints->endpoint() << std::endl;
 
             m_context_thread = std::thread([this]() { m_context.run(); });
 
@@ -57,7 +57,6 @@ public:
             std::cerr << "Client exception: " << e.what() << "\n";
             return false;
         }
-        std::this_thread::sleep_for(std::chrono::milliseconds(300));
         return true;
     };
 
