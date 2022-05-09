@@ -45,9 +45,10 @@ private:
     mutable std::mutex m_mutex;
 
 protected:
-    bool on_client_connect(std::shared_ptr<connection<messages_type>> client) override;
-    void on_client_disconnect(std::shared_ptr<connection<messages_type>> client) override;
-    void on_message(std::shared_ptr<connection<messages_type>> client, message<messages_type> msg) override;
+    bool on_client_connect(std::shared_ptr<connection<messages_type>> client) final;
+    void on_client_disconnect(std::shared_ptr<connection<messages_type>> client) final;
+    void on_message(std::shared_ptr<connection<messages_type>> client, message<messages_type> msg) final;
+    void on_client_validated(std::shared_ptr<connection<messages_type>> client) final;
 };
 }  // namespace war_of_ages::server
 

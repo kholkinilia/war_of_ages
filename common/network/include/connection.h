@@ -5,9 +5,10 @@
 #include <boost/asio/ip/tcp.hpp>
 #include <boost/asio/read.hpp>
 #include <boost/asio/write.hpp>
+#include <random>
 #include "connection_fwd.h"
 #include "message.h"
-#include "server_fwd.h"
+#include "server_interface.h"
 #include "thread_safe_deque.h"
 
 namespace war_of_ages {
@@ -21,12 +22,6 @@ private:
             [this](std::error_code ec, std::size_t length) {
                 if (!ec) {
                     if (m_receiving_message.header.size > 0) {
-                        if (m_receiving_message.header.size > /* just some upper bound */ 100000) {
-                            std::cerr << "[" << m_id << "] Received very big message ("
-                                      << m_receiving_message.header.size << " bytes)." << std::endl;
-                            m_socket.close();
-                            return;
-                        }
                         m_receiving_message.body.resize(m_receiving_message.header.size);
                         read_body();
                     } else {
@@ -99,6 +94,50 @@ private:
         read_header();
     }
 
+    void write_validation() {
+        boost::asio::async_write(
+            m_socket,
+            boost::asio::buffer(reinterpret_cast<std::uint8_t *>(&m_handshake_in), sizeof(std::uint64_t)),
+            [this](std::error_code ec, std::size_t length) {
+                if (!ec) {
+                    if (m_owner == owner::client) {
+                        read_header();
+                    }
+                } else {
+                    std::cerr << "[" << m_id << "] Validation failed\n" << ec.message() << std::endl;
+                    m_socket.close();
+                }
+            });
+    }
+
+    void read_validation(server_interface<T> *server = nullptr) {
+        boost::asio::async_read(
+            m_socket,
+            boost::asio::buffer(reinterpret_cast<std::uint8_t *>(&m_handshake_in), sizeof(std::uint64_t)),
+            [this, server](std::error_code ec, std::size_t length) {
+                if (!ec) {
+                    if (m_owner == owner::server) {
+                        if (m_handshake_in == m_handshake_expected) {
+                            std::cout << "Client validated" << std::endl;
+                            server->on_client_validated(this->shared_from_this());
+
+                            read_header();
+                        } else {
+                            std::cerr << "Client disconnected (failed validation)" << std::endl;
+                            m_socket.close();
+                        };
+                    } else {
+                        m_handshake_out = scramble(m_handshake_in);
+                        write_validation();
+                    }
+                }
+            });
+    }
+
+    std::uint64_t scramble(std::uint64_t x) {  // some complex function
+        return (x >> 10) ^ (x * x << 2 ^ 2345) ^ 694201337;
+    }
+
 public:
     enum class owner { server, client };
 
@@ -109,7 +148,13 @@ public:
         : m_owner(parent),
           m_context(context),
           m_socket(std::move(socket)),
-          m_messages_received(messages_received){};
+          m_messages_received(messages_received) {
+        if (m_owner == owner::server) {
+            static std::mt19937_64 rnd(clock());
+            m_handshake_out = rnd();
+            m_handshake_expected = scramble(m_handshake_out);
+        }
+    };
 
     connection(const connection &other) = delete;
     connection(connection &&other) noexcept = default;
@@ -126,7 +171,7 @@ public:
                 m_socket, endpoints,
                 [this](std::error_code ec, const boost::asio::ip::tcp::endpoint &endpoint) {
                     if (!ec) {
-                        read_header();
+                        read_validation();
                     } else {
                         std::cerr << "Failed to connect to server.\n" << ec.message() << std::endl;
                     }
@@ -138,7 +183,10 @@ public:
         if (m_owner == owner::server) {
             if (m_socket.is_open()) {
                 m_id = client_id;
-                read_header();
+
+                write_validation();
+
+                read_validation(server);
             }
         }
     }
@@ -178,6 +226,10 @@ private:
     message<T> m_receiving_message;
 
     std::uint32_t m_id = 0;
+
+    std::uint64_t m_handshake_in = 0;
+    std::uint64_t m_handshake_out = 0;
+    std::uint64_t m_handshake_expected = 0;
 };
 
 }  // namespace war_of_ages
