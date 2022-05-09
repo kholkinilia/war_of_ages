@@ -28,6 +28,7 @@ void screen_handler::start_screen_init() {
     tgui::Button::Ptr multiplayer_button = tgui::Button::create("Мультиплеер");
     multiplayer_button->setTextSize(30);
     multiplayer_button->onPress([&]() {
+        client::instance().clear_messages();
         if (!client::instance().is_connected()) {
             if (client::instance().connect(client::instance().get_server_ip(),
                                            client::instance().get_server_port())) {
