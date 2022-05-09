@@ -21,7 +21,7 @@ private:
             [this](std::error_code ec, std::size_t length) {
                 if (!ec) {
                     if (m_receiving_message.header.size > 0) {
-                        if (m_receiving_message.header.size > /* just some upper bound */ 100) {
+                        if (m_receiving_message.header.size > /* just some upper bound */ 100000) {
                             std::cout << "[" << m_id << "] Received very big message ("
                                       << m_receiving_message.header.size << " bytes)." << std::endl;
                             m_socket.close();
@@ -53,20 +53,24 @@ private:
     }
 
     void write_header() {
+//        std::cout << "command to write header" << std::endl;
         boost::asio::async_write(
             m_socket, boost::asio::buffer(&m_messages_to_send.front().header, sizeof(message_header<T>)),
             [this](std::error_code ec, std::size_t length) {
                 if (!ec) {
+//                    std::cout << "header written!" << std::endl;
                     if (m_messages_to_send.front().body.size() > 0) {
                         write_body();
                     } else {
+//                        std::cout << "that's so!" << std::endl;
                         m_messages_to_send.pop_front();
                         if (!m_messages_to_send.empty()) {
                             write_header();
                         }
-                    };
+                    }
                 } else {
                     std::cout << "[" << m_id << "] Write header failed." << std::endl;
+                    std::cout << ec.message() << std::endl;
                     m_socket.close();
                 }
             });
@@ -78,6 +82,7 @@ private:
                                                      m_messages_to_send.front().header.size),
                                  [this](std::error_code ec, std::size_t length) {
                                      if (!ec) {
+//                                         std::cout << "body written!" << std::endl;
                                          m_messages_to_send.pop_front();
                                          if (!m_messages_to_send.empty()) {
                                              write_header();

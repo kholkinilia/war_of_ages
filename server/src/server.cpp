@@ -25,6 +25,7 @@ server::server() : server_interface<messages_type>(m_port) {
 
 void server::send_message(const std::string &handle, const message<messages_type> &msg) {
     std::unique_lock l(m_mutex);
+//    std::cout << "SENDING MESSAGE to '" << handle << "': " << msg << std::endl;
     server_interface::send_message(m_connection_by_id.at(m_id_by_handle.at(handle)), msg);
 }
 
@@ -141,9 +142,13 @@ void server::on_message(std::shared_ptr<connection<messages_type>> client, messa
             game_handler::instance().user_gave_up(handle);
         } break;
         case messages_type::RANDOMGAME_JOIN: {
+            std::cout << "TRYING TO ENTER TO RANDOMGAME..." << std::endl;
             ensure_status(status, user_status::MENU, true);
             if (random_matchmaker::instance().add_user(handle)) {
+                std::cout << "SUCCEEDED" << std::endl;
                 set_user_status(uid, user_status::RANDOMGAME);
+            } else {
+                std::cout << "FAILED" << std::endl;
             }
         } break;
         case messages_type::RANDOMGAME_LEAVE: {

@@ -45,6 +45,9 @@ void screen_handler::place_widgets(std::vector<tgui::Widget::Ptr> &widgets,
 }
 
 void screen_handler::change_screen(screen_handler::screen_type new_screen) {
+    if (new_screen == screen_type::GAME_SCREEN) {
+        m_gui.get("background_group")->setVisible(false);
+    }
     screen_type prev_screen = m_screen_type;
     m_gui.get(screen_id.at(prev_screen))->setVisible(false);
     m_gui.get(screen_id.at(new_screen))->setVisible(true);

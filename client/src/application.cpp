@@ -80,6 +80,8 @@ void application::update_screens() {
                         msg.extract_container(snapshot_p1.units);
 
                         multiplayer_snapshots_handler::instance().set_snapshots({snapshot_p1, snapshot_p2});
+                        sfml_printer::instance().print_game(multiplayer_snapshots_handler::instance().get_snapshots());
+
                     } break;
                     default:
                         break;

@@ -11,6 +11,12 @@ int main() {
         }
     }).detach();
     while (true) {
-        // war_of_ages::server::game_handler::instance().update_games();
+        int n = 3000000;
+        for (long long i = 0; i != n + 1; ++i) {
+            if (i == n) {
+                i = 0;
+                war_of_ages::server::game_handler::instance().update_games();
+            }
+        }
     }
 }
