@@ -36,7 +36,8 @@ public:
         if (is_connected()) {
             std::cout << "Try to send msg:    " << msg;
             std::cout << "Socket opening status: " << m_connection->m_socket.is_open() << std::endl;
-            std::cout << "\nto remote endpoint::::::   " << m_connection->m_socket.remote_endpoint() << std::endl;
+            std::cout << "\nto remote endpoint::::::   " << m_connection->m_socket.remote_endpoint()
+                      << std::endl;
             m_connection->send(msg);
         }
     }
