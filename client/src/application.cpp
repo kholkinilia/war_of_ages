@@ -55,8 +55,8 @@ void application::update_screens() {
     switch (application::instance().get_state()) {
         case state::SINGLE_PLAYER_GAME: {
             single_player_handler::instance().update_game();
-            if (application::instance().get_state() == application::state::SINGLE_PLAYER_GAME &&
-                single_player_handler::instance().get_game_status() != game_status::PROCESSING) {
+            if (single_player_handler::instance().get_game_status() != game_status::PROCESSING) {
+                application::instance().set_state(state::MENU);
                 screen_handler::instance()
                     .get_gui()
                     .get<tgui::Group>(screen_handler::screen_id.at(screen_handler::screen_type::END_GAME))

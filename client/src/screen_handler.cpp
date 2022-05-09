@@ -38,6 +38,8 @@ void screen_handler::init(sf::RenderWindow &window) {
 void screen_handler::change_screen(screen_handler::screen_type new_screen) {
     if (new_screen == screen_type::GAME_SCREEN) {
         m_gui.get("background_group")->setVisible(false);
+    } else if (m_screen_type == screen_type::GAME_SCREEN) {
+        m_gui.get("background_group")->setVisible(true);
     }
     screen_type prev_screen = m_screen_type;
     m_gui.get(screen_id.at(prev_screen))->setVisible(false);

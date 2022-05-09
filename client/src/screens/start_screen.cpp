@@ -20,8 +20,6 @@ void screen_handler::start_screen_init() {
         screen_handler::instance().change_screen(screen_handler::screen_type::GAME_SCREEN);
         sound_player::instance().change(sound_player::sound_type::LOBBY, sound_player::sound_type::BATTLE);
         single_player_handler::instance().start_game();
-        m_gui.get("background_group")->setVisible(false);
-        m_gui.get(screen_handler::screen_id.at(screen_handler::screen_type::START_SCREEN))->setVisible(false);
     });
     start_screen_group->add(singleplayer_button);
 
@@ -35,7 +33,6 @@ void screen_handler::start_screen_init() {
                 client::instance().login();
                 screen_handler::instance().change_screen(screen_handler::screen_type::MULTIPLAYER);
                 application::instance().set_state(application::state::MULTIPLAYER);
-                std::cout << client::instance().is_connected();
             }
         }
     });
