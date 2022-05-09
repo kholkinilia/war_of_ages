@@ -1,7 +1,7 @@
 #include "../include/client.h"
-#include "../include/bot_actions_supplier.h"
 #include <fstream>
 #include <iostream>
+#include "../include/bot_actions_supplier.h"
 
 namespace war_of_ages::client {
 

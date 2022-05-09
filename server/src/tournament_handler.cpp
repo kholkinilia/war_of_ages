@@ -23,8 +23,8 @@ void tournament_handler::create(const std::string &handle, const std::string &to
     msg.insert_container(snap.name);
     msg << snap.participants;
     msg << snap.match_results;
-//    msg.insert_container(snap.participants);
-//    msg.insert_container(snap.match_results);
+    //    msg.insert_container(snap.participants);
+    //    msg.insert_container(snap.match_results);
 
     server::instance().send_message(handle, msg);
 }
