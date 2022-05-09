@@ -25,7 +25,8 @@ struct game {
     [[nodiscard]] const std::string &get_handle_p2() const noexcept;
 
 private:
-    [[nodiscard]] static message<messages_type> get_msg_snapshot(const player_snapshot &p_snapshot) noexcept;
+    static void fill_body_with_snapshot(message<messages_type> &msg,
+                                        const player_snapshot &p_snapshot) noexcept;
     void send_snapshots() const;
 
     std::string m_handle_p1;

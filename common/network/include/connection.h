@@ -14,7 +14,7 @@ namespace war_of_ages {
 
 template <typename T>
 struct connection : public std::enable_shared_from_this<connection<T>> {  // to make shared_ptr from this
-public:
+private:
     void read_header() {
         boost::asio::async_read(
             m_socket, boost::asio::buffer(&m_receiving_message.header, sizeof(message_header<T>)),
@@ -22,7 +22,7 @@ public:
                 if (!ec) {
                     if (m_receiving_message.header.size > 0) {
                         if (m_receiving_message.header.size > /* just some upper bound */ 100000) {
-                            std::cout << "[" << m_id << "] Received very big message ("
+                            std::cerr << "[" << m_id << "] Received very big message ("
                                       << m_receiving_message.header.size << " bytes)." << std::endl;
                             m_socket.close();
                             return;
@@ -33,7 +33,7 @@ public:
                         add_to_received_messages();
                     }
                 } else {
-                    std::cout << "[" << m_id << "] Read header failed." << std::endl;
+                    std::cerr << "[" << m_id << "] Read header failed.\n" << ec.message() << std::endl;
                     m_socket.close();
                 }
             });
@@ -46,31 +46,27 @@ public:
                 if (!ec) {
                     add_to_received_messages();
                 } else {
-                    std::cout << "[" << m_id << "] Read body failed." << std::endl;
+                    std::cerr << "[" << m_id << "] Read body failed.\n" << ec.message() << std::endl;
                     m_socket.close();
                 }
             });
     }
 
     void write_header() {
-        //        std::cout << "command to write header" << std::endl;
         boost::asio::async_write(
             m_socket, boost::asio::buffer(&m_messages_to_send.front().header, sizeof(message_header<T>)),
             [this](std::error_code ec, std::size_t length) {
                 if (!ec) {
-                    //                    std::cout << "header written!" << std::endl;
                     if (m_messages_to_send.front().body.size() > 0) {
                         write_body();
                     } else {
-                        //                        std::cout << "that's so!" << std::endl;
                         m_messages_to_send.pop_front();
                         if (!m_messages_to_send.empty()) {
                             write_header();
                         }
                     };
                 } else {
-                    std::cout << "[" << m_id << "] Write header failed." << std::endl;
-                    std::cout << ec.message() << std::endl;
+                    std::cerr << "[" << m_id << "] Write header failed.\n" << ec.message() << std::endl;
                     m_socket.close();
                 }
             });
@@ -82,14 +78,13 @@ public:
                                                      m_messages_to_send.front().header.size),
                                  [this](std::error_code ec, std::size_t length) {
                                      if (!ec) {
-                                         //                                         std::cout << "body
-                                         //                                         written!" << std::endl;
                                          m_messages_to_send.pop_front();
                                          if (!m_messages_to_send.empty()) {
                                              write_header();
                                          }
                                      } else {
-                                         std::cout << "[" << m_id << "] Write body failed." << std::endl;
+                                         std::cerr << "[" << m_id << "] Write body failed.\n"
+                                                   << ec.message() << std::endl;
                                          m_socket.close();
                                      }
                                  });
@@ -101,7 +96,6 @@ public:
         } else {
             m_messages_received.push_back({nullptr, m_receiving_message});
         }
-
         read_header();
     }
 
@@ -133,10 +127,13 @@ public:
                 [this](std::error_code ec, const boost::asio::ip::tcp::endpoint &endpoint) {
                     if (!ec) {
                         read_header();
+                    } else {
+                        std::cerr << "Failed to connect to server.\n" << ec.message() << std::endl;
                     }
                 });
         }
     }
+
     void connect_to_client(server_interface<T> *server, std::uint32_t client_id = 0) {
         if (m_owner == owner::server) {
             if (m_socket.is_open()) {
@@ -145,11 +142,13 @@ public:
             }
         }
     }
+
     void disconnect() {
         if (!is_connected()) {
             boost::asio::post(m_context, [this]() { m_socket.close(); });
         }
     }
+
     [[nodiscard]] bool is_connected() const {
         return m_socket.is_open();
     }
@@ -159,7 +158,6 @@ public:
             bool is_sending = !m_messages_to_send.empty();
             m_messages_to_send.push_back(msg);
             if (!is_sending) {
-                std::cout << "Queue was empty, started new write_header()" << std::endl;
                 write_header();
             }
         });
@@ -169,7 +167,7 @@ public:
         return m_id;
     }
 
-public:
+private:
     boost::asio::ip::tcp::socket m_socket;
     boost::asio::io_context &m_context;
 

@@ -20,8 +20,7 @@ protected:
     std::unique_ptr<connection<T>> m_connection;
 
 public:
-    client_interface() {
-    }
+    client_interface() = default;
 
     client_interface(const client_interface &other) = delete;
     client_interface(client_interface &&other) noexcept = default;
@@ -34,10 +33,6 @@ public:
 
     void send_message(const message<T> &msg) {
         if (is_connected()) {
-            std::cout << "Try to send msg:    " << msg;
-            std::cout << "Socket opening status: " << m_connection->m_socket.is_open() << std::endl;
-            std::cout << "\nto remote endpoint::::::   " << m_connection->m_socket.remote_endpoint()
-                      << std::endl;
             m_connection->send(msg);
         }
     }
