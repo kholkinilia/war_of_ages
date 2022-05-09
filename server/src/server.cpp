@@ -1,5 +1,6 @@
 #include "../include/server.h"
 #include <cassert>
+#include "../../common/network/include/network.h"
 #include "../include/game_handler.h"
 #include "../include/random_matchmaker.h"
 #include "../include/room_matchmaker.h"
@@ -36,6 +37,9 @@ user_status server::get_user_status(std::uint32_t user_id) const {
 void server::set_user_status(std::uint32_t user_id, user_status new_status) {
     std::unique_lock l(m_mutex);
     m_status_by_id[user_id] = new_status;
+}
+
+void server::on_client_validated(std::shared_ptr<connection<messages_type>> client) {
 }
 
 bool server::on_client_connect(std::shared_ptr<connection<messages_type>> client) {

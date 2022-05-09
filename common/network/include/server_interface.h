@@ -4,8 +4,10 @@
 #include <algorithm>
 #include <thread>
 #include <unordered_map>
-#include "connection.h"
+#include "boost/asio.hpp"
+#include "connection_fwd.h"
 #include "message.h"
+#include "server_fwd.h"
 #include "thread_safe_deque.h"
 
 namespace war_of_ages {
@@ -113,6 +115,9 @@ public:
         }
     }
 
+public:
+    virtual void on_client_validated(std::shared_ptr<connection<T>> client) = 0;
+
 protected:
     ts_deque<owned_message<T>> m_messages_received;
     boost::asio::io_context m_context;
@@ -123,7 +128,6 @@ protected:
     int m_id_counter = 10000;
 
     virtual bool on_client_connect(std::shared_ptr<connection<T>> client) = 0;
-    virtual bool on_client_validated(std::shared_ptr<connection<T>> client) = 0;
     virtual void on_client_disconnect(std::shared_ptr<connection<T>> client) = 0;
     virtual void on_message(std::shared_ptr<connection<T>> client, message<T> msg) = 0;
 };

@@ -8,7 +8,7 @@
 #include <random>
 #include "connection_fwd.h"
 #include "message.h"
-#include "server_fwd.h"
+#include "server_interface.h"
 #include "thread_safe_deque.h"
 
 namespace war_of_ages {
