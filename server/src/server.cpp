@@ -42,7 +42,7 @@ void server::set_user_status(std::uint32_t user_id, user_status new_status) {
 
 bool server::on_client_connect(std::shared_ptr<connection<messages_type>> client) {
     static int cnt = 10000;
-    
+
     std::unique_lock l(m_mutex);
     m_connection_by_id.insert({cnt, client});
     m_status_by_id.insert({cnt, user_status::AUTHORIZATION});
@@ -77,7 +77,7 @@ void server::on_message(std::shared_ptr<connection<messages_type>> client, messa
         client->disconnect();
         return;
     }
-	std::cout << "BREAKPOINT 1" << std::endl;
+    std::cout << "BREAKPOINT 1" << std::endl;
     std::uint32_t uid = client->get_id();
     std::cout << "BREAKPOINT 2" << std::endl;
     user_status status = get_user_status(uid);

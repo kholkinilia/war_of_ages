@@ -32,7 +32,8 @@ void war_of_ages::server::server_tournament::post_add_participant(const std::str
     match_participants();
 }
 
-void war_of_ages::server::server_tournament::post_add_result(const std::string &winner, const std::string &loser) {
+void war_of_ages::server::server_tournament::post_add_result(const std::string &winner,
+                                                             const std::string &loser) {
     ready_to_play_participants.push_back(winner);
     ready_to_play_participants.push_back(loser);
     message<messages_type> msg;

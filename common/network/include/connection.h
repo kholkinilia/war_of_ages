@@ -14,7 +14,7 @@ namespace war_of_ages {
 
 template <typename T>
 struct connection : public std::enable_shared_from_this<connection<T>> {  // to make shared_ptr from this
-private:
+public:
     void read_header() {
         boost::asio::async_read(
             m_socket, boost::asio::buffer(&m_receiving_message.header, sizeof(message_header<T>)),
@@ -67,7 +67,7 @@ private:
                         if (!m_messages_to_send.empty()) {
                             write_header();
                         }
-                    }
+                    };
                 } else {
                     std::cout << "[" << m_id << "] Write header failed." << std::endl;
                     std::cout << ec.message() << std::endl;
@@ -158,6 +158,7 @@ public:
             bool is_sending = !m_messages_to_send.empty();
             m_messages_to_send.push_back(msg);
             if (!is_sending) {
+                std::cout << "Queue was empty, started new write_header()" << std::endl;
                 write_header();
             }
         });
@@ -167,7 +168,7 @@ public:
         return m_id;
     }
 
-private:
+public:
     boost::asio::ip::tcp::socket m_socket;
     boost::asio::io_context &m_context;
 
