@@ -46,7 +46,8 @@ void game_handler::user_gave_up(const std::string &handle) {
 }
 
 void game_handler::user_disconnected(const std::string &handle) {
-    if (!user_exists(handle)) {
+    // IMPORTANT! DO NOT REPLACE IT WITH LOCKING VERSION!
+    if (!user_exists_lock_held(handle)) {
         return;
     }
     std::size_t game_index = m_game_by_handle.at(handle);
@@ -54,9 +55,13 @@ void game_handler::user_disconnected(const std::string &handle) {
     remove_game(game_index);
 }
 
-bool game_handler::user_exists(const std::string &handle) const noexcept {
-    std::unique_lock l(m_mutex);
+bool game_handler::user_exists_lock_held(const std::string &handle) const noexcept {
     return m_game_by_handle.find(handle) != m_game_by_handle.end();
+}
+
+bool game_handler::user_exists(const std::string &handle) const {
+    std::unique_lock l(m_mutex);
+    return user_exists_lock_held(handle);
 }
 
 void game_handler::remove_game(std::size_t game_index) noexcept {

@@ -80,10 +80,12 @@ void application::update_screens() {
                         // TODO
                     } break;
                     case messages_type::GAME_START: {
+                        std::cerr << "GOT GAME_START" << std::endl;
                         screen_handler::instance().change_screen(screen_handler::screen_type::GAME_SCREEN);
                         // TODO: dodelat
                     } break;
                     case messages_type::GAME_FINISHED: {
+                        std::cerr << "GOT GAME_FINISHED" << std::endl;
                         std::uint8_t we_won = 0;
                         msg >> we_won;
                         screen_handler::instance()
@@ -96,6 +98,7 @@ void application::update_screens() {
                         screen_handler::instance().change_screen(screen_handler::screen_type::END_GAME);
                     } break;
                     case messages_type::GAME_GIVE_UP: {
+                        std::cerr << "GOT GAME_GIVE_UP" << std::endl;
                         std::uint8_t we_won = 0;
                         msg >> we_won;
                         screen_handler::instance()
@@ -108,6 +111,7 @@ void application::update_screens() {
                         screen_handler::instance().change_screen(screen_handler::screen_type::END_GAME);
                     } break;
                     case messages_type::GAME_DISCONNECTED: {
+                        std::cerr << "GOT GAME_DISCONNECTED" << std::endl;
                         std::uint8_t we_won;
                         msg >> we_won;
                         assert(we_won == 1);  // else it is very strange

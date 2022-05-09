@@ -25,10 +25,12 @@ server::server() : server_interface<messages_type>(m_port) {
 }
 
 void server::send_message(const std::string &handle, const message<messages_type> &msg) {
-    std::cerr << "Before lock" << std::endl;
+    // std::cerr << "Before lock" << std::endl;
     std::unique_lock l(m_mutex);
-    std::cerr << "Sending to " << handle << ": " << msg << std::endl;
-    server_interface::send_message(m_connection_by_id.at(m_id_by_handle.at(handle)), msg);
+    // std::cerr << "Sending to " << handle << ": " << msg << std::endl;
+    auto connection = m_connection_by_id.at(m_id_by_handle.at(handle));
+    l.unlock();
+    server_interface::send_message(connection, msg);
 }
 
 user_status server::get_user_status(std::uint32_t user_id) const {
