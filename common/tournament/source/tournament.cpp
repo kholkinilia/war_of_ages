@@ -2,23 +2,30 @@
 #include <algorithm>
 #include <cassert>
 #include <cstddef>
+#include<iostream>
 namespace war_of_ages {
 
 void tournament::update_places_lock_held() {
     std::vector<std::size_t> cnt(m_participants.size() * WIN_POINTS + 1);
     std::vector<std::size_t> final_place(m_participants.size() * WIN_POINTS + 1);
+    std::cerr << "1\n";
+
     for (std::size_t i = 0; i < m_participants.size(); i++) {
         cnt[m_sum[i]]++;
     }
+    std::cerr << "2\n";
     std::size_t cur_place = 1;
     for (std::size_t i = m_participants.size() * WIN_POINTS; i + 1 != 0; i--) {
         final_place[i] = cur_place;
         cur_place += cnt[i];
     }
 
+    std::cerr << "3\n";
+    m_place.resize(m_participants.size());
     for (std::size_t i = 0; i < m_participants.size(); i++) {
         m_place[i] = final_place[m_sum[i]];
     }
+    std::cerr << "4\n";
 }
 
 void tournament::add_participant(const std::string &handle) {

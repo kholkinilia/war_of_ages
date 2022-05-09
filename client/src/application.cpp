@@ -160,9 +160,22 @@ void application::update_screens() {
                         break;
                 }
             }
-            if (screen_handler::instance().get_screen_type() == screen_handler::screen_type::GAME_SCREEN) {
-                sfml_printer::instance().print_game(
-                    multiplayer_snapshots_handler::instance().get_snapshots());
+            switch (screen_handler::instance().get_screen_type()) {
+                case screen_handler::screen_type::GAME_SCREEN: {
+                    sfml_printer::instance().print_game(
+                        multiplayer_snapshots_handler::instance().get_snapshots());
+                } break;
+                case screen_handler::screen_type::TOURNAMENT_MAIN: {
+                    tournament_handler::instance().update_grid(
+                        screen_handler::instance()
+                            .get_gui()
+                            .get(screen_handler::screen_id.at(screen_handler::screen_type::TOURNAMENT_MAIN))
+                            ->cast<tgui::Group>()
+                            ->get("tournament_grid")
+                            ->cast<tgui::Grid>());
+                } break;
+                default:
+                    break;
             }
         } break;
         case state::MENU: {

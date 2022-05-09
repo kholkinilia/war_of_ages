@@ -1,10 +1,11 @@
 #include "../include/tournament_handler.h"
+#include <TGUI/Widgets/Group.hpp>
 #include <TGUI/Widgets/Label.hpp>
 #include "../include/screen_handler.h"
 
 namespace war_of_ages::client {
 
-void tournament_handler::update_grid() {
+void tournament_handler::update_grid(const tgui::Grid::Ptr& grid) {
     // TODO: think of improving performance (should be easy)
     std::unique_lock lock(m_mutex);
     if (m_is_grid_updated) {
@@ -28,7 +29,7 @@ void tournament_handler::update_grid() {
         {game_result::DEFEAT, tgui::Color(100, 0, 0)}};
     // end table parameters
 
-    m_grid->removeAllWidgets();
+    grid->removeAllWidgets();
 
     static auto format_label = [=](const tgui::Label::Ptr &label, int width, int border_width,
                                    tgui::Color background_color) {
@@ -44,30 +45,30 @@ void tournament_handler::update_grid() {
 
     tgui::Label::Ptr handle_label = tgui::Label::create("Хэндл");
     format_label(handle_label, HANDLE_WIDTH, THICK_BORDER_WIDTH, REGULAR_BACKGROUND_COLOR);
-    m_grid->addWidget(handle_label, 0, 0);
+    grid->addWidget(handle_label, 0, 0);
 
     for (std::size_t i = 0; i < m_participants.size(); i++) {
         tgui::Label::Ptr handle = tgui::Label::create(m_participants[i]);
         format_label(handle, HANDLE_WIDTH, THICK_BORDER_WIDTH, REGULAR_BACKGROUND_COLOR);
-        m_grid->addWidget(handle, i + 1, 0);
+        grid->addWidget(handle, i + 1, 0);
     }
 
     for (std::size_t i = 0; i < m_participants.size(); i++) {
         tgui::Label::Ptr number = tgui::Label::create(std::to_string(i + 1));
         format_label(number, SQUARE_SIZE, THICK_BORDER_WIDTH, REGULAR_BACKGROUND_COLOR);
-        m_grid->addWidget(number, i + 1, 1);
+        grid->addWidget(number, i + 1, 1);
     }
 
     for (std::size_t i = 0; i < m_participants.size(); i++) {  // TODO: make it not be a copy-paste
         tgui::Label::Ptr number = tgui::Label::create(std::to_string(i + 1));
         format_label(number, SQUARE_SIZE, THICK_BORDER_WIDTH, REGULAR_BACKGROUND_COLOR);
-        m_grid->addWidget(number, 0, i + 2);
+        grid->addWidget(number, 0, i + 2);
     }
 
     for (std::size_t i = 0; i <= m_participants.size(); i++) {
         tgui::Label::Ptr blank = tgui::Label::create();
         format_label(blank, SQUARE_SIZE, REGULAR_BORDER_WIDTH, BLANK_CELL_BACKGROUND_COLOR);
-        m_grid->addWidget(blank, i, i + 1);
+        grid->addWidget(blank, i, i + 1);
     }
 
     for (std::size_t i = 0; i < m_participants.size(); i++) {
@@ -77,7 +78,7 @@ void tournament_handler::update_grid() {
             tgui::Label::Ptr cur_result = tgui::Label::create(result_text.at(m_match_results[i][j]));
             format_label(cur_result, SQUARE_SIZE, REGULAR_BORDER_WIDTH,
                          result_color.at(m_match_results[i][j]));
-            m_grid->addWidget(cur_result, i + 1, j + 2);
+            grid->addWidget(cur_result, i + 1, j + 2);
         }
     }
 
@@ -87,7 +88,7 @@ void tournament_handler::update_grid() {
     sum_tool_tip->getRenderer()->setTextColor(TEXT_COLOR);
     sum_label->setToolTip(sum_tool_tip);
     format_label(sum_label, SQUARE_SIZE, THICK_BORDER_WIDTH, REGULAR_BACKGROUND_COLOR);
-    m_grid->addWidget(sum_label, 0, m_participants.size() + 2);
+    grid->addWidget(sum_label, 0, m_participants.size() + 2);
 
     tgui::Label::Ptr place_label = tgui::Label::create("М");
     tgui::Label::Ptr place_tool_tip = tgui::Label::create("Текущее место");
@@ -95,16 +96,16 @@ void tournament_handler::update_grid() {
     place_tool_tip->getRenderer()->setTextColor(TEXT_COLOR);
     place_label->setToolTip(place_tool_tip);
     format_label(place_label, SQUARE_SIZE, THICK_BORDER_WIDTH, REGULAR_BACKGROUND_COLOR);
-    m_grid->addWidget(place_label, 0, m_participants.size() + 3);
+    grid->addWidget(place_label, 0, m_participants.size() + 3);
 
     for (std::size_t i = 0; i < m_participants.size(); i++) {
         tgui::Label::Ptr part_sum = tgui::Label::create(std::to_string(m_sum[i]));
         format_label(part_sum, SQUARE_SIZE, THICK_BORDER_WIDTH, REGULAR_BACKGROUND_COLOR);
-        m_grid->addWidget(part_sum, i + 1, m_participants.size() + 2);
+        grid->addWidget(part_sum, i + 1, m_participants.size() + 2);
 
         tgui::Label::Ptr part_place = tgui::Label::create(std::to_string(m_place[i]));
         format_label(part_place, SQUARE_SIZE, THICK_BORDER_WIDTH, REGULAR_BACKGROUND_COLOR);
-        m_grid->addWidget(part_place, i + 1, m_participants.size() + 3);
+        grid->addWidget(part_place, i + 1, m_participants.size() + 3);
     }
 
     m_is_grid_updated = true;
@@ -122,40 +123,76 @@ void tournament_handler::post_remove_participant(const std::string &) {
     m_is_grid_updated = false;
 }
 
-void tournament_handler::set_grid(tgui::Grid::Ptr &grid) {
-    m_grid = grid;
-}
-
-void tournament_handler::set_name_label(tgui::Label::Ptr &name_label) {
-    m_name_label = name_label;
-}
-
-void tournament_handler::set_key_label(tgui::Label::Ptr &key_label) {
-    m_key_label = key_label;
-}
-
 void tournament_handler::set_tournament(const tournament_snapshot &snapshot) {
     std::unique_lock lock(m_mutex);
     std::cerr << "Creating tournament" << std::endl;
     std::cerr << snapshot.name << std::endl;
     m_name = snapshot.name;
-    assert(m_name_label != nullptr);
-    m_name_label->setText(m_name);
-    m_key = snapshot.key;
+    screen_handler::instance()
+        .get_gui()
+        .get(screen_handler::screen_id.at(screen_handler::screen_type::TOURNAMENT_MAIN))
+        ->cast<tgui::Group>()
+        ->get("tournament_name")
+        ->cast<tgui::Label>()
+        ->setText("Название: " + m_name);
     std::cerr << snapshot.key << std::endl;
-    assert(m_key_label != nullptr);
-    m_key_label->setText("Ключ к турниру: '" + m_key + "'");
+    m_key = snapshot.key;
+    screen_handler::instance()
+        .get_gui()
+        .get(screen_handler::screen_id.at(screen_handler::screen_type::TOURNAMENT_MAIN))
+        ->cast<tgui::Group>()
+        ->get("tournament_key")
+        ->cast<tgui::Label>()
+        ->setText("Скопировать ключ: " + m_key);
     std::cerr << "participants" << std::endl;
     m_participants = snapshot.participants;
     std::cerr << "match results" << std::endl;
     m_match_results = snapshot.match_results;
+    std::cerr << "fully copied" << std::endl;
+
+    int n = m_participants.size();
+
+    for (int i = 0; i < n; i++) {
+        std::cerr << i << ": " << m_participants[i] << "\n";
+    }
+
+    std::cerr << "match size: " << m_match_results.size() << "\n";
+
+    for (int i = 0; i < m_match_results.size(); i++) {
+        for (int j = 0; j < m_match_results[i].size(); j++) {
+            std::cerr << "(" << i << ", " << j << "): ";
+            std::cerr << (int)m_match_results[i][j] << " ";
+        }
+        std::cerr << "\n";
+    }
+
+    std::cerr << "print ended\n";
+
+    init_sum_lock_held();
+
+    std::cerr << "sum inited" << std::endl;
+
     update_places_lock_held();
     std::cerr << "Tournament created" << std::endl;
+
+    m_is_grid_updated = false;
 }
 
 tournament_handler &tournament_handler::instance() {
     static tournament_handler handler;
     return handler;
+}
+
+void tournament_handler::init_sum_lock_held() {
+    std::cerr << "initing sum\n";
+    m_sum.resize(m_participants.size());
+    for (std::size_t i = 0; i < m_participants.size(); i++) {
+        for (std::size_t j = 0; j < m_participants.size(); j++) {
+            std::cerr << i << " " << j << "\n";
+            m_sum[i] += (m_match_results[i][j] == game_result::VICTORY) * WIN_POINTS;
+        }
+    }
+    std::cerr << "sum init completed\n";
 }
 
 }  // namespace war_of_ages::client

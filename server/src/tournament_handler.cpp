@@ -24,6 +24,8 @@ void tournament_handler::create(const std::string &handle, const std::string &to
     msg << snap.participants;
     msg << snap.match_results;
 
+    std::cerr << "match_size: " << snap.match_results.size() << std::endl;
+
     server::instance().send_message(handle, msg);
 }
 

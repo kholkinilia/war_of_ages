@@ -101,7 +101,7 @@ void server::on_message(std::shared_ptr<connection<messages_type>> client, messa
     const std::string &handle = m_handle_by_id.at(uid);
     l.unlock();
 
-    std::cerr << "went up to here" << std::endl;
+    std::cerr << "went up to here (" << handle << ")" << std::endl;
 
     switch (msg.header.id) {
         case messages_type::AUTH_LOGOUT: {
@@ -171,13 +171,13 @@ void server::on_message(std::shared_ptr<connection<messages_type>> client, messa
         case messages_type::TOURNAMENT_CREATE: {
             //            ensure_status(status, user_status::TOURNAMENT, true);
             std::string name;
-            msg.extract_container(name);
+            msg >> name;
             tournament_handler::instance().create(handle, name);
         } break;
         case messages_type::TOURNAMENT_JOIN: {
             //            ensure_status(status, user_status::TOURNAMENT, true);
             std::string key;
-            msg.extract_container(key);
+            msg >> key;
             tournament_handler::instance().join(handle, key);
         } break;
         case messages_type::TOURNAMENT_LEAVE: {

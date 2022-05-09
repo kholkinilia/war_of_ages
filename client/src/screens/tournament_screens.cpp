@@ -24,16 +24,20 @@ void screen_handler::tournament_join_screen_init() {
     tournament_key_box->setInputValidator("[a-zA-Z0-9]{0,20}");
     tournament_key_box->setTextSize(30);
     tournament_key_box->setDefaultText("введите код доступа к турниру");
-    tournament_join_screen_group->add(tournament_key_box);
+    tournament_join_screen_group->add(tournament_key_box, "tournament_key_box");
 
     tgui::Button::Ptr join_tournament_button = tgui::Button::create("Присоединиться");
     join_tournament_button->setTextSize(30);
     join_tournament_button->onPress([&] {
         message<messages_type> msg;
         msg.header.id = messages_type::TOURNAMENT_JOIN;
-        std::string key = static_cast<std::string>(tournament_key_box->getText());
-        msg.insert_container(key);
-
+        std::string key = static_cast<std::string>(m_gui.get(screen_id.at(screen_type::TOURNAMENT_JOINING))
+                                                       ->cast<tgui::Group>()
+                                                       ->get("tournament_key_box")
+                                                       ->cast<tgui::EditBox>()
+                                                       ->getText());
+        msg << key;
+        std::cerr << "seding key(" << key << ")\n";
         client::instance().send_message(msg);
 
         change_screen(screen_type::WAITING_FOR_SERVER);
@@ -140,10 +144,6 @@ void screen_handler::tournament_screen_init() {
     tgui::Grid::Ptr tournament_grid = tgui::Grid::create();
     tournament_grid->setPosition({"40%", "5%"});
     tournament_screen_group->add(tournament_grid, "tournament_grid");
-
-    tournament_handler::instance().set_grid(tournament_grid);
-    tournament_handler::instance().set_name_label(tournament_name);
-    tournament_handler::instance().set_key_label(tournament_key);
 
     m_gui.add(tournament_screen_group,
               screen_handler::screen_id.at(screen_handler::screen_type::TOURNAMENT_MAIN));

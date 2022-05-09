@@ -63,7 +63,7 @@ struct message {
     }
 
     friend message &operator<<(message &msg, const std::string &string) {
-        std::cerr << "<<on string: '" << string << "'\n";
+//        std::cerr << "<<on string: '" << string << "'\n";
         msg.insert_buf(reinterpret_cast<const std::uint8_t *>(&string[0]), string.size());
         msg << static_cast<std::uint32_t>(string.size());
         return msg;

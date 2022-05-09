@@ -32,7 +32,7 @@ public:
     }
 
     void send_message(const message<T> &msg) {
-        std::cerr << "in send message" << std::endl;
+        std::cerr << "in send message\n" << msg << std::endl;
         if (is_connected()) {
             m_connection->send(msg);
             std::cerr << "message sent" << std::endl;
