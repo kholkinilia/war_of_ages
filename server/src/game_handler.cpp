@@ -45,6 +45,15 @@ void game_handler::user_gave_up(const std::string &handle) {
     remove_game(game_index);
 }
 
+void game_handler::user_disconnected(const std::string &handle) {
+    if (!user_exists(handle)) {
+        return;
+    }
+    std::size_t game_index = m_game_by_handle.at(handle);
+    m_games[game_index].user_disconnected(handle);
+    remove_game(game_index);
+}
+
 bool game_handler::user_exists(const std::string &handle) const noexcept {
     std::unique_lock l(m_mutex);
     return m_game_by_handle.find(handle) != m_game_by_handle.end();

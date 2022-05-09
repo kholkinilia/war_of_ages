@@ -66,6 +66,21 @@ void game::user_gave_up(const std::string &handle) {
     }
 }
 
+void game::user_disconnected(const std::string &handle) {
+    // TODO: if a little time has passed then declare a draw
+    assert(handle == m_handle_p1 || handle == m_handle_p2);
+    message<messages_type> msg_winner;
+    msg_winner.header.id = messages_type::GAME_DISCONNECTED;
+    msg_winner << static_cast<std::uint8_t>(1);
+    if (handle == m_handle_p2) {
+        m_game_post_action(m_handle_p1, m_handle_p2);
+        server::instance().send_message(m_handle_p1, msg_winner);
+    } else {
+        m_game_post_action(m_handle_p2, m_handle_p1);
+        server::instance().send_message(m_handle_p2, msg_winner);
+    }
+}
+
 bool game::is_finished() const noexcept {
     return m_state.get_game_status() != game_status::PROCESSING;
 }

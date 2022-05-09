@@ -16,6 +16,7 @@ enum class messages_type {
     GAME_USE_ULT,
     GAME_UPGRADE_AGE,
     GAME_GIVE_UP,
+    GAME_DISCONNECTED,
     GAME_START,
     GAME_FINISHED,
     GAME_STATE,

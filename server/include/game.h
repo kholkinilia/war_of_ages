@@ -19,6 +19,7 @@ struct game {
     void apply_command(const std::string &handle, std::unique_ptr<game_command> command) noexcept;
     void update();
     void user_gave_up(const std::string &handle);
+    void user_disconnected(const std::string &handle);
 
     [[nodiscard]] bool is_finished() const noexcept;
     [[nodiscard]] const std::string &get_handle_p1() const noexcept;
