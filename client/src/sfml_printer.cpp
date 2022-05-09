@@ -1,11 +1,10 @@
-#include "../include/sprite_printer.h"
-#include <TGUI/Widgets/BitmapButton.hpp>
+#include "../include/sfml_printer.h"
 #include <TGUI/Widgets/Group.hpp>
 #include <TGUI/Widgets/Label.hpp>
-#include "../include/bot_actions_receiver.h"
+#include <utility>
 #include "../include/client.h"
 #include "../include/game_object_size_constants.h"
-#include "../include/game_screen.h"
+#include "../include/screen_handler.h"
 #include "../include/sprite_supplier.h"
 
 namespace war_of_ages {
@@ -53,9 +52,9 @@ static void print_units(sf::RenderWindow *window,
     }
 }
 
-void print_tower_front(sf::RenderWindow *window,
-                       const player_snapshot &p,
-                       sprite_supplier::player_side side) {
+static void print_tower_front(sf::RenderWindow *window,
+                              const player_snapshot &p,
+                              sprite_supplier::player_side side) {
     sf::Sprite tower_front =
         sprite_supplier::get_instance().get_tower_front_sprite(p.age, p.cannons.size(), side);
 
@@ -127,30 +126,28 @@ static void print_cannons(sf::RenderWindow *window,
     }
 }
 
-void print(tgui::Gui &gui, sf::RenderWindow *window, const std::shared_ptr<game_state> &state) {
-    auto [p1, p2] = state->snapshot_players();
-    state->update(current_state.get_cur_game()->get_actions(0, p1),
-                  current_state.get_cur_game()->get_actions(1, p2), 1.f * clock() / CLOCKS_PER_SEC);
-    current_state.get_cur_game()->clear_actions();
-    std::tie(p1, p2) = state->snapshot_players();
+void sfml_printer::print_game(const std::pair<player_snapshot, player_snapshot> &snapshots) {
+    auto [p1, p2] = snapshots;
     auto background = sprite_supplier::get_instance().get_background_sprite(p1.age);
-    background.setPosition(window->getView().getCenter().x - BACKGROUND_WIDTH / 2, 0);
-    window->draw(background);
+    background.setPosition(m_window.getView().getCenter().x - BACKGROUND_WIDTH / 2, 0);
+    m_window.draw(background);
 
-    gui.get(current_state.get_cur_screen_id())
+    auto &gui = screen_handler::instance().get_gui();  // TODO: think whether it should be here
+
+    gui.get(screen_handler::screen_id.at(screen_handler::screen_type::GAME_SCREEN))
         ->cast<tgui::Group>()
         ->get("coin_label")
         ->cast<tgui::Label>()
         ->setText(std::to_string(p1.money));
 
-    gui.get(current_state.get_cur_screen_id())
+    gui.get(screen_handler::screen_id.at(screen_handler::screen_type::GAME_SCREEN))
         ->cast<tgui::Group>()
         ->get("exp_label")
         ->cast<tgui::Label>()
         ->setText(std::to_string(p1.exp));
 
     for (int i = 0; i < CANNONS_PER_AGE; i++) {
-        auto label = gui.get(current_state.get_cur_screen_id())
+        auto label = gui.get(screen_handler::screen_id.at(screen_handler::screen_type::GAME_SCREEN))
                          ->cast<tgui::Group>()
                          ->get("sell_cannon_" + std::to_string(i))
                          ->cast<tgui::Group>()
@@ -163,7 +160,7 @@ void print(tgui::Gui &gui, sf::RenderWindow *window, const std::shared_ptr<game_
         }
     }
 
-    gui.get(current_state.get_cur_screen_id())
+    gui.get(screen_handler::screen_id.at(screen_handler::screen_type::GAME_SCREEN))
         ->cast<tgui::Group>()
         ->get("plus_place_cannon_coin_label")
         ->cast<tgui::Label>()
@@ -183,18 +180,18 @@ void print(tgui::Gui &gui, sf::RenderWindow *window, const std::shared_ptr<game_
         x_pos = BACKGROUND_WIDTH - 7 * DELTA_X - unit_no * DELTA_X;
 
         queued_unit_out.setPosition(
-            {x_pos + (window->getView().getCenter().x - BACKGROUND_WIDTH / 2),
+            {x_pos + (m_window.getView().getCenter().x - BACKGROUND_WIDTH / 2),
              BUTTON_HEIGHT + BUTTON_Y + (2 * (number_of_units_in_queue[unit_no]++) + 1) * HP_HEIGHT});
-        window->draw(queued_unit_out);
+        m_window.draw(queued_unit_out);
 
         if (i == 0) {
             queued_unit_in.setSize(
                 {BUTTON_WIDTH *
                      (1 - p1.m_training_time_left / p1.units_to_train.front().stats().time_to_train_s),
                  HP_HEIGHT});
-            queued_unit_in.setPosition({x_pos + (window->getView().getCenter().x - BACKGROUND_WIDTH / 2),
+            queued_unit_in.setPosition({x_pos + (m_window.getView().getCenter().x - BACKGROUND_WIDTH / 2),
                                         BUTTON_HEIGHT + BUTTON_Y + HP_HEIGHT});
-            window->draw(queued_unit_in);
+            m_window.draw(queued_unit_in);
         }
     }
 
@@ -204,25 +201,103 @@ void print(tgui::Gui &gui, sf::RenderWindow *window, const std::shared_ptr<game_
     ult_out.setSize({BUTTON_WIDTH * 4, HP_HEIGHT});
     ult_in.setSize({p1.m_ult_cooldown * BUTTON_WIDTH * 4 / ULT_COOLDOWN, HP_HEIGHT});
     ult_out.setPosition(
-        BACKGROUND_WIDTH - 3 * DELTA_X + (window->getView().getCenter().x - BACKGROUND_WIDTH / 2),
+        BACKGROUND_WIDTH - 3 * DELTA_X + (m_window.getView().getCenter().x - BACKGROUND_WIDTH / 2),
         2 * (BUTTON_HEIGHT + BUTTON_Y));
     ult_in.setPosition(BACKGROUND_WIDTH - 3 * DELTA_X +
                            (ULT_COOLDOWN - p1.m_ult_cooldown) * BUTTON_WIDTH * 4 / ULT_COOLDOWN +
-                           (window->getView().getCenter().x - BACKGROUND_WIDTH / 2),
+                           (m_window.getView().getCenter().x - BACKGROUND_WIDTH / 2),
                        2 * (BUTTON_HEIGHT + BUTTON_Y));
-    window->draw(ult_out);
-    window->draw(ult_in);
+    m_window.draw(ult_out);
+    m_window.draw(ult_in);
 
     auto road = sprite_supplier::get_instance().get_road_sprite(p1.age);
     road.setPosition(0, BACKGROUND_HEIGHT - ROAD_HEIGHT);
-    window->draw(road);
-    print_units(window, p1, sprite_supplier::player_side::LEFT);
-    print_units(window, p2, sprite_supplier::player_side::RIGHT);
-    print_tower_front(window, p1, sprite_supplier::player_side::LEFT);
-    print_tower_front(window, p2, sprite_supplier::player_side::RIGHT);
-    print_bullets(window, p1.bullets, sprite_supplier::player_side::LEFT);
-    print_bullets(window, p2.bullets, sprite_supplier::player_side::RIGHT);
-    print_cannons(window, p1.cannons, sprite_supplier::player_side::LEFT);
-    print_cannons(window, p2.cannons, sprite_supplier::player_side::RIGHT);
+    m_window.draw(road);
+    print_units(&m_window, p1, sprite_supplier::player_side::LEFT);
+    print_units(&m_window, p2, sprite_supplier::player_side::RIGHT);
+    print_tower_front(&m_window, p1, sprite_supplier::player_side::LEFT);
+    print_tower_front(&m_window, p2, sprite_supplier::player_side::RIGHT);
+    print_bullets(&m_window, p1.bullets, sprite_supplier::player_side::LEFT);
+    print_bullets(&m_window, p2.bullets, sprite_supplier::player_side::RIGHT);
+    print_cannons(&m_window, p1.cannons, sprite_supplier::player_side::LEFT);
+    print_cannons(&m_window, p2.cannons, sprite_supplier::player_side::RIGHT);
 }
+
+void sfml_printer::handle_window_events() {
+    static float prev_x;
+    static bool moving = false;
+
+    sf::Event event{};
+    while (m_window.pollEvent(event)) {
+        screen_handler::instance().get_gui().handleEvent(event);
+        switch (event.type) {
+            case sf::Event::Closed:
+                m_window.close();
+                break;
+            case sf::Event::MouseButtonPressed:
+                if (event.mouseButton.button == 0) {
+                    moving = true;
+                    prev_x = event.mouseButton.x;
+                }
+                break;
+            case sf::Event::MouseButtonReleased:
+                if (event.mouseButton.button == 0) {
+                    moving = false;
+                }
+                break;
+            case sf::Event::MouseMoved: {
+                if (!moving ||
+                    screen_handler::instance().get_screen_type() != screen_handler::screen_type::GAME_SCREEN)
+                    break;
+
+                float delta = prev_x - event.mouseMove.x;
+                if (m_view.getCenter().x + delta < 1.f * BACKGROUND_WIDTH / 2) {
+                    delta = 1.f * BACKGROUND_WIDTH / 2 - m_view.getCenter().x;
+                }
+                if (m_view.getCenter().x + delta > ROAD_WIDTH - 1.f * BACKGROUND_WIDTH / 2) {
+                    delta = ROAD_WIDTH - 1.f * BACKGROUND_WIDTH / 2 - m_view.getCenter().x;
+                }
+                m_view.move(delta, 0.0f);
+
+                prev_x = event.mouseMove.x;
+                break;
+            }
+            default:
+                break;
+        }
+    }
+}
+
+sfml_printer &sfml_printer::instance() {
+    static sfml_printer printer;
+    return printer;
+}
+
+sfml_printer::sfml_printer()
+    : m_window(sf::VideoMode::getFullscreenModes()[0], "War of Ages", sf::Style::Fullscreen), m_view() {
+}
+
+void sfml_printer::init() {
+    m_window.setVerticalSyncEnabled(true);
+    m_view = m_window.getDefaultView();
+}
+
+sf::View &sfml_printer::get_view() noexcept {
+    return m_view;
+}
+
+sf::RenderWindow &sfml_printer::get_window() noexcept {
+    return m_window;
+}
+
+void sfml_printer::update() {
+    handle_window_events();
+    sfml_printer::instance().get_window().clear();
+}
+
+void sfml_printer::draw() {
+    m_window.setView(sfml_printer::instance().get_view());
+    m_window.display();
+}
+
 }  // namespace war_of_ages
