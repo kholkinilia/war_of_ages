@@ -29,7 +29,8 @@ void screen_handler::start_screen_init() {
     multiplayer_button->setTextSize(30);
     multiplayer_button->onPress([&]() {
         if (!client::instance().is_connected()) {
-            client::instance().connect("192.168.0.95" /* .43 Vakhtang, .95 Ilya */, 12345);  // FIXME: (obvious)
+            client::instance().connect("192.168.0.95" /* .43 Vakhtang, .95 Ilya */,
+                                       12345);  // FIXME: (obvious)
         }
         client::instance().login();
         screen_handler::instance().change_screen(screen_handler::screen_type::MULTIPLAYER);
