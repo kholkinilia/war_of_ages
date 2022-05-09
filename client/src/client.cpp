@@ -12,6 +12,12 @@ client &client::instance() {
 
 client::client() : client_interface() {
     std::fstream file("../config.txt");
+
+    std::getline(file, m_server_ip);
+    std::string server_port_string;
+    std::getline(file, server_port_string);
+    m_server_port = std::stoi(server_port_string);
+
     std::getline(file, m_handle);
     std::getline(file, m_password);
 }
@@ -57,6 +63,16 @@ std::string client::get_handle() const {
 std::string client::get_password() const {
     std::unique_lock l(m_mutex_handle_n_password);
     return m_password;
+}
+
+std::string client::get_server_ip() const {
+    std::unique_lock l(m_mutex_handle_n_password);
+    return m_server_ip;
+}
+
+std::uint16_t client::get_server_port() const {
+    std::unique_lock l(m_mutex_handle_n_password);
+    return m_server_port;
 }
 
 }  // namespace war_of_ages::client
