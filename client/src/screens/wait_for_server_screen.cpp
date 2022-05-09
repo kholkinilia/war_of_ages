@@ -15,8 +15,15 @@ void screen_handler::wait_for_server_screen_init() {
     waiting_label->getRenderer()->setTextColor(tgui::Color::White);
     wait_screen_group->add(waiting_label);
 
+    tgui::Button::Ptr return_back_button = tgui::Button::create("В главное меню");
+    return_back_button->setTextSize(30);
+    return_back_button->onPress(
+        [&] { screen_handler::instance().change_screen(screen_handler::screen_type::START_SCREEN); });
+    wait_screen_group->add(return_back_button);
+
     std::vector<tgui::Widget::Ptr> widgets;
     widgets.push_back(waiting_label);
+    widgets.push_back(return_back_button);
 
     place_widgets(widgets);
 

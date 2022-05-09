@@ -50,12 +50,65 @@ struct message {
     }
 
     template <typename DataType>
+    friend message &operator<<(message &msg, const std::vector<DataType> &vector) {
+        if (!std::is_trivially_copyable_v<DataType>) {
+            std::cerr << "Data you want to pass to a message is not trivially copyable.";
+            assert(false);
+        }
+        msg.insert_buf(reinterpret_cast<const std::uint8_t *>(&vector[0]), sizeof(DataType) * vector.size());
+        msg << static_cast<std::uint32_t>(vector.size());
+        msg.header.size = msg.size();
+        return msg;
+    }
+
+    template <typename DataType>
+    friend message &operator<<(message &msg, const std::vector<std::vector<DataType>> &v_vector) {
+        if (!std::is_trivially_copyable_v<DataType>) {
+            std::cerr << "Data you want to pass to a message is not trivially copyable.";
+            assert(false);
+        }
+        for (auto &vector : v_vector) {
+            msg << vector;
+        }
+        msg << static_cast<std::uint32_t>(v_vector.size());
+        return msg;
+    }
+
+    template <typename DataType>
     friend message &operator>>(message &msg, DataType &dst) {
         if (!std::is_trivially_copyable_v<DataType>) {
             std::cerr << "Data you want to pass to a message is not trivially copyable.";
             assert(false);
         }
         msg.extract_buf(reinterpret_cast<std::uint8_t *>(&dst), sizeof(DataType));
+        return msg;
+    }
+
+    template <typename DataType>
+    friend message &operator>>(message &msg, std::vector<DataType> &vector) {
+        if (!std::is_trivially_copyable_v<DataType>) {
+            std::cerr << "Data you want to pass to a message is not trivially copyable.";
+            assert(false);
+        }
+        std::uint32_t vector_size;
+        msg >> vector_size;
+        vector.resize(vector_size);
+        msg.extract_buf(reinterpret_cast<std::uint8_t *>(&vector[0]), sizeof(DataType) * vector_size);
+        return msg;
+    }
+
+    template <typename DataType>
+    friend message &operator>>(message &msg, std::vector<std::vector<DataType>> &v_vector) {
+        if (!std::is_trivially_copyable_v<DataType>) {
+            std::cerr << "Data you want to pass to a message is not trivially copyable.";
+            assert(false);
+        }
+        std::uint32_t v_vector_size;
+        msg >> v_vector_size;
+        v_vector.resize(v_vector_size);
+        for (auto &vector : v_vector) {
+            msg >> vector;
+        }
         return msg;
     }
 

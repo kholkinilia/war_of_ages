@@ -1,5 +1,7 @@
 #include "../include/client.h"
 #include "../include/bot_actions_supplier.h"
+#include <fstream>
+#include <iostream>
 
 namespace war_of_ages::client {
 
@@ -9,9 +11,9 @@ client &client::instance() {
 }
 
 client::client() : client_interface() {
-    // TODO: read handle from local config.txt
-    m_handle = "a";
-    m_password = "b";
+    std::fstream file("../config.txt");
+    std::getline(file, m_handle);
+    std::getline(file, m_password);
 }
 
 std::vector<owned_message<messages_type>> client::retrieve_messages() {

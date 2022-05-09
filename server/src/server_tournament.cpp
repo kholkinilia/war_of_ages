@@ -14,8 +14,8 @@ void war_of_ages::server::server_tournament::post_add_participant(const std::str
 
     msg_to_handle.insert_container(snapshot.name);
     msg_to_handle.insert_container(snapshot.key);
-    msg_to_handle.insert_container(snapshot.participants);   // FIXME: doesn't work
-    msg_to_handle.insert_container(snapshot.match_results);  // FIXME: doesn't work
+    msg_to_handle >> snapshot.participants;
+    msg_to_handle >> snapshot.match_results;
 
     server::instance().send_message(handle, msg_to_handle);
 

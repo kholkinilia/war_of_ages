@@ -10,11 +10,23 @@ void tournament_handler::create(const std::string &handle, const std::string &to
     std::unique_lock lock(m_mutex);
     std::string key = gen_key();
 
-    tournament &t = m_tournament[key];
+    server_tournament &t = m_tournament[key];
     m_key_by_handle[handle] = key;
     t.set_key(key);
     t.set_name(tournament_name);
     t.add_participant(handle);
+
+    message<messages_type> msg;
+    msg.header.id = messages_type::TOURNAMENT_STATE;
+    auto snap = t.get_snapshot();
+    msg.insert_container(key);
+    msg.insert_container(snap.name);
+    msg << snap.participants;
+    msg << snap.match_results;
+//    msg.insert_container(snap.participants);
+//    msg.insert_container(snap.match_results);
+
+    server::instance().send_message(handle, msg);
 }
 
 void tournament_handler::join(const std::string &handle, const std::string &key) {

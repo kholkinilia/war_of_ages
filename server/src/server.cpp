@@ -25,7 +25,9 @@ server::server() : server_interface<messages_type>(m_port) {
 }
 
 void server::send_message(const std::string &handle, const message<messages_type> &msg) {
+    std::cerr << "Before lock" << std::endl;
     std::unique_lock l(m_mutex);
+    std::cerr << "Sending to " << handle << ": " << msg << std::endl;
     server_interface::send_message(m_connection_by_id.at(m_id_by_handle.at(handle)), msg);
 }
 
@@ -69,6 +71,7 @@ void server::on_client_disconnect(std::shared_ptr<connection<messages_type>> cli
 }
 
 void server::on_message(std::shared_ptr<connection<messages_type>> client, message<messages_type> msg) {
+    std::cerr << "Received message: " << msg << std::endl;
     if (std::uint32_t valid_size = valid_body_size.at(msg.header.id);
         msg.header.size != valid_size && valid_size != -1) {
         client->disconnect();
@@ -96,6 +99,8 @@ void server::on_message(std::shared_ptr<connection<messages_type>> client, messa
     assert(m_handle_by_id.find(uid) != m_handle_by_id.end());
     const std::string &handle = m_handle_by_id.at(uid);
     l.unlock();
+
+    std::cerr << "went up to here" << std::endl;
 
     switch (msg.header.id) {
         case messages_type::AUTH_LOGOUT: {
@@ -163,19 +168,19 @@ void server::on_message(std::shared_ptr<connection<messages_type>> client, messa
             room_matchmaker::instance().switch_readiness(handle);
         } break;
         case messages_type::TOURNAMENT_CREATE: {
-            ensure_status(status, user_status::TOURNAMENT, true);
+//            ensure_status(status, user_status::TOURNAMENT, true);
             std::string name;
             msg.extract_container(name);
             tournament_handler::instance().create(handle, name);
         } break;
         case messages_type::TOURNAMENT_JOIN: {
-            ensure_status(status, user_status::TOURNAMENT, true);
+//            ensure_status(status, user_status::TOURNAMENT, true);
             std::string key;
             msg.extract_container(key);
             tournament_handler::instance().join(handle, key);
         } break;
         case messages_type::TOURNAMENT_LEAVE: {
-            ensure_status(status, user_status::TOURNAMENT, true);
+//            ensure_status(status, user_status::TOURNAMENT, true);
             tournament_handler::instance().leave(handle);
         } break;
         case messages_type::SERVER_PING: {

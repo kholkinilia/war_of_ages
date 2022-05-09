@@ -48,6 +48,7 @@ void application::update_screens() {
             auto messages = client::instance().retrieve_messages();
             for (auto &owned_msg : messages) {
                 auto &msg = owned_msg.msg;
+                std::cerr << msg << std::endl;
                 switch (msg.header.id) {
                     case messages_type::AUTH_LOGIN:
                         // TODO
@@ -84,8 +85,8 @@ void application::update_screens() {
                     } break;
                     case messages_type::TOURNAMENT_STATE: {
                         tournament_snapshot snapshot;
-                        msg.extract_container(snapshot.match_results);
-                        msg.extract_container(snapshot.participants);
+                        msg >> snapshot.match_results;
+                        msg >> snapshot.participants;
                         msg.extract_container(snapshot.name);
                         msg.extract_container(snapshot.key);
 

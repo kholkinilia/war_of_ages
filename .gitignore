@@ -3,6 +3,7 @@
 /client/ext/
 /TGUI/
 /build/
+/config.txt
 
 # Music
 *.wav

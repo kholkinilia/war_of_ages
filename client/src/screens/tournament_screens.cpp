@@ -64,23 +64,29 @@ void screen_handler::tournament_creation_screen_init() {
     tournament_name_box->setInputValidator("[a-zA-Z0-9а-яА-Я ]{0,35}");
     tournament_name_box->setTextSize(30);
     tournament_name_box->setDefaultText("Введите название турнира");
-    tournament_creation_screen_group->add(tournament_name_box);
+    tournament_creation_screen_group->add(tournament_name_box, "tournament_name_box");
 
     tgui::EditBox::Ptr participants_number_box = tgui::EditBox::create();
     participants_number_box->setInputValidator(tgui::EditBox::Validator::UInt);
     participants_number_box->setTextSize(30);
     participants_number_box->setDefaultText("Введите кол-во человек в турнире");
-    tournament_creation_screen_group->add(participants_number_box);
+    tournament_creation_screen_group->add(participants_number_box, "participant_numebr_box");
 
     tgui::Button::Ptr create_tournament_button = tgui::Button::create("Создать турнир");
     create_tournament_button->setTextSize(30);
     create_tournament_button->onPress([&] {
         message<messages_type> msg;
         msg.header.id = messages_type::TOURNAMENT_CREATE;
-        std::string name = static_cast<std::string>(tournament_name_box->getText());
+        std::string name = static_cast<std::string>(m_gui.get(screen_id.at(screen_type::TOURNAMENT_CREATION))
+                                                        ->cast<tgui::Group>()
+                                                        ->get("tournament_name_box")
+                                                        ->cast<tgui::EditBox>()
+                                                        ->getText());
         msg.insert_container(name);
 
+        std::cerr << "Sending tournament creation message: '" << name << "'" << std::endl;
         client::instance().send_message(msg);
+        std::cerr << "Succeeded" << std::endl;
 
         change_screen(screen_type::WAITING_FOR_SERVER);
     });

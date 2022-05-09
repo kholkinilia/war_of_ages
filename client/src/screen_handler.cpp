@@ -53,6 +53,22 @@ void screen_handler::change_screen(screen_handler::screen_type new_screen) {
     m_gui.get(screen_id.at(new_screen))->setVisible(true);
     m_screen_type = new_screen;
 
+    switch (new_screen) {
+        case screen_type::GAME_SCREEN: {
+            if (prev_screen == screen_type::START_SCREEN) {
+                application::instance().set_state(application::state::SINGLE_PLAYER_GAME);
+            }
+        } break;
+        case screen_type::MULTIPLAYER: {
+            application::instance().set_state(application::state::MULTIPLAYER);
+        } break;
+        case screen_type::START_SCREEN: {
+            application::instance().set_state(application::state::MENU);
+        } break;
+        default:
+            break;
+    }
+
     // Settings screen_type does not contain resume_button
     if (new_screen == screen_type::SETTINGS) {
         switch (prev_screen) {
