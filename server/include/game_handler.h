@@ -33,7 +33,8 @@ struct game_handler {
 private:
     game_handler() noexcept = default;
 
-    [[nodiscard]] bool user_exists(const std::string &handle) const noexcept;
+    [[nodiscard]] bool user_exists_lock_held(const std::string &handle) const noexcept;
+    [[nodiscard]] bool user_exists(const std::string &handle) const;
     void remove_game(std::size_t game_index) noexcept;
 
     std::unordered_map<std::string, std::size_t> m_game_by_handle;
