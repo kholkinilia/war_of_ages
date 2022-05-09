@@ -57,7 +57,7 @@ public:
             std::cerr << "Client exception: " << e.what() << "\n";
             return false;
         }
-        return true;
+        return m_connection->is_connected();
     };
 
     void disconnect() {

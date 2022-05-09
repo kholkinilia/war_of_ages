@@ -2,6 +2,7 @@
 #define WAR_OF_AGES_TOURNAMENT_HANDLER_H
 
 #include <TGUI/Widgets/Grid.hpp>  // tgui::Gui, tgui::Grid
+#include <TGUI/Widgets/Label.hpp>
 #include "../../common/tournament/include/tournament.h"
 
 namespace war_of_ages::client {
@@ -11,6 +12,8 @@ private:
     tournament_handler() = default;
 
     tgui::Grid::Ptr m_grid;
+    tgui::Label::Ptr m_name_label;
+    tgui::Label::Ptr m_key_label;
     bool m_is_grid_updated = true;
     void post_add_participant(const std::string &handle) final;
     void post_add_result(const std::string &winner, const std::string &loser) final;
@@ -24,6 +27,9 @@ public:
 
     void update_grid();
     void set_grid(tgui::Grid::Ptr &grid);
+    void set_name_label(tgui::Label::Ptr &name_label);
+    void set_key_label(tgui::Label::Ptr &key_label);
+    void set_tournament(const tournament_snapshot &snapshot);
 
     [[nodiscard]] static tournament_handler &instance();
 };

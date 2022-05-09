@@ -102,13 +102,4 @@ tournament_snapshot tournament::get_snapshot() const {
     return {m_name, m_key, m_participants, m_match_results};
 }
 
-void tournament::set_tournament(const tournament_snapshot &snapshot) {
-    std::unique_lock lock(m_mutex);
-    m_name = snapshot.name;
-    m_key = snapshot.key;
-    m_participants = snapshot.participants;
-    m_match_results = snapshot.match_results;
-    update_places_lock_held();
-}
-
 }  // namespace war_of_ages

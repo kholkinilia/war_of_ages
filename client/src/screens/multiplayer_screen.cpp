@@ -33,6 +33,12 @@ void screen_handler::multiplayer_screen_init() {
         [&]() { screen_handler::instance().change_screen(screen_handler::screen_type::WAIT_OPPONENT); });
     multiplayer_screen_group->add(join_room_button);
 
+    tgui::Button::Ptr tournament_button = tgui::Button::create("Турниры");
+    tournament_button->setTextSize(30);
+    tournament_button->onPress(
+        [&]() { screen_handler::instance().change_screen(screen_handler::screen_type::TOURNAMENT_JOINING); });
+    multiplayer_screen_group->add(tournament_button);
+
     tgui::Button::Ptr return_back_button = tgui::Button::create("Назад");
     return_back_button->setTextSize(30);
     return_back_button->onPress(
@@ -40,7 +46,7 @@ void screen_handler::multiplayer_screen_init() {
     multiplayer_screen_group->add(return_back_button);
 
     std::vector<tgui::Widget::Ptr> widgets{random_game_button, room_id_editbox, join_room_button,
-                                           return_back_button};
+                                           tournament_button, return_back_button};
 
     place_widgets(widgets);
     m_gui.add(multiplayer_screen_group,

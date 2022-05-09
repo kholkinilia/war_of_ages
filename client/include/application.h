@@ -5,7 +5,6 @@ namespace war_of_ages::client {
 
 struct application {
     enum class state {
-        WAITING_FOR_SERVER,
         MENU,
         SINGLE_PLAYER_GAME,
         MULTIPLAYER,

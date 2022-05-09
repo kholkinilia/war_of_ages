@@ -4,6 +4,7 @@
 #include "../include/screen_handler.h"
 #include "../include/sfml_printer.h"
 #include "../include/single_player_handler.h"
+#include "../include/tournament_handler.h"
 
 namespace war_of_ages::client {
 
@@ -81,6 +82,33 @@ void application::update_screens() {
 
                         multiplayer_snapshots_handler::instance().set_snapshots({snapshot_p1, snapshot_p2});
                     } break;
+                    case messages_type::TOURNAMENT_STATE: {
+                        tournament_snapshot snapshot;
+                        msg.extract_container(snapshot.match_results);
+                        msg.extract_container(snapshot.participants);
+                        msg.extract_container(snapshot.name);
+                        msg.extract_container(snapshot.key);
+
+                        tournament_handler::instance().set_tournament(snapshot);
+                        screen_handler::instance().change_screen(
+                            screen_handler::screen_type::TOURNAMENT_MAIN);
+                    } break;
+                    case messages_type::TOURNAMENT_ADD_PLAYER: {
+                        std::string handle;
+                        msg.extract_container(handle);
+                        tournament_handler::instance().add_participant(handle);
+                    } break;
+                    case messages_type::TOURNAMENT_REMOVE_PLAYER: {
+                        std::string handle;
+                        msg.extract_container(handle);
+                        tournament_handler::instance().remove_participant(handle);
+                    } break;
+                    case messages_type::TOURNAMENT_ADD_RESULT: {
+                        std::string winner, loser;
+                        msg.extract_container(loser);
+                        msg.extract_container(winner);
+                        tournament_handler::instance().add_result(winner, loser);
+                    }
                     default:
                         break;
                 }
@@ -89,23 +117,6 @@ void application::update_screens() {
                 sfml_printer::instance().print_game(
                     multiplayer_snapshots_handler::instance().get_snapshots());
             }
-
-            //                        switch (screen_handler::instance().get_screen_type()) {
-            //                            case screen_handler::screen_type::TOURNAMENT_MAIN: {
-            //                                // TODO: uncomment, when tournament logic is implemented
-            //                                //
-            //                                state.get_cur_tournament()->update_grid(gui.get(screen_id.at(screen::TOURNAMENT_MAIN))
-            //                                // ->cast<tgui::Group>()
-            //                                // ->get("tournament_grid")
-            //                                // ->cast<tgui::Grid>());
-            //                            } break;
-            //                            case screen_handler::screen_type::GAME_SCREEN: {
-            //                            } break;
-            //                            default:
-            //                                break;
-            //                        }
-        } break;
-        case state::WAITING_FOR_SERVER: {
         } break;
         case state::MENU: {
         } break;

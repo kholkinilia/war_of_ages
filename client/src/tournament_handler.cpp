@@ -125,6 +125,25 @@ void tournament_handler::set_grid(tgui::Grid::Ptr &grid) {
     m_grid = grid;
 }
 
+void tournament_handler::set_name_label(tgui::Label::Ptr &name_label) {
+    m_name_label = name_label;
+}
+
+void tournament_handler::set_key_label(tgui::Label::Ptr &key_label) {
+    m_key_label = key_label;
+}
+
+void tournament_handler::set_tournament(const tournament_snapshot &snapshot) {
+    std::unique_lock lock(m_mutex);
+    m_name = snapshot.name;
+    m_name_label->setText(m_name);
+    m_key = snapshot.key;
+    m_key_label->setText("Ключ к турниру: '" + m_key + "'");
+    m_participants = snapshot.participants;
+    m_match_results = snapshot.match_results;
+    update_places_lock_held();
+}
+
 tournament_handler &tournament_handler::instance() {
     static tournament_handler handler;
     return handler;

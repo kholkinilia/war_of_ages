@@ -38,12 +38,6 @@ void screen_handler::start_screen_init() {
     });
     start_screen_group->add(multiplayer_button);
 
-    tgui::Button::Ptr tournament_button = tgui::Button::create("Турниры");
-    tournament_button->setTextSize(30);
-    tournament_button->onPress(
-        [&]() { screen_handler::instance().change_screen(screen_handler::screen_type::TOURNAMENT_JOINING); });
-    start_screen_group->add(tournament_button);
-
     tgui::Button::Ptr statistics_button = tgui::Button::create("Статистика");
     statistics_button->setTextSize(30);
     // TODO: onPress: switch to the statistics screen when it is implemented
@@ -54,7 +48,7 @@ void screen_handler::start_screen_init() {
     exit_button->onPress([]() { sfml_printer::instance().get_window().close(); });
     start_screen_group->add(exit_button);
 
-    std::vector<tgui::Widget::Ptr> widgets{singleplayer_button, multiplayer_button, tournament_button,
+    std::vector<tgui::Widget::Ptr> widgets{singleplayer_button, multiplayer_button,
                                            statistics_button, exit_button};
     place_widgets(widgets);
 

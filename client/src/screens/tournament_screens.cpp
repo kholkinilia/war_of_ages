@@ -43,7 +43,7 @@ void screen_handler::tournament_join_screen_init() {
     tgui::Button::Ptr return_back_button = tgui::Button::create("Назад");
     return_back_button->setTextSize(30);
     return_back_button->onPress(
-        [&] { screen_handler::instance().change_screen(screen_handler::screen_type::START_SCREEN); });
+        [&] { screen_handler::instance().change_screen(screen_handler::screen_type::MULTIPLAYER); });
     tournament_join_screen_group->add(return_back_button);
 
     std::vector<tgui::Widget::Ptr> widgets{create_tournament_button, tournament_key_box,
@@ -136,6 +136,8 @@ void screen_handler::tournament_screen_init() {
     tournament_screen_group->add(tournament_grid, "tournament_grid");
 
     tournament_handler::instance().set_grid(tournament_grid);
+    tournament_handler::instance().set_name_label(tournament_name);
+    tournament_handler::instance().set_key_label(tournament_key);
 
     m_gui.add(tournament_screen_group,
               screen_handler::screen_id.at(screen_handler::screen_type::TOURNAMENT_MAIN));

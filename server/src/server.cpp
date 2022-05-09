@@ -40,15 +40,12 @@ void server::set_user_status(std::uint32_t user_id, user_status new_status) {
 }
 
 void server::on_client_validated(std::shared_ptr<connection<messages_type>> client) {
+    std::unique_lock l(m_mutex);
+    m_connection_by_id.insert({client->get_id(), client});
+    m_status_by_id.insert({client->get_id(), user_status::AUTHORIZATION});
 }
 
 bool server::on_client_connect(std::shared_ptr<connection<messages_type>> client) {
-    static int cnt = 10000;
-
-    std::unique_lock l(m_mutex);
-    m_connection_by_id.insert({cnt, client});
-    m_status_by_id.insert({cnt, user_status::AUTHORIZATION});
-    cnt++;
     return true;
 }
 

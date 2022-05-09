@@ -39,7 +39,6 @@ protected:
 
 public:
     tournament() = default;
-    void set_tournament(const tournament_snapshot &snapshot);
 
     void add_participant(const std::string &handle);
 
