@@ -48,8 +48,8 @@ void screen_handler::start_screen_init() {
     exit_button->onPress([]() { sfml_printer::instance().get_window().close(); });
     start_screen_group->add(exit_button);
 
-    std::vector<tgui::Widget::Ptr> widgets{singleplayer_button, multiplayer_button,
-                                           statistics_button, exit_button};
+    std::vector<tgui::Widget::Ptr> widgets{singleplayer_button, multiplayer_button, statistics_button,
+                                           exit_button};
     place_widgets(widgets);
 
     tgui::Button::Ptr settings_screen_button = tgui::Button::create();
