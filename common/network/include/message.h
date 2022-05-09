@@ -39,8 +39,11 @@ struct message {
         return out;
     }
 
+    /// ========================================================
+
     template <typename DataType>
     friend message &operator<<(message &msg, const DataType &src) {
+        std::cerr << "<<on trivial\n";
         if (!std::is_trivially_copyable_v<DataType>) {
             std::cerr << "Data you want to pass to a message is not trivially copyable.";
             assert(false);
@@ -50,32 +53,25 @@ struct message {
     }
 
     template <typename DataType>
-    friend message &operator<<(message &msg, const std::vector<DataType> &vector) {
-        if (!std::is_trivially_copyable_v<DataType>) {
-            std::cerr << "Data you want to pass to a message is not trivially copyable.";
-            assert(false);
+    friend message &operator<<(message &msg, const std::vector<DataType> &vec) {
+        std::cerr << "<<on vector\n";
+        for (auto &elem : vec) {
+            msg << elem;
         }
-        msg.insert_buf(reinterpret_cast<const std::uint8_t *>(&vector[0]), sizeof(DataType) * vector.size());
-        msg << static_cast<std::uint32_t>(vector.size());
-        msg.header.size = msg.size();
+        msg << static_cast<uint32_t>(vec.size());
         return msg;
     }
 
-    template <typename DataType>
-    friend message &operator<<(message &msg, const std::vector<std::vector<DataType>> &v_vector) {
-        if (!std::is_trivially_copyable_v<DataType>) {
-            std::cerr << "Data you want to pass to a message is not trivially copyable.";
-            assert(false);
-        }
-        for (auto &vector : v_vector) {
-            msg << vector;
-        }
-        msg << static_cast<std::uint32_t>(v_vector.size());
+    friend message &operator<<(message &msg, const std::string &string) {
+        std::cerr << "<<on string: '" << string << "'\n";
+        msg.insert_buf(reinterpret_cast<const std::uint8_t *>(&string[0]), string.size());
+        msg << static_cast<std::uint32_t>(string.size());
         return msg;
     }
 
     template <typename DataType>
     friend message &operator>>(message &msg, DataType &dst) {
+        std::cerr << ">>on trivial\n";
         if (!std::is_trivially_copyable_v<DataType>) {
             std::cerr << "Data you want to pass to a message is not trivially copyable.";
             assert(false);
@@ -84,30 +80,23 @@ struct message {
         return msg;
     }
 
-    template <typename DataType>
-    friend message &operator>>(message &msg, std::vector<DataType> &vector) {
-        if (!std::is_trivially_copyable_v<DataType>) {
-            std::cerr << "Data you want to pass to a message is not trivially copyable.";
-            assert(false);
-        }
-        std::uint32_t vector_size;
-        msg >> vector_size;
-        vector.resize(vector_size);
-        msg.extract_buf(reinterpret_cast<std::uint8_t *>(&vector[0]), sizeof(DataType) * vector_size);
+    friend message &operator>>(message &msg, std::string &string) {
+        std::cerr << ">>on string\n";
+        std::uint32_t string_size;
+        msg >> string_size;
+        string.resize(string_size, '\0');
+        msg.extract_buf(reinterpret_cast<std::uint8_t *>(&string[0]), string_size);
         return msg;
     }
 
     template <typename DataType>
-    friend message &operator>>(message &msg, std::vector<std::vector<DataType>> &v_vector) {
-        if (!std::is_trivially_copyable_v<DataType>) {
-            std::cerr << "Data you want to pass to a message is not trivially copyable.";
-            assert(false);
-        }
-        std::uint32_t v_vector_size;
-        msg >> v_vector_size;
-        v_vector.resize(v_vector_size);
-        for (auto &vector : v_vector) {
-            msg >> vector;
+    friend message &operator>>(message &msg, std::vector<DataType> &vector) {
+        std::cerr << ">>on vector\n";
+        std::uint32_t vector_size;
+        msg >> vector_size;
+        vector.resize(vector_size);
+        for (auto it = vector.rbegin(); it != vector.rend(); it++) {
+            msg >> *it;
         }
         return msg;
     }

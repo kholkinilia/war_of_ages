@@ -1,5 +1,6 @@
 #include "../include/tournament_handler.h"
 #include <TGUI/Widgets/Label.hpp>
+#include "../include/screen_handler.h"
 
 namespace war_of_ages::client {
 
@@ -135,13 +136,21 @@ void tournament_handler::set_key_label(tgui::Label::Ptr &key_label) {
 
 void tournament_handler::set_tournament(const tournament_snapshot &snapshot) {
     std::unique_lock lock(m_mutex);
+    std::cerr << "Creating tournament" << std::endl;
+    std::cerr << snapshot.name << std::endl;
     m_name = snapshot.name;
+    assert(m_name_label != nullptr);
     m_name_label->setText(m_name);
     m_key = snapshot.key;
+    std::cerr << snapshot.key << std::endl;
+    assert(m_key_label != nullptr);
     m_key_label->setText("Ключ к турниру: '" + m_key + "'");
+    std::cerr << "participants" << std::endl;
     m_participants = snapshot.participants;
+    std::cerr << "match results" << std::endl;
     m_match_results = snapshot.match_results;
     update_places_lock_held();
+    std::cerr << "Tournament created" << std::endl;
 }
 
 tournament_handler &tournament_handler::instance() {

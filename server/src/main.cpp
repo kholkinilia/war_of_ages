@@ -1,6 +1,8 @@
 #include "../../common/network/include/network.h"
+#include "../../common/include/messages_type.h"
 #include "../include/game_handler.h"
 #include "../include/server.h"
+#include "vector"
 
 int main() {
     war_of_ages::server::server::set_port(12345);

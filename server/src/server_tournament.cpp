@@ -12,10 +12,10 @@ void war_of_ages::server::server_tournament::post_add_participant(const std::str
     msg_to_handle.header.id = messages_type::TOURNAMENT_STATE;
     auto snapshot = get_snapshot();
 
-    msg_to_handle.insert_container(snapshot.name);
-    msg_to_handle.insert_container(snapshot.key);
-    msg_to_handle >> snapshot.participants;
-    msg_to_handle >> snapshot.match_results;
+    msg_to_handle << snapshot.key;
+    msg_to_handle << snapshot.name;
+    msg_to_handle << snapshot.participants;
+    msg_to_handle << snapshot.match_results;
 
     server::instance().send_message(handle, msg_to_handle);
 

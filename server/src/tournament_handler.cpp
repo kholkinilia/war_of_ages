@@ -19,12 +19,10 @@ void tournament_handler::create(const std::string &handle, const std::string &to
     message<messages_type> msg;
     msg.header.id = messages_type::TOURNAMENT_STATE;
     auto snap = t.get_snapshot();
-    msg.insert_container(key);
-    msg.insert_container(snap.name);
+    msg << key;
+    msg << snap.name;
     msg << snap.participants;
     msg << snap.match_results;
-    //    msg.insert_container(snap.participants);
-    //    msg.insert_container(snap.match_results);
 
     server::instance().send_message(handle, msg);
 }
