@@ -55,9 +55,6 @@ private:
     void end_game_screen_init();
     void wait_for_server_screen_init();
 
-    static void check_game_end();  // TODO: this is no good
-    void update_fps();
-
     screen_handler() = default;
 
 public:
@@ -67,7 +64,7 @@ public:
     [[nodiscard]] screen_type get_screen_type() const noexcept;
     [[nodiscard]] tgui::Gui &get_gui() noexcept;
 
-    void update();
+    void update_fps();
     void draw();
 
     [[nodiscard]] static screen_handler &instance();

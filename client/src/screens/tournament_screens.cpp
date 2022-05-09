@@ -150,9 +150,4 @@ void screen_handler::tournament_screen_init() {
     m_gui.get(screen_handler::screen_id.at(screen_handler::screen_type::TOURNAMENT_MAIN))->setVisible(false);
 }
 
-void screen_handler::update() {
-    check_game_end();
-    update_fps();
-}
-
 }  // namespace war_of_ages::client
