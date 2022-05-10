@@ -1,10 +1,10 @@
+#include "../../../common/include/messages_type.h"
 #include "../../include/application.h"
+#include "../../include/client.h"
 #include "../../include/screen_handler.h"
 #include "../../include/sfml_printer.h"
 #include "../../include/single_player_handler.h"
 #include "../../include/sound_player.h"
-#include "../../include/client.h"
-#include "../../../common/include/messages_type.h"
 
 // TGUI widgets
 #include <TGUI/Widgets/Button.hpp>
