@@ -91,6 +91,7 @@ private:
         } else {
             m_messages_received.push_back({nullptr, m_receiving_message});
         }
+//        std::cerr << "[" << m_id << "] New message" << std::endl;
         read_header();
     }
 

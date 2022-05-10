@@ -119,7 +119,7 @@ void tournament_handler::post_add_result(const std::string &, const std::string 
     m_is_grid_updated = false;
 }
 
-void tournament_handler::post_remove_participant(const std::string &) {
+void tournament_handler::post_remove_participant(const std::string &, std::size_t) {
     m_is_grid_updated = false;
 }
 

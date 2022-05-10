@@ -43,7 +43,7 @@ struct message {
 
     template <typename DataType>
     friend message &operator<<(message &msg, const DataType &src) {
-        std::cerr << "<<on trivial\n";
+//        std::cerr << "<<on trivial\n";
         if (!std::is_trivially_copyable_v<DataType>) {
             std::cerr << "Data you want to pass to a message is not trivially copyable.";
             assert(false);
@@ -54,7 +54,7 @@ struct message {
 
     template <typename DataType>
     friend message &operator<<(message &msg, const std::vector<DataType> &vec) {
-        std::cerr << "<<on vector\n";
+//        std::cerr << "<<on vector\n";
         for (auto &elem : vec) {
             msg << elem;
         }
@@ -71,7 +71,7 @@ struct message {
 
     template <typename DataType>
     friend message &operator>>(message &msg, DataType &dst) {
-        std::cerr << ">>on trivial\n";
+//        std::cerr << ">>on trivial\n";
         if (!std::is_trivially_copyable_v<DataType>) {
             std::cerr << "Data you want to pass to a message is not trivially copyable.";
             assert(false);
@@ -81,7 +81,7 @@ struct message {
     }
 
     friend message &operator>>(message &msg, std::string &string) {
-        std::cerr << ">>on string\n";
+//        std::cerr << ">>on string\n";
         std::uint32_t string_size;
         msg >> string_size;
         string.resize(string_size, '\0');
@@ -91,7 +91,7 @@ struct message {
 
     template <typename DataType>
     friend message &operator>>(message &msg, std::vector<DataType> &vector) {
-        std::cerr << ">>on vector\n";
+//        std::cerr << ">>on vector\n";
         std::uint32_t vector_size;
         msg >> vector_size;
         vector.resize(vector_size);

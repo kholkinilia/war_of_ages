@@ -15,23 +15,13 @@ void tournament_handler::create(const std::string &handle, const std::string &to
     t.set_key(key);
     t.set_name(tournament_name);
     t.add_participant(handle);
-
-    message<messages_type> msg;
-    msg.header.id = messages_type::TOURNAMENT_STATE;
-    auto snap = t.get_snapshot();
-    msg << key;
-    msg << snap.name;
-    msg << snap.participants;
-    msg << snap.match_results;
-
-    std::cerr << "match_size: " << snap.match_results.size() << std::endl;
-
-    server::instance().send_message(handle, msg);
 }
 
 void tournament_handler::join(const std::string &handle, const std::string &key) {
     std::unique_lock lock(m_mutex);
-    m_tournament[key].add_participant(handle);
+    if (m_tournament.count(key)) {
+        m_tournament[key].add_participant(handle);
+    }
 }
 
 void tournament_handler::leave(const std::string &handle) {

@@ -9,11 +9,13 @@ namespace war_of_ages::server {
 
 struct server_tournament : tournament {
 private:
-    std::vector<std::string> ready_to_play_participants;
+    std::vector<bool> m_is_playing;
+
     void post_add_participant(const std::string &handle) final;
     void post_add_result(const std::string &winner, const std::string &loser) final;
-    void post_remove_participant(const std::string &handle) final;
-    void match_participants();
+    void post_remove_participant(const std::string &handle, std::size_t remove_id) final;
+
+    void match_participants_lock_held();
 };
 
 }  // namespace war_of_ages::server

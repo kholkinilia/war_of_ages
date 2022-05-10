@@ -74,7 +74,6 @@ void application::update_screens() {
             auto messages = client::instance().retrieve_messages();
             for (auto &owned_msg : messages) {
                 auto &msg = owned_msg.msg;
-                std::cerr << "Received message: " << msg << std::endl;
                 switch (msg.header.id) {
                     case messages_type::AUTH_LOGIN: {
                         // TODO
@@ -130,15 +129,10 @@ void application::update_screens() {
                     } break;
                     case messages_type::TOURNAMENT_STATE: {
                         tournament_snapshot snapshot;
-                        std::cerr << "1" << std::endl;
                         msg >> snapshot.match_results;
-                        std::cerr << "2" << std::endl;
                         msg >> snapshot.participants;
-                        std::cerr << "3" << std::endl;
                         msg >> snapshot.name;
-                        std::cerr << "4" << std::endl;
                         msg >> snapshot.key;
-                        std::cerr << "5" << std::endl;
 
                         tournament_handler::instance().set_tournament(snapshot);
                         screen_handler::instance().change_screen(

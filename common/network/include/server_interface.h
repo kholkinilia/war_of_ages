@@ -109,6 +109,7 @@ public:
         }
         std::size_t messages_processed = 0;
         while (messages_processed < number_of_messages && !m_messages_received.empty()) {
+            std::cerr << "Bringing message\n";
             auto msg = m_messages_received.pop_front();
             on_message(msg.remote, std::move(msg.msg));
             messages_processed++;

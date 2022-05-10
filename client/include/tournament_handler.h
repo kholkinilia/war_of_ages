@@ -14,7 +14,7 @@ private:
     bool m_is_grid_updated = true;
     void post_add_participant(const std::string &handle) final;
     void post_add_result(const std::string &winner, const std::string &loser) final;
-    void post_remove_participant(const std::string &handle) final;
+    void post_remove_participant(const std::string &handle, std::size_t) final;
 
 public:
     tournament_handler(const tournament_handler &) = delete;

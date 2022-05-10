@@ -37,7 +37,6 @@ void screen_handler::tournament_join_screen_init() {
                                                        ->cast<tgui::EditBox>()
                                                        ->getText());
         msg << key;
-        std::cerr << "seding key(" << key << ")\n";
         client::instance().send_message(msg);
 
         change_screen(screen_type::WAITING_FOR_SERVER);
@@ -88,9 +87,7 @@ void screen_handler::tournament_creation_screen_init() {
                                                         ->getText());
         msg.insert_container(name);
 
-        std::cerr << "Sending tournament creation message: '" << name << "'" << std::endl;
         client::instance().send_message(msg);
-        std::cerr << "Succeeded" << std::endl;
 
         change_screen(screen_type::WAITING_FOR_SERVER);
     });

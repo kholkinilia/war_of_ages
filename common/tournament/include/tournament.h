@@ -31,11 +31,12 @@ protected:
 
     void update_places_lock_held();
     [[nodiscard]] std::size_t get_id(const std::string &handle) const noexcept;
+    [[nodiscard]] bool is_participant(const std::string &handle) const;
 
 protected:
     virtual void post_add_participant(const std::string &handle) = 0;
     virtual void post_add_result(const std::string &winner, const std::string &loser) = 0;
-    virtual void post_remove_participant(const std::string &handle) = 0;
+    virtual void post_remove_participant(const std::string &handle, std::size_t remove_id) = 0;
 
 public:
     tournament() = default;
