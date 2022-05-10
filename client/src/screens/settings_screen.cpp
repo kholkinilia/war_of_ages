@@ -80,7 +80,7 @@ void screen_handler::settings_screen_init() {
         if (application::instance().get_state() == application::state::SINGLE_PLAYER_GAME) {
             sound_player::instance().change(sound_player::sound_type::BATTLE,
                                             sound_player::sound_type::LOBBY);
-        } else {
+        } else if(application::instance().get_state() == application::state::MULTIPLAYER) {
             message<messages_type> msg;
             msg.header.id = messages_type::GAME_GIVE_UP;
             client::instance().send_message(msg);

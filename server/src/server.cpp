@@ -137,10 +137,7 @@ void server::on_message(std::shared_ptr<connection<messages_type>> client, messa
         } break;
         case messages_type::RANDOMGAME_JOIN: {
             ensure_status(status, user_status::MENU, true);
-            if (random_matchmaker::instance().add_user(handle)) {
-                set_user_status(handle, user_status::RANDOMGAME);
-            } else {
-            }
+            random_matchmaker::instance().add_user(handle);
         } break;
         case messages_type::RANDOMGAME_LEAVE: {
             ensure_status(status, user_status::RANDOMGAME, true);
