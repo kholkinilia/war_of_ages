@@ -119,16 +119,22 @@ void screen_handler::tournament_screen_init() {
     tournament_name->setPosition({"5%", "5%"});
     tournament_screen_group->add(tournament_name, "tournament_name");
 
-    tgui::Label::Ptr tournament_key = tgui::Label::create("Ключ турнира (текст меняется не тут)");
+    tgui::Label::Ptr tournament_key = tgui::Label::create("Ключ турнира:");
     tournament_key->setSize({"30%", "10%"});
     tournament_key->setTextSize(30);
     tournament_key->setPosition({"5%", "20%"});
-    tournament_screen_group->add(tournament_key, "tournament_key");
+    tournament_screen_group->add(tournament_key, "tournament_key_label");
+
+    tgui::EditBox::Ptr tournament_key_box = tgui::EditBox::create();
+    tournament_key_box->setSize({"30%", "10%"});
+    tournament_key_box->setTextSize(30);
+    tournament_key_box->setPosition({"5%", "35%"});
+    tournament_screen_group->add(tournament_key_box, "tournament_key_box");
 
     tgui::Button::Ptr return_back_button = tgui::Button::create("Покинуть турнир");
     return_back_button->setTextSize(30);
     return_back_button->setSize({"30%", "10%"});
-    return_back_button->setPosition({"5%", "35%"});
+    return_back_button->setPosition({"5%", "50%"});
     return_back_button->onPress([&] {
         message<messages_type> msg;
         msg.header.id = messages_type::TOURNAMENT_LEAVE;

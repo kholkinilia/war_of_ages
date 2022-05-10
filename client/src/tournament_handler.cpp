@@ -1,4 +1,5 @@
 #include "../include/tournament_handler.h"
+#include <TGUI/Widgets/EditBox.hpp>
 #include <TGUI/Widgets/Group.hpp>
 #include <TGUI/Widgets/Label.hpp>
 #include "../include/screen_handler.h"
@@ -137,13 +138,15 @@ void tournament_handler::set_tournament(const tournament_snapshot &snapshot) {
         ->setText("Название: " + m_name);
     std::cerr << snapshot.key << std::endl;
     m_key = snapshot.key;
-    screen_handler::instance()
-        .get_gui()
-        .get(screen_handler::screen_id.at(screen_handler::screen_type::TOURNAMENT_MAIN))
-        ->cast<tgui::Group>()
-        ->get("tournament_key")
-        ->cast<tgui::Label>()
-        ->setText("Скопировать ключ: " + m_key);
+    auto key_box = screen_handler::instance()
+                       .get_gui()
+                       .get(screen_handler::screen_id.at(screen_handler::screen_type::TOURNAMENT_MAIN))
+                       ->cast<tgui::Group>()
+                       ->get("tournament_key_box")
+                       ->cast<tgui::EditBox>();
+    key_box->setReadOnly(false);
+    key_box->setText(m_key);
+    key_box->setReadOnly(true);
     //    std::cerr << "participants" << std::endl;
     m_participants = snapshot.participants;
     //    std::cerr << "match results" << std::endl;
