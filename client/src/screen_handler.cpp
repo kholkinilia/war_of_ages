@@ -62,7 +62,7 @@ void screen_handler::change_screen(screen_handler::screen_type new_screen) {
 
     if (new_screen == screen_type::GAME_SCREEN) {
         m_gui.get("background_group")->setVisible(false);
-    } else if (get_screen_type() == screen_type::GAME_SCREEN) {
+    } else if (prev_screen == screen_type::GAME_SCREEN) {
         m_gui.get("background_group")->setVisible(true);
     }
 
@@ -159,6 +159,7 @@ void screen_handler::place_widgets(std::vector<tgui::Widget::Ptr> &widgets,
 }
 
 screen_handler::screen_type screen_handler::get_screen_type() const noexcept {
+    assert(!m_screen_stack.empty());
     return m_screen_stack.top();
 }
 
