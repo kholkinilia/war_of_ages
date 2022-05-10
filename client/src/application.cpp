@@ -1,4 +1,5 @@
 #include "../include/application.h"
+#include "../include/background_handler.h"
 #include "../include/client.h"
 #include "../include/multiplayer_snapshots_handler.h"
 #include "../include/screen_handler.h"
@@ -52,6 +53,12 @@ application &application::instance() {
 void application::update_screens() {
     sfml_printer::instance().update();
     screen_handler::instance().update_fps();
+    background_handler::instance().print_background(screen_handler::instance()
+                                                        .get_gui()
+                                                        .get("background_group")
+                                                        ->cast<tgui::Group>()
+                                                        ->get("background_canvas")
+                                                        ->cast<tgui::CanvasSFML>());
     switch (application::instance().get_state()) {
         case state::SINGLE_PLAYER_GAME: {
             single_player_handler::instance().update_game();

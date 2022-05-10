@@ -2,6 +2,7 @@
 #include <TGUI/Widgets/Group.hpp>
 #include <TGUI/Widgets/Label.hpp>
 #include "../include/application.h"
+#include "../include/background_handler.h"
 #include "../include/sfml_printer.h"
 #include "../include/single_player_handler.h"
 
@@ -14,8 +15,9 @@ screen_handler &screen_handler::instance() {
 
 void screen_handler::init(sf::RenderWindow &window) {
     m_gui.setWindow(window);
+    tgui::Theme::setDefault("../client/resources/tgui_themes/Black.txt");
 
-    background_init();
+    background_handler::init();
     tournament_screen_init();
     tournament_creation_screen_init();
     tournament_join_screen_init();
@@ -52,6 +54,10 @@ void screen_handler::change_screen(screen_handler::screen_type new_screen) {
         }
         new_screen = m_screen_stack.top();
         m_screen_stack.pop();
+    }
+
+    if (new_screen != screen_type::GAME_SCREEN && prev_screen != screen_type::GAME_SCREEN) {
+        background_handler::instance().start_animation();
     }
 
     if (new_screen == screen_type::GAME_SCREEN) {
