@@ -25,22 +25,21 @@ server::server() : server_interface<messages_type>(m_port) {
 }
 
 void server::send_message(const std::string &handle, const message<messages_type> &msg) {
-    // std::cerr << "Before lock" << std::endl;
     std::unique_lock l(m_mutex);
-    // std::cerr << "Sending to " << handle << ": " << msg << std::endl;
     auto connection = m_connection_by_id.at(m_id_by_handle.at(handle));
     l.unlock();
     server_interface::send_message(connection, msg);
 }
 
-user_status server::get_user_status(std::uint32_t user_id) const {
+server::user_status server::get_user_status(std::uint32_t uid) const {
     std::unique_lock l(m_mutex);
-    return m_status_by_id.at(user_id);
+    return m_status_by_id.at(uid);
 }
 
-void server::set_user_status(std::uint32_t user_id, user_status new_status) {
+void server::set_user_status(const std::string &handle, user_status new_status) {
     std::unique_lock l(m_mutex);
-    m_status_by_id[user_id] = new_status;
+    std::uint32_t uid = m_id_by_handle.at(handle);
+    m_status_by_id[uid] = new_status;
 }
 
 void server::on_client_validated(std::shared_ptr<connection<messages_type>> client) {
@@ -139,14 +138,14 @@ void server::on_message(std::shared_ptr<connection<messages_type>> client, messa
         case messages_type::RANDOMGAME_JOIN: {
             ensure_status(status, user_status::MENU, true);
             if (random_matchmaker::instance().add_user(handle)) {
-                set_user_status(uid, user_status::RANDOMGAME);
+                set_user_status(handle, user_status::RANDOMGAME);
             } else {
             }
         } break;
         case messages_type::RANDOMGAME_LEAVE: {
             ensure_status(status, user_status::RANDOMGAME, true);
             if (random_matchmaker::instance().remove_user(handle)) {
-                set_user_status(uid, user_status::MENU);
+                set_user_status(handle, user_status::MENU);
             }
         } break;
         case messages_type::ROOM_JOIN: {
@@ -154,13 +153,13 @@ void server::on_message(std::shared_ptr<connection<messages_type>> client, messa
             std::string room_id;
             msg.extract_container(room_id);
             if (room_matchmaker::instance().add_user_to_room(handle, room_id)) {
-                set_user_status(uid, user_status::ROOM);
+                set_user_status(handle, user_status::ROOM);
             }
         } break;
         case messages_type::ROOM_LEAVE: {
             ensure_status(status, user_status::ROOM, true);
             if (room_matchmaker::instance().remove_user_from_room(handle)) {
-                set_user_status(uid, user_status::MENU);
+                set_user_status(handle, user_status::MENU);
             }
         } break;
         case messages_type::ROOM_CHANGE_STATUS: {
