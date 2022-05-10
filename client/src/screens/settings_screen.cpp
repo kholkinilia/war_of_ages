@@ -1,4 +1,6 @@
+#include "../../../common/include/messages_type.h"
 #include "../../include/application.h"
+#include "../../include/client.h"
 #include "../../include/screen_handler.h"
 #include "../../include/sfml_printer.h"
 #include "../../include/single_player_handler.h"
@@ -78,6 +80,10 @@ void screen_handler::settings_screen_init() {
         if (application::instance().get_state() == application::state::SINGLE_PLAYER_GAME) {
             sound_player::instance().change(sound_player::sound_type::BATTLE,
                                             sound_player::sound_type::LOBBY);
+        } else {
+            message<messages_type> msg;
+            msg.header.id = messages_type::GAME_GIVE_UP;
+            client::instance().send_message(msg);
         }
         screen_handler::instance().change_screen(screen_handler::screen_type::START_SCREEN);
         application::instance().set_state(application::state::MENU);

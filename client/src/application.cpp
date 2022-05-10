@@ -61,6 +61,9 @@ void application::update_screens() {
                                                         ->cast<tgui::CanvasSFML>());
     switch (application::instance().get_state()) {
         case state::SINGLE_PLAYER_GAME: {
+            if (screen_handler::instance().get_screen_type() != screen_handler::screen_type::GAME_SCREEN) {
+                break;
+            }
             single_player_handler::instance().update_game();
             if (single_player_handler::instance().get_game_status() != game_status::PROCESSING) {
                 application::instance().set_state(state::MENU);
