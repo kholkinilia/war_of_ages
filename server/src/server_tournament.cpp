@@ -33,6 +33,7 @@ void war_of_ages::server::server_tournament::post_add_participant(const std::str
 
 void war_of_ages::server::server_tournament::post_add_result(const std::string &winner,
                                                              const std::string &loser) {
+    //    std::cerr << "Made it up to post_add_result" << std::endl;
     m_is_playing[get_id(winner)] = m_is_playing[get_id(loser)] = false;
 
     message<messages_type> msg;
@@ -42,6 +43,7 @@ void war_of_ages::server::server_tournament::post_add_result(const std::string &
     msg.insert_container(loser);
 
     for (const auto &handle : m_participants) {
+        //        std::cerr << "Sending the result to " << handle << std::endl;
         server::instance().send_message(handle, msg);
     }
     match_participants_lock_held();
@@ -69,21 +71,22 @@ void war_of_ages::server::server_tournament::match_participants_lock_held() {
     std::vector<std::pair<std::size_t, std::size_t>> order(m_participants.size());
     std::vector<std::size_t> games_played(m_participants.size());
 
-    std::cerr << "Tournament(" << m_key << ") matchmaking started..." << std::endl;
+    //    std::cerr << "Tournament(" << m_key << ") matchmaking started..." << std::endl;
 
     for (std::size_t i = 0; i < m_participants.size(); i++) {
         order[i].first = games_played[i] =
             m_participants.size() -
             std::count(m_match_results[i].begin(), m_match_results[i].end(), game_result::NONE);
         order[i].second = i;
-        std::cerr << i << ": " << m_is_playing[i] << " " << m_participants[i] << " " << games_played[i]
-                  << std::endl;
-        std::cerr << std::count(m_match_results[i].begin(), m_match_results[i].end(), game_result::NONE) << std::endl;
-        std::cerr << "size: " << m_match_results[i].size() << std::endl;
-        for (std::size_t j = 0; j < m_match_results[i].size(); j++) {
-            std::cerr << (int)m_match_results[i][j] << " ";
-        }
-        std::cerr << std::endl;
+        //        std::cerr << i << ": " << m_is_playing[i] << " " << m_participants[i] << " " <<
+        //        games_played[i]
+        //                  << std::endl;
+        //        std::cerr << std::count(m_match_results[i].begin(), m_match_results[i].end(),
+        //        game_result::NONE) << std::endl; std::cerr << "size: " << m_match_results[i].size() <<
+        //        std::endl; for (std::size_t j = 0; j < m_match_results[i].size(); j++) {
+        //            std::cerr << (int)m_match_results[i][j] << " ";
+        //        }
+        //        std::cerr << std::endl;
     }
 
     std::sort(order.begin(), order.end());
@@ -91,31 +94,31 @@ void war_of_ages::server::server_tournament::match_participants_lock_held() {
     std::vector<std::pair<std::size_t, std::size_t>> new_matches;
 
     for (auto &[gp, i] : order) {
-        std::cerr << "Searching for match for " << m_participants[i] << std::endl;
+        //        std::cerr << "Searching for match for " << m_participants[i] << std::endl;
         std::size_t pos_min = m_participants.size();
         std::size_t games_min = m_participants.size();
         for (std::size_t j = 0; j < m_participants.size(); j++) {
-            std::cerr << "Maybe " << m_participants[j] << "?" << std::endl;
+//            std::cerr << "Maybe " << m_participants[j] << "?" << std::endl;
             if (i == j) {
-                std::cerr << "No, this is the same participant." << std::endl;
+                //                std::cerr << "No, this is the same participant." << std::endl;
                 continue;
             }
             if (m_is_playing[j]) {
-                std::cerr << "No, the participant is playing." << std::endl;
+                //                std::cerr << "No, the participant is playing." << std::endl;
                 continue;
             }
             if (m_match_results[i][j] != game_result::NONE) {
-                std::cerr << "No, they have already played." << std::endl;
+                //                std::cerr << "No, they have already played." << std::endl;
                 continue;
             }
             //            if (i == j || m_is_playing[j] || m_match_results[i][j] != game_result::NONE)
             //                continue;
             if (games_min > games_played[j]) {
-                std::cerr << "Yes, this is a good match!" << std::endl;
+                //                std::cerr << "Yes, this is a good match!" << std::endl;
                 games_min = games_played[j];
                 pos_min = j;
             } else {
-                std::cerr << "No, we have a better alternative." << std::endl;
+                //                std::cerr << "No, we have a better alternative." << std::endl;
             }
         }
         if (pos_min != m_participants.size()) {
@@ -130,10 +133,10 @@ void war_of_ages::server::server_tournament::match_participants_lock_held() {
     };
 
     for (auto [player1_id, player2_id] : new_matches) {
-        std::cerr << "Matching " << m_participants[player1_id] << " " << m_participants[player2_id] << "\n";
+//        std::cerr << "Matching " << m_participants[player1_id] << " " << m_participants[player2_id] << "\n";
         game_handler::instance().add_game(m_participants[player1_id], m_participants[player2_id],
                                           post_game_actions);
     }
 
-    std::cerr << "Tournament(" << m_key << ") matchmaking ended." << std::endl;
+//    std::cerr << "Tournament(" << m_key << ") matchmaking ended." << std::endl;
 }

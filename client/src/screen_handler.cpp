@@ -27,7 +27,7 @@ void screen_handler::init(sf::RenderWindow &window) {
     end_game_screen_init();
     wait_for_server_screen_init();
 
-    m_gui.get(screen_id.at(m_screen_type))->setVisible(true);
+    m_gui.get(screen_id.at(get_screen_type()))->setVisible(true);
 
     auto fps_label = tgui::Label::create();
     fps_label->getRenderer()->setTextColor(tgui::Color::Red);
@@ -36,15 +36,39 @@ void screen_handler::init(sf::RenderWindow &window) {
 }
 
 void screen_handler::change_screen(screen_handler::screen_type new_screen) {
+    screen_type prev_screen = get_screen_type();
+
+    if (new_screen == screen_type::PREVIOUS) {
+        m_screen_stack.pop();
+        assert(!m_screen_stack.empty());
+        new_screen = m_screen_stack.top();
+        m_screen_stack.pop();
+    } else if (new_screen == screen_type::PREVIOUS_MENU) {
+        std::vector<screen_type> non_menu_screens{screen_type::GAME_SCREEN, screen_type::WAITING_FOR_SERVER};
+        m_screen_stack.pop();
+        while (!m_screen_stack.empty() &&
+               std::count(non_menu_screens.begin(), non_menu_screens.end(), m_screen_stack.top()) != 0) {
+            m_screen_stack.pop();
+        }
+        new_screen = m_screen_stack.top();
+        m_screen_stack.pop();
+    }
+
     if (new_screen == screen_type::GAME_SCREEN) {
         m_gui.get("background_group")->setVisible(false);
-    } else if (m_screen_type == screen_type::GAME_SCREEN) {
+    } else if (get_screen_type() == screen_type::GAME_SCREEN) {
         m_gui.get("background_group")->setVisible(true);
     }
-    screen_type prev_screen = m_screen_type;
+
     m_gui.get(screen_id.at(prev_screen))->setVisible(false);
     m_gui.get(screen_id.at(new_screen))->setVisible(true);
-    m_screen_type = new_screen;
+
+    if (new_screen == screen_type::START_SCREEN) {
+        while (!m_screen_stack.empty()) {  // wtf no clear function ?
+            m_screen_stack.pop();
+        }
+    }
+    m_screen_stack.push(new_screen);
 
     switch (new_screen) {
         case screen_type::GAME_SCREEN: {
@@ -129,11 +153,15 @@ void screen_handler::place_widgets(std::vector<tgui::Widget::Ptr> &widgets,
 }
 
 screen_handler::screen_type screen_handler::get_screen_type() const noexcept {
-    return m_screen_type;
+    return m_screen_stack.top();
 }
 
 tgui::Gui &screen_handler::get_gui() noexcept {
     return m_gui;
+}
+
+screen_handler::screen_handler() {
+    m_screen_stack.push(screen_type::START_SCREEN);
 }
 
 }  // namespace war_of_ages::client

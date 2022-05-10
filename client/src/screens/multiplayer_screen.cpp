@@ -42,7 +42,7 @@ void screen_handler::multiplayer_screen_init() {
     tgui::Button::Ptr return_back_button = tgui::Button::create("Назад");
     return_back_button->setTextSize(30);
     return_back_button->onPress(
-        [&]() { screen_handler::instance().change_screen(screen_handler::screen_type::START_SCREEN); });
+        [&]() { screen_handler::instance().change_screen(screen_handler::screen_type::PREVIOUS_MENU); });
     multiplayer_screen_group->add(return_back_button);
 
     std::vector<tgui::Widget::Ptr> widgets{random_game_button, room_id_editbox, join_room_button,

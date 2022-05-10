@@ -144,36 +144,32 @@ void tournament_handler::set_tournament(const tournament_snapshot &snapshot) {
         ->get("tournament_key")
         ->cast<tgui::Label>()
         ->setText("Скопировать ключ: " + m_key);
-    std::cerr << "participants" << std::endl;
+//    std::cerr << "participants" << std::endl;
     m_participants = snapshot.participants;
-    std::cerr << "match results" << std::endl;
+//    std::cerr << "match results" << std::endl;
     m_match_results = snapshot.match_results;
-    std::cerr << "fully copied" << std::endl;
+//    std::cerr << "fully copied" << std::endl;
 
     int n = m_participants.size();
 
-    for (int i = 0; i < n; i++) {
-        std::cerr << i << ": " << m_participants[i] << "\n";
-    }
+//    for (int i = 0; i < n; i++) {
+//        std::cerr << i << ": " << m_participants[i] << "\n";
+//    }
 
-    std::cerr << "match size: " << m_match_results.size() << "\n";
+//    std::cerr << "match size: " << m_match_results.size() << "\n";
 
-    for (int i = 0; i < m_match_results.size(); i++) {
-        for (int j = 0; j < m_match_results[i].size(); j++) {
-            std::cerr << "(" << i << ", " << j << "): ";
-            std::cerr << (int)m_match_results[i][j] << " ";
-        }
-        std::cerr << "\n";
-    }
+//    for (int i = 0; i < m_match_results.size(); i++) {
+//        for (int j = 0; j < m_match_results[i].size(); j++) {
+//            std::cerr << "(" << i << ", " << j << "): ";
+//            std::cerr << (int)m_match_results[i][j] << " ";
+//        }
+//        std::cerr << "\n";
+//    }
 
-    std::cerr << "print ended\n";
+//    std::cerr << "print ended\n";
 
     init_sum_lock_held();
-
-    std::cerr << "sum inited" << std::endl;
-
     update_places_lock_held();
-    std::cerr << "Tournament created" << std::endl;
 
     m_is_grid_updated = false;
 }
@@ -184,15 +180,12 @@ tournament_handler &tournament_handler::instance() {
 }
 
 void tournament_handler::init_sum_lock_held() {
-    std::cerr << "initing sum\n";
     m_sum.resize(m_participants.size());
     for (std::size_t i = 0; i < m_participants.size(); i++) {
         for (std::size_t j = 0; j < m_participants.size(); j++) {
-            std::cerr << i << " " << j << "\n";
             m_sum[i] += (m_match_results[i][j] == game_result::VICTORY) * WIN_POINTS;
         }
     }
-    std::cerr << "sum init completed\n";
 }
 
 }  // namespace war_of_ages::client

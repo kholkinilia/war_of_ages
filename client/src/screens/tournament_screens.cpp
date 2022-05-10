@@ -46,7 +46,7 @@ void screen_handler::tournament_join_screen_init() {
     tgui::Button::Ptr return_back_button = tgui::Button::create("Назад");
     return_back_button->setTextSize(30);
     return_back_button->onPress(
-        [&] { screen_handler::instance().change_screen(screen_handler::screen_type::MULTIPLAYER); });
+        [&] { screen_handler::instance().change_screen(screen_handler::screen_type::PREVIOUS_MENU); });
     tournament_join_screen_group->add(return_back_button);
 
     std::vector<tgui::Widget::Ptr> widgets{create_tournament_button, tournament_key_box,
@@ -96,7 +96,7 @@ void screen_handler::tournament_creation_screen_init() {
     tgui::Button::Ptr return_back_button = tgui::Button::create("Назад");
     return_back_button->setTextSize(30);
     return_back_button->onPress(
-        [&] { screen_handler::instance().change_screen(screen_handler::screen_type::TOURNAMENT_JOINING); });
+        [&] { screen_handler::instance().change_screen(screen_handler::screen_type::PREVIOUS_MENU); });
     tournament_creation_screen_group->add(return_back_button);
 
     std::vector<tgui::Widget::Ptr> widgets{tournament_name_box, participants_number_box,
@@ -113,19 +113,19 @@ void screen_handler::tournament_creation_screen_init() {
 void screen_handler::tournament_screen_init() {
     auto tournament_screen_group = tgui::Group::create();
 
-    tgui::Label::Ptr tournament_name = tgui::Label::create("Название турнира (TODO)");
+    tgui::Label::Ptr tournament_name = tgui::Label::create("Название турнира (текст меняется не тут)");
     tournament_name->setSize({"30%", "10%"});
     tournament_name->setTextSize(30);
     tournament_name->setPosition({"5%", "5%"});
     tournament_screen_group->add(tournament_name, "tournament_name");
 
-    tgui::Label::Ptr tournament_key = tgui::Label::create("Ключ турнира (TODO)");
+    tgui::Label::Ptr tournament_key = tgui::Label::create("Ключ турнира (текст меняется не тут)");
     tournament_key->setSize({"30%", "10%"});
     tournament_key->setTextSize(30);
     tournament_key->setPosition({"5%", "20%"});
     tournament_screen_group->add(tournament_key, "tournament_key");
 
-    tgui::Button::Ptr return_back_button = tgui::Button::create("Назад");
+    tgui::Button::Ptr return_back_button = tgui::Button::create("Покинуть турнир");
     return_back_button->setTextSize(30);
     return_back_button->setSize({"30%", "10%"});
     return_back_button->setPosition({"5%", "35%"});
@@ -134,7 +134,7 @@ void screen_handler::tournament_screen_init() {
         msg.header.id = messages_type::TOURNAMENT_LEAVE;
         client::instance().send_message(msg);
 
-        screen_handler::instance().change_screen(screen_handler::screen_type::TOURNAMENT_JOINING);
+        screen_handler::instance().change_screen(screen_handler::screen_type::PREVIOUS_MENU);
     });
     tournament_screen_group->add(return_back_button);
 

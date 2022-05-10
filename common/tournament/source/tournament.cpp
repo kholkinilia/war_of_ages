@@ -8,31 +8,27 @@ namespace war_of_ages {
 void tournament::update_places_lock_held() {
     std::vector<std::size_t> cnt(m_participants.size() * WIN_POINTS + 1);
     std::vector<std::size_t> final_place(m_participants.size() * WIN_POINTS + 1);
-    std::cerr << "tournament.update_places 1\n";
 
     for (std::size_t i = 0; i < m_participants.size(); i++) {
         cnt[m_sum[i]]++;
     }
-    std::cerr << "tournament.update_places 2\n";
     std::size_t cur_place = 1;
     for (std::size_t i = m_participants.size() * WIN_POINTS; i + 1 != 0; i--) {
         final_place[i] = cur_place;
         cur_place += cnt[i];
     }
 
-    std::cerr << "tournament.update_places 3\n";
     m_place.resize(m_participants.size());
     for (std::size_t i = 0; i < m_participants.size(); i++) {
         m_place[i] = final_place[m_sum[i]];
     }
-    std::cerr << "tournament.update_places 4\n";
 }
 
 void tournament::add_participant(const std::string &handle) {
     std::unique_lock lock(m_mutex);
     std::size_t id = get_id(handle);
     if (id != m_participants.size()) {
-        post_add_participant(handle); // TODO: think if this is needed
+        post_add_participant(handle);  // TODO: think if this is needed
         return;
     }
     m_participants.push_back(handle);
@@ -49,17 +45,26 @@ void tournament::add_participant(const std::string &handle) {
 }
 
 void tournament::add_result(const std::string &winner, const std::string &loser) {
+//    std::cerr << "In result before lock" << std::endl;
     std::unique_lock lock(m_mutex);
+//    std::cerr << "Lock taken" << std::endl;
     std::size_t winner_id = get_id(winner);
     std::size_t loser_id = get_id(loser);
+//    std::cerr << "Adding result for '" << winner << "' and '" << loser << "'" << std::endl;
+//    for (std::size_t i = 0; i < m_participants.size(); i++) {
+//        std::cerr << i << ": " << m_participants[i] << std::endl;
+//    }
     if (winner_id == m_participants.size() || loser_id == m_participants.size()) {
+//        std::cerr << "One of the participants does not exist." << std::endl;
         return;
     }
     m_match_results[winner_id][loser_id] = game_result::VICTORY;
     m_match_results[loser_id][winner_id] = game_result::DEFEAT;
     m_sum[winner_id] += WIN_POINTS;
+//    std::cerr << "Updating places..." << std::endl;
     update_places_lock_held();
 
+//    std::cerr << "Places updated.\nRunning post_add_result..." << std::endl;
     post_add_result(winner, loser);
 }
 
@@ -67,7 +72,7 @@ void tournament::remove_participant(const std::string &handle) {
     std::unique_lock lock(m_mutex);
     auto remove_id = static_cast<long long>(get_id(handle));
     if (remove_id == m_participants.size()) {
-        post_remove_participant(handle, remove_id); // TODO: think if this is needed
+        post_remove_participant(handle, remove_id);  // TODO: think if this is needed
         return;
     }
 

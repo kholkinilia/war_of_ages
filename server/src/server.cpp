@@ -74,7 +74,7 @@ void server::on_client_disconnect(std::shared_ptr<connection<messages_type>> cli
 }
 
 void server::on_message(std::shared_ptr<connection<messages_type>> client, message<messages_type> msg) {
-    std::cerr << "Received message: " << msg << std::endl;
+//    std::cerr << "Received message: " << msg << std::endl;
     if (std::uint32_t valid_size = valid_body_size.at(msg.header.id);
         msg.header.size != valid_size && valid_size != -1) {
         client->disconnect();
@@ -101,8 +101,6 @@ void server::on_message(std::shared_ptr<connection<messages_type>> client, messa
     assert(m_handle_by_id.find(uid) != m_handle_by_id.end());
     const std::string &handle = m_handle_by_id.at(uid);
     l.unlock();
-
-    std::cerr << "went up to here (" << handle << ")" << std::endl;
 
     switch (msg.header.id) {
         case messages_type::AUTH_LOGOUT: {

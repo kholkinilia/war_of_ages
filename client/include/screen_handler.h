@@ -3,6 +3,7 @@
 
 #include <SFML/Graphics.hpp>
 #include <TGUI/Backend/SFML-Graphics.hpp>  // tgui::Gui
+#include <stack>
 #include "../../common/game_logic/include/player.h"
 
 namespace war_of_ages::client {
@@ -20,8 +21,10 @@ struct screen_handler {
         WAIT_OPPONENT,
         GAME_SCREEN,
         END_GAME,
+        PREVIOUS,  // grandmaster move
+        PREVIOUS_MENU,
     };
-    const static inline std::map<screen_type, std::string> screen_id{
+    const static inline std::map<screen_type, std::string> screen_id {
         {screen_type::ROOM_SCREEN, "room_screen"},
         {screen_type::WAITING_FOR_SERVER, "waiting_for_server"},
         {screen_type::TOURNAMENT_CREATION, "tournament_creation"},
@@ -36,7 +39,7 @@ struct screen_handler {
 
 private:
     tgui::Gui m_gui;
-    screen_type m_screen_type = screen_type::START_SCREEN;
+    std::stack<screen_type> m_screen_stack;
 
     static void place_widgets(std::vector<tgui::Widget::Ptr> &widgets,
                               int width = 40,
@@ -55,7 +58,7 @@ private:
     void end_game_screen_init();
     void wait_for_server_screen_init();
 
-    screen_handler() = default;
+    screen_handler();
 
 public:
     void init(sf::RenderWindow &window);

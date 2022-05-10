@@ -31,7 +31,7 @@ public:
             std::cerr << "[SERVER] exception: " << e.what() << "." << std::endl;
             return false;
         }
-        std::cout << "[SERVER] started." << std::endl;
+        std::cerr << "[SERVER] started." << std::endl;
         return true;
     }
 
@@ -42,14 +42,14 @@ public:
             m_context_thread.join();
         }
 
-        std::cout << "[SERVER] stopped." << std::endl;
+        std::cerr << "[SERVER] stopped." << std::endl;
         return true;
     }
 
     void wait_for_connection() {  // async
         m_acceptor.async_accept([this](std::error_code ec, boost::asio::ip::tcp::socket socket) {
             if (!ec) {
-                std::cout << "[SERVER] New connection: " << socket.remote_endpoint() << "." << std::endl;
+                std::cerr << "[SERVER] New connection: " << socket.remote_endpoint() << "." << std::endl;
 
                 std::shared_ptr<connection<T>> new_connection = std::make_shared<connection<T>>(
                     connection<T>::owner::server, m_context, std::move(socket), m_messages_received);
@@ -58,13 +58,13 @@ public:
                     m_active_connections.push_back(std::move(new_connection));
                     m_active_connections.back()->connect_to_client(this, m_id_counter++);
 
-                    std::cout << "[" << m_active_connections.back()->get_id() << "] Connection approved."
+                    std::cerr << "[" << m_active_connections.back()->get_id() << "] Connection approved."
                               << std::endl;
                 } else {
-                    std::cout << "[------] Connection denied." << std::endl;
+                    std::cerr << "[------] Connection denied." << std::endl;
                 }
             } else {
-                std::cout << "[SERVER] Connection error: " << ec.message() << "." << std::endl;
+                std::cerr << "[SERVER] Connection error: " << ec.message() << "." << std::endl;
             }
             wait_for_connection();
         });
@@ -109,7 +109,6 @@ public:
         }
         std::size_t messages_processed = 0;
         while (messages_processed < number_of_messages && !m_messages_received.empty()) {
-            std::cerr << "Bringing message\n";
             auto msg = m_messages_received.pop_front();
             on_message(msg.remote, std::move(msg.msg));
             messages_processed++;

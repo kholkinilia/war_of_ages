@@ -91,13 +91,11 @@ private:
         } else {
             m_messages_received.push_back({nullptr, m_receiving_message});
         }
-//        std::cerr << "[" << m_id << "] New message" << std::endl;
         read_header();
     }
 
     void write_validation() {
         if (m_owner == owner::server) {
-            std::cerr << "[Server] Writing validation: " << m_handshake_out << std::endl;
             boost::asio::async_write(m_socket,
                                      boost::asio::buffer(reinterpret_cast<std::uint8_t *>(&m_handshake_out),
                                                          sizeof(std::uint64_t)),
@@ -109,7 +107,6 @@ private:
                                          }
                                      });
         } else {
-            std::cerr << "[Client] Send validation: " << m_handshake_out << std::endl;
             boost::system::error_code ec;
             m_socket.template write_some(
                 boost::asio::buffer(reinterpret_cast<std::uint8_t *>(&m_handshake_out),
