@@ -86,7 +86,6 @@ void server::on_message(std::shared_ptr<connection<messages_type>> client, messa
         if (msg.header.id != messages_type::AUTH_LOGIN) {
             return;
         }
-        std::uint32_t uid = client->get_id();
         std::string user_password, user_handle;
         msg.extract_container(user_password);
         msg.extract_container(user_handle);

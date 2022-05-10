@@ -46,7 +46,7 @@ const std::unordered_map<messages_type, std::uint32_t> valid_body_size = {
 
     {messages_type::GAME_BUY_UNIT, 1},
     {messages_type::GAME_BUY_CANNON, 2},
-    {messages_type::GAME_BUY_CANNON_SLOT, 1},
+    {messages_type::GAME_BUY_CANNON_SLOT, 0},
     {messages_type::GAME_SELL_CANNON, 1},
     {messages_type::GAME_USE_ULT, 0},
     {messages_type::GAME_UPGRADE_AGE, 0},
