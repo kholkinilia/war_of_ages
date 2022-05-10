@@ -1,5 +1,5 @@
-#include "../../common/network/include/network.h"
 #include "../../common/include/messages_type.h"
+#include "../../common/network/include/network.h"
 #include "../include/game_handler.h"
 #include "../include/server.h"
 #include "vector"

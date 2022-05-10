@@ -24,7 +24,7 @@ public:
 
     void init_sum_lock_held();
 
-    void update_grid(const tgui::Grid::Ptr& grid);
+    void update_grid(const tgui::Grid::Ptr &grid);
     void set_tournament(const tournament_snapshot &snapshot);
 
     [[nodiscard]] static tournament_handler &instance();

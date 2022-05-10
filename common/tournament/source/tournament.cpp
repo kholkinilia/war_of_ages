@@ -45,26 +45,26 @@ void tournament::add_participant(const std::string &handle) {
 }
 
 void tournament::add_result(const std::string &winner, const std::string &loser) {
-//    std::cerr << "In result before lock" << std::endl;
+    //    std::cerr << "In result before lock" << std::endl;
     std::unique_lock lock(m_mutex);
-//    std::cerr << "Lock taken" << std::endl;
+    //    std::cerr << "Lock taken" << std::endl;
     std::size_t winner_id = get_id(winner);
     std::size_t loser_id = get_id(loser);
-//    std::cerr << "Adding result for '" << winner << "' and '" << loser << "'" << std::endl;
-//    for (std::size_t i = 0; i < m_participants.size(); i++) {
-//        std::cerr << i << ": " << m_participants[i] << std::endl;
-//    }
+    //    std::cerr << "Adding result for '" << winner << "' and '" << loser << "'" << std::endl;
+    //    for (std::size_t i = 0; i < m_participants.size(); i++) {
+    //        std::cerr << i << ": " << m_participants[i] << std::endl;
+    //    }
     if (winner_id == m_participants.size() || loser_id == m_participants.size()) {
-//        std::cerr << "One of the participants does not exist." << std::endl;
+        //        std::cerr << "One of the participants does not exist." << std::endl;
         return;
     }
     m_match_results[winner_id][loser_id] = game_result::VICTORY;
     m_match_results[loser_id][winner_id] = game_result::DEFEAT;
     m_sum[winner_id] += WIN_POINTS;
-//    std::cerr << "Updating places..." << std::endl;
+    //    std::cerr << "Updating places..." << std::endl;
     update_places_lock_held();
 
-//    std::cerr << "Places updated.\nRunning post_add_result..." << std::endl;
+    //    std::cerr << "Places updated.\nRunning post_add_result..." << std::endl;
     post_add_result(winner, loser);
 }
 

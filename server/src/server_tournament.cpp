@@ -98,7 +98,7 @@ void war_of_ages::server::server_tournament::match_participants_lock_held() {
         std::size_t pos_min = m_participants.size();
         std::size_t games_min = m_participants.size();
         for (std::size_t j = 0; j < m_participants.size(); j++) {
-//            std::cerr << "Maybe " << m_participants[j] << "?" << std::endl;
+            //            std::cerr << "Maybe " << m_participants[j] << "?" << std::endl;
             if (i == j) {
                 //                std::cerr << "No, this is the same participant." << std::endl;
                 continue;
@@ -133,10 +133,11 @@ void war_of_ages::server::server_tournament::match_participants_lock_held() {
     };
 
     for (auto [player1_id, player2_id] : new_matches) {
-//        std::cerr << "Matching " << m_participants[player1_id] << " " << m_participants[player2_id] << "\n";
+        //        std::cerr << "Matching " << m_participants[player1_id] << " " << m_participants[player2_id]
+        //        << "\n";
         game_handler::instance().add_game(m_participants[player1_id], m_participants[player2_id],
                                           post_game_actions);
     }
 
-//    std::cerr << "Tournament(" << m_key << ") matchmaking ended." << std::endl;
+    //    std::cerr << "Tournament(" << m_key << ") matchmaking ended." << std::endl;
 }

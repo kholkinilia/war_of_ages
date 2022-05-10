@@ -52,8 +52,8 @@ std::string tournament_handler::gen_key() {
 
 void tournament_handler::add_result(const std::string &winner, const std::string &loser) {
     std::unique_lock lock(m_mutex);
-//    std::cerr << "Adding the result: (winner: "<< winner << ", loser: " << loser << ")" << std::endl;
-//    std::cerr << "Kay of " << winner << ": " << m_key_by_handle[winner] << std::endl;
+    //    std::cerr << "Adding the result: (winner: "<< winner << ", loser: " << loser << ")" << std::endl;
+    //    std::cerr << "Kay of " << winner << ": " << m_key_by_handle[winner] << std::endl;
     m_tournament[m_key_by_handle[winner]].add_result(winner, loser);
 }
 

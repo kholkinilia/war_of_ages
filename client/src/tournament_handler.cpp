@@ -5,7 +5,7 @@
 
 namespace war_of_ages::client {
 
-void tournament_handler::update_grid(const tgui::Grid::Ptr& grid) {
+void tournament_handler::update_grid(const tgui::Grid::Ptr &grid) {
     // TODO: think of improving performance (should be easy)
     std::unique_lock lock(m_mutex);
     if (m_is_grid_updated) {
@@ -144,29 +144,29 @@ void tournament_handler::set_tournament(const tournament_snapshot &snapshot) {
         ->get("tournament_key")
         ->cast<tgui::Label>()
         ->setText("Скопировать ключ: " + m_key);
-//    std::cerr << "participants" << std::endl;
+    //    std::cerr << "participants" << std::endl;
     m_participants = snapshot.participants;
-//    std::cerr << "match results" << std::endl;
+    //    std::cerr << "match results" << std::endl;
     m_match_results = snapshot.match_results;
-//    std::cerr << "fully copied" << std::endl;
+    //    std::cerr << "fully copied" << std::endl;
 
     int n = m_participants.size();
 
-//    for (int i = 0; i < n; i++) {
-//        std::cerr << i << ": " << m_participants[i] << "\n";
-//    }
+    //    for (int i = 0; i < n; i++) {
+    //        std::cerr << i << ": " << m_participants[i] << "\n";
+    //    }
 
-//    std::cerr << "match size: " << m_match_results.size() << "\n";
+    //    std::cerr << "match size: " << m_match_results.size() << "\n";
 
-//    for (int i = 0; i < m_match_results.size(); i++) {
-//        for (int j = 0; j < m_match_results[i].size(); j++) {
-//            std::cerr << "(" << i << ", " << j << "): ";
-//            std::cerr << (int)m_match_results[i][j] << " ";
-//        }
-//        std::cerr << "\n";
-//    }
+    //    for (int i = 0; i < m_match_results.size(); i++) {
+    //        for (int j = 0; j < m_match_results[i].size(); j++) {
+    //            std::cerr << "(" << i << ", " << j << "): ";
+    //            std::cerr << (int)m_match_results[i][j] << " ";
+    //        }
+    //        std::cerr << "\n";
+    //    }
 
-//    std::cerr << "print ended\n";
+    //    std::cerr << "print ended\n";
 
     init_sum_lock_held();
     update_places_lock_held();

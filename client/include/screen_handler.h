@@ -24,7 +24,7 @@ struct screen_handler {
         PREVIOUS,  // grandmaster move
         PREVIOUS_MENU,
     };
-    const static inline std::map<screen_type, std::string> screen_id {
+    const static inline std::map<screen_type, std::string> screen_id{
         {screen_type::ROOM_SCREEN, "room_screen"},
         {screen_type::WAITING_FOR_SERVER, "waiting_for_server"},
         {screen_type::TOURNAMENT_CREATION, "tournament_creation"},
