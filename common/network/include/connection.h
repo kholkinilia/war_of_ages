@@ -21,8 +21,8 @@ private:
             m_socket, boost::asio::buffer(&m_receiving_message.header, sizeof(message_header<T>)),
             [this](std::error_code ec, std::size_t length) {
                 if (!ec) {
+                    m_receiving_message.body.resize(m_receiving_message.header.size);
                     if (m_receiving_message.header.size > 0) {
-                        m_receiving_message.body.resize(m_receiving_message.header.size);
                         read_body();
                     } else {
                         add_to_received_messages();

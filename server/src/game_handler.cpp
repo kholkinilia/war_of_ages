@@ -79,5 +79,5 @@ void game_handler::remove_game(std::size_t game_index) noexcept {
         m_game_by_handle[m_games.back().get_handle_p1()] = game_index;
         m_game_by_handle[m_games.back().get_handle_p2()] = game_index;
     }
-}  // namespace war_of_ages::server
+}
 }  // namespace war_of_ages::server

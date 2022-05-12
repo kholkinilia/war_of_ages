@@ -8,6 +8,8 @@ namespace war_of_ages {
 enum class messages_type {
     AUTH_LOGIN,
     AUTH_LOGOUT,
+    AUTH_REGISTER,
+    AUTH_ALREADY_USING,
 
     GAME_BUY_UNIT,
     GAME_BUY_CANNON,
@@ -42,7 +44,9 @@ enum class messages_type {
 
 const std::unordered_map<messages_type, std::uint32_t> valid_body_size = {
     {messages_type::AUTH_LOGIN, -1},
-    {messages_type::AUTH_LOGOUT, -1},
+    {messages_type::AUTH_LOGOUT, 0},
+    {messages_type::AUTH_REGISTER, -1},
+    {messages_type::AUTH_ALREADY_USING, 0},
 
     {messages_type::GAME_BUY_UNIT, 1},
     {messages_type::GAME_BUY_CANNON, 2},
@@ -56,8 +60,8 @@ const std::unordered_map<messages_type, std::uint32_t> valid_body_size = {
     {messages_type::GAME_FINISHED, -1},
     {messages_type::GAME_STATE, -1},
 
-    {messages_type::RANDOMGAME_JOIN, -1},
-    {messages_type::RANDOMGAME_LEAVE, -1},
+    {messages_type::RANDOMGAME_JOIN, 0},
+    {messages_type::RANDOMGAME_LEAVE, 0},
 
     {messages_type::ROOM_JOIN, -1},
     {messages_type::ROOM_LEAVE, 0},

@@ -38,8 +38,12 @@ server::user_status server::get_user_status(std::uint32_t uid) const {
 
 void server::set_user_status(const std::string &handle, user_status new_status) {
     std::unique_lock l(m_mutex);
-    std::uint32_t uid = m_id_by_handle.at(handle);
-    m_status_by_id[uid] = new_status;
+    auto id_it = m_id_by_handle.find(handle);
+    if (id_it == m_id_by_handle.end()) {
+        // already cleared
+        return;
+    }
+    m_status_by_id.at(id_it->second) = new_status;
 }
 
 void server::on_client_validated(std::shared_ptr<connection<messages_type>> client) {
@@ -54,6 +58,10 @@ bool server::on_client_connect(std::shared_ptr<connection<messages_type>> client
 
 void server::on_client_disconnect(std::shared_ptr<connection<messages_type>> client) {
     std::uint32_t uid = client->get_id();
+    if (m_connection_by_id.find(uid) == m_connection_by_id.end()) {
+        // Already cleared
+        return;
+    }
     auto status = get_user_status(uid);
 
     std::unique_lock l(m_mutex);
@@ -82,18 +90,41 @@ void server::on_message(std::shared_ptr<connection<messages_type>> client, messa
     std::uint32_t uid = client->get_id();
     user_status status = get_user_status(uid);
     if (status == user_status::AUTHORIZATION) {
-        if (msg.header.id != messages_type::AUTH_LOGIN) {
+        if (msg.header.id != messages_type::AUTH_LOGIN && msg.header.id != messages_type::AUTH_REGISTER) {
             return;
         }
+        message<messages_type> msg_response;
+
         std::string user_password, user_handle;
         msg.extract_container(user_password);
         msg.extract_container(user_handle);
 
+        //---------------------------
+        // TODO: handle login/register attempt
+
+        //---------------------------
+
+        // Success (server logic):
+
         std::unique_lock l(m_mutex);
+
+        if (auto id_it = m_id_by_handle.find(user_handle); id_it != m_id_by_handle.end()) {
+            auto &other_connection = m_connection_by_id.at(id_it->second);
+            if (other_connection->is_connected()) {
+                msg_response.header.id = messages_type::AUTH_ALREADY_USING;
+                send_message(user_handle, msg_response);
+                return;
+            } else {
+                l.unlock();
+                other_connection->disconnect();
+                on_client_disconnect(other_connection);
+                l.lock();
+            }
+        }
+
         m_handle_by_id.insert({uid, user_handle});
         m_id_by_handle.insert({user_handle, uid});
         m_status_by_id[uid] = user_status::MENU;
-        // TODO: handle login attempt
         return;
     }
     std::unique_lock l(m_mutex);
