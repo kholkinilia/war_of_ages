@@ -16,7 +16,9 @@ std::shared_ptr<game_state> game_handler::get_cur_game_state() const {
 void game_handler::reset() {
     cur_game_state = nullptr;
 }
-std::vector<std::unique_ptr<game_command>> const &game_handler::get_actions(int index, std::pair<player_snapshot, player_snapshot> p) {
+std::vector<std::unique_ptr<game_command>> const &game_handler::get_actions(
+    int index,
+    std::pair<player_snapshot, player_snapshot> p) {
     return receivers[index]->get_actions(std::move(p), index);
 }
 void game_handler::append_action(int index, std::unique_ptr<game_command> cmd) {

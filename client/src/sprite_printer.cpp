@@ -103,7 +103,7 @@ static void print_cannons(sf::RenderWindow *window,
 }
 
 void print(tgui::Gui &gui, sf::RenderWindow *window, const std::shared_ptr<game_state> &state) {
-    const auto& p = state->snapshot_players();
+    const auto &p = state->snapshot_players();
     auto [p1, p2] = p;
     state->update(current_state.get_cur_game()->get_actions(0, p),
                   current_state.get_cur_game()->get_actions(1, p), 1.f * clock() / CLOCKS_PER_SEC);

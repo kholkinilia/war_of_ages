@@ -10,7 +10,8 @@ namespace war_of_ages {
 struct actions_receiver {
 public:
     [[nodiscard]] virtual std::vector<std::unique_ptr<game_command>> const &get_actions(
-        std::pair<player_snapshot, player_snapshot> p, int player) = 0;
+        std::pair<player_snapshot, player_snapshot> p,
+        int player) = 0;
     void append(std::unique_ptr<game_command> cmd) {
         actions.push_back(std::move(cmd));
     }
