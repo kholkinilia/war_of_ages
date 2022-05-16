@@ -13,7 +13,7 @@ constexpr int UNITS_QUEUE_SIZE = 5;
 constexpr int NUM_OF_UNITS = NUM_OF_AGES * UNITS_PER_AGE;
 constexpr int NUM_OF_CANNONS = NUM_OF_AGES * CANNONS_PER_AGE;
 
-constexpr int INITIAL_MONEY = 200'000;
+constexpr int INITIAL_MONEY = 200;
 
 constexpr int CANNONS_SLOTS_COORD_X[] = {-DELTA * 9 / 4, -DELTA * 9 / 4, -DELTA * 9 / 4};
 constexpr int CANNONS_SLOTS_COORD_Y[] = {static_cast<int>(TOWER_WIDTH * CANNON_COEF) / 4 + 0 * CANNON_HEIGHT,

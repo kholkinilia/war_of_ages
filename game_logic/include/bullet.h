@@ -28,6 +28,7 @@ enum class bullet_type {
     RENAISSANCE_ULT,
     MODERN_ULT,
     FUTURE_ULT,
+    NONE
 };
 
 struct bullet_stats {

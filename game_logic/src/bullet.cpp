@@ -60,12 +60,13 @@ void bullet::update(std::deque<unit> &enemies, float dt) {
 }
 
 [[nodiscard]] const bullet_stats &bullet::get_stats(bullet_type type) {
-    const static bullet_stats stats[NUM_OF_CANNONS + NUM_OF_AGES] = {
+    const static bullet_stats stats[static_cast<int>(bullet_type::NONE) + 1] = {
         {10, 400, {40, 40}},    {20, 400, {30, 30}},    {30, 400, {50, 50}},    {60, 400, {50, 50}},
         {120, 400, {50, 50}},   {180, 400, {50, 50}},   {360, 400, {50, 50}},   {720, 400, {50, 50}},
         {1080, 400, {50, 50}},  {2060, 400, {50, 50}},  {4120, 400, {50, 50}},  {6180, 400, {50, 50}},
         {12360, 400, {50, 50}}, {24720, 400, {50, 50}}, {37080, 400, {50, 50}}, {50, 250, {70, 90}},
         {300, 250, {50, 50}},   {5400, 250, {50, 50}},  {30900, 250, {50, 50}}, {185400, 250, {50, 50}},
+        {0, 0, {0, 0}}
     };
     return stats[static_cast<int>(type)];
 }

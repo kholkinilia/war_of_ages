@@ -21,6 +21,8 @@ private:
     std::shared_ptr<game_handler> cur_game;
     vec2f view_center;
 
+    int game_counter = 0;
+
 public:
     explicit client_state(std::string handle_ = "handle", screen cur_screen_ = screen::START_SCREEN);
 
@@ -31,6 +33,8 @@ public:
     [[nodiscard]] std::shared_ptr<game_state> get_cur_game_state() const;
     [[nodiscard]] vec2f get_view_center() const noexcept;
     [[nodiscard]] std::shared_ptr<game_handler> get_cur_game() const noexcept;
+
+    [[nodiscard]] int get_counter() const noexcept;
 
     void set_view_center(const vec2f &v);
     void set_cur_screen(screen s);

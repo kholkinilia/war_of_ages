@@ -37,14 +37,20 @@ void client_state::reset_game() {
     cur_game->reset();
 }
 void client_state::create_game(game_mode mode) {
-    std::vector<game_handler::player_type> types{game_handler::player_type::PLAYER,
+    std::vector<game_handler::player_type> types{game_handler::player_type::BOT,
                                                  game_handler::player_type::BOT};
     if (mode == game_mode::MULTI) {
         types[1] = game_handler::player_type::PLAYER;
     }
     cur_game = std::make_shared<game_handler>(types);
+
+    game_counter++;
 }
 std::shared_ptr<game_handler> client_state::get_cur_game() const noexcept {
     return cur_game;
+}
+
+int client_state::get_counter() const noexcept {
+    return game_counter;
 }
 }  // namespace war_of_ages
