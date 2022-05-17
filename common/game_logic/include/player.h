@@ -49,7 +49,7 @@ struct player {
 
 private:
     age_type m_age = age_type::STONE;
-    int m_exp = 0;
+    int m_exp = 10000;
     int m_money = INITIAL_MONEY;
     float m_ult_cooldown = 0.0f;
     std::deque<unit> m_units = {unit{unit_type::STONE_TOWER}};

@@ -54,7 +54,7 @@ sprite_supplier::sprite_supplier() {
 
     const static std::unordered_map<unit_type, std::pair<int, int>> animation_size{
         {unit_type::PEASANT, {3, 3}},   {unit_type::ARCHER, {4, 6}},     {unit_type::CHARIOT, {3, 6}},
-        {unit_type::SWORDSMAN, {3, 3}}, {unit_type::ARBALESTER, {4, 6}}, {unit_type::KNIGHT, {3, 6}}};
+        {unit_type::SWORDSMAN, {3, 6}}, {unit_type::ARBALESTER, {4, 6}}, {unit_type::KNIGHT, {3, 6}}};
 
     const static std::unordered_map<unit_type, std::vector<float>> animation_time_periods{
         {unit_type::PEASANT, {0.5, unit::get_stats(unit_type::PEASANT).attack_duration_s, 1}},
