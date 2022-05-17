@@ -31,8 +31,8 @@ const unit_stats &unit::get_stats(unit_type type) noexcept {
         {unit_type::PEASANT, unit_stats(2, 50, 0.5, 0.5, 0, 25, 25, {100, 200}, 100)},
         {unit_type::ARCHER, unit_stats(3, 70, 1, 1, 500, 1000, 50, {100, 200}, 100)},
         {unit_type::CHARIOT, unit_stats(4, 100, 1.5, 1.25, 0, 40, 100, {200, 160}, 150)},
-        {unit_type::SWORDSMAN, unit_stats(4, 10000, 1.5, 1.25, 0, 40, 100, {100, 200}, 100)},
-        {unit_type::ARBALESTER, unit_stats(4, 100, 1.5, 1.25, 0, 40, 100, {100, 200}, 150)},
+        {unit_type::SWORDSMAN, unit_stats(4, 2000, 1, 1 * 2./3, 0, 40, 100, {100, 200}, 100)},
+        {unit_type::ARBALESTER, unit_stats(4, 100, 1, 1.25, 0, 40, 100, {100, 200}, 150)},
         {unit_type::KNIGHT, unit_stats(4, 100, 1.5, 1.25, 0, 40, 100, {200, 160}, 150)},
         {unit_type::STONE_TOWER, unit_stats(0, 5000, 0, 0, 0, 0, 0, {0, 0}, 0)},
         {unit_type::CASTLE_TOWER, unit_stats(0, 5000, 0, 0, 0, 0, 0, {0, 0}, 0)}};
@@ -44,7 +44,6 @@ unit::unit(unit_type type) noexcept : m_type(type), m_remaining_hp(get_stats(typ
 
 void unit::attack(unit &enemy) noexcept {
     enemy.decrease_hp(stats().damage);
-    m_attack_progress_s = 0;
 }
 
 void unit::decrease_hp(int damage) noexcept {
