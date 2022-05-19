@@ -14,8 +14,6 @@
 
 namespace war_of_ages::client {
 
-enum class action { BUY_UNIT, BUY_CANNON, SELL_CANNON };
-
 static void setup_button(tgui::Button::Ptr &button, tgui::String name = "") {
     if (name != "") {
         button->getRenderer()->setTexture(tgui::String(std::move(name)));
@@ -28,7 +26,7 @@ static const std::unordered_map<age_type, std::string> age_to_string = {
     {age_type::MODERN, "modern"}, {age_type::FUTURE, "future"},
 };
 
-[[nodiscard]] static tgui::String get_filename(action a, int i, age_type age) noexcept {
+[[nodiscard]] tgui::String get_filename(action a, int i, age_type age) noexcept {
     switch (a) {
         case action::BUY_UNIT:
             return tgui::String("../client/resources/game/units/" + age_to_string.at(age) + "/mini/") +

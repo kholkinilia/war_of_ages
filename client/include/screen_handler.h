@@ -8,6 +8,10 @@
 
 namespace war_of_ages::client {
 
+enum class action { BUY_UNIT, BUY_CANNON, SELL_CANNON };
+
+[[nodiscard]] tgui::String get_filename(action a, int i, age_type age) noexcept;
+
 struct screen_handler {
     enum class screen_type {
         WAITING_FOR_SERVER,

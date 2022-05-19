@@ -1,4 +1,5 @@
 #include "../include/sfml_printer.h"
+#include <TGUI/Widgets/Button.hpp>
 #include <TGUI/Widgets/Group.hpp>
 #include <TGUI/Widgets/Label.hpp>
 #include <utility>
@@ -208,6 +209,25 @@ void sfml_printer::print_game(const std::pair<player_snapshot, player_snapshot> 
                        2 * (BUTTON_HEIGHT + BUTTON_Y));
     m_window.draw(ult_out);
     m_window.draw(ult_in);
+
+    for (int i = 0; i < UNITS_PER_AGE; ++i) {
+        gui.get(screen_handler::screen_id.at(screen_handler::screen_type::GAME_SCREEN))
+            ->cast<tgui::Group>()
+            ->get("unit_" + std::to_string(i))
+            ->cast<tgui::Group>()
+            ->get(std::to_string(i))
+            ->cast<tgui::Button>()
+            ->getRenderer()
+            ->setTexture(get_filename(action::BUY_UNIT, i, p1.age));
+        gui.get(screen_handler::screen_id.at(screen_handler::screen_type::GAME_SCREEN))
+            ->cast<tgui::Group>()
+            ->get("cannon_" + std::to_string(i))
+            ->cast<tgui::Group>()
+            ->get(std::to_string(i))
+            ->cast<tgui::Button>()
+            ->getRenderer()
+            ->setTexture(get_filename(action::BUY_CANNON, i, p1.age));
+    }
 
     auto road = sprite_supplier::get_instance().get_road_sprite(p1.age);
     road.setPosition(0, BACKGROUND_HEIGHT - ROAD_HEIGHT);
