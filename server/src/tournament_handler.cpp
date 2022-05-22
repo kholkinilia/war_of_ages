@@ -1,6 +1,6 @@
 #include "../include/tournament_handler.h"
 #include <random>
-#include "../../common/include/messages_type.h"
+#include "messages_type.h"
 #include "../../common/network/include/message.h"
 #include "../include/server.h"
 

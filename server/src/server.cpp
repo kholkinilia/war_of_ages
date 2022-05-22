@@ -1,6 +1,6 @@
 #include "../include/server.h"
 #include <cassert>
-#include "../../common/network/include/network.h"
+#include "include/network.h"
 #include "../include/game_handler.h"
 #include "../include/random_matchmaker.h"
 #include "../include/room_matchmaker.h"

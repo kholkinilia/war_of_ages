@@ -4,8 +4,8 @@
 #include <cstdint>
 #include <functional>
 #include <string>
-#include "../../common/game_logic/include/game_state.h"
-#include "../../common/include/messages_type.h"
+#include "game_state.h"
+#include "messages_type.h"
 #include "../../common/network/include/message.h"
 
 namespace war_of_ages::server {

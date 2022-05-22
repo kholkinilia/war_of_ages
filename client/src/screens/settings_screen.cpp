@@ -1,4 +1,4 @@
-#include "../../../common/include/messages_type.h"
+#include "messages_type.h"
 #include "../../include/application.h"
 #include "../../include/client.h"
 #include "../../include/screen_handler.h"

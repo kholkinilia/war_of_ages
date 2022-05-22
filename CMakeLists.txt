@@ -16,16 +16,7 @@ if (WIN32 AND NOT MSVC AND NOT BORLAND)
     set(NETWORKING_LIBS "ws2_32" "wsock32")
 endif ()
 
-set(COMMON_PROJECT_SOURCES
-        common/tournament/source/tournament.cpp
-        common/game_logic/src/game_state.cpp
-        common/game_logic/src/player.cpp
-        common/game_logic/src/unit.cpp
-        common/game_logic/src/bullet.cpp
-        common/game_logic/src/cannon.cpp
-        common/game_logic/src/game_commands.cpp
-        common/game_logic/src/vec2f.cpp
-        )
+add_subdirectory(common)
 
 set(CLIENT_PROJECT_SOURCES
         client/src/main.cpp
@@ -49,11 +40,11 @@ set(CLIENT_PROJECT_SOURCES
         client/src/application.cpp
         client/src/tournament_handler.cpp
         client/src/screens/wait_for_server_screen.cpp
-        client/src/background_handler.cpp)
-add_executable(war_of_ages ${CLIENT_PROJECT_SOURCES} ${COMMON_PROJECT_SOURCES})
-target_link_libraries(war_of_ages sfml-system sfml-window sfml-graphics sfml-audio)
-target_link_libraries(war_of_ages tgui)
-target_link_libraries(war_of_ages ${NETWORKING_LIBS})
+        client/src/background_handler.cpp
+        )
+set(CLIENT_LIBS sfml-system sfml-window sfml-graphics sfml-audio tgui)
+add_executable(war_of_ages ${CLIENT_PROJECT_SOURCES})
+target_link_libraries(war_of_ages ${CLIENT_LIBS} ${NETWORKING_LIBS} common)
 
 set(SERVER_PROJECT_SOURCES
         server/src/main.cpp
@@ -65,5 +56,5 @@ set(SERVER_PROJECT_SOURCES
         server/src/tournament_handler.cpp
         server/src/server_tournament.cpp
         )
-add_executable(war_of_ages_server ${SERVER_PROJECT_SOURCES} ${COMMON_PROJECT_SOURCES})
-target_link_libraries(war_of_ages_server ${NETWORKING_LIBS})
+add_executable(war_of_ages_server ${SERVER_PROJECT_SOURCES})
+target_link_libraries(war_of_ages_server common ${NETWORKING_LIBS})

@@ -4,7 +4,7 @@
 #include <SFML/Graphics.hpp>
 #include <TGUI/Backend/SFML-Graphics.hpp>  // tgui::Gui
 #include <stack>
-#include "../../common/game_logic/include/player.h"
+#include "player.h"
 
 namespace war_of_ages::client {
 

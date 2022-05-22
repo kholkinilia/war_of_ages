@@ -1,6 +1,6 @@
 #include <mutex>
 #include <utility>
-#include "../../common/game_logic/include/player.h"
+#include "player.h"
 
 #ifndef WAR_OF_AGES_MULTIPLAYER_SNAPSHOTS_HANDLER_H
 #define WAR_OF_AGES_MULTIPLAYER_SNAPSHOTS_HANDLER_H

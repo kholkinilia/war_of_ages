@@ -2,7 +2,7 @@
 #define WAR_OF_AGES_SINGLE_PLAYER_HANDLER_H
 
 #include <memory>
-#include "../../common/game_logic/include/game_state.h"
+#include "game_state.h"
 
 namespace war_of_ages::client {
 

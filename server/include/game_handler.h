@@ -8,7 +8,7 @@
 #include <string>
 #include <unordered_map>
 #include <vector>
-#include "../../common/game_logic/include/game_commands.h"
+#include "game_commands.h"
 #include "game.h"
 
 namespace war_of_ages::server {

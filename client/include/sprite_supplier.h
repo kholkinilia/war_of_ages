@@ -6,10 +6,10 @@
 #include <string>
 #include <unordered_map>
 #include <vector>
-#include "../../common/game_logic/include/age.h"
-#include "../../common/game_logic/include/bullet.h"
-#include "../../common/game_logic/include/cannon.h"
-#include "../../common/game_logic/include/unit.h"
+#include "age.h"
+#include "bullet.h"
+#include "cannon.h"
+#include "unit.h"
 #include "../include/animation_supplier.h"
 
 namespace war_of_ages::client {

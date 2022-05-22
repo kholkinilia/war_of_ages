@@ -31,7 +31,7 @@ const unit_stats &unit::get_stats(unit_type type) noexcept {
         {unit_type::PEASANT, unit_stats(2, 50, 0.5, 0.5, 0, 25, 25, {100, 200}, 100)},
         {unit_type::ARCHER, unit_stats(3, 70, 1, 1, 200, 20, 50, {100, 200}, 100)},
         {unit_type::CHARIOT, unit_stats(4, 100, 1.5, 1.25, 0, 40, 100, {200, 160}, 150)},
-        {unit_type::SWORDSMAN, unit_stats(4, 2000, 1, 1 * 2. / 3, 0, 40, 100, {100, 200}, 100)},
+        {unit_type::SWORDSMAN, unit_stats(4, 100, 0.75, 0.75 * 5. / 6, 0, 40, 100, {100, 200}, 100)},
         {unit_type::ARBALESTER, unit_stats(3, 100, 1, 1, 300, 40, 50, {100, 200}, 100)},
         {unit_type::KNIGHT, unit_stats(4, 100, 1.5, 1.25, 0, 40, 100, {200, 160}, 150)},
         {unit_type::STONE_TOWER, unit_stats(0, 5000, 0, 0, 0, 0, 0, {0, 0}, 0)},
