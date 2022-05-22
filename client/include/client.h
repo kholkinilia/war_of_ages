@@ -4,8 +4,8 @@
 #include <mutex>
 #include <string>
 #include <vector>
-#include "messages_type.h"
 #include "client_interface.h"
+#include "messages_type.h"
 
 namespace war_of_ages::client {
 struct client final : client_interface<messages_type> {

@@ -1,10 +1,10 @@
 #include "../include/server.h"
 #include <cassert>
-#include "include/network.h"
 #include "../include/game_handler.h"
 #include "../include/random_matchmaker.h"
 #include "../include/room_matchmaker.h"
 #include "../include/tournament_handler.h"
+#include "include/network.h"
 
 #define ensure_status(status, valid_status, is_true) \
     if (((status) == (valid_status)) != (is_true))   \

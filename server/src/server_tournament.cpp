@@ -1,8 +1,8 @@
 #include "../include/server_tournament.h"
 #include <algorithm>
-#include "messages_type.h"
 #include "../include/game_handler.h"
 #include "../include/tournament_handler.h"
+#include "messages_type.h"
 
 void war_of_ages::server::server_tournament::post_add_participant(const std::string &handle) {
     m_is_playing.push_back(false);

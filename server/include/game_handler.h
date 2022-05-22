@@ -8,8 +8,8 @@
 #include <string>
 #include <unordered_map>
 #include <vector>
-#include "game_commands.h"
 #include "game.h"
+#include "game_commands.h"
 
 namespace war_of_ages::server {
 struct game_handler {

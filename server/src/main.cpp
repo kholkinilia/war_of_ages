@@ -1,7 +1,7 @@
-#include "messages_type.h"
 #include "../../common/network/include/network.h"
 #include "../include/game_handler.h"
 #include "../include/server.h"
+#include "messages_type.h"
 #include "vector"
 
 int main() {

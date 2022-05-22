@@ -1,9 +1,9 @@
 #include "../include/sprite_supplier.h"
+#include "../include/game_object_size_constants.h"
 #include "age.h"
 #include "bullet.h"
 #include "cannon.h"
 #include "unit.h"
-#include "../include/game_object_size_constants.h"
 
 namespace war_of_ages::client {
 

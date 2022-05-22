@@ -5,8 +5,8 @@
 #include <mutex>
 #include <string>
 #include <unordered_map>
-#include "messages_type.h"
 #include "include/server_interface.h"
+#include "messages_type.h"
 
 namespace war_of_ages::server {
 

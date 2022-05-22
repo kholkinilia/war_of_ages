@@ -1,7 +1,7 @@
-#include "messages_type.h"
 #include "../../include/client.h"
 #include "../../include/screen_handler.h"
 #include "../../include/tournament_handler.h"
+#include "messages_type.h"
 
 // TGUI widgets
 #include <TGUI/Widgets/Button.hpp>
