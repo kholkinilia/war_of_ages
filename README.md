@@ -11,4 +11,4 @@ Just a clone of a well-known game [Age fo War](https://igroutka.ru/flesh-igry/28
  * Participate in tournaments.
  * **\[TO BE IMPLEMENTED\]** See your stats, i.e. rating, number of games won/lost online, etc.
  * **\[TO BE IMPLEMENTED\]** Make a bot play for you, so you can have a rest during the game (and, hopefully, not lose).
- * **\[TO BE IMPLEMENTED\]** Chat with your friends inplace during a tournament or a game.
+ * **\[TO BE IMPLEMENTED (UNLIKELY)\]** Chat with your friends inplace during a tournament or a game.
