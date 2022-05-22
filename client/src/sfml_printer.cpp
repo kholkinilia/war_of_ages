@@ -297,6 +297,9 @@ sfml_printer::sfml_printer()
 }
 
 void sfml_printer::init() {
+    sf::Image icon;
+    icon.loadFromFile("../client/resources/pictures/logo.png");
+    m_window.setIcon(icon.getSize().x, icon.getSize().y, icon.getPixelsPtr());
     m_window.setVerticalSyncEnabled(true);
     m_view = m_window.getDefaultView();
 }
