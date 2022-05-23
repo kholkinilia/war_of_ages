@@ -57,4 +57,4 @@ set(SERVER_PROJECT_SOURCES
         server/src/server_tournament.cpp
         )
 add_executable(war_of_ages_server ${SERVER_PROJECT_SOURCES})
-target_link_libraries(war_of_ages_server common ${NETWORKING_LIBS})
+target_link_libraries(war_of_ages_server common ${NETWORKING_LIBS} pthread)
