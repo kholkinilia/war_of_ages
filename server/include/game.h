@@ -11,7 +11,8 @@
 namespace war_of_ages::server {
 
 struct game {
-    game(std::string handle_p1,
+    game(std::size_t id,
+         std::string handle_p1,
          std::string handle_p2,
          std::function<void(const std::string &handle_winner, const std::string &handle_loser)>
              game_post_action) noexcept;
@@ -21,6 +22,7 @@ struct game {
     void user_gave_up(const std::string &handle);
     void user_disconnected(const std::string &handle);
 
+    [[nodiscard]] std::size_t get_id() const noexcept;
     [[nodiscard]] bool is_finished() const noexcept;
     [[nodiscard]] const std::string &get_handle_p1() const noexcept;
     [[nodiscard]] const std::string &get_handle_p2() const noexcept;
@@ -30,6 +32,7 @@ private:
                                         const player_snapshot &p_snapshot) noexcept;
     void send_snapshots() const;
 
+    std::size_t m_id;
     std::string m_handle_p1;
     std::string m_handle_p2;
     game_state m_state;

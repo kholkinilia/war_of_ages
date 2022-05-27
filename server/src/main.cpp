@@ -7,21 +7,15 @@
 int main() {
     war_of_ages::server::server::set_port(12345);
     war_of_ages::server::server::instance().start();
-    std::thread([]() {
-        while (true) {
-            war_of_ages::server::server::instance().update(-1, true);
-        }
-    }).detach();
-    ///  Looks normal for both clients
     while (true) {
-        int n = 300000;
-        for (long long i = 0; i != n + 1; ++i) {
-            if (i == n) {
-                i = 0;
-                war_of_ages::server::game_handler::instance().update_games();
-            }
-        }
+        war_of_ages::server::server::instance().update(-1, true);
     }
+
+//    std::thread([]() {
+//    }).detach();
+//    ///  Looks normal for both clients
+//    while (true) {
+//    }
     ///    For other client (not host) looks like very small fps
     ///    +- normal image if replace 10 with number <= 3 (wtf ???)
     //    include <chrono>

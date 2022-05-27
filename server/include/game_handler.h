@@ -37,9 +37,10 @@ private:
     [[nodiscard]] bool user_exists(const std::string &handle) const;
     void remove_game(std::size_t game_index) noexcept;
 
-    std::unordered_map<std::string, std::size_t> m_game_by_handle;
-    std::vector<game> m_games;
+    std::unordered_map<std::string, std::size_t> m_game_id_by_handle;
+    std::unordered_map<std::size_t, std::shared_ptr<game>> m_games;
     mutable std::mutex m_mutex;
+    std::size_t m_free_id = 10000;
 };
 }  // namespace war_of_ages::server
 

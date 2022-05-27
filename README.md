@@ -22,8 +22,8 @@
  * Play a single player game just like in Age of War.
  * Play a game with your friend or a random dude.
  * Participate in tournaments.
- * **\[TO BE IMPLEMENTED\]** See your stats, i.e. rating, number of games won/lost online, etc.
- * **\[TO BE IMPLEMENTED\]** Make a bot play for you, so you can have a rest during the game (and, hopefully, not lose).
+ * Make a bot play for you, so you can have a rest during the game (and, hopefully, not lose).
+ * See your stats, i.e. rating, number of games won/lost online, etc.
  * **\[TO BE IMPLEMENTED (UNLIKELY)\]** Chat with your friends inplace during a tournament or a game.
 
 ### Demo video

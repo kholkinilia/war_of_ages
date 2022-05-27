@@ -2,11 +2,13 @@
 #include "../include/server.h"
 
 namespace war_of_ages::server {
-game::game(std::string handle_p1,
+game::game(std::size_t id,
+           std::string handle_p1,
            std::string handle_p2,
            std::function<void(const std::string &handle_winner, const std::string &handle_loser)>
                game_post_action) noexcept
-    : m_handle_p1(std::move(handle_p1)),
+    : m_id(id),
+      m_handle_p1(std::move(handle_p1)),
       m_handle_p2(std::move(handle_p2)),
       m_game_post_action(std::move(game_post_action)) {
     message<messages_type> msg_p1, msg_p2;
@@ -114,4 +116,9 @@ void game::send_snapshots() const {
     server::instance().send_message(m_handle_p1, msg_p1);
     server::instance().send_message(m_handle_p2, msg_p2);
 }
+
+std::size_t game::get_id() const noexcept {
+    return m_id;
+}
+
 }  // namespace war_of_ages::server
