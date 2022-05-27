@@ -11,11 +11,11 @@ int main() {
         war_of_ages::server::server::instance().update(-1, true);
     }
 
-//    std::thread([]() {
-//    }).detach();
-//    ///  Looks normal for both clients
-//    while (true) {
-//    }
+    //    std::thread([]() {
+    //    }).detach();
+    //    ///  Looks normal for both clients
+    //    while (true) {
+    //    }
     ///    For other client (not host) looks like very small fps
     ///    +- normal image if replace 10 with number <= 3 (wtf ???)
     //    include <chrono>

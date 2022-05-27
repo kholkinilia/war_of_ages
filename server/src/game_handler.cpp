@@ -18,7 +18,7 @@ void game_handler::add_game(
     m_games[m_free_id] = std::make_shared<game>(m_free_id, std::move(handle_p1), std::move(handle_p2),
                                                 std::move(game_post_action));
 
-    std::thread([cur_game=m_games[m_free_id]]() {
+    std::thread([cur_game = m_games[m_free_id]]() {
         float prev_time = 0;
         while (!cur_game->is_finished()) {
             auto cur_time = static_cast<float>(clock()) / CLOCKS_PER_SEC;
@@ -31,8 +31,6 @@ void game_handler::add_game(
     }).detach();
 
     m_free_id++;
-
-
 }
 
 void game_handler::apply_command(const std::string &handle, std::unique_ptr<game_command> command) {
