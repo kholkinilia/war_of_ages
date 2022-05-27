@@ -43,29 +43,12 @@ void game_handler::apply_command(const std::string &handle, std::unique_ptr<game
     m_games[m_game_id_by_handle.at(handle)]->apply_command(handle, std::move(command));
 }
 
-void game_handler::update_games() {
-    std::unique_lock l(m_mutex);
-    for (std::size_t game_index = 0; game_index < m_games.size(); ++game_index) {
-        auto &game_ = m_games[game_index];
-        game_->update();
-        // Client disconnected -> removed this game in sequence: game::update() -> server::send_message() ->
-        // server::on_client_disconnect() -> game_handler::user_disconnected()
-        if (game_index >= m_games.size()) {
-            break;
-        }
-        if (game_->is_finished()) {
-            remove_game(game_index);
-        }
-    }
-}
-
 void game_handler::user_gave_up(const std::string &handle) {
     if (!user_exists(handle)) {
         return;
     }
     std::size_t game_index = m_game_id_by_handle.at(handle);
     m_games[game_index]->user_gave_up(handle);
-    remove_game(game_index);
 }
 
 void game_handler::user_disconnected(const std::string &handle) {
@@ -75,7 +58,6 @@ void game_handler::user_disconnected(const std::string &handle) {
     }
     std::size_t game_index = m_game_id_by_handle.at(handle);
     m_games[game_index]->user_disconnected(handle);
-    remove_game(game_index);
 }
 
 bool game_handler::user_exists_lock_held(const std::string &handle) const noexcept {

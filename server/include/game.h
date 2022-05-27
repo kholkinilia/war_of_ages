@@ -11,6 +11,12 @@
 namespace war_of_ages::server {
 
 struct game {
+    enum class result {
+        P1_WON,
+        P2_WON,
+        PROCESSING,
+    };
+
     game(std::size_t id,
          std::string handle_p1,
          std::string handle_p2,
@@ -22,6 +28,7 @@ struct game {
     void user_gave_up(const std::string &handle);
     void user_disconnected(const std::string &handle);
 
+    void set_result(result game_result);
     [[nodiscard]] std::size_t get_id() const noexcept;
     [[nodiscard]] bool is_finished() const noexcept;
     [[nodiscard]] const std::string &get_handle_p1() const noexcept;
@@ -35,6 +42,7 @@ private:
     std::size_t m_id;
     std::string m_handle_p1;
     std::string m_handle_p2;
+    result m_result = result::PROCESSING;
     game_state m_state;
     std::function<void(const std::string &handle_winner, const std::string &handle_loser)> m_game_post_action;
 };

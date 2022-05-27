@@ -46,6 +46,7 @@ void game::update() {
         }
         server::instance().send_message(m_handle_p1, msg_p1);
         server::instance().send_message(m_handle_p2, msg_p2);
+        m_result = (m_state.get_game_status() == game_status::P1_WON ? result::P1_WON : result::P2_WON);
     } else {
         send_snapshots();
     }
@@ -84,7 +85,7 @@ void game::user_disconnected(const std::string &handle) {
 }
 
 bool game::is_finished() const noexcept {
-    return m_state.get_game_status() != game_status::PROCESSING;
+    return m_result == result::PROCESSING;
 }
 
 const std::string &game::get_handle_p1() const noexcept {
@@ -119,6 +120,10 @@ void game::send_snapshots() const {
 
 std::size_t game::get_id() const noexcept {
     return m_id;
+}
+
+void game::set_result(game::result game_result) {
+    m_result = game_result;
 }
 
 }  // namespace war_of_ages::server
