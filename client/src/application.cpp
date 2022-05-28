@@ -171,7 +171,7 @@ void application::update_screens() {
             }
             switch (screen_handler::instance().get_screen_type()) {
                 case screen_handler::screen_type::GAME_SCREEN: {
-                    if (multiplayer_snapshots_handler::instance().new_snapshot_exists()) {
+                    if (multiplayer_snapshots_handler::instance().is_snapshot_initialized()) {
                         sfml_printer::instance().print_game(
                             multiplayer_snapshots_handler::instance().get_snapshots());
                     }
