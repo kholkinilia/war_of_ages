@@ -34,7 +34,6 @@ void war_of_ages::server::server_tournament::post_add_participant(const std::str
 void war_of_ages::server::server_tournament::post_add_result(const std::string &winner,
                                                              const std::string &loser) {
     //    std::cerr << "Made it up to post_add_result" << std::endl;
-    m_is_playing[get_id(winner)] = m_is_playing[get_id(loser)] = false;
 
     message<messages_type> msg;
     msg.header.id = messages_type::TOURNAMENT_ADD_RESULT;
@@ -65,6 +64,7 @@ void war_of_ages::server::server_tournament::post_remove_participant(const std::
 
         server::instance().send_message(part, msg);
     }
+    match_participants_lock_held();
 }
 
 void war_of_ages::server::server_tournament::match_participants_lock_held() {
@@ -94,6 +94,9 @@ void war_of_ages::server::server_tournament::match_participants_lock_held() {
     std::vector<std::pair<std::size_t, std::size_t>> new_matches;
 
     for (auto &[gp, i] : order) {
+        if (m_is_playing[i]) {
+            continue;
+        }
         //        std::cerr << "Searching for match for " << m_participants[i] << std::endl;
         std::size_t pos_min = m_participants.size();
         std::size_t games_min = m_participants.size();
@@ -111,8 +114,9 @@ void war_of_ages::server::server_tournament::match_participants_lock_held() {
                 //                std::cerr << "No, they have already played." << std::endl;
                 continue;
             }
-            //            if (i == j || m_is_playing[j] || m_match_results[i][j] != game_result::NONE)
-            //                continue;
+            //                        if (i == j || m_is_playing[j] || m_match_results[i][j] !=
+            //                        game_result::NONE)
+            //                            continue;
             if (games_min > games_played[j]) {
                 //                std::cerr << "Yes, this is a good match!" << std::endl;
                 games_min = games_played[j];
@@ -127,8 +131,17 @@ void war_of_ages::server::server_tournament::match_participants_lock_held() {
         }
     }
 
-    auto post_game_actions = [](const std::string &winner,
-                                const std::string &loser) {  // FIXME: doesn't work somehow
+    auto post_game_actions = [this](const std::string &winner,
+                                    const std::string &loser) {  // FIXME: doesn't work somehow
+        std::unique_lock lock(m_mutex);
+        if (get_id(winner) != m_participants.size()) {
+            m_is_playing[get_id(winner)] = false;
+        }
+        if (get_id(loser) != m_participants.size()) {
+            m_is_playing[get_id(loser)] = false;
+        }
+        lock.unlock();
+        //        std::cerr << "calling add result" << std::endl;
         tournament_handler::instance().add_result(winner, loser);
     };
 
