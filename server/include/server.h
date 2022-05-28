@@ -43,6 +43,7 @@ private:
     std::unordered_map<std::uint32_t, user_status> m_status_by_id;
     [[nodiscard]] user_status get_user_status(std::uint32_t uid) const;
     mutable std::mutex m_mutex;
+    std::condition_variable m_finished_on_disconnect;
 
 protected:
     bool on_client_connect(std::shared_ptr<connection<messages_type>> client) final;
