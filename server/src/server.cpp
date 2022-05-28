@@ -58,14 +58,14 @@ bool server::on_client_connect(std::shared_ptr<connection<messages_type>> client
 }
 
 void server::on_client_disconnect(std::shared_ptr<connection<messages_type>> client) {
-    // Create new
+    // Create new thread to avoid deadlocks
     std::thread([this, client = std::move(client)]() {
         std::uint32_t uid = client->get_id();
+        std::unique_lock l(m_mutex);
         if (m_connection_by_id.count(uid) == 0) {
             // Already cleared
             return;
         }
-        std::unique_lock l(m_mutex);
         auto status = m_status_by_id.at(uid);
         m_connection_by_id.erase(uid);
         m_status_by_id.erase(uid);
@@ -80,6 +80,7 @@ void server::on_client_disconnect(std::shared_ptr<connection<messages_type>> cli
             game_handler::instance().user_disconnected(handle);
             tournament_handler::instance().leave(handle);
         }
+        m_finished_on_disconnect.notify_one();
     }).detach();
 }
 
@@ -119,11 +120,14 @@ void server::on_message(std::shared_ptr<connection<messages_type>> client, messa
                 return;
             } else {
                 l.unlock();
-                other_connection->disconnect();
                 on_client_disconnect(other_connection);
                 l.lock();
             }
         }
+
+        // wait for erasing old info
+        m_finished_on_disconnect.wait(
+            l, [this, &user_handle]() { return m_id_by_handle.count(user_handle) == 0; });
 
         m_handle_by_id.insert({uid, user_handle});
         m_id_by_handle.insert({user_handle, uid});
