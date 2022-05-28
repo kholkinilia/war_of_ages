@@ -25,7 +25,6 @@ struct game_handler {
                   std::function<void(const std::string &handle_winner, const std::string &handle_loser)>
                       game_post_action);
     void apply_command(const std::string &handle, std::unique_ptr<game_command> command);
-    void update_games();
 
     void user_gave_up(const std::string &handle);
     void user_disconnected(const std::string &handle);
@@ -34,8 +33,7 @@ private:
     game_handler() noexcept = default;
 
     [[nodiscard]] bool user_exists_lock_held(const std::string &handle) const noexcept;
-    [[nodiscard]] bool user_exists(const std::string &handle) const;
-    void remove_game(std::size_t game_index) noexcept;
+    void remove_game(std::size_t game_index);
 
     std::unordered_map<std::string, std::size_t> m_game_id_by_handle;
     std::unordered_map<std::size_t, std::shared_ptr<game>> m_games;

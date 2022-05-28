@@ -17,9 +17,14 @@ struct multiplayer_snapshots_handler {
     void set_snapshots(std::pair<player_snapshot, player_snapshot> new_snapshots);
     [[nodiscard]] std::pair<player_snapshot, player_snapshot> get_snapshots() const;
 
+    [[nodiscard]] bool new_snapshot_exists() const;
+    void reset();
+
+
 private:
     multiplayer_snapshots_handler() = default;
     std::pair<player_snapshot, player_snapshot> m_snapshots;
+    mutable bool m_new_snapshot = false;
     mutable std::mutex m_mutex;
 };
 }  // namespace war_of_ages::client

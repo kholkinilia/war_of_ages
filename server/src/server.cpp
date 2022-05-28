@@ -26,6 +26,9 @@ server::server() : server_interface<messages_type>(m_port) {
 
 void server::send_message(const std::string &handle, const message<messages_type> &msg) {
     std::unique_lock l(m_mutex);
+    if (m_id_by_handle.count(handle) == 0) {
+        return;
+    }
     auto connection = m_connection_by_id.at(m_id_by_handle.at(handle));
     l.unlock();
     server_interface::send_message(connection, msg);
@@ -38,12 +41,10 @@ server::user_status server::get_user_status(std::uint32_t uid) const {
 
 void server::set_user_status(const std::string &handle, user_status new_status) {
     std::unique_lock l(m_mutex);
-    auto id_it = m_id_by_handle.find(handle);
-    if (id_it == m_id_by_handle.end()) {
-        // already cleared
+    if (m_id_by_handle.count(handle) == 0) {
         return;
     }
-    m_status_by_id.at(id_it->second) = new_status;
+    m_status_by_id.at(m_id_by_handle.at(handle)) = new_status;
 }
 
 void server::on_client_validated(std::shared_ptr<connection<messages_type>> client) {
@@ -58,13 +59,12 @@ bool server::on_client_connect(std::shared_ptr<connection<messages_type>> client
 
 void server::on_client_disconnect(std::shared_ptr<connection<messages_type>> client) {
     std::uint32_t uid = client->get_id();
-    if (m_connection_by_id.find(uid) == m_connection_by_id.end()) {
+    if (m_connection_by_id.count(uid) == 0) {
         // Already cleared
         return;
     }
-    auto status = get_user_status(uid);
-
     std::unique_lock l(m_mutex);
+    auto status = m_status_by_id.at(uid);
     m_connection_by_id.erase(uid);
     m_status_by_id.erase(uid);
     if (status != user_status::AUTHORIZATION) {

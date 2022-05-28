@@ -90,6 +90,7 @@ void application::update_screens() {
                     } break;
                     case messages_type::GAME_START: {
                         std::cerr << "GOT GAME_START" << std::endl;
+                        multiplayer_snapshots_handler::instance().reset();
                         screen_handler::instance().change_screen(screen_handler::screen_type::GAME_SCREEN);
                         // TODO: dodelat
                     } break;
@@ -170,8 +171,10 @@ void application::update_screens() {
             }
             switch (screen_handler::instance().get_screen_type()) {
                 case screen_handler::screen_type::GAME_SCREEN: {
-                    sfml_printer::instance().print_game(
-                        multiplayer_snapshots_handler::instance().get_snapshots());
+                    if (multiplayer_snapshots_handler::instance().new_snapshot_exists()) {
+                        sfml_printer::instance().print_game(
+                            multiplayer_snapshots_handler::instance().get_snapshots());
+                    }
                 } break;
                 case screen_handler::screen_type::TOURNAMENT_MAIN: {
                     tournament_handler::instance().update_grid(

@@ -20,7 +20,8 @@ game::game(std::size_t id,
     server::instance().send_message(m_handle_p2, msg_p2);
 }
 
-void game::apply_command(const std::string &handle, std::unique_ptr<game_command> command) noexcept {
+void game::apply_command(const std::string &handle, std::unique_ptr<game_command> command) {
+    std::unique_lock l(m_mutex);
     assert(handle == m_handle_p1 || handle == m_handle_p2);
     std::vector<std::unique_ptr<game_command>> current_player_actions;
     current_player_actions.push_back(std::move(command));
@@ -32,69 +33,54 @@ void game::apply_command(const std::string &handle, std::unique_ptr<game_command
 }
 
 void game::update() {
+    std::unique_lock l(m_mutex);
     m_state.update({}, {});
     if (m_state.get_game_status() != game_status::PROCESSING) {
-        message<messages_type> msg_p1, msg_p2;
-        msg_p1.header.id = msg_p2.header.id = messages_type::GAME_FINISHED;
-        if (m_state.get_game_status() == game_status::P1_WON) {
-            msg_p1 << static_cast<std::uint8_t>(1);
-            msg_p2 << static_cast<std::uint8_t>(0);
-            m_result = result::P1_WON;
-        } else {
-            msg_p1 << static_cast<std::uint8_t>(0);
-            msg_p2 << static_cast<std::uint8_t>(1);
-            m_result = result::P2_WON;
+        message<messages_type> msg_winner, msg_loser;
+        msg_winner << static_cast<std::uint8_t>(1);
+        msg_loser << static_cast<std::uint8_t>(0);
+        if (!m_finish_reason.has_value()) {
+            msg_winner.header.id = msg_loser.header.id = messages_type::GAME_FINISHED;
+        } else if (m_finish_reason.value() == unusual_finish_reason::USER_GAVE_UP) {
+            msg_winner.header.id = msg_loser.header.id = messages_type::GAME_GIVE_UP;
+        } else if (m_finish_reason.value() == unusual_finish_reason::USER_DISCONNECTED) {
+            msg_winner.header.id = msg_loser.header.id = messages_type::GAME_DISCONNECTED;
         }
-        server::instance().send_message(m_handle_p1, msg_p1);
-        server::instance().send_message(m_handle_p2, msg_p2);
+        auto [winner, loser] = get_winner_loser_lock_held();
+        server::instance().send_message(winner, msg_winner);
+        server::instance().send_message(loser, msg_loser);
     } else {
-        send_snapshots();
+        send_snapshots_lock_held();
     }
 }
 
 void game::user_gave_up(const std::string &handle) {
+    std::unique_lock l(m_mutex);
     assert(handle == m_handle_p1 || handle == m_handle_p2);
-    message<messages_type> msg_winner, msg_loser;
-    msg_winner.header.id = msg_loser.header.id = messages_type::GAME_GIVE_UP;
-    msg_winner << static_cast<std::uint8_t>(1);
-    msg_loser << static_cast<std::uint8_t>(0);
-    if (handle == m_handle_p2) {
-        m_game_post_action(m_handle_p1, m_handle_p2);
-        server::instance().send_message(m_handle_p1, msg_winner);
-        server::instance().send_message(m_handle_p2, msg_loser);
-    } else {
-        m_game_post_action(m_handle_p2, m_handle_p1);
-        server::instance().send_message(m_handle_p2, msg_winner);
-        server::instance().send_message(m_handle_p1, msg_loser);
-    }
     m_result = (m_handle_p1 == handle ? result::P2_WON : result::P1_WON);
+    m_finish_reason = unusual_finish_reason::USER_GAVE_UP;
 }
 
 void game::user_disconnected(const std::string &handle) {
-    // TODO: if a little time has passed then declare a draw
+    std::unique_lock l(m_mutex);
     assert(handle == m_handle_p1 || handle == m_handle_p2);
-    message<messages_type> msg_winner;
-    msg_winner.header.id = messages_type::GAME_DISCONNECTED;
-    msg_winner << static_cast<std::uint8_t>(1);
-    if (handle == m_handle_p2) {
-        m_game_post_action(m_handle_p1, m_handle_p2);
-        server::instance().send_message(m_handle_p1, msg_winner);
-    } else {
-        m_game_post_action(m_handle_p2, m_handle_p1);
-        server::instance().send_message(m_handle_p2, msg_winner);
-    }
+    // TODO: if a little time has passed then declare a draw
     m_result = (m_handle_p1 == handle ? result::P2_WON : result::P1_WON);
+    m_finish_reason = unusual_finish_reason::USER_DISCONNECTED;
 }
 
-bool game::is_finished() const noexcept {
+bool game::is_finished() const {
+    std::unique_lock l(m_mutex);
     return m_result != result::PROCESSING;
 }
 
-const std::string &game::get_handle_p1() const noexcept {
+const std::string &game::get_handle_p1() const {
+    std::unique_lock l(m_mutex);
     return m_handle_p1;
 }
 
-const std::string &game::get_handle_p2() const noexcept {
+const std::string &game::get_handle_p2() const {
+    std::unique_lock l(m_mutex);
     return m_handle_p2;
 }
 
@@ -111,7 +97,7 @@ void game::fill_body_with_snapshot(message<messages_type> &msg, const player_sna
     msg << p_snapshot.m_training_time_left;
 }
 
-void game::send_snapshots() const {
+void game::send_snapshots_lock_held() const {
     auto [snapshot_p1, snapshot_p2] = m_state.snapshot_players();
     message<messages_type> msg_p1, msg_p2;
     fill_body_with_snapshot(msg_p1, snapshot_p1), fill_body_with_snapshot(msg_p1, snapshot_p2);
@@ -120,22 +106,20 @@ void game::send_snapshots() const {
     server::instance().send_message(m_handle_p2, msg_p2);
 }
 
-std::size_t game::get_id() const noexcept {
+std::size_t game::get_id() const {
+    std::unique_lock l(m_mutex);
     return m_id;
 }
 
-void game::set_result(game::result game_result) {
-    m_result = game_result;
-}
-
-std::pair<std::string, std::string> game::get_winner_loser() {
+std::pair<std::string, std::string> game::get_winner_loser_lock_held() {
     assert(m_result != result::PROCESSING);
     return (m_result == result::P1_WON ? std::pair{m_handle_p1, m_handle_p2}
                                        : std::pair{m_handle_p2, m_handle_p1});
 }
 
 void game::call_post_game_actions() {
-    auto [winner, loser] = get_winner_loser();
+    std::unique_lock l(m_mutex);
+    auto [winner, loser] = get_winner_loser_lock_held();
     m_game_post_action(winner, loser);
 }
 
