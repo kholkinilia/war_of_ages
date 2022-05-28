@@ -37,3 +37,4 @@ Click on them:
 * SFML 
 * TGUI
 * boost::asio
+* SQLite3
