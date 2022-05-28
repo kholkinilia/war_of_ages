@@ -165,7 +165,7 @@ void screen_handler::game_screen_init() {
     auto game_screen_group = tgui::Group::create();
 
     auto autobattle_button = tgui::Button::create();
-    setup_button(autobattle_button, "../client/resources/pictures/autobattle.png");
+    setup_button(autobattle_button, "../client/resources/pictures/logo.png");
     autobattle_button->setPosition(BACKGROUND_WIDTH - DELTA_X, BUTTON_Y);
     autobattle_button->setSize(BUTTON_WIDTH, BUTTON_HEIGHT);
     autobattle_button->onPress([]() {
@@ -176,7 +176,7 @@ void screen_handler::game_screen_init() {
     });
 
     auto new_era_button = tgui::Button::create();
-    setup_button(new_era_button, "../client/resources/pictures/new_era.jpg");
+    setup_button(new_era_button, "../client/resources/pictures/new_era.png");
     new_era_button->setPosition(BACKGROUND_WIDTH - DELTA_X * 2, BUTTON_Y);
     new_era_button->setSize(BUTTON_WIDTH, BUTTON_HEIGHT);
     new_era_button->onPress([&]() {
@@ -196,7 +196,7 @@ void screen_handler::game_screen_init() {
     });
 
     auto plus_place_cannon_button = tgui::Button::create();
-    setup_button(plus_place_cannon_button, "../client/resources/pictures/plus_embrasure.jpg");
+    setup_button(plus_place_cannon_button, "../client/resources/pictures/plus_embrasure.png");
     plus_place_cannon_button->setPosition(BACKGROUND_WIDTH - DELTA_X * 3, BUTTON_Y);
     plus_place_cannon_button->setSize(BUTTON_WIDTH, BUTTON_HEIGHT);
     plus_place_cannon_button->onPress([]() {
@@ -269,7 +269,7 @@ void screen_handler::game_screen_init() {
         }
     });
 
-    auto coin_image = tgui::Picture::create("../client/resources/pictures/coin.jpeg");
+    auto coin_image = tgui::Picture::create("../client/resources/pictures/dollar.png");
     coin_image->setPosition(BUTTON_WIDTH, FPS_LABEL_HEIGHT);
     coin_image->setSize(COIN_WIDTH, COIN_HEIGHT);
 

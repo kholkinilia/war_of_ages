@@ -63,12 +63,12 @@ const bullet_stats &bullet::stats() const noexcept {
 
 const bullet_stats &bullet::get_stats(bullet_type type) {
     const static std::unordered_map<bullet_type, bullet_stats> stats = {
-        {bullet_type::STONE_LEVEL_1, {10, 400, {40, 40}}},
-        {bullet_type::STONE_LEVEL_2, {20, 400, {30, 30}}},
-        {bullet_type::STONE_LEVEL_3, {30, 400, {50, 50}}},
-        {bullet_type::CASTLE_LEVEL_1, {60, 400, {50, 50}}},
-        {bullet_type::CASTLE_LEVEL_2, {120, 400, {50, 50}}},
-        {bullet_type::CASTLE_LEVEL_3, {180, 400, {50, 50}}},
+        {bullet_type::STONE_LEVEL_1, {10, 600, {40, 40}}},
+        {bullet_type::STONE_LEVEL_2, {20, 700, {30, 30}}},
+        {bullet_type::STONE_LEVEL_3, {30, 800, {50, 50}}},
+        {bullet_type::CASTLE_LEVEL_1, {60, 800, {30, 30}}},
+        {bullet_type::CASTLE_LEVEL_2, {120, 1000, {20, 20}}},
+        {bullet_type::CASTLE_LEVEL_3, {180, 1250, {50, 50}}},
         {bullet_type::RENAISSANCE_LEVEL_1, {360, 400, {50, 50}}},
         {bullet_type::RENAISSANCE_LEVEL_2, {720, 400, {50, 50}}},
         {bullet_type::RENAISSANCE_LEVEL_3, {1080, 400, {50, 50}}},
@@ -78,8 +78,8 @@ const bullet_stats &bullet::get_stats(bullet_type type) {
         {bullet_type::FUTURE_LEVEL_1, {12360, 400, {50, 50}}},
         {bullet_type::FUTURE_LEVEL_2, {24720, 400, {50, 50}}},
         {bullet_type::FUTURE_LEVEL_3, {37080, 400, {50, 50}}},
-        {bullet_type::STONE_ULT, {50, 250, {70, 90}}},
-        {bullet_type::CASTLE_ULT, {300, 250, {50, 50}}},
+        {bullet_type::STONE_ULT, {50, 1000, {70, 90}}},
+        {bullet_type::CASTLE_ULT, {300, 1000, {30, 100}}},
         {bullet_type::RENAISSANCE_ULT, {5400, 250, {50, 50}}},
         {bullet_type::MODERN_ULT, {30900, 250, {50, 50}}},
         {bullet_type::FUTURE_ULT, {185400, 250, {50, 50}}}};
