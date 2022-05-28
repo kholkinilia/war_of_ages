@@ -95,7 +95,9 @@ void application::update_screens() {
                         std::string enemy_handle;
                         msg.extract_container(enemy_handle);
 
-                        screen_handler::instance().get_gui().get(screen_handler::screen_id.at(screen_handler::screen_type::GAME_SCREEN))
+                        screen_handler::instance()
+                            .get_gui()
+                            .get(screen_handler::screen_id.at(screen_handler::screen_type::GAME_SCREEN))
                             ->cast<tgui::Group>()
                             ->get("enemy_handle_label")
                             ->cast<tgui::Label>()
