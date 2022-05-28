@@ -33,45 +33,40 @@ void game::apply_command(const std::string &handle, std::unique_ptr<game_command
 }
 
 void game::update() {
+    // std::cout << "UPDATED(1)" << std::flush;
     std::unique_lock l(m_mutex);
+    // std::cout << "UPDATED(2)" << std::flush;
     m_state.update({}, {});
     if (m_state.get_game_status() != game_status::PROCESSING) {
-        message<messages_type> msg_winner, msg_loser;
-        msg_winner << static_cast<std::uint8_t>(1);
-        msg_loser << static_cast<std::uint8_t>(0);
-        if (!m_finish_reason.has_value()) {
-            msg_winner.header.id = msg_loser.header.id = messages_type::GAME_FINISHED;
-        } else if (m_finish_reason.value() == unusual_finish_reason::USER_GAVE_UP) {
-            msg_winner.header.id = msg_loser.header.id = messages_type::GAME_GIVE_UP;
-        } else if (m_finish_reason.value() == unusual_finish_reason::USER_DISCONNECTED) {
-            msg_winner.header.id = msg_loser.header.id = messages_type::GAME_DISCONNECTED;
-        }
-        auto [winner, loser] = get_winner_loser_lock_held();
-        server::instance().send_message(winner, msg_winner);
-        server::instance().send_message(loser, msg_loser);
+        // std::cerr << "GAME [" << m_id << "]: GAME_STATE: NOT PROCESSING, ASSIGN RESULT & FINISH\n";
+        m_result = m_state.get_game_status();
     } else {
         send_snapshots_lock_held();
     }
 }
 
 void game::user_gave_up(const std::string &handle) {
+    // std::cerr << "GAME [" << m_id << "]: USER_GAVE_UP (" << handle << ")" << std::endl;
     std::unique_lock l(m_mutex);
+    // std::cerr << "GAME [" << m_id << "]: USER_GAVE_UP (" << handle << ")" << std::endl;
     assert(handle == m_handle_p1 || handle == m_handle_p2);
-    m_result = (m_handle_p1 == handle ? result::P2_WON : result::P1_WON);
+    m_result = (m_handle_p1 == handle ? game_status::P2_WON : game_status::P1_WON);
     m_finish_reason = unusual_finish_reason::USER_GAVE_UP;
 }
 
 void game::user_disconnected(const std::string &handle) {
+    // std::cerr << "GAME [" << m_id << "]: USER_DISCONNECTED (" << handle << ")" << std::endl;
+    // IMPORTANT! DO NOT LOCK MUTEX
     std::unique_lock l(m_mutex);
     assert(handle == m_handle_p1 || handle == m_handle_p2);
     // TODO: if a little time has passed then declare a draw
-    m_result = (m_handle_p1 == handle ? result::P2_WON : result::P1_WON);
+    m_result = (m_handle_p1 == handle ? game_status::P2_WON : game_status::P1_WON);
     m_finish_reason = unusual_finish_reason::USER_DISCONNECTED;
 }
 
 bool game::is_finished() const {
     std::unique_lock l(m_mutex);
-    return m_result != result::PROCESSING;
+    return m_result != game_status::PROCESSING;
 }
 
 const std::string &game::get_handle_p1() const {
@@ -112,14 +107,32 @@ std::size_t game::get_id() const {
 }
 
 std::pair<std::string, std::string> game::get_winner_loser_lock_held() {
-    assert(m_result != result::PROCESSING);
-    return (m_result == result::P1_WON ? std::pair{m_handle_p1, m_handle_p2}
-                                       : std::pair{m_handle_p2, m_handle_p1});
+    assert(m_result != game_status::PROCESSING);
+    return (m_result == game_status::P1_WON ? std::pair{m_handle_p1, m_handle_p2}
+                                            : std::pair{m_handle_p2, m_handle_p1});
 }
 
-void game::call_post_game_actions() {
+void game::finish_game() {
     std::unique_lock l(m_mutex);
+
+    // std::cerr << "GAME [" << m_id << "]: NOT PROCESSING, FINISH\n";
+    // std::cerr << "  m_unusual_finish_reason == ";
+    message<messages_type> msg_winner, msg_loser;
+    msg_winner << static_cast<std::uint8_t>(1);
+    msg_loser << static_cast<std::uint8_t>(0);
+    if (!m_finish_reason.has_value()) {
+        // std::cerr << " __NOT_INITED__" << std::endl;
+        msg_winner.header.id = msg_loser.header.id = messages_type::GAME_FINISHED;
+    } else if (m_finish_reason.value() == unusual_finish_reason::USER_GAVE_UP) {
+        // std::cerr << " __USER_GAVE_UP__" << std::endl;
+        msg_winner.header.id = msg_loser.header.id = messages_type::GAME_GIVE_UP;
+    } else if (m_finish_reason.value() == unusual_finish_reason::USER_DISCONNECTED) {
+        // std::cerr << " __USER_DISCONNECTED__" << std::endl;
+        msg_winner.header.id = msg_loser.header.id = messages_type::GAME_DISCONNECTED;
+    }
     auto [winner, loser] = get_winner_loser_lock_held();
+    server::instance().send_message(winner, msg_winner);
+    server::instance().send_message(loser, msg_loser);
     m_game_post_action(winner, loser);
 }
 

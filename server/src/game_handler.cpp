@@ -28,7 +28,7 @@ void game_handler::add_game(
             }
         }
         game_handler::instance().remove_game(cur_game->get_id());
-        cur_game->call_post_game_actions();
+        cur_game->finish_game();
     }).detach();
 
     m_free_id++;

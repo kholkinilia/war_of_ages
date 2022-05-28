@@ -12,17 +12,6 @@
 namespace war_of_ages::server {
 
 struct game {
-    enum class result {
-        P1_WON,
-        P2_WON,
-        PROCESSING,
-    };
-
-    enum class unusual_finish_reason {
-        USER_GAVE_UP,
-        USER_DISCONNECTED,
-    };
-
     game(std::size_t id,
          std::string handle_p1,
          std::string handle_p2,
@@ -33,7 +22,7 @@ struct game {
     void update();
     void user_gave_up(const std::string &handle);
     void user_disconnected(const std::string &handle);
-    void call_post_game_actions();
+    void finish_game();
 
     [[nodiscard]] std::size_t get_id() const;
     [[nodiscard]] bool is_finished() const;
@@ -50,7 +39,12 @@ private:
     std::string m_handle_p1;
     std::string m_handle_p2;
 
-    result m_result = result::PROCESSING;
+    game_status m_result = game_status::PROCESSING;
+
+    enum class unusual_finish_reason {
+        USER_GAVE_UP,
+        USER_DISCONNECTED,
+    };
     std::optional<unusual_finish_reason> m_finish_reason = std::nullopt;
 
     game_state m_state;

@@ -58,26 +58,29 @@ bool server::on_client_connect(std::shared_ptr<connection<messages_type>> client
 }
 
 void server::on_client_disconnect(std::shared_ptr<connection<messages_type>> client) {
-    std::uint32_t uid = client->get_id();
-    if (m_connection_by_id.count(uid) == 0) {
-        // Already cleared
-        return;
-    }
-    std::unique_lock l(m_mutex);
-    auto status = m_status_by_id.at(uid);
-    m_connection_by_id.erase(uid);
-    m_status_by_id.erase(uid);
-    if (status != user_status::AUTHORIZATION) {
-        auto handle_it = m_handle_by_id.find(uid);
-        assert(handle_it != m_handle_by_id.end());
-        std::string handle = handle_it->second;
-        m_id_by_handle.erase(handle);
-        m_handle_by_id.erase(handle_it);
-        l.unlock();
+    // Create new
+    std::thread([this, client = std::move(client)]() {
+        std::uint32_t uid = client->get_id();
+        if (m_connection_by_id.count(uid) == 0) {
+            // Already cleared
+            return;
+        }
+        std::unique_lock l(m_mutex);
+        auto status = m_status_by_id.at(uid);
+        m_connection_by_id.erase(uid);
+        m_status_by_id.erase(uid);
+        if (status != user_status::AUTHORIZATION) {
+            auto handle_it = m_handle_by_id.find(uid);
+            assert(handle_it != m_handle_by_id.end());
+            std::string handle = handle_it->second;
+            m_id_by_handle.erase(handle);
+            m_handle_by_id.erase(handle_it);
+            l.unlock();
 
-        game_handler::instance().user_disconnected(handle);
-        tournament_handler::instance().leave(handle);
-    }
+            game_handler::instance().user_disconnected(handle);
+            tournament_handler::instance().leave(handle);
+        }
+    }).detach();
 }
 
 void server::on_message(std::shared_ptr<connection<messages_type>> client, message<messages_type> msg) {
