@@ -112,11 +112,13 @@ void tournament_handler::update_grid(const tgui::Grid::Ptr &grid) {
 
     for (std::size_t i = 0; i < m_participants.size(); i++) {
         tgui::Label::Ptr part_sum = tgui::Label::create(std::to_string(m_sum[i]));
-        format_label(part_sum, SQUARE_SIZE, THICK_BORDER_WIDTH, i == client_pos ? CLIENT_CELL_BACKGROUND_COLOR : REGULAR_BACKGROUND_COLOR);
+        format_label(part_sum, SQUARE_SIZE, THICK_BORDER_WIDTH,
+                     i == client_pos ? CLIENT_CELL_BACKGROUND_COLOR : REGULAR_BACKGROUND_COLOR);
         grid->addWidget(part_sum, i + 1, m_participants.size() + 2);
 
         tgui::Label::Ptr part_place = tgui::Label::create(std::to_string(m_place[i]));
-        format_label(part_place, SQUARE_SIZE, THICK_BORDER_WIDTH, i == client_pos ? CLIENT_CELL_BACKGROUND_COLOR : REGULAR_BACKGROUND_COLOR);
+        format_label(part_place, SQUARE_SIZE, THICK_BORDER_WIDTH,
+                     i == client_pos ? CLIENT_CELL_BACKGROUND_COLOR : REGULAR_BACKGROUND_COLOR);
         grid->addWidget(part_place, i + 1, m_participants.size() + 3);
     }
 

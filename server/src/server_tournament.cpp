@@ -134,7 +134,8 @@ void war_of_ages::server::server_tournament::match_participants_lock_held() {
     for (auto [player1_id, player2_id] : new_matches) {
         //        std::cerr << "Matching " << m_participants[player1_id] << " " << m_participants[player2_id]
         //        << "\n";
-        m_match_results[player1_id][player2_id] = m_match_results[player2_id][player1_id] = game_result::PLAYING;
+        m_match_results[player1_id][player2_id] = m_match_results[player2_id][player1_id] =
+            game_result::PLAYING;
         post_match_participants(m_participants[player1_id], m_participants[player2_id]);
     }
 
@@ -162,7 +163,7 @@ void war_of_ages::server::server_tournament::post_match_participants(const std::
     msg.header.id = messages_type::TOURNAMENT_ADD_MATCH;
     msg << handle1 << handle2;
 
-    for (const auto &handle: m_participants) {
+    for (const auto &handle : m_participants) {
         if (handle == handle1 || handle == handle2) {
             continue;
         }
