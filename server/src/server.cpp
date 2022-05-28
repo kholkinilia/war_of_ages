@@ -120,7 +120,6 @@ void server::on_message(std::shared_ptr<connection<messages_type>> client, messa
                 return;
             } else {
                 l.unlock();
-                other_connection->disconnect();
                 on_client_disconnect(other_connection);
                 l.lock();
             }
