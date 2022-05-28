@@ -131,6 +131,18 @@ void war_of_ages::server::server_tournament::match_participants_lock_held() {
         }
     }
 
+    for (auto [player1_id, player2_id] : new_matches) {
+        //        std::cerr << "Matching " << m_participants[player1_id] << " " << m_participants[player2_id]
+        //        << "\n";
+        m_match_results[player1_id][player2_id] = m_match_results[player2_id][player1_id] = game_result::PLAYING;
+        post_match_participants(m_participants[player1_id], m_participants[player2_id]);
+    }
+
+    //    std::cerr << "Tournament(" << m_key << ") matchmaking ended." << std::endl;
+}
+
+void war_of_ages::server::server_tournament::post_match_participants(const std::string &handle1,
+                                                                     const std::string &handle2) {
     auto post_game_actions = [this](const std::string &winner,
                                     const std::string &loser) {  // FIXME: doesn't work somehow
         std::unique_lock lock(m_mutex);
@@ -144,13 +156,16 @@ void war_of_ages::server::server_tournament::match_participants_lock_held() {
         //        std::cerr << "calling add result" << std::endl;
         tournament_handler::instance().add_result(winner, loser);
     };
+    game_handler::instance().add_game(handle1, handle2, post_game_actions);
 
-    for (auto [player1_id, player2_id] : new_matches) {
-        //        std::cerr << "Matching " << m_participants[player1_id] << " " << m_participants[player2_id]
-        //        << "\n";
-        game_handler::instance().add_game(m_participants[player1_id], m_participants[player2_id],
-                                          post_game_actions);
+    message<messages_type> msg;
+    msg.header.id = messages_type::TOURNAMENT_ADD_MATCH;
+    msg << handle1 << handle2;
+
+    for (const auto &handle: m_participants) {
+        if (handle == handle1 || handle == handle2) {
+            continue;
+        }
+        server::instance().send_message(handle, msg);
     }
-
-    //    std::cerr << "Tournament(" << m_key << ") matchmaking ended." << std::endl;
 }

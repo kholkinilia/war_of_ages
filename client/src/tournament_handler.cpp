@@ -2,6 +2,7 @@
 #include <TGUI/Widgets/EditBox.hpp>
 #include <TGUI/Widgets/Group.hpp>
 #include <TGUI/Widgets/Label.hpp>
+#include "../include/client.h"
 #include "../include/screen_handler.h"
 
 namespace war_of_ages::client {
@@ -19,16 +20,22 @@ void tournament_handler::update_grid(const tgui::Grid::Ptr &grid) {
     static const int THICK_BORDER_WIDTH = 3;
     static const int REGULAR_BORDER_WIDTH = 3;
     static const tgui::Color BORDER_COLOR = tgui::Color::Black;
+    static const tgui::Color CLIENT_CELL_BACKGROUND_COLOR = tgui::Color(75, 75, 75);
     static const tgui::Color REGULAR_BACKGROUND_COLOR = tgui::Color(100, 100, 100);
     static const tgui::Color BLANK_CELL_BACKGROUND_COLOR = tgui::Color(50, 50, 50);
     static const tgui::Color TEXT_COLOR = tgui::Color::White;
-    static const std::map<game_result, std::string> result_text{
-        {game_result::NONE, "."}, {game_result::VICTORY, "V"}, {game_result::DEFEAT, "D"}};
+    static const std::map<game_result, std::string> result_text{{game_result::NONE, "."},
+                                                                {game_result::VICTORY, "V"},
+                                                                {game_result::DEFEAT, "D"},
+                                                                {game_result::PLAYING, "M"}};
     static const std::map<game_result, tgui::Color> result_color{
         {game_result::NONE, REGULAR_BACKGROUND_COLOR},
         {game_result::VICTORY, tgui::Color(0, 100, 0)},
-        {game_result::DEFEAT, tgui::Color(100, 0, 0)}};
+        {game_result::DEFEAT, tgui::Color(100, 0, 0)},
+        {game_result::PLAYING, tgui::Color(0, 0, 100)}};
     // end table parameters
+
+    std::size_t client_pos = get_id(client::instance().get_handle());
 
     grid->removeAllWidgets();
 
@@ -50,13 +57,15 @@ void tournament_handler::update_grid(const tgui::Grid::Ptr &grid) {
 
     for (std::size_t i = 0; i < m_participants.size(); i++) {
         tgui::Label::Ptr handle = tgui::Label::create(m_participants[i]);
-        format_label(handle, HANDLE_WIDTH, THICK_BORDER_WIDTH, REGULAR_BACKGROUND_COLOR);
+        format_label(handle, HANDLE_WIDTH, THICK_BORDER_WIDTH,
+                     i == client_pos ? CLIENT_CELL_BACKGROUND_COLOR : REGULAR_BACKGROUND_COLOR);
         grid->addWidget(handle, i + 1, 0);
     }
 
     for (std::size_t i = 0; i < m_participants.size(); i++) {
         tgui::Label::Ptr number = tgui::Label::create(std::to_string(i + 1));
-        format_label(number, SQUARE_SIZE, THICK_BORDER_WIDTH, REGULAR_BACKGROUND_COLOR);
+        format_label(number, SQUARE_SIZE, THICK_BORDER_WIDTH,
+                     i == client_pos ? CLIENT_CELL_BACKGROUND_COLOR : REGULAR_BACKGROUND_COLOR);
         grid->addWidget(number, i + 1, 1);
     }
 
@@ -78,7 +87,9 @@ void tournament_handler::update_grid(const tgui::Grid::Ptr &grid) {
                 continue;
             tgui::Label::Ptr cur_result = tgui::Label::create(result_text.at(m_match_results[i][j]));
             format_label(cur_result, SQUARE_SIZE, REGULAR_BORDER_WIDTH,
-                         result_color.at(m_match_results[i][j]));
+                         m_match_results[i][j] == game_result::NONE
+                             ? (i == client_pos ? CLIENT_CELL_BACKGROUND_COLOR : REGULAR_BACKGROUND_COLOR)
+                             : result_color.at(m_match_results[i][j]));
             grid->addWidget(cur_result, i + 1, j + 2);
         }
     }
@@ -101,11 +112,11 @@ void tournament_handler::update_grid(const tgui::Grid::Ptr &grid) {
 
     for (std::size_t i = 0; i < m_participants.size(); i++) {
         tgui::Label::Ptr part_sum = tgui::Label::create(std::to_string(m_sum[i]));
-        format_label(part_sum, SQUARE_SIZE, THICK_BORDER_WIDTH, REGULAR_BACKGROUND_COLOR);
+        format_label(part_sum, SQUARE_SIZE, THICK_BORDER_WIDTH, i == client_pos ? CLIENT_CELL_BACKGROUND_COLOR : REGULAR_BACKGROUND_COLOR);
         grid->addWidget(part_sum, i + 1, m_participants.size() + 2);
 
         tgui::Label::Ptr part_place = tgui::Label::create(std::to_string(m_place[i]));
-        format_label(part_place, SQUARE_SIZE, THICK_BORDER_WIDTH, REGULAR_BACKGROUND_COLOR);
+        format_label(part_place, SQUARE_SIZE, THICK_BORDER_WIDTH, i == client_pos ? CLIENT_CELL_BACKGROUND_COLOR : REGULAR_BACKGROUND_COLOR);
         grid->addWidget(part_place, i + 1, m_participants.size() + 3);
     }
 
@@ -121,6 +132,10 @@ void tournament_handler::post_add_result(const std::string &, const std::string 
 }
 
 void tournament_handler::post_remove_participant(const std::string &, std::size_t) {
+    m_is_grid_updated = false;
+}
+
+void tournament_handler::post_match_participants(const std::string &handle1, const std::string &handle2) {
     m_is_grid_updated = false;
 }
 
@@ -153,7 +168,7 @@ void tournament_handler::set_tournament(const tournament_snapshot &snapshot) {
     m_match_results = snapshot.match_results;
     //    std::cerr << "fully copied" << std::endl;
 
-    int n = m_participants.size();
+    //    int n = m_participants.size();
 
     //    for (int i = 0; i < n; i++) {
     //        std::cerr << i << ": " << m_participants[i] << "\n";

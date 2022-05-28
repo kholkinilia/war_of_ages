@@ -14,6 +14,7 @@ private:
     void post_add_participant(const std::string &handle) final;
     void post_add_result(const std::string &winner, const std::string &loser) final;
     void post_remove_participant(const std::string &handle, std::size_t remove_id) final;
+    void post_match_participants(const std::string &handle1, const std::string &handle2) final;
 
     void match_participants_lock_held();
 };

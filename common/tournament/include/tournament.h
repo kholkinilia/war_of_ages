@@ -9,7 +9,7 @@
 
 namespace war_of_ages {
 
-enum class game_result : std::uint8_t { NONE, VICTORY, DEFEAT };
+enum class game_result : std::uint8_t { NONE, VICTORY, DEFEAT, PLAYING };
 
 struct tournament_snapshot {
     std::string name;
@@ -37,6 +37,7 @@ protected:
     virtual void post_add_participant(const std::string &handle) = 0;
     virtual void post_add_result(const std::string &winner, const std::string &loser) = 0;
     virtual void post_remove_participant(const std::string &handle, std::size_t remove_id) = 0;
+    virtual void post_match_participants(const std::string &handle1, const std::string &handle2) = 0;
 
 public:
     tournament() = default;
@@ -44,6 +45,8 @@ public:
     void add_participant(const std::string &handle);
 
     void add_result(const std::string &winner, const std::string &loser);
+
+    void match_participants(const std::string &handle1, const std::string &handle2);
 
     void remove_participant(const std::string &handle);
 

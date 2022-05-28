@@ -48,7 +48,7 @@ void screen_handler::change_screen(screen_handler::screen_type new_screen) {
     } else if (new_screen == screen_type::PREVIOUS_MENU) {
         const static std::vector<screen_type> non_menu_screens{
             screen_type::GAME_SCREEN, screen_type::WAITING_FOR_SERVER, screen_type::SETTINGS,
-            screen_type::WAIT_OPPONENT};
+            screen_type::WAIT_OPPONENT, screen_type::END_GAME};
         m_screen_stack.pop();
         while (!m_screen_stack.empty() &&
                std::count(non_menu_screens.begin(), non_menu_screens.end(), m_screen_stack.top()) != 0) {

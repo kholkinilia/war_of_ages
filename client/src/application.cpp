@@ -176,7 +176,12 @@ void application::update_screens() {
                         msg.extract_container(loser);
                         msg.extract_container(winner);
                         tournament_handler::instance().add_result(winner, loser);
-                    }
+                    } break;
+                    case messages_type::TOURNAMENT_ADD_MATCH: {
+                        std::string handle1, handle2;
+                        msg >> handle2 >> handle1;
+                        tournament_handler::instance().match_participants(handle1, handle2);
+                    } break;
                     default:
                         break;
                 }

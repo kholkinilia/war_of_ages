@@ -125,4 +125,15 @@ bool tournament::is_participant(const std::string &handle) const {
     return get_id(handle) == m_participants.size();
 }
 
+void tournament::match_participants(const std::string &handle1, const std::string &handle2) {
+    std::unique_lock lock(m_mutex);
+    std::size_t pos1 = get_id(handle1);
+    std::size_t pos2 = get_id(handle2);
+    if (pos1 >= m_participants.size() || pos2 >= m_participants.size()) {
+        return;
+    }
+    m_match_results[pos1][pos2] = m_match_results[pos2][pos1] = game_result::PLAYING;
+    post_match_participants(handle1, handle2);
+}
+
 }  // namespace war_of_ages
