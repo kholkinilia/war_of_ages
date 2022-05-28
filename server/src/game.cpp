@@ -1,4 +1,5 @@
 #include "../include/game.h"
+#include "../include/game_handler.h"
 #include "../include/server.h"
 
 namespace war_of_ages::server {
@@ -32,21 +33,20 @@ void game::apply_command(const std::string &handle, std::unique_ptr<game_command
 
 void game::update() {
     m_state.update({}, {});
-    if (is_finished()) {
+    if (m_state.get_game_status() != game_status::PROCESSING) {
         message<messages_type> msg_p1, msg_p2;
         msg_p1.header.id = msg_p2.header.id = messages_type::GAME_FINISHED;
         if (m_state.get_game_status() == game_status::P1_WON) {
             msg_p1 << static_cast<std::uint8_t>(1);
             msg_p2 << static_cast<std::uint8_t>(0);
-            m_game_post_action(m_handle_p1, m_handle_p2);
+            m_result = result::P1_WON;
         } else {
             msg_p1 << static_cast<std::uint8_t>(0);
             msg_p2 << static_cast<std::uint8_t>(1);
-            m_game_post_action(m_handle_p2, m_handle_p1);
+            m_result = result::P2_WON;
         }
         server::instance().send_message(m_handle_p1, msg_p1);
         server::instance().send_message(m_handle_p2, msg_p2);
-        m_result = (m_state.get_game_status() == game_status::P1_WON ? result::P1_WON : result::P2_WON);
     } else {
         send_snapshots();
     }
@@ -67,6 +67,7 @@ void game::user_gave_up(const std::string &handle) {
         server::instance().send_message(m_handle_p2, msg_winner);
         server::instance().send_message(m_handle_p1, msg_loser);
     }
+    m_result = (m_handle_p1 == handle ? result::P2_WON : result::P1_WON);
 }
 
 void game::user_disconnected(const std::string &handle) {
@@ -82,10 +83,11 @@ void game::user_disconnected(const std::string &handle) {
         m_game_post_action(m_handle_p2, m_handle_p1);
         server::instance().send_message(m_handle_p2, msg_winner);
     }
+    m_result = (m_handle_p1 == handle ? result::P2_WON : result::P1_WON);
 }
 
 bool game::is_finished() const noexcept {
-    return m_result == result::PROCESSING;
+    return m_result != result::PROCESSING;
 }
 
 const std::string &game::get_handle_p1() const noexcept {
@@ -124,6 +126,17 @@ std::size_t game::get_id() const noexcept {
 
 void game::set_result(game::result game_result) {
     m_result = game_result;
+}
+
+std::pair<std::string, std::string> game::get_winner_loser() {
+    assert(m_result != result::PROCESSING);
+    return (m_result == result::P1_WON ? std::pair{m_handle_p1, m_handle_p2}
+                                       : std::pair{m_handle_p2, m_handle_p1});
+}
+
+void game::call_post_game_actions() {
+    auto [winner, loser] = get_winner_loser();
+    m_game_post_action(winner, loser);
 }
 
 }  // namespace war_of_ages::server

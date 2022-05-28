@@ -27,6 +27,7 @@ struct game {
     void update();
     void user_gave_up(const std::string &handle);
     void user_disconnected(const std::string &handle);
+    void call_post_game_actions();
 
     void set_result(result game_result);
     [[nodiscard]] std::size_t get_id() const noexcept;
@@ -38,6 +39,7 @@ private:
     static void fill_body_with_snapshot(message<messages_type> &msg,
                                         const player_snapshot &p_snapshot) noexcept;
     void send_snapshots() const;
+    [[nodiscard]] std::pair<std::string, std::string> get_winner_loser();
 
     std::size_t m_id;
     std::string m_handle_p1;
