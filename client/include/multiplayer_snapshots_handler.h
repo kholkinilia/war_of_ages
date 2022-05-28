@@ -20,7 +20,6 @@ struct multiplayer_snapshots_handler {
     [[nodiscard]] bool is_snapshot_initialized() const;
     void reset();
 
-
 private:
     multiplayer_snapshots_handler() = default;
     std::pair<player_snapshot, player_snapshot> m_snapshots;

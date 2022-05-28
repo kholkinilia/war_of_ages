@@ -3,11 +3,11 @@
 
 #include <cstdint>
 #include <functional>
+#include <optional>
 #include <string>
 #include "../../common/network/include/message.h"
 #include "game_state.h"
 #include "messages_type.h"
-#include <optional>
 
 namespace war_of_ages::server {
 

@@ -1,5 +1,5 @@
-#include <cassert>
 #include "../include/multiplayer_snapshots_handler.h"
+#include <cassert>
 
 namespace war_of_ages::client {
 multiplayer_snapshots_handler &multiplayer_snapshots_handler::instance() {
