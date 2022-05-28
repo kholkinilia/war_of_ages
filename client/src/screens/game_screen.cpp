@@ -286,6 +286,13 @@ void screen_handler::game_screen_init() {
     exp_label->setPosition(BUTTON_WIDTH + COIN_WIDTH,
                            FPS_LABEL_HEIGHT + 1.5 * COIN_HEIGHT / COST_HEIGHT + COIN_HEIGHT);
 
+    // FIXME: get rid of literal constants
+    auto enemy_handle_label = tgui::Label::create();
+    enemy_handle_label->getRenderer()->setTextSize(20);
+    enemy_handle_label->getRenderer()->setTextStyle(tgui::TextStyle::Bold);
+    enemy_handle_label->getRenderer()->setTextColor(tgui::Color::Red);
+    enemy_handle_label->setPosition(BACKGROUND_WIDTH - 200, BUTTON_HEIGHT + 200);
+
     game_screen_group->add(autobattle_button);
     game_screen_group->add(new_era_button);
     game_screen_group->add(plus_place_cannon_button);
@@ -295,6 +302,7 @@ void screen_handler::game_screen_init() {
     game_screen_group->add(coin_label, "coin_label");
     game_screen_group->add(exp_image);
     game_screen_group->add(exp_label, "exp_label");
+    game_screen_group->add(enemy_handle_label, "enemy_handle_label");
     game_screen_group->add(plus_place_cannon_coin_image);
     game_screen_group->add(plus_place_cannon_coin_label, "plus_place_cannon_coin_label");
     m_gui.add(game_screen_group, screen_handler::screen_id.at(screen_handler::screen_type::GAME_SCREEN));

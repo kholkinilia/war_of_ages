@@ -91,6 +91,16 @@ void application::update_screens() {
                     case messages_type::GAME_START: {
                         std::cerr << "GOT GAME_START" << std::endl;
                         multiplayer_snapshots_handler::instance().reset();
+
+                        std::string enemy_handle;
+                        msg.extract_container(enemy_handle);
+
+                        screen_handler::instance().get_gui().get(screen_handler::screen_id.at(screen_handler::screen_type::GAME_SCREEN))
+                            ->cast<tgui::Group>()
+                            ->get("enemy_handle_label")
+                            ->cast<tgui::Label>()
+                            ->setText(enemy_handle);
+
                         screen_handler::instance().change_screen(screen_handler::screen_type::GAME_SCREEN);
                         // TODO: dodelat
                     } break;
