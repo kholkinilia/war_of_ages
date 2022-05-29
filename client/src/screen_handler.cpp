@@ -113,8 +113,7 @@ void screen_handler::change_screen(screen_handler::screen_type new_screen) {
                 m_gui.get<tgui::Group>(screen_id.at(screen_type::SETTINGS))
                     ->get<tgui::Button>("return_button")
                     ->setText("В главное меню");
-            }
-                break;
+            } break;
             default:
                 break;
         }

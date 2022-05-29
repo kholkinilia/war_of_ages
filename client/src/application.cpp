@@ -5,8 +5,8 @@
 #include "../include/screen_handler.h"
 #include "../include/sfml_printer.h"
 #include "../include/single_player_handler.h"
-#include "../include/tournament_handler.h"
 #include "../include/sound_player.h"
+#include "../include/tournament_handler.h"
 
 // TGUI widgets
 #include <TGUI/Widgets/Group.hpp>
