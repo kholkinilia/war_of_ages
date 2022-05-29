@@ -12,7 +12,7 @@ void screen_handler::end_game_screen_init() {
     auto end_game_screen_group = tgui::Group::create();
 
     auto result = tgui::Label::create();
-    result->getRenderer()->setTextSize(40);
+    result->getRenderer()->setTextSize(35);
     result->setHorizontalAlignment(tgui::Label::HorizontalAlignment::Center);
     result->getRenderer()->setTextColor(tgui::Color::White);
     end_game_screen_group->add(result, "result_label");

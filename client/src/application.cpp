@@ -6,6 +6,7 @@
 #include "../include/sfml_printer.h"
 #include "../include/single_player_handler.h"
 #include "../include/tournament_handler.h"
+#include "../include/sound_player.h"
 
 // TGUI widgets
 #include <TGUI/Widgets/Group.hpp>
@@ -104,6 +105,8 @@ void application::update_screens() {
                             ->setText(enemy_handle);
 
                         screen_handler::instance().change_screen(screen_handler::screen_type::GAME_SCREEN);
+                        sound_player::instance().change(sound_player::sound_type::LOBBY,
+                                                        sound_player::sound_type::BATTLE);
                         // TODO: dodelat
                     } break;
                     case messages_type::GAME_FINISHED: {

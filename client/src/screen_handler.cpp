@@ -1,4 +1,5 @@
 #include "../include/screen_handler.h"
+#include <TGUI/Widgets/Button.hpp>
 #include <TGUI/Widgets/Group.hpp>
 #include <TGUI/Widgets/Label.hpp>
 #include "../include/application.h"
@@ -97,15 +98,22 @@ void screen_handler::change_screen(screen_handler::screen_type new_screen) {
     // Settings screen_type does not contain resume_button
     if (new_screen == screen_type::SETTINGS) {
         switch (prev_screen) {
-            case screen_type::GAME_SCREEN:
+            case screen_type::GAME_SCREEN: {
                 m_gui.get<tgui::Group>(screen_id.at(screen_type::SETTINGS))
                     ->get("resume_button")
                     ->setVisible(true);
-                break;
-            case screen_type::START_SCREEN:
+                m_gui.get<tgui::Group>(screen_id.at(screen_type::SETTINGS))
+                    ->get<tgui::Button>("return_button")
+                    ->setText("Сдаться");
+            } break;
+            case screen_type::START_SCREEN: {
                 m_gui.get<tgui::Group>(screen_id.at(screen_type::SETTINGS))
                     ->get("resume_button")
                     ->setVisible(false);
+                m_gui.get<tgui::Group>(screen_id.at(screen_type::SETTINGS))
+                    ->get<tgui::Button>("return_button")
+                    ->setText("В главное меню");
+            }
                 break;
             default:
                 break;

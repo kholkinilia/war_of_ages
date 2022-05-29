@@ -73,24 +73,27 @@ void screen_handler::settings_screen_init() {
     resume_button->setSize("40%", "10%");
     settings_screen_group->add(resume_button, "resume_button");
 
-    auto start_button = tgui::Button::create("В главное меню");
-    start_button->setRenderer(black_theme.getRenderer("Button"));
-    start_button->setTextSize(30);
-    start_button->onPress([&]() {
-        if (application::instance().get_state() == application::state::SINGLE_PLAYER_GAME) {
-            sound_player::instance().change(sound_player::sound_type::BATTLE,
-                                            sound_player::sound_type::LOBBY);
-        } else if (application::instance().get_state() == application::state::MULTIPLAYER) {
+    auto return_button = tgui::Button::create("В главное меню");
+    return_button->setRenderer(black_theme.getRenderer("Button"));
+    return_button->setTextSize(30);
+    return_button->onPress([&]() {
+        auto state = application::instance().get_state();
+        if (state == application::state::MULTIPLAYER) {
             message<messages_type> msg;
             msg.header.id = messages_type::GAME_GIVE_UP;
             client::instance().send_message(msg);
+        } else {
+            application::instance().set_state(application::state::MENU);
+            screen_handler::instance().change_screen(screen_handler::screen_type::START_SCREEN);
+            if (state == application::state::SINGLE_PLAYER_GAME) {
+                sound_player::instance().change(sound_player::sound_type::BATTLE,
+                                                sound_player::sound_type::LOBBY);
+            }
         }
-        screen_handler::instance().change_screen(screen_handler::screen_type::START_SCREEN);
-        application::instance().set_state(application::state::MENU);
     });
-    start_button->setPosition("30%", "86%");
-    start_button->setSize("40%", "10%");
-    settings_screen_group->add(start_button);
+    return_button->setPosition("30%", "86%");
+    return_button->setSize("40%", "10%");
+    settings_screen_group->add(return_button, "return_button");
 
     m_gui.add(settings_screen_group, screen_handler::screen_id.at(screen_handler::screen_type::SETTINGS));
     m_gui.get(screen_handler::screen_id.at(screen_handler::screen_type::SETTINGS))->setVisible(false);
