@@ -116,12 +116,11 @@ void server::on_message(std::shared_ptr<connection<messages_type>> client, messa
             auto &other_connection = m_connection_by_id.at(id_it->second);
             if (other_connection->is_connected()) {
                 msg_response.header.id = messages_type::AUTH_ALREADY_USING;
+                l.unlock();
                 send_message(user_handle, msg_response);
                 return;
             } else {
-                l.unlock();
                 on_client_disconnect(other_connection);
-                l.lock();
             }
         }
 
