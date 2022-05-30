@@ -20,7 +20,7 @@ sound_player::sound_player() {
         if (sound_file == fs::end(it) || !sounds[cur_sound].openFromFile(sound_file->path().string())) {
             // TODO: handle this case somehow
         }
-        sounds[cur_sound].setVolume(50);
+        sounds[cur_sound].setVolume(30);
         if (cur_sound == sound_type::BATTLE || cur_sound == sound_type::LOBBY)
             sounds[cur_sound].setLoop(true);
     }
@@ -45,7 +45,7 @@ void sound_player::set_volume(sound_player::sound_type type, float new_volume) {
 }
 
 float sound_player::get_volume(sound_player::sound_type type) {
-    return sounds.at(type).getStatus() == sf::SoundSource::Status::Playing ? sounds.at(type).getVolume() : 50;
+    return sounds.at(type).getVolume();
 }
 
 std::string sound_player::to_string(sound_type type) {
