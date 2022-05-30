@@ -4,9 +4,9 @@ namespace war_of_ages {
 enum class age_type {
     STONE,
     CASTLE,
-    RENAISSANCE,
-    MODERN,
-    FUTURE,
+    // RENAISSANCE,
+    // MODERN,
+    // FUTURE,
 };
 }
 

@@ -22,8 +22,11 @@ static void setup_button(tgui::Button::Ptr &button, tgui::String name = "") {
 }
 
 static const std::unordered_map<age_type, std::string> age_to_string = {
-    {age_type::STONE, "stone"},   {age_type::CASTLE, "castle"}, {age_type::RENAISSANCE, "renaissance"},
-    {age_type::MODERN, "modern"}, {age_type::FUTURE, "future"},
+    {age_type::STONE, "stone"},
+    {age_type::CASTLE, "castle"},
+    // {age_type::RENAISSANCE, "renaissance"},
+    // {age_type::MODERN, "modern"},
+    // {age_type::FUTURE, "future"},
 };
 
 [[nodiscard]] tgui::String get_filename(action a, int i, age_type age) noexcept {

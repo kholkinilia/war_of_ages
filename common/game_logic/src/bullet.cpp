@@ -69,20 +69,21 @@ const bullet_stats &bullet::get_stats(bullet_type type) {
         {bullet_type::CASTLE_LEVEL_1, {60, 800, {30, 30}}},
         {bullet_type::CASTLE_LEVEL_2, {120, 1000, {20, 20}}},
         {bullet_type::CASTLE_LEVEL_3, {180, 1250, {50, 50}}},
-        {bullet_type::RENAISSANCE_LEVEL_1, {360, 400, {50, 50}}},
-        {bullet_type::RENAISSANCE_LEVEL_2, {720, 400, {50, 50}}},
-        {bullet_type::RENAISSANCE_LEVEL_3, {1080, 400, {50, 50}}},
-        {bullet_type::MODERN_LEVEL_1, {2060, 400, {50, 50}}},
-        {bullet_type::MODERN_LEVEL_2, {4120, 400, {50, 50}}},
-        {bullet_type::MODERN_LEVEL_3, {6180, 400, {50, 50}}},
-        {bullet_type::FUTURE_LEVEL_1, {12360, 400, {50, 50}}},
-        {bullet_type::FUTURE_LEVEL_2, {24720, 400, {50, 50}}},
-        {bullet_type::FUTURE_LEVEL_3, {37080, 400, {50, 50}}},
+        //        {bullet_type::RENAISSANCE_LEVEL_1, {360, 400, {50, 50}}},
+        //        {bullet_type::RENAISSANCE_LEVEL_2, {720, 400, {50, 50}}},
+        //        {bullet_type::RENAISSANCE_LEVEL_3, {1080, 400, {50, 50}}},
+        //        {bullet_type::MODERN_LEVEL_1, {2060, 400, {50, 50}}},
+        //        {bullet_type::MODERN_LEVEL_2, {4120, 400, {50, 50}}},
+        //        {bullet_type::MODERN_LEVEL_3, {6180, 400, {50, 50}}},
+        //        {bullet_type::FUTURE_LEVEL_1, {12360, 400, {50, 50}}},
+        //        {bullet_type::FUTURE_LEVEL_2, {24720, 400, {50, 50}}},
+        //        {bullet_type::FUTURE_LEVEL_3, {37080, 400, {50, 50}}},
         {bullet_type::STONE_ULT, {50, 1000, {70, 90}}},
         {bullet_type::CASTLE_ULT, {300, 1000, {30, 100}}},
-        {bullet_type::RENAISSANCE_ULT, {5400, 250, {50, 50}}},
-        {bullet_type::MODERN_ULT, {30900, 250, {50, 50}}},
-        {bullet_type::FUTURE_ULT, {185400, 250, {50, 50}}}};
+        //        {bullet_type::RENAISSANCE_ULT, {5400, 250, {50, 50}}},
+        //        {bullet_type::MODERN_ULT, {30900, 250, {50, 50}}},
+        //        {bullet_type::FUTURE_ULT, {185400, 250, {50, 50}}}
+    };
     return stats.at(type);
 }
 
