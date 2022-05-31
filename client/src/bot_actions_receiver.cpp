@@ -14,7 +14,7 @@ bot_actions_receiver::bot_actions_receiver() {
             100, std::vector<std::vector<std::vector<std::vector<double>>>>(
                      100, std::vector<std::vector<std::vector<double>>>(
                               11, std::vector<std::vector<double>>(
-                                      11, std::vector<double>(static_cast<int>(action::NONE) + 1, 100)))));
+                                      11, std::vector<double>(static_cast<int>(action::NONE) + 1, 0)))));
     }
 }
 
@@ -39,8 +39,8 @@ static state get_state(const std::pair<player_snapshot, player_snapshot> &p, int
     for (auto cannon : p.second.cannons) {
         answer.damage.second += bullet::get_stats(cannon.stats().b_type).damage;
     }
-    answer.damage.first = std::max(answer.damage.first / 25, 99);
-    answer.damage.second = std::max(answer.damage.second / 25, 99);
+    answer.damage.first = std::min(answer.damage.first / 25, 99);
+    answer.damage.second = std::min(answer.damage.second / 25, 99);
 
     answer.hp = {std::max(p.first.units[0].remaining_hp() / 500, 0),
                  std::max(p.second.units[0].remaining_hp() / 500, 0)};
@@ -58,35 +58,40 @@ static double get_max(const std::vector<double> &v) {
 
 static double get_reward(state last_state, state new_state) {
     return static_cast<double>(((new_state.damage.first - new_state.damage.second) -
-                                (last_state.damage.first - last_state.damage.second))) /
-               (new_state.damage.first + 1) +
+                                (last_state.damage.first - last_state.damage.second))) +
            (new_state.hp.first - new_state.hp.second) - (last_state.hp.first - last_state.hp.second);
 }
 
 bot_actions_receiver::action bot_actions_receiver::get_action(state state) {
     std::vector<double> v(static_cast<int>(action::NONE) + 1);
     std::iota(v.begin(), v.end(), 0);
+    auto delta = *std::min_element(
+        Q_table[state.damage.first][state.damage.second][state.hp.first][state.hp.second].begin(),
+        Q_table[state.damage.first][state.damage.second][state.hp.first][state.hp.second].end());
+    delta += 1e-6;
+    std::for_each(Q_table[state.damage.first][state.damage.second][state.hp.first][state.hp.second].begin(),
+                  Q_table[state.damage.first][state.damage.second][state.hp.first][state.hp.second].end(),
+                  [&delta](double &d) { d += delta; });
     std::piecewise_constant_distribution<double> distribution(
         v.begin(), v.end(),
         Q_table[state.damage.first][state.damage.second][state.hp.first][state.hp.second].begin());
+    std::for_each(Q_table[state.damage.first][state.damage.second][state.hp.first][state.hp.second].begin(),
+                  Q_table[state.damage.first][state.damage.second][state.hp.first][state.hp.second].end(),
+                  [&delta](double &d) { d -= delta; });
     return static_cast<action>(std::round(distribution(gen)));
 }
 
 std::vector<std::unique_ptr<game_command>> const &bot_actions_receiver::get_actions(
     std::pair<player_snapshot, player_snapshot> p,
     int player) {
-    if (current_state.get_counter() == 2) {
+    if (current_state.get_counter() == 100) {
         std::ofstream out("bot_config.txt");
-        bool flag1 = false;
         int i1 = 0, i2 = 0, i3 = 0, i4 = 0;
         for (const auto &a : Q_table) {
             for (const auto &b : a) {
                 for (const auto &c : b) {
                     for (const auto &d : c) {
                         for (double e : d) {
-                            if (abs(e - 100) >= 0.0001) {
-                                flag1 = true;
-                            }
                             out << e << " ";
                         }
                         out << "\n";
@@ -98,7 +103,6 @@ std::vector<std::unique_ptr<game_command>> const &bot_actions_receiver::get_acti
             }
             i1++;
         }
-        assert(flag1);
         out.close();
         exit(0);
     }
@@ -176,6 +180,9 @@ std::vector<std::unique_ptr<game_command>> const &bot_actions_receiver::get_acti
     last_action = cur_action;
 
     return actions;
+}
+std::vector<std::vector<std::vector<std::vector<std::vector<double>>>>> bot_actions_receiver::get_Q_table() {
+    return Q_table;
 }
 
 }  // namespace war_of_ages

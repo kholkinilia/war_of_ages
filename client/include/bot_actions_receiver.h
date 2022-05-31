@@ -21,6 +21,8 @@ public:
         std::pair<player_snapshot, player_snapshot> p,
         int player) final;
 
+    static std::vector<std::vector<std::vector<std::vector<std::vector<double>>>>> get_Q_table();
+
 private:
     enum class action {
         BUY_UNIT_1,
@@ -41,7 +43,7 @@ private:
     static inline std::vector<std::vector<std::vector<std::vector<std::vector<double>>>>> Q_table;
     state last_state;
     action last_action = action::NONE;
-    const double learning_rate = 1, gamma = 1;
+    const double learning_rate = 0.2, gamma = 0.9;
 
     static action get_action(state state);
 };
