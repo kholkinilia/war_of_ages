@@ -1,8 +1,8 @@
 #ifndef WAR_OF_AGES_ROOM_HANDLER_H
 #define WAR_OF_AGES_ROOM_HANDLER_H
 
-#include <string>
 #include <optional>
+#include <string>
 
 namespace war_of_ages::client {
 struct room_handler {
