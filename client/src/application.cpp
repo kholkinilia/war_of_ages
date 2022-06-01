@@ -161,6 +161,7 @@ void application::update_screens() {
                         msg >> snapshot.key;
 
                         tournament_handler::instance().set_tournament(snapshot);
+                        tournament_handler::instance().get_chat().show();
                         screen_handler::instance().change_screen(
                             screen_handler::screen_type::TOURNAMENT_MAIN);
                     } break;
