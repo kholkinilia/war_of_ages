@@ -200,11 +200,6 @@ void application::update_screens() {
                         if (msg.size() == 0) {
                             room_handler::instance().update_enemy(std::nullopt);
                         } else {
-                            std::uint8_t success;
-                            msg >> success;
-                            if (!success) {
-                                break;
-                            }
                             screen_handler::instance().change_screen(
                                 screen_handler::screen_type::PREVIOUS_MENU);
                             m_multiplayer_handler = multiplayer_handler::NONE;

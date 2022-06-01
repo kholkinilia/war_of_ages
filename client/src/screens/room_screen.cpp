@@ -56,7 +56,6 @@ void screen_handler::room_screen_init() {
     left_button->setPosition("80%", "80%");
     left_button->setSize("20%", "20%");
     left_button->onPress([this]() {
-        change_screen(screen_type::PREVIOUS_MENU);
         message<messages_type> msg;
         msg.header.id = messages_type::ROOM_LEAVE;
         client::instance().send_message(msg);
