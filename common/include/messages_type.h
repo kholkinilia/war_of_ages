@@ -43,6 +43,7 @@ enum class messages_type {
     SERVER_PING,
 
     CHAT_NEW_MESSAGE,
+    CHAT_NEW_MEMBER,
 };
 
 const std::unordered_map<messages_type, std::uint32_t> valid_body_size = {

@@ -208,4 +208,8 @@ void tournament_handler::init_sum_lock_held() {
     }
 }
 
+chat_handler tournament_handler::get_chat() const noexcept {
+    return chat;
+}
+
 }  // namespace war_of_ages::client

@@ -4,14 +4,17 @@
 #include <TGUI/Widgets/Grid.hpp>  // tgui::Gui, tgui::Grid
 #include <TGUI/Widgets/Label.hpp>
 #include "tournament.h"
+#include "chat_handler.h"
 
 namespace war_of_ages::client {
 
 struct tournament_handler : tournament {
 private:
+    bool m_is_grid_updated = true;
+    chat_handler chat;
+
     tournament_handler() = default;
 
-    bool m_is_grid_updated = true;
     void post_add_participant(const std::string &handle) final;
     void post_add_result(const std::string &winner, const std::string &loser) final;
     void post_remove_participant(const std::string &handle, std::size_t) final;
@@ -24,6 +27,8 @@ public:
     tournament_handler &operator=(tournament_handler &&) = delete;
 
     void init_sum_lock_held();
+
+    [[nodiscard]] chat_handler get_chat() const noexcept;
 
     void update_grid(const tgui::Grid::Ptr &grid);
     void set_tournament(const tournament_snapshot &snapshot);

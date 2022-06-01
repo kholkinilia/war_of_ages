@@ -24,6 +24,8 @@ struct chat_handler {
     [[nodiscard]] tgui::Button::Ptr get_hide_button();
     [[nodiscard]] tgui::Color get_color(const std::string &handle);
 
+    void set_chat_id(const std::string &chat_id);
+
 private:
     inline static const std::vector<tgui::Color> COLORS{
         {0, 0, 0},       {0, 255, 0},     {100, 100, 0},   {100, 0, 100},   {0, 100, 100},
@@ -33,6 +35,7 @@ private:
 
     std::unordered_map<std::string, std::size_t> m_players_colors;
     std::vector<bool> m_used_colors;
+    std::string m_id;
 
     tgui::Group::Ptr m_chat_group;
     tgui::ChatBox::Ptr m_chat_box;
