@@ -5,6 +5,7 @@
 #include "../include/room_matchmaker.h"
 #include "../include/tournament_handler.h"
 #include "network.h"
+#include "../include/chat_handler.h"
 
 #define ensure_status(status, valid_status, is_true) \
     if (((status) == (valid_status)) != (is_true))   \
@@ -221,6 +222,11 @@ void server::on_message(std::shared_ptr<connection<messages_type>> client, messa
         } break;
         case messages_type::SERVER_PING: {
         } break;
+        case messages_type::CHAT_NEW_MESSAGE : {
+            std::string chat_id, content;
+            msg >> content >> chat_id;
+            chat_handler::instance().add_message(chat_id, handle, content);
+        }
         default:
             break;
     }

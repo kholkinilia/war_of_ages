@@ -168,6 +168,9 @@ void tournament_handler::set_tournament(const tournament_snapshot &snapshot) {
     m_participants = snapshot.participants;
     //    std::cerr << "match results" << std::endl;
     m_match_results = snapshot.match_results;
+
+    chat.set_chat_id(m_key);
+
     //    std::cerr << "fully copied" << std::endl;
 
     //    int n = m_participants.size();

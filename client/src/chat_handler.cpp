@@ -31,7 +31,7 @@ chat_handler::chat_handler() : m_used_colors(COLORS.size(), false) {
         message<messages_type> msg;
         msg.header.id = messages_type::CHAT_NEW_MESSAGE;
         msg << m_id;
-        msg << text;
+        msg << static_cast<std::string>(text);
         client::instance().send_message(msg);
         m_edit_box->setText("");
     });
@@ -117,6 +117,10 @@ tgui::Button::Ptr chat_handler::get_hide_button() {
 
 void chat_handler::set_chat_id(const std::string &chat_id) {
     m_id = chat_id;
+}
+
+void chat_handler::clear() {
+    m_chat_box->removeAllLines();
 }
 
 }  // namespace war_of_ages::client

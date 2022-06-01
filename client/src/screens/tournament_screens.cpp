@@ -139,6 +139,8 @@ void screen_handler::tournament_screen_init() {
         message<messages_type> msg;
         msg.header.id = messages_type::TOURNAMENT_LEAVE;
         client::instance().send_message(msg);
+        tournament_handler::instance().get_chat().clear();
+        tournament_handler::instance().get_chat().hide_totally();
 
         screen_handler::instance().change_screen(screen_handler::screen_type::PREVIOUS_MENU);
     });

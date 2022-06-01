@@ -15,6 +15,7 @@ struct chat_handler {
 
     void add_message(const std::string &handle, const std::string &message);
     void remove_player(const std::string &handle);
+    void clear();
     void show();
     void hide_totally();
 

@@ -27,14 +27,6 @@ void chat::add_message(const std::string &handle, const std::string &content) {
 }
 
 void chat::add_member(const std::string &handle) {
-    message<messages_type> msg;
-    msg.header.id = messages_type::CHAT_NEW_MEMBER;
-    msg << handle;
-
-    for (const auto &member_handle : m_members) {
-        server::instance().send_message(member_handle, msg);
-    }
-
     m_members.push_back(handle);
 }
 

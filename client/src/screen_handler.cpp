@@ -31,16 +31,16 @@ void screen_handler::init(sf::RenderWindow &window) {
     end_game_screen_init();
     wait_for_server_screen_init();
 
-    static chat_handler chat;
-    chat.show();
-    chat.add_message("Ilya", "Привет");
-    chat.add_message("Timur", "Привет");
-    chat.add_message("Mark", "Привет");
-    chat.add_message("Alex", "Привет");
-    chat.add_message("Petr", "Привет");
-    chat.add_message("Sergey", "Привет");
-    chat.add_message("Yurij", "Привет");
-    chat.add_message("Egor", "Привет");
+//    static chat_handler chat;
+//    chat.show();
+//    chat.add_message("Ilya", "Привет");
+//    chat.add_message("Timur", "Привет");
+//    chat.add_message("Mark", "Привет");
+//    chat.add_message("Alex", "Привет");
+//    chat.add_message("Petr", "Привет");
+//    chat.add_message("Sergey", "Привет");
+//    chat.add_message("Yurij", "Привет");
+//    chat.add_message("Egor", "Привет");
 
     m_gui.get(screen_id.at(get_screen_type()))->setVisible(true);
 
