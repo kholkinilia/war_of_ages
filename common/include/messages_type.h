@@ -41,6 +41,8 @@ enum class messages_type {
 
     SERVER_IGNORE,
     SERVER_PING,
+
+    COMMUNICATION_MESSAGE,
 };
 
 const std::unordered_map<messages_type, std::uint32_t> valid_body_size = {
@@ -78,7 +80,9 @@ const std::unordered_map<messages_type, std::uint32_t> valid_body_size = {
     {messages_type::TOURNAMENT_ADD_RESULT, -1},
 
     {messages_type::SERVER_IGNORE, 0},
-    {messages_type::SERVER_PING, 0}};
+    {messages_type::SERVER_PING, 0},
+
+    {messages_type::COMMUNICATION_MESSAGE, -1}};
 
 }  // namespace war_of_ages
 

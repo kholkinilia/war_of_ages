@@ -39,6 +39,7 @@ set(CLIENT_PROJECT_SOURCES
         client/src/screen_handler.cpp
         client/src/application.cpp
         client/src/tournament_handler.cpp
+        client/src/chat_handler.cpp
         client/src/screens/wait_for_server_screen.cpp
         client/src/background_handler.cpp
         )
