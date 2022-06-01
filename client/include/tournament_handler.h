@@ -3,8 +3,8 @@
 
 #include <TGUI/Widgets/Grid.hpp>  // tgui::Gui, tgui::Grid
 #include <TGUI/Widgets/Label.hpp>
-#include "tournament.h"
 #include "chat_handler.h"
+#include "tournament.h"
 
 namespace war_of_ages::client {
 
