@@ -103,8 +103,6 @@ sprite_supplier &sprite_supplier::get_instance() {
     return instance;
 }
 
-
-
 sf::Sprite sprite_supplier::get_background_sprite(age_type a_type) {
     return background_sprite[a_type];
 }

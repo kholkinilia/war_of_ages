@@ -3,10 +3,10 @@
 
 #include <TGUI/Backend/SFML-Graphics.hpp>  // tgui::Gui
 #include <memory>
+#include <thread>
 #include "game_handler.h"
 #include "screen_defines.h"
 #include "tournament.h"
-#include <thread>
 
 namespace war_of_ages {
 

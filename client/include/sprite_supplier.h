@@ -41,6 +41,7 @@ public:
     static inline std::thread load_Q_table;
     static inline std::mutex m;
     static void start();
+
 private:
     std::unordered_map<age_type, sf::Sprite> background_sprite;
     std::unordered_map<age_type, sf::Sprite> road_sprite;

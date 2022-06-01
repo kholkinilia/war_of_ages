@@ -13,7 +13,7 @@ std::mt19937 gen(time(nullptr));
 
 bot_actions_receiver::bot_actions_receiver() {
     std::unique_lock l(sprite_supplier::m);
-    while(!read) {
+    while (!read) {
         sprite_supplier::cond_var.wait(l);
     }
     assert(read);
