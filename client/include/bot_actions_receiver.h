@@ -3,6 +3,7 @@
 
 #include <memory>
 #include <random>
+#include <set>
 #include <vector>
 #include "../../game_logic/include/game_commands.h"
 #include "actions_receiver.h"
@@ -21,7 +22,9 @@ public:
         std::pair<player_snapshot, player_snapshot> p,
         int player) final;
 
-    static std::vector<std::vector<std::vector<std::vector<std::vector<double>>>>> get_Q_table();
+    static std::set<std::pair<std::pair<int, int>, std::pair<int, int>>> get_positions();
+
+    static void write_to_file(int player);
 
 private:
     enum class action {
@@ -40,12 +43,13 @@ private:
         NONE
     };
 
-    static inline std::vector<std::vector<std::vector<std::vector<std::vector<double>>>>> Q_table;
+    // std::vector<std::vector<std::vector<std::vector<std::vector<double>>>>> Q_table;
+    static inline std::set<std::pair<std::pair<int, int>, std::pair<int, int>>> positions;
     state last_state;
     action last_action = action::NONE;
     const double learning_rate = 0.2, gamma = 0.9;
 
-    static action get_action(state state);
+    static action get_action(state state, int player);
 };
 
 }  // namespace war_of_ages

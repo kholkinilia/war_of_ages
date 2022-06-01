@@ -9,12 +9,28 @@ namespace war_of_ages {
 std::mt19937 gen(time(nullptr));
 
 bot_actions_receiver::bot_actions_receiver() {
-    if (Q_table.empty()) {
-        Q_table.resize(
-            100, std::vector<std::vector<std::vector<std::vector<double>>>>(
-                     100, std::vector<std::vector<std::vector<double>>>(
-                              11, std::vector<std::vector<double>>(
-                                      11, std::vector<double>(static_cast<int>(action::NONE) + 1, 0)))));
+    if (current_state.Q_table.empty()) {
+        current_state.Q_table.resize(
+            2,
+            std::vector<std::vector<std::vector<std::vector<std::vector<double>>>>>(
+                100, std::vector<std::vector<std::vector<std::vector<double>>>>(
+                         100, std::vector<std::vector<std::vector<double>>>(
+                                  11, std::vector<std::vector<double>>(
+                                          11, std::vector<double>(static_cast<int>(action::NONE) + 1, 0))))));
+        for (int i = 0; i < 2; ++i) {
+            std::ifstream in("bot_config" + std::to_string(i) + ".txt");
+            for (const auto &a : current_state.Q_table[i]) {
+                for (const auto &b : a) {
+                    for (const auto &c : b) {
+                        for (const auto &d : c) {
+                            for (double e : d) {
+                                in >> e;
+                            }
+                        }
+                    }
+                }
+            }
+        }
     }
 }
 
@@ -62,63 +78,66 @@ static double get_reward(state last_state, state new_state) {
            (new_state.hp.first - new_state.hp.second) - (last_state.hp.first - last_state.hp.second);
 }
 
-bot_actions_receiver::action bot_actions_receiver::get_action(state state) {
+bot_actions_receiver::action bot_actions_receiver::get_action(state state, int player) {
     std::vector<double> v(static_cast<int>(action::NONE) + 1);
     std::iota(v.begin(), v.end(), 0);
     auto delta = *std::min_element(
-        Q_table[state.damage.first][state.damage.second][state.hp.first][state.hp.second].begin(),
-        Q_table[state.damage.first][state.damage.second][state.hp.first][state.hp.second].end());
+        current_state
+            .Q_table[player][state.damage.first][state.damage.second][state.hp.first][state.hp.second]
+            .begin(),
+        current_state
+            .Q_table[player][state.damage.first][state.damage.second][state.hp.first][state.hp.second]
+            .end());
     delta += 1e-6;
-    std::for_each(Q_table[state.damage.first][state.damage.second][state.hp.first][state.hp.second].begin(),
-                  Q_table[state.damage.first][state.damage.second][state.hp.first][state.hp.second].end(),
-                  [&delta](double &d) { d += delta; });
+    std::for_each(
+        current_state
+            .Q_table[player][state.damage.first][state.damage.second][state.hp.first][state.hp.second]
+            .begin(),
+        current_state
+            .Q_table[player][state.damage.first][state.damage.second][state.hp.first][state.hp.second]
+            .end(),
+        [&delta](double &d) { d += delta; });
     std::piecewise_constant_distribution<double> distribution(
         v.begin(), v.end(),
-        Q_table[state.damage.first][state.damage.second][state.hp.first][state.hp.second].begin());
-    std::for_each(Q_table[state.damage.first][state.damage.second][state.hp.first][state.hp.second].begin(),
-                  Q_table[state.damage.first][state.damage.second][state.hp.first][state.hp.second].end(),
-                  [&delta](double &d) { d -= delta; });
+        current_state
+            .Q_table[player][state.damage.first][state.damage.second][state.hp.first][state.hp.second]
+            .begin());
+    std::for_each(
+        current_state
+            .Q_table[player][state.damage.first][state.damage.second][state.hp.first][state.hp.second]
+            .begin(),
+        current_state
+            .Q_table[player][state.damage.first][state.damage.second][state.hp.first][state.hp.second]
+            .end(),
+        [&delta](double &d) { d -= delta; });
     return static_cast<action>(std::round(distribution(gen)));
 }
 
 std::vector<std::unique_ptr<game_command>> const &bot_actions_receiver::get_actions(
     std::pair<player_snapshot, player_snapshot> p,
     int player) {
-    if (current_state.get_counter() == 100) {
-        std::ofstream out("bot_config.txt");
-        int i1 = 0, i2 = 0, i3 = 0, i4 = 0;
-        for (const auto &a : Q_table) {
-            for (const auto &b : a) {
-                for (const auto &c : b) {
-                    for (const auto &d : c) {
-                        for (double e : d) {
-                            out << e << " ";
-                        }
-                        out << "\n";
-                        i4++;
-                    }
-                    i3++;
-                }
-                i2++;
-            }
-            i1++;
+    if (current_state.get_counter() != 1) {
+        assert(!positions.empty());
+    } else {
+        if (last_state.damage.first != -1) {
+            assert(!positions.empty());
         }
-        out.close();
-        exit(0);
     }
 
     auto new_state = get_state(p, player);
+    positions.emplace(new_state.damage, std::make_pair(0, 0));
     if (last_state.damage.first != -1) {
         double reward = get_reward(last_state, new_state);
-        Q_table[last_state.damage.first][last_state.damage.first][last_state.hp.first][last_state.hp.first]
-               [static_cast<int>(last_action)] +=
-            learning_rate * (reward +
-                             gamma * get_max(Q_table[new_state.damage.first][new_state.damage.first]
-                                                    [new_state.hp.first][new_state.hp.first]) -
-                             Q_table[last_state.damage.first][last_state.damage.first][last_state.hp.first]
-                                    [last_state.hp.first][static_cast<int>(last_action)]);
+        current_state.Q_table[player][last_state.damage.first][last_state.damage.first][last_state.hp.first]
+                             [last_state.hp.first][static_cast<int>(last_action)] +=
+            learning_rate *
+            (reward +
+             gamma * get_max(current_state.Q_table[player][new_state.damage.first][new_state.damage.first]
+                                                  [new_state.hp.first][new_state.hp.first]) -
+             current_state.Q_table[player][last_state.damage.first][last_state.damage.first]
+                                  [last_state.hp.first][last_state.hp.first][static_cast<int>(last_action)]);
     }
-    action cur_action = get_action(new_state);
+    action cur_action = get_action(new_state, player);
 
     int slot = -1;
     auto cannons = player == 0 ? p.first.cannons : p.second.cannons;
@@ -181,8 +200,39 @@ std::vector<std::unique_ptr<game_command>> const &bot_actions_receiver::get_acti
 
     return actions;
 }
-std::vector<std::vector<std::vector<std::vector<std::vector<double>>>>> bot_actions_receiver::get_Q_table() {
-    return Q_table;
+std::set<std::pair<std::pair<int, int>, std::pair<int, int>>> bot_actions_receiver::get_positions() {
+    return positions;
+}
+void bot_actions_receiver::write_to_file(int player) {
+    std::ofstream out("bot_config" + std::to_string(player) + ".txt");
+    std::cout << "Positions reached: " << positions.size() << std::endl;
+    int i1 = 0, i2, i3, i4, i5, counter = 0;
+    for (const auto &a : current_state.Q_table[player]) {
+        i2 = 0;
+        for (const auto &b : a) {
+            i3 = 0;
+            for (const auto &c : b) {
+                i4 = 0;
+                for (const auto &d : c) {
+                    i5 = 0;
+                    for (double e : d) {
+                        out << e << " ";
+                        if (abs(e) > 1e-7) {
+                            counter++;
+                        }
+                        i5++;
+                    }
+                    out << "\n";
+                    i4++;
+                }
+                i3++;
+            }
+            i2++;
+        }
+        i1++;
+    }
+    std::cout << "Non-zero values in table: " << counter << std::endl;
+    out.close();
 }
 
 }  // namespace war_of_ages

@@ -13,7 +13,16 @@ void check_game_end(tgui::Gui &gui) {
     if (war_of_ages::current_state.get_cur_game_state() != nullptr &&
         war_of_ages::current_state.get_cur_game_state()->get_game_status() !=
             war_of_ages::game_status::PROCESSING) {
-        std::cout << "ENDED GAME No " << current_state.get_counter() << std::endl;
+        if(current_state.get_counter() % 10 == 0) {
+            std::cout << "Games played: " << current_state.get_counter() << std::endl;
+            std::cout << "Positions reached: " << bot_actions_receiver::get_positions().size() << std::endl;
+            std::cout << "=====================================================" << std::endl;
+        }
+        if(current_state.get_counter() == 100) {
+            bot_actions_receiver::write_to_file(0);
+            bot_actions_receiver::write_to_file(1);
+            exit(0);
+        }
         current_state.reset_game();
         current_state.create_game(client_state::game_mode::SINGLE);
         // show_screen(gui, war_of_ages::screen::END_GAME, war_of_ages::screen::GAME_SCREEN);

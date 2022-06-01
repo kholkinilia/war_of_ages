@@ -41,6 +41,8 @@ public:
 
     void create_game(game_mode mode);
     void reset_game();
+
+    std::vector<std::vector<std::vector<std::vector<std::vector<std::vector<double>>>>>> Q_table;
 };
 
 extern client_state current_state;
