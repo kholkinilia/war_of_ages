@@ -24,7 +24,8 @@ public:
 
     static std::set<std::pair<std::pair<int, int>, std::pair<int, int>>> get_positions();
 
-    static void write_to_file(int player);
+    static void write_to_file();
+    static void read_from_file();
 
 private:
     enum class action {
@@ -43,13 +44,14 @@ private:
         NONE
     };
 
-    // std::vector<std::vector<std::vector<std::vector<std::vector<double>>>>> Q_table;
+    static inline std::vector<std::vector<std::vector<std::vector<std::vector<double>>>>> Q_table;
     static inline std::set<std::pair<std::pair<int, int>, std::pair<int, int>>> positions;
     state last_state;
     action last_action = action::NONE;
     const double learning_rate = 0.2, gamma = 0.9;
+    static bool read;
 
-    static action get_action(state state, int player);
+    static action get_action(state state);
 };
 
 }  // namespace war_of_ages

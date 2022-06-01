@@ -19,8 +19,7 @@ void check_game_end(tgui::Gui &gui) {
             std::cout << "=====================================================" << std::endl;
         }
         if(current_state.get_counter() == 100) {
-            bot_actions_receiver::write_to_file(0);
-            bot_actions_receiver::write_to_file(1);
+            bot_actions_receiver::write_to_file();
             exit(0);
         }
         current_state.reset_game();

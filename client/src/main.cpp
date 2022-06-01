@@ -1,5 +1,6 @@
 #include "../include/end_game_screen.h"
 #include "../include/screens.h"
+#include "../include/sprite_supplier.h"
 #include "../include/ui_functions.h"
 
 namespace war_of_ages {
@@ -19,6 +20,8 @@ int main() {
     war_of_ages::screens_init(view, gui);
 
     gui.get(war_of_ages::current_state.get_cur_screen_id())->setVisible(true);
+
+    // war_of_ages::sprite_supplier::start();
 
     sf::Texture t;
     t.loadFromFile("../client/resources/pictures/fullHD_kittens.jpg");

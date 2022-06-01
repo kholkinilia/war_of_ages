@@ -2,8 +2,10 @@
 #define WAR_OF_AGES_SPRITE_SUPPLIER_H
 
 #include <SFML/Graphics.hpp>
+#include <condition_variable>
 #include <fstream>
 #include <string>
+#include <thread>
 #include <unordered_map>
 #include <vector>
 #include "../../game_logic/include/age.h"
@@ -35,6 +37,10 @@ public:
 
     [[nodiscard]] static sprite_supplier &get_instance();
 
+    static inline std::condition_variable cond_var;
+    static inline std::thread load_Q_table;
+    static inline std::mutex m;
+    static void start();
 private:
     std::unordered_map<age_type, sf::Sprite> background_sprite;
     std::unordered_map<age_type, sf::Sprite> road_sprite;
@@ -43,6 +49,7 @@ private:
     std::map<std::pair<age_type, int>, sf::Sprite> cannon_slots_sprite;
     std::unordered_map<unit_type, animation_handler> unit_sprite;
     std::unordered_map<cannon_type, sf::Sprite> cannon_sprite;
+
     std::unordered_map<bullet_type, sf::Sprite> bullet_sprite;
 
     sprite_supplier();
