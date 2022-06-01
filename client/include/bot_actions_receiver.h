@@ -44,14 +44,14 @@ private:
         NONE
     };
 
-    static inline std::vector<std::vector<std::vector<std::vector<std::vector<double>>>>> Q_table;
+    static inline std::vector<std::vector<std::vector<float>>> Q_table;
     static inline std::set<std::pair<std::pair<int, int>, std::pair<int, int>>> positions;
     state last_state;
     action last_action = action::NONE;
-    const double learning_rate = 0.2, gamma = 0.9;
-    static bool read;
+    const float learning_rate = 0.2, gamma = 0.9;
 
     static action get_action(state state);
+    static state get_state(const std::pair<player_snapshot, player_snapshot> &p, int player);
 };
 
 }  // namespace war_of_ages
