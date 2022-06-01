@@ -2,6 +2,7 @@
 #include "../include/background_handler.h"
 #include "../include/client.h"
 #include "../include/multiplayer_snapshots_handler.h"
+#include "../include/room_handler.h"
 #include "../include/screen_handler.h"
 #include "../include/sfml_printer.h"
 #include "../include/single_player_handler.h"
@@ -35,6 +36,10 @@ application::state application::get_state() const noexcept {
     return m_state;
 }
 
+application::multiplayer_handler application::get_multiplayer_handler() const noexcept {
+    return m_multiplayer_handler;
+}
+
 application &application::instance() {
     static application app;
     return app;
@@ -60,14 +65,14 @@ void application::update_screens() {
                                                         ->cast<tgui::Group>()
                                                         ->get("background_canvas")
                                                         ->cast<tgui::CanvasSFML>());
-    switch (application::instance().get_state()) {
+    switch (m_state) {
         case state::SINGLE_PLAYER_GAME: {
             if (screen_handler::instance().get_screen_type() != screen_handler::screen_type::GAME_SCREEN) {
                 break;
             }
             single_player_handler::instance().update_game();
             if (single_player_handler::instance().get_game_status() != game_status::PROCESSING) {
-                application::instance().set_state(state::MENU);
+                set_state(state::MENU);
                 screen_handler::instance()
                     .get_gui()
                     .get<tgui::Group>(screen_handler::screen_id.at(screen_handler::screen_type::END_GAME))
@@ -120,6 +125,11 @@ void application::update_screens() {
                             ->get<tgui::Label>("result_label")
                             ->setText(we_won ? "Поздравляем, Вы победили!"
                                              : "Вы проиграли, повезет в следующий раз");
+                        if (m_multiplayer_handler == multiplayer_handler::ROOM) {
+                            room_handler::instance().change_my_status(room_handler::player_status::NOT_READY);
+                            room_handler::instance().change_enemy_status(
+                                room_handler::player_status::NOT_READY);
+                        }
                         screen_handler::instance().change_screen(screen_handler::screen_type::END_GAME);
                     } break;
                     case messages_type::GAME_GIVE_UP: {
@@ -133,6 +143,11 @@ void application::update_screens() {
                             ->get<tgui::Label>("result_label")
                             ->setText(we_won ? "Поздравляем, Вы победили!\nСоперник сдался :)"
                                              : "Вы проиграли, повезет в следующий раз\nВы сдались :(");
+                        if (m_multiplayer_handler == multiplayer_handler::ROOM) {
+                            room_handler::instance().change_my_status(room_handler::player_status::NOT_READY);
+                            room_handler::instance().change_enemy_status(
+                                room_handler::player_status::NOT_READY);
+                        }
                         screen_handler::instance().change_screen(screen_handler::screen_type::END_GAME);
                     } break;
                     case messages_type::GAME_DISCONNECTED: {
@@ -146,12 +161,57 @@ void application::update_screens() {
                                 screen_handler::screen_id.at(screen_handler::screen_type::END_GAME))
                             ->get<tgui::Label>("result_label")
                             ->setText("Поздравляем, Вы победили!\nСоперник потерял соединение");
+                        if (m_multiplayer_handler == multiplayer_handler::ROOM) {
+                            room_handler::instance().change_my_status(room_handler::player_status::NOT_READY);
+                            room_handler::instance().change_enemy_status(
+                                room_handler::player_status::NOT_READY);
+                        }
                         screen_handler::instance().change_screen(screen_handler::screen_type::END_GAME);
                     } break;
                     case messages_type::GAME_STATE: {
                         player_snapshot snapshot_p2 = get_snapshot_from_msg(msg);
                         player_snapshot snapshot_p1 = get_snapshot_from_msg(msg);
                         multiplayer_snapshots_handler::instance().set_snapshots({snapshot_p1, snapshot_p2});
+                    } break;
+                    case messages_type::ROOM_JOIN: {
+                        std::uint8_t success;
+                        msg >> success;
+                        if (success == 0) {
+                            break;
+                        }
+                        room_handler::instance().update_me(room_handler::player_info{
+                            client::instance().get_handle(), room_handler::player_status::NOT_READY,
+                            /* TODO: get rate from client */ 0});
+                        std::string enemy_handle;
+                        msg >> enemy_handle;
+                        if (!enemy_handle.empty()) {
+                            std::uint8_t enemy_status, enemy_rate;
+                            msg >> enemy_status >> enemy_rate;
+                            room_handler::instance().update_enemy(room_handler::player_info{
+                                enemy_handle,
+                                (enemy_status == 1 ? room_handler::player_status::READY
+                                                   : room_handler::player_status::NOT_READY),
+                                enemy_rate});
+                        }
+                        screen_handler::instance().change_screen(screen_handler::screen_type::ROOM_SCREEN);
+                        m_multiplayer_handler = multiplayer_handler::ROOM;
+                    } break;
+                    case messages_type::ROOM_LEAVE: {
+                        if (msg.size() == 0) {
+                            room_handler::instance().update_enemy(std::nullopt);
+                        } else {
+                            std::uint8_t success;
+                            msg >> success;
+                            if (!success) {
+                                break;
+                            }
+                            screen_handler::instance().change_screen(
+                                screen_handler::screen_type::PREVIOUS_MENU);
+                            m_multiplayer_handler = multiplayer_handler::NONE;
+                        }
+                    } break;
+                    case messages_type::ROOM_CHANGE_STATUS: {
+                        room_handler::instance().switch_enemy_status();
                     } break;
                     case messages_type::TOURNAMENT_STATE: {
                         tournament_snapshot snapshot;

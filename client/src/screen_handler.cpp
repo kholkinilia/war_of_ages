@@ -23,6 +23,7 @@ void screen_handler::init(sf::RenderWindow &window) {
     tournament_screen_init();
     tournament_creation_screen_init();
     tournament_join_screen_init();
+    room_screen_init();
     start_screen_init();
     multiplayer_screen_init();
     settings_screen_init();

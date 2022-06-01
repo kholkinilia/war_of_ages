@@ -21,6 +21,7 @@ add_subdirectory(common)
 set(CLIENT_PROJECT_SOURCES
         client/src/main.cpp
         client/src/screens/tournament_screens.cpp
+        client/src/screens/room_screen.cpp
         client/src/client.cpp
         client/src/screens/start_screen.cpp
         client/src/screens/settings_screen.cpp
@@ -39,6 +40,7 @@ set(CLIENT_PROJECT_SOURCES
         client/src/screen_handler.cpp
         client/src/application.cpp
         client/src/tournament_handler.cpp
+        client/src/room_handler.cpp
         client/src/chat_handler.cpp
         client/src/screens/wait_for_server_screen.cpp
         client/src/background_handler.cpp
