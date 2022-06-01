@@ -53,6 +53,7 @@ private:
     void tournament_screen_init();
     void tournament_creation_screen_init();
     void tournament_join_screen_init();
+    void room_screen_init();
     void start_screen_init();
     void multiplayer_screen_init();
     void settings_screen_init();
