@@ -168,6 +168,9 @@ void tournament_handler::set_tournament(const tournament_snapshot &snapshot) {
     m_participants = snapshot.participants;
     //    std::cerr << "match results" << std::endl;
     m_match_results = snapshot.match_results;
+
+    chat.set_chat_id(m_key);
+
     //    std::cerr << "fully copied" << std::endl;
 
     //    int n = m_participants.size();
@@ -206,6 +209,10 @@ void tournament_handler::init_sum_lock_held() {
             m_sum[i] += (m_match_results[i][j] == game_result::VICTORY) * WIN_POINTS;
         }
     }
+}
+
+chat_handler tournament_handler::get_chat() const noexcept {
+    return chat;
 }
 
 }  // namespace war_of_ages::client

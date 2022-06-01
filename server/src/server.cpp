@@ -1,5 +1,6 @@
 #include "../include/server.h"
 #include <cassert>
+#include "../include/chat_handler.h"
 #include "../include/game_handler.h"
 #include "../include/random_matchmaker.h"
 #include "../include/room_matchmaker.h"
@@ -221,6 +222,11 @@ void server::on_message(std::shared_ptr<connection<messages_type>> client, messa
         } break;
         case messages_type::SERVER_PING: {
         } break;
+        case messages_type::CHAT_NEW_MESSAGE: {
+            std::string chat_id, content;
+            msg >> content >> chat_id;
+            chat_handler::instance().add_message(chat_id, handle, content);
+        }
         default:
             break;
     }

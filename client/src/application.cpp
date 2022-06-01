@@ -245,6 +245,20 @@ void application::update_screens() {
                         msg >> handle2 >> handle1;
                         tournament_handler::instance().match_participants(handle1, handle2);
                     } break;
+                    case messages_type::CHAT_NEW_MESSAGE: {
+                        switch (screen_handler::instance().get_screen_type()) {
+                            case screen_handler::screen_type::TOURNAMENT_MAIN: {  // FIXME: change to
+                                                                                  // application state when
+                                                                                  // implemented by Vakhtang
+                                std::string chat_id, handle, content;
+                                msg >> content >> handle >> chat_id;
+                                tournament_handler::instance().get_chat().add_message(handle, content);
+                            } break;
+                            default: {
+                                break;
+                            }
+                        }
+                    }
                     default:
                         break;
                 }
