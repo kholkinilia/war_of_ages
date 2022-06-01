@@ -3,6 +3,7 @@
 #include "../../common/network/include/message.h"
 #include "../include/server.h"
 #include "messages_type.h"
+#include "../include/chat_handler.h"
 
 namespace war_of_ages::server {
 
@@ -15,6 +16,9 @@ void tournament_handler::create(const std::string &handle, const std::string &to
     t.set_key(key);
     t.set_name(tournament_name);
     t.add_participant(handle);
+
+    chat_handler::instance().create_chat(key);
+    chat_handler::instance().add_member(key, handle);
 }
 
 void tournament_handler::join(const std::string &handle, const std::string &key) {
@@ -23,6 +27,8 @@ void tournament_handler::join(const std::string &handle, const std::string &key)
         m_tournament[key].add_participant(handle);
         m_key_by_handle[handle] = key;
     }
+
+    chat_handler::instance().add_member(key, handle);
 }
 
 void tournament_handler::leave(const std::string &handle) {
@@ -31,6 +37,8 @@ void tournament_handler::leave(const std::string &handle) {
         return;
     }
     m_tournament[m_key_by_handle[handle]].remove_participant(handle);
+
+    chat_handler::instance().add_member(m_key_by_handle[handle], handle);
     m_key_by_handle.erase(handle);
 }
 

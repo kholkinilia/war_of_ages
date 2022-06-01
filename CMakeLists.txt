@@ -57,6 +57,8 @@ set(SERVER_PROJECT_SOURCES
         server/src/tournament_handler.cpp
         server/src/server_tournament.cpp
         server/src/database_handler.cpp
+        server/src/chat_handler.cpp
+        server/src/chat.cpp
         )
 add_executable(war_of_ages_server ${SERVER_PROJECT_SOURCES})
 target_link_libraries(war_of_ages_server common ${NETWORKING_LIBS} pthread sqlite3)

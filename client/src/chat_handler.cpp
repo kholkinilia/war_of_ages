@@ -29,7 +29,7 @@ chat_handler::chat_handler() : m_used_colors(COLORS.size(), false) {
         }
         add_message(client::instance().get_handle(), static_cast<std::string>(text));
         message<messages_type> msg;
-        msg.header.id = messages_type::COMMUNICATION_MESSAGE;
+        msg.header.id = messages_type::CHAT_NEW_MESSAGE;
         msg.insert_container(text);
         client::instance().send_message(msg);
         m_edit_box->setText("");
