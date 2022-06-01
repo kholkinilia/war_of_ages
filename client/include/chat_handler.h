@@ -1,13 +1,13 @@
 #ifndef WAR_OF_AGES_CHAT_HANDLER_H
 #define WAR_OF_AGES_CHAT_HANDLER_H
 
+#include <TGUI/Widgets/Button.hpp>
+#include <TGUI/Widgets/ChatBox.hpp>
+#include <TGUI/Widgets/EditBox.hpp>
+#include <TGUI/Widgets/Group.hpp>
 #include <string>
 #include <unordered_map>
 #include <vector>
-#include <TGUI/Widgets/ChatBox.hpp>
-#include <TGUI/Widgets/EditBox.hpp>
-#include <TGUI/Widgets/Button.hpp>
-#include <TGUI/Widgets/Group.hpp>
 
 namespace war_of_ages::client {
 struct chat_handler {
@@ -26,21 +26,9 @@ struct chat_handler {
 
 private:
     inline static const std::vector<tgui::Color> COLORS{
-        {0, 0, 0},
-        {0, 255, 0},
-        {100, 100, 0},
-        {100, 0, 100},
-        {0, 100, 100},
-        {100, 0, 0},
-        {0, 100, 0},
-        {0, 0, 100},
-        {255, 255, 255},
-        {255, 255, 100},
-        {255, 100, 200},
-        {100, 255, 255},
-        {255, 100, 100},
-        {100, 255, 100},
-        {100, 100, 255},
+        {0, 0, 0},       {0, 255, 0},     {100, 100, 0},   {100, 0, 100},   {0, 100, 100},
+        {100, 0, 0},     {0, 100, 0},     {0, 0, 100},     {255, 255, 255}, {255, 255, 100},
+        {255, 100, 200}, {100, 255, 255}, {255, 100, 100}, {100, 255, 100}, {100, 100, 255},
     };
 
     std::unordered_map<std::string, std::size_t> m_players_colors;
@@ -51,6 +39,6 @@ private:
     tgui::EditBox::Ptr m_edit_box;
     tgui::Button::Ptr m_hide_button;
 };
-}
+}  // namespace war_of_ages::client
 
 #endif  // WAR_OF_AGES_CHAT_HANDLER_H

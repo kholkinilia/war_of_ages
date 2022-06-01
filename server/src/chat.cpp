@@ -1,5 +1,4 @@
 #include "../include/chat.h"
-
 #include <utility>
 #include "../include/server.h"
 #include "message.h"

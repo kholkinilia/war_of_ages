@@ -4,9 +4,9 @@
 #include <TGUI/Widgets/Label.hpp>
 #include "../include/application.h"
 #include "../include/background_handler.h"
+#include "../include/chat_handler.h"
 #include "../include/sfml_printer.h"
 #include "../include/single_player_handler.h"
-#include "../include/chat_handler.h"
 
 namespace war_of_ages::client {
 
