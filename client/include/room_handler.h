@@ -30,7 +30,7 @@ struct room_handler {
     void switch_my_status();
 
 private:
-    room_handler() noexcept = default;
+    room_handler() noexcept;
     std::optional<player_info> players[2];
 };
 }  // namespace war_of_ages::client

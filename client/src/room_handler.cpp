@@ -7,8 +7,13 @@
 
 namespace war_of_ages::client {
 
-static const tgui::Texture ready_pic("../client/resources/pictures/ready.png");
-static const tgui::Texture not_ready_pic("../client/resources/pictures/not_ready.png");
+static tgui::Texture ready_pic;
+static tgui::Texture not_ready_pic;
+
+room_handler::room_handler() noexcept {
+    ready_pic.load("../client/resources/pictures/ready.png");
+    not_ready_pic.load("../client/resources/pictures/not_ready.png");
+}
 
 room_handler &room_handler::instance() {
     static room_handler inst;

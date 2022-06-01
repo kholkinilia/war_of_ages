@@ -71,6 +71,7 @@ void screen_handler::room_screen_init() {
     room_screen_group->add(enemy_rate_value, "enemy_rate_value");
     room_screen_group->add(enemy_rate_picture, "enemy_rate_picture");
 
+    room_screen_group->setVisible(false);
     m_gui.add(room_screen_group, screen_id.at(screen_type::ROOM_SCREEN));
 }
 }  // namespace war_of_ages::client
