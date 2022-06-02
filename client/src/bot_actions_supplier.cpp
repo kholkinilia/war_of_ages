@@ -1,9 +1,9 @@
 #include "../include/bot_actions_supplier.h"
-#include <fstream>
 #include <iostream>
 #include <random>
 #include "../include/client.h"
 #include "../include/sprite_supplier.h"
+#include <filesystem>
 
 namespace war_of_ages::client {
 
@@ -63,13 +63,11 @@ bot_actions_supplier::action bot_actions_supplier::get_action(state state) {
                                    Q_table[state.damage.first][state.damage.second].end());
     delta += 1e-6;
     std::for_each(Q_table[state.damage.first][state.damage.second].begin(),
-                  Q_table[state.damage.first][state.damage.second].end(),
-                  [&delta](float &d) { d += delta; });
+                  Q_table[state.damage.first][state.damage.second].end(), [&delta](float &d) { d += delta; });
     std::piecewise_constant_distribution<float> distribution(
         v.begin(), v.end(), Q_table[state.damage.first][state.damage.second].begin());
     std::for_each(Q_table[state.damage.first][state.damage.second].begin(),
-                  Q_table[state.damage.first][state.damage.second].end(),
-                  [&delta](float &d) { d -= delta; });
+                  Q_table[state.damage.first][state.damage.second].end(), [&delta](float &d) { d -= delta; });
     auto ans = static_cast<action>(std::round(distribution(gen)));
     return ans;
 }
@@ -152,7 +150,7 @@ void bot_actions_supplier::read_from_file() {
         300, std::vector<std::vector<float>>(300, std::vector<float>(static_cast<int>(action::NONE) + 1, 0)));
     std::string str;
     std::stringstream ss;
-    std::ifstream in("bot_config.txt");
+    std::ifstream in("../client/configs/bot_config.txt");
     for (auto &a : Q_table) {
         for (auto &b : a) {
             std::getline(in, str);
@@ -169,5 +167,18 @@ void bot_actions_supplier::read_from_file() {
 bot_actions_supplier &bot_actions_supplier::instance() {
     static bot_actions_supplier supplier;
     return supplier;
+}
+
+void bot_actions_supplier::write_to_file() {
+    std::ofstream out("bot_config.txt");
+    for (const auto &a : Q_table) {
+        for (const auto &b : a) {
+            for (float e : b) {
+                out << e << " ";
+            }
+            out << "\n";
+        }
+    }
+    out.close();
 }
 }  // namespace war_of_ages::client
