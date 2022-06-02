@@ -30,7 +30,7 @@ const unit_stats &unit::get_stats(unit_type type) noexcept {
     const static std::unordered_map<unit_type, unit_stats> stats{
         {unit_type::PEASANT, unit_stats(2, 50, 0.5, 0.5, 0, 25, 25, {100, 200}, 100)},
         {unit_type::ARCHER, unit_stats(3, 70, 1, 1, 200, 2000, 50, {100, 200}, 1000)},
-        {unit_type::CHARIOT, unit_stats(4, 100, 1.5, 1.25, 0, 40, 100, {200, 160}, 150)},
+        {unit_type::CHARIOT, unit_stats(4, 200, 1.5, 1.25, 0, 40, 100, {200, 160}, 150)},
         {unit_type::SWORDSMAN, unit_stats(4, 100, 0.75, 0.75 * 5. / 6, 0, 40, 100, {100, 200}, 100)},
         {unit_type::ARBALESTER, unit_stats(3, 100, 1, 1, 300, 4000, 50, {100, 200}, 1000)},
         {unit_type::KNIGHT, unit_stats(4, 500, 1.5, 1.5 * 11 / 12, 0, 40, 100, {200, 160}, 150)},

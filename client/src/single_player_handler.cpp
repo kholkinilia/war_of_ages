@@ -16,9 +16,9 @@ void single_player_handler::start_game() {
 void single_player_handler::update_game() {
     auto [p1, p2] = m_game_state->snapshot_players();
     m_game_state->update(m_player_type == player_type::BOT
-                             ? bot_actions_supplier::get_actions({p1, p2})
+                             ? bot_actions_supplier::instance().get_actions({p1, p2})
                              : player_actions_supplier::instance().get_actions(),
-                         bot_actions_supplier::get_actions({p2, p1}));
+                         bot_actions_supplier::instance().get_actions({p2, p1}));
 }
 
 void single_player_handler::finish_game() {
