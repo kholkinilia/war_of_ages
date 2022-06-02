@@ -42,22 +42,19 @@ void screen_handler::multiplayer_screen_init() {
 
     tgui::Button::Ptr tournament_button = tgui::Button::create("Турниры");
     tournament_button->setTextSize(30);
-    tournament_button->onPress(
-        [&]() { change_screen(screen_type::TOURNAMENT_JOINING); });
+    tournament_button->onPress([&]() { change_screen(screen_type::TOURNAMENT_JOINING); });
     multiplayer_screen_group->add(tournament_button);
 
     tgui::Button::Ptr return_back_button = tgui::Button::create("Назад");
     return_back_button->setTextSize(30);
-    return_back_button->onPress(
-        [&]() { change_screen(screen_type::PREVIOUS_MENU); });
+    return_back_button->onPress([&]() { change_screen(screen_type::PREVIOUS_MENU); });
     multiplayer_screen_group->add(return_back_button);
 
     std::vector<tgui::Widget::Ptr> widgets{random_game_button, room_id_editbox, join_room_button,
                                            tournament_button, return_back_button};
 
     place_widgets(widgets);
-    m_gui.add(multiplayer_screen_group,
-              screen_id.at(screen_type::MULTIPLAYER));
+    m_gui.add(multiplayer_screen_group, screen_id.at(screen_type::MULTIPLAYER));
     m_gui.get(screen_id.at(screen_type::MULTIPLAYER))->setVisible(false);
 
     auto room_joining_failed_msg =
