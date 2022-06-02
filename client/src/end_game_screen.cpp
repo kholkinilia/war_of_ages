@@ -13,7 +13,6 @@ void check_game_end(tgui::Gui &gui) {
     if (war_of_ages::current_state.get_cur_game_state() != nullptr &&
         war_of_ages::current_state.get_cur_game_state()->get_game_status() !=
             war_of_ages::game_status::PROCESSING) {
-
         if (current_state.get_counter() % 10 == 0) {
             std::cout << "Games played: " << current_state.get_counter() << std::endl;
             bot_actions_receiver::write_to_file(0);

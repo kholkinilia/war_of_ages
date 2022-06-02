@@ -13,7 +13,8 @@ namespace war_of_ages {
 struct state {
     std::pair<int, int> damage = {-1, -1};
     state() = default;
-    state(int a, int b) : damage(a, b) {}
+    state(int a, int b) : damage(a, b) {
+    }
 };
 
 struct bot_actions_receiver : actions_receiver {
