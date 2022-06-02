@@ -7,6 +7,7 @@
 #include "../include/sfml_printer.h"
 #include "../include/single_player_handler.h"
 #include "../include/sound_player.h"
+#include "../include/sprite_supplier.h"
 #include "../include/tournament_handler.h"
 
 // TGUI widgets
@@ -16,6 +17,7 @@
 namespace war_of_ages::client {
 
 void application::init() {
+    sprite_supplier::start_reading_Q_table();
     sfml_printer::instance().init();
     screen_handler::instance().init(sfml_printer::instance().get_window());
 }

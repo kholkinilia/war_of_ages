@@ -83,7 +83,7 @@ const bullet_stats &bullet::get_stats(bullet_type type) {
         //        {bullet_type::RENAISSANCE_ULT, {5400, 250, {50, 50}}},
         //        {bullet_type::MODERN_ULT, {30900, 250, {50, 50}}},
         //        {bullet_type::FUTURE_ULT, {185400, 250, {50, 50}}}
-    };
+        {bullet_type::NONE, {0, 0, {0, 0}}}};
     return stats.at(type);
 }
 

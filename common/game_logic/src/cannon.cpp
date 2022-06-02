@@ -14,7 +14,7 @@ const cannon_stats &cannon::get_stats(cannon_type type) noexcept {
         {cannon_type::CASTLE_LEVEL_1, cannon_stats{bullet_type::CASTLE_LEVEL_1, 3000, 1.5, 1.5, 1200}},
         {cannon_type::CASTLE_LEVEL_2, cannon_stats{bullet_type::CASTLE_LEVEL_2, 3000, 1.5, 1.5, 1200}},
         {cannon_type::CASTLE_LEVEL_3, cannon_stats{bullet_type::CASTLE_LEVEL_3, 3000, 1.5, 1.5, 1200}},
-        {cannon_type::NONE, cannon_stats{bullet_type::STONE_LEVEL_1, 0, 0, 0, 0}}};
+        {cannon_type::NONE, cannon_stats{bullet_type::NONE, 0, 0, 0, 0}}};
     return stats.at(type);
 }
 
