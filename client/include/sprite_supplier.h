@@ -2,12 +2,12 @@
 #define WAR_OF_AGES_SPRITE_SUPPLIER_H
 
 #include <SFML/Graphics.hpp>
+#include <condition_variable>
 #include <fstream>
 #include <string>
+#include <thread>
 #include <unordered_map>
 #include <vector>
-#include <thread>
-#include <condition_variable>
 #include "../include/animation_supplier.h"
 #include "age.h"
 #include "bullet.h"

@@ -139,7 +139,7 @@ static void setup_buttons_cluster(std::vector<tgui::Group::Ptr> &groups, action 
         });
         groups[i]->add(button, std::to_string(i));
 
-        auto coin_image = tgui::Picture::create("../client/resources/pictures/coin.jpeg");
+        auto coin_image = tgui::Picture::create("../client/resources/pictures/dollar.png");
         coin_image->setPosition(BACKGROUND_WIDTH - DELTA_X * k, FPS_LABEL_HEIGHT);
         coin_image->setSize(COST_WIDTH, COST_HEIGHT);
         groups[i]->add(coin_image, "coin_image");
@@ -217,7 +217,7 @@ void screen_handler::game_screen_init() {
                 assert(!"Unreachable code!");
         }
     });
-    auto plus_place_cannon_coin_image = tgui::Picture::create("../client/resources/pictures/coin.jpeg");
+    auto plus_place_cannon_coin_image = tgui::Picture::create("../client/resources/pictures/dollar.png");
     plus_place_cannon_coin_image->setPosition(BACKGROUND_WIDTH - DELTA_X * 3, FPS_LABEL_HEIGHT);
     plus_place_cannon_coin_image->setSize(COST_WIDTH, COST_HEIGHT);
 

@@ -1,4 +1,5 @@
 #include "../include/room_handler.h"
+#include <TGUI/Widgets/Button.hpp>
 #include <TGUI/Widgets/Group.hpp>
 #include <TGUI/Widgets/Label.hpp>
 #include <TGUI/Widgets/Picture.hpp>
@@ -21,24 +22,37 @@ room_handler &room_handler::instance() {
 }
 
 void room_handler::update_enemy(std::optional<player_info> enemy) {
-    screen_handler::instance()
-        .get_gui()
-        .get<tgui::Group>(screen_handler::screen_id.at(screen_handler::screen_type::ROOM_SCREEN))
-        ->get<tgui::Picture>("enemy_readiness")
-        ->getRenderer()
-        ->setTexture(enemy.has_value() && enemy->status == player_status::READY ? ready_pic : not_ready_pic);
-    if (!players[1].has_value()) {
+    if (enemy.has_value()) {
+        if (!players[1].has_value()) {
+            screen_handler::instance()
+                .get_gui()
+                .get<tgui::Group>(screen_handler::screen_id.at(screen_handler::screen_type::ROOM_SCREEN))
+                ->get<tgui::Group>("enemy_group")
+                ->setVisible(true);
+            screen_handler::instance()
+                .get_gui()
+                .get<tgui::Group>(screen_handler::screen_id.at(screen_handler::screen_type::ROOM_SCREEN))
+                ->get<tgui::Label>("enemy_handle")
+                ->setText(enemy->handle);
+        }
         screen_handler::instance()
             .get_gui()
             .get<tgui::Group>(screen_handler::screen_id.at(screen_handler::screen_type::ROOM_SCREEN))
-            ->get<tgui::Label>("enemy_handle")
-            ->setText(enemy.has_value() ? enemy->handle : "");
+            ->get<tgui::Picture>("enemy_readiness")
+            ->getRenderer()
+            ->setTexture(enemy->status == player_status::READY ? ready_pic : not_ready_pic);
+        screen_handler::instance()
+            .get_gui()
+            .get<tgui::Group>(screen_handler::screen_id.at(screen_handler::screen_type::ROOM_SCREEN))
+            ->get<tgui::Label>("enemy_rate_value")
+            ->setText(std::to_string(enemy->rate));
+    } else {
+        screen_handler::instance()
+            .get_gui()
+            .get<tgui::Group>(screen_handler::screen_id.at(screen_handler::screen_type::ROOM_SCREEN))
+            ->get<tgui::Group>("enemy_group")
+            ->setVisible(false);
     }
-    screen_handler::instance()
-        .get_gui()
-        .get<tgui::Group>(screen_handler::screen_id.at(screen_handler::screen_type::ROOM_SCREEN))
-        ->get<tgui::Label>("enemy_rate_value")
-        ->setText(enemy.has_value() ? std::to_string(enemy->rate) : "");
     players[1] = std::move(enemy);
 }
 
@@ -46,7 +60,7 @@ void room_handler::update_me(player_info me) {
     screen_handler::instance()
         .get_gui()
         .get<tgui::Group>(screen_handler::screen_id.at(screen_handler::screen_type::ROOM_SCREEN))
-        ->get<tgui::Picture>("my_readiness")
+        ->get<tgui::Button>("my_readiness")
         ->getRenderer()
         ->setTexture(me.status == player_status::READY ? ready_pic : not_ready_pic);
     screen_handler::instance()
@@ -80,7 +94,7 @@ void room_handler::change_my_status(player_status status) {
     screen_handler::instance()
         .get_gui()
         .get<tgui::Group>(screen_handler::screen_id.at(screen_handler::screen_type::ROOM_SCREEN))
-        ->get<tgui::Picture>("enemy_readiness")
+        ->get<tgui::Button>("my_readiness")
         ->getRenderer()
         ->setTexture(status == player_status::READY ? ready_pic : not_ready_pic);
 }

@@ -53,7 +53,7 @@ public:
     ~bot_actions_supplier() = default;
 
     [[nodiscard]] std::vector<std::unique_ptr<game_command>> get_actions(
-        const std::pair<player_snapshot, player_snapshot>& p);
+        const std::pair<player_snapshot, player_snapshot> &p);
 
     static void read_from_file();
     static void write_to_file();

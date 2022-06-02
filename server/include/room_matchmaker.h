@@ -31,7 +31,6 @@ private:
     };
 
     room_matchmaker() = default;
-    [[nodiscard]] bool user_exists(const std::string &handle) const;
 
     std::unordered_map<std::string, std::vector<std::string>> m_rooms;  // {room_id, user_id}
     std::unordered_map<std::string, user_in_room> m_users_in_rooms;
