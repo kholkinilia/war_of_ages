@@ -16,7 +16,7 @@ void screen_handler::multiplayer_screen_init() {
         message<messages_type> msg;
         msg.header.id = messages_type::RANDOMGAME_JOIN;
         client::instance().send_message(msg);
-        screen_handler::instance().change_screen(screen_handler::screen_type::WAIT_OPPONENT);
+        change_screen(screen_type::WAIT_OPPONENT);
     });
     multiplayer_screen_group->add(random_game_button);
 
@@ -43,13 +43,13 @@ void screen_handler::multiplayer_screen_init() {
     tgui::Button::Ptr tournament_button = tgui::Button::create("Турниры");
     tournament_button->setTextSize(30);
     tournament_button->onPress(
-        [&]() { screen_handler::instance().change_screen(screen_handler::screen_type::TOURNAMENT_JOINING); });
+        [&]() { change_screen(screen_type::TOURNAMENT_JOINING); });
     multiplayer_screen_group->add(tournament_button);
 
     tgui::Button::Ptr return_back_button = tgui::Button::create("Назад");
     return_back_button->setTextSize(30);
     return_back_button->onPress(
-        [&]() { screen_handler::instance().change_screen(screen_handler::screen_type::PREVIOUS_MENU); });
+        [&]() { change_screen(screen_type::PREVIOUS_MENU); });
     multiplayer_screen_group->add(return_back_button);
 
     std::vector<tgui::Widget::Ptr> widgets{random_game_button, room_id_editbox, join_room_button,
@@ -57,7 +57,20 @@ void screen_handler::multiplayer_screen_init() {
 
     place_widgets(widgets);
     m_gui.add(multiplayer_screen_group,
-              screen_handler::screen_id.at(screen_handler::screen_type::MULTIPLAYER));
-    m_gui.get(screen_handler::screen_id.at(screen_handler::screen_type::MULTIPLAYER))->setVisible(false);
+              screen_id.at(screen_type::MULTIPLAYER));
+    m_gui.get(screen_id.at(screen_type::MULTIPLAYER))->setVisible(false);
+
+    auto room_joining_failed_msg =
+        tgui::Button::create("Не удалось подключиться к комнате\nВероятно, она уже занята");
+    room_joining_failed_msg->setTextSize(30);
+    room_joining_failed_msg->getRenderer()->setTextColor(tgui::Color::Red);
+    room_joining_failed_msg->onPress([this]() {
+        m_gui.get<tgui::Group>(screen_id.at(get_screen_type()))->setEnabled(true);
+        m_gui.get<tgui::Button>("room_joining_failed_msg")->setVisible(false);
+    });
+    room_joining_failed_msg->setVisible(false);
+    widgets = {room_joining_failed_msg};
+    place_widgets(widgets);
+    m_gui.add(room_joining_failed_msg, "room_joining_failed_msg");
 }
 }  // namespace war_of_ages::client

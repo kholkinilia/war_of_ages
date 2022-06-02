@@ -180,6 +180,15 @@ void application::update_screens() {
                         std::uint8_t success;
                         msg >> success;
                         if (success == 0) {
+                            screen_handler::instance()
+                                .get_gui()
+                                .get<tgui::Button>("room_joining_failed_msg")
+                                ->setVisible(true);
+                            screen_handler::instance()
+                                .get_gui()
+                                .get<tgui::Group>(screen_handler::screen_id.at(
+                                    screen_handler::instance().get_screen_type()))
+                                ->setEnabled(false);
                             break;
                         }
                         room_handler::instance().update_me(room_handler::player_info{
