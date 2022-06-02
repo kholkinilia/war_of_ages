@@ -1,5 +1,6 @@
 #include "../include/end_game_screen.h"
 #include "../include/screens.h"
+#include "../include/sprite_supplier.h"
 #include "../include/ui_functions.h"
 
 namespace war_of_ages {
@@ -26,6 +27,8 @@ int main() {
     s.setTexture(t);
 
     war_of_ages::setup_fps(gui);
+
+    war_of_ages::sprite_supplier::start_reading_Q_table();
 
     while (window.isOpen()) {
         war_of_ages::handle_window_events(gui, &window, &view);

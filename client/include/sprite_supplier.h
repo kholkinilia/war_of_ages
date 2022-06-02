@@ -37,6 +37,14 @@ public:
 
     [[nodiscard]] static sprite_supplier &get_instance();
 
+    static void start_reading_Q_table();
+    [[nodiscard]] static std::mutex& get_mutex();
+    [[nodiscard]] static std::condition_variable& get_cond_var();
+
+
+    static inline std::condition_variable cond_var;
+    static inline std::mutex m;
+
 private:
     std::unordered_map<age_type, sf::Sprite> background_sprite;
     std::unordered_map<age_type, sf::Sprite> road_sprite;

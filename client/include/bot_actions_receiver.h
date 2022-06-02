@@ -11,7 +11,9 @@
 namespace war_of_ages {
 
 struct state {
-    std::pair<int, int> damage = {-1, -1}, hp = {-1, -1};
+    std::pair<int, int> damage = {-1, -1};
+    state() = default;
+    state(int a, int b) : damage(a, b) {}
 };
 
 struct bot_actions_receiver : actions_receiver {
@@ -22,10 +24,8 @@ public:
         std::pair<player_snapshot, player_snapshot> p,
         int player) final;
 
-    static std::set<std::pair<std::pair<int, int>, std::pair<int, int>>> get_positions();
-
-    static void write_to_file();
-    static void read_from_file();
+    static void write_to_file(int player);
+    static void read_from_file(int player);
 
 private:
     enum class action {
@@ -44,13 +44,14 @@ private:
         NONE
     };
 
-    static inline std::vector<std::vector<std::vector<float>>> Q_table;
-    static inline std::set<std::pair<std::pair<int, int>, std::pair<int, int>>> positions;
+    static inline std::vector<std::vector<std::vector<std::vector<float>>>> Q_table;
+    static inline std::vector<std::set<std::pair<int, int>>> positions;
     state last_state;
     action last_action = action::NONE;
-    const float learning_rate = 0.2, gamma = 0.9;
+    const float learning_rate = 0.07, gamma = 0.85;
+    static bool read;
 
-    static action get_action(state state);
+    static action get_action(state state, int player);
     static state get_state(const std::pair<player_snapshot, player_snapshot> &p, int player);
 };
 

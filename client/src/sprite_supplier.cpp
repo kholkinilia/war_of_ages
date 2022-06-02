@@ -3,6 +3,7 @@
 #include "../../game_logic/include/bullet.h"
 #include "../../game_logic/include/cannon.h"
 #include "../../game_logic/include/unit.h"
+#include "../include/bot_actions_receiver.h"
 #include "../include/game_object_size_constants.h"
 
 namespace war_of_ages {
@@ -172,5 +173,21 @@ sprite_supplier::~sprite_supplier() {
     for (auto &[b_type, sprite] : bullet_sprite) {
         delete sprite.getTexture();
     }
+}
+
+void sprite_supplier::start_reading_Q_table() {
+    std::thread load_Q_table([]() {
+        std::unique_lock l(m);
+        bot_actions_receiver::read_from_file(0);
+        bot_actions_receiver::read_from_file(1);
+        cond_var.notify_all();
+    });
+    load_Q_table.detach();
+}
+std::mutex &sprite_supplier::get_mutex() {
+    return m;
+}
+std::condition_variable &sprite_supplier::get_cond_var() {
+    return cond_var;
 }
 }  // namespace war_of_ages
