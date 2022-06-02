@@ -80,6 +80,7 @@ void server::on_client_disconnect(std::shared_ptr<connection<messages_type>> cli
 
             game_handler::instance().user_disconnected(handle);
             tournament_handler::instance().leave(handle);
+            room_matchmaker::instance().remove_user_from_room(handle);
         }
         m_finished_on_disconnect.notify_one();
     }).detach();
@@ -197,7 +198,7 @@ void server::on_message(std::shared_ptr<connection<messages_type>> client, messa
                 set_user_status(handle, user_status::MENU);
             }
         } break;
-        case messages_type::ROOM_CHANGE_STATUS: {
+        case messages_type::ROOM_SWITCH_STATUS: {
             ensure_status(status, user_status::ROOM, true);
             room_matchmaker::instance().switch_readiness(handle);
         } break;

@@ -24,13 +24,20 @@ void screen_handler::multiplayer_screen_init() {
     room_id_editbox->setTextSize(30);
     room_id_editbox->setDefaultText("Номер комнаты:");
     room_id_editbox->setInputValidator(tgui::EditBox::Validator::UInt);
-    multiplayer_screen_group->add(room_id_editbox);
+    multiplayer_screen_group->add(room_id_editbox, "room_id_editbox");
 
     tgui::Button::Ptr join_room_button = tgui::Button::create("Присоединиться");
     join_room_button->setTextSize(30);
-    // TODO: onPress: try join to room with given id (key)
-    join_room_button->onPress(
-        [&]() { screen_handler::instance().change_screen(screen_handler::screen_type::WAIT_OPPONENT); });
+    join_room_button->onPress([this]() {
+        message<messages_type> msg;
+        msg.header.id = messages_type::ROOM_JOIN;
+        std::string room_id =
+            static_cast<std::string>(m_gui.get<tgui::Group>(screen_id.at(screen_type::MULTIPLAYER))
+                                         ->get<tgui::EditBox>("room_id_editbox")
+                                         ->getText());
+        msg << room_id;
+        client::instance().send_message(msg);
+    });
     multiplayer_screen_group->add(join_room_button);
 
     tgui::Button::Ptr tournament_button = tgui::Button::create("Турниры");

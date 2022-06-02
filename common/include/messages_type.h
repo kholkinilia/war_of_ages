@@ -26,9 +26,16 @@ enum class messages_type {
     RANDOMGAME_JOIN,
     RANDOMGAME_LEAVE,
 
+    // Client -> Server
     ROOM_JOIN,
     ROOM_LEAVE,
-    ROOM_CHANGE_STATUS,
+    ROOM_SWITCH_STATUS,
+    // Server -> Client
+    ROOM_JOIN_RESPONSE,
+    ROOM_ENEMY_JOINED,
+    ROOM_LEAVE_SUCCESS,
+    ROOM_ENEMY_LEAVED,
+    ROOM_ENEMY_SWITCHED_STATUS,
 
     TOURNAMENT_CREATE,
     TOURNAMENT_JOIN,
@@ -68,7 +75,7 @@ const std::unordered_map<messages_type, std::uint32_t> valid_body_size = {
 
     {messages_type::ROOM_JOIN, -1},
     {messages_type::ROOM_LEAVE, 0},
-    {messages_type::ROOM_CHANGE_STATUS, 0},
+    {messages_type::ROOM_SWITCH_STATUS, 0},
 
     // TODO: fill by Ilya
     {messages_type::TOURNAMENT_CREATE, -1},

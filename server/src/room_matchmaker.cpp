@@ -16,7 +16,7 @@ bool room_matchmaker::add_user_to_room(const std::string &handle, const std::str
         return false;
     }
     message<messages_type> msg;
-    msg.header.id = messages_type::ROOM_JOIN;
+    msg.header.id = messages_type::ROOM_JOIN_RESPONSE;
     auto &room = m_rooms[room_id];
     if (room.size() == 2) {
         msg << static_cast<std::uint8_t>(0);
@@ -33,10 +33,11 @@ bool room_matchmaker::add_user_to_room(const std::string &handle, const std::str
             << room[0];
 
         message<messages_type> msg2;
-        msg2.header.id = messages_type::ROOM_JOIN;
-        msg2 << static_cast<std::uint8_t>(0) << static_cast<std::uint8_t>(0) << handle
-             << static_cast<std::uint8_t>(1);
+        msg2.header.id = messages_type::ROOM_ENEMY_JOINED;
+        msg2 << static_cast<std::uint8_t>(0) << static_cast<std::uint8_t>(0) << handle;
         server::instance().send_message(room[0], msg2);
+    } else {
+        msg << static_cast<std::string>("");
     }
     msg << static_cast<std::uint8_t>(1);
     server::instance().send_message(handle, msg);
@@ -57,12 +58,13 @@ bool room_matchmaker::remove_user_from_room(const std::string &handle) {
     room.erase(std::remove(room.begin(), room.end(), handle), room.end());
     m_users_in_rooms.erase(it_user);
 
-    message<messages_type> msg;
-    msg.header.id = messages_type::ROOM_LEAVE;
-    server::instance().send_message(handle, msg);
+    message<messages_type> msg1;
+    msg1.header.id = messages_type::ROOM_LEAVE_SUCCESS;
+    server::instance().send_message(handle, msg1);
     if (!room.empty()) {
-        msg << static_cast<std::uint8_t>(1);
-        server::instance().send_message(room[0], msg);
+        message<messages_type> msg2;
+        msg2.header.id = messages_type::ROOM_ENEMY_LEAVED;
+        server::instance().send_message(room[0], msg2);
     }
     return true;
 }
@@ -77,9 +79,12 @@ void room_matchmaker::switch_readiness(const std::string &handle, bool force_lea
         case user_in_room::user_status::NOT_READY: {
             current_status = user_in_room::user_status::READY;
             auto &room = m_rooms.at(m_users_in_rooms.at(handle).room_id);
+            if (room.size() < 2) {
+                break;
+            }
             auto &status_first = m_users_in_rooms.at(room[0]).status;
             auto &status_second = m_users_in_rooms.at(room[1]).status;
-            if (room.size() == 2 && status_first == user_in_room::user_status::READY &&
+            if (status_first == user_in_room::user_status::READY &&
                 status_second == user_in_room::user_status::READY) {
                 status_first = status_second = user_in_room::user_status::FIGHTING;
                 game_handler::instance().add_game(
@@ -90,7 +95,7 @@ void room_matchmaker::switch_readiness(const std::string &handle, bool force_lea
             } else {
                 std::string other = (room[0] == handle ? room[1] : room[0]);
                 message<messages_type> msg;
-                msg.header.id = messages_type::ROOM_CHANGE_STATUS;
+                msg.header.id = messages_type::ROOM_ENEMY_SWITCHED_STATUS;
                 server::instance().send_message(other, msg);
             }
             break;
@@ -98,9 +103,12 @@ void room_matchmaker::switch_readiness(const std::string &handle, bool force_lea
         case user_in_room::user_status::READY: {
             current_status = user_in_room::user_status::NOT_READY;
             auto &room = m_rooms.at(m_users_in_rooms.at(handle).room_id);
+            if (room.size() < 2) {
+                break;
+            }
             std::string other = (room[0] == handle ? room[1] : room[0]);
             message<messages_type> msg;
-            msg.header.id = messages_type::ROOM_CHANGE_STATUS;
+            msg.header.id = messages_type::ROOM_ENEMY_SWITCHED_STATUS;
             server::instance().send_message(other, msg);
         } break;
         case user_in_room::user_status::FIGHTING: {
