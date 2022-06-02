@@ -63,13 +63,11 @@ bot_actions_supplier::action bot_actions_supplier::get_action(state state) {
                                    Q_table[state.damage.first][state.damage.second].end());
     delta += 1e-6;
     std::for_each(Q_table[state.damage.first][state.damage.second].begin(),
-                  Q_table[state.damage.first][state.damage.second].end(),
-                  [&delta](float &d) { d += delta; });
+                  Q_table[state.damage.first][state.damage.second].end(), [&delta](float &d) { d += delta; });
     std::piecewise_constant_distribution<float> distribution(
         v.begin(), v.end(), Q_table[state.damage.first][state.damage.second].begin());
     std::for_each(Q_table[state.damage.first][state.damage.second].begin(),
-                  Q_table[state.damage.first][state.damage.second].end(),
-                  [&delta](float &d) { d -= delta; });
+                  Q_table[state.damage.first][state.damage.second].end(), [&delta](float &d) { d -= delta; });
     auto ans = static_cast<action>(std::round(distribution(gen)));
     return ans;
 }
