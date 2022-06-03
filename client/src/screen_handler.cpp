@@ -31,6 +31,9 @@ void screen_handler::init(sf::RenderWindow &window) {
     game_screen_init();
     end_game_screen_init();
     wait_for_server_screen_init();
+    statistics_screen_init();
+    login_screen_init();
+    login_choice_screen_init();
 
     //    static chat_handler chat;
     //    chat.show();

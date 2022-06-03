@@ -29,6 +29,8 @@ set(CLIENT_PROJECT_SOURCES
         client/src/screens/game_screen.cpp
         client/src/screens/end_game_screen.cpp
         client/src/screens/wait_screen.cpp
+        client/src/screens/statistics_screen.cpp
+        client/src/screens/login_screen.cpp
         client/src/sprite_supplier.cpp
         client/src/sfml_printer.cpp
         client/src/bot_actions_supplier.cpp

@@ -26,6 +26,7 @@ void screen_handler::start_screen_init() {
     tgui::Button::Ptr multiplayer_button = tgui::Button::create("Мультиплеер");
     multiplayer_button->setTextSize(30);
     multiplayer_button->onPress([&]() {
+        screen_handler::instance().change_screen(screen_handler::screen_type::LOGIN_OR_AUTHORIZATION_CHOICE);
         client::instance().clear_messages();
         if (!client::instance().is_connected()) {
             if (client::instance().connect(client::instance().get_server_ip(),
@@ -37,13 +38,16 @@ void screen_handler::start_screen_init() {
         } else {
             screen_handler::instance().change_screen(screen_handler::screen_type::MULTIPLAYER);
             application::instance().set_state(application::state::MULTIPLAYER);
-        }
+        }*/
     });
     start_screen_group->add(multiplayer_button);
 
     tgui::Button::Ptr statistics_button = tgui::Button::create("Статистика");
     statistics_button->setTextSize(30);
-    // TODO: onPress: switch to the statistics screen when it is implemented
+    statistics_button->onPress([&]() {
+        is_from_statistics = true;
+        screen_handler::instance().change_screen(screen_handler::screen_type::LOGIN_OR_AUTHORIZATION_CHOICE);
+    });
     start_screen_group->add(statistics_button);
 
     tgui::Button::Ptr exit_button = tgui::Button::create("Выйти");
