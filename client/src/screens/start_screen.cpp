@@ -30,7 +30,7 @@ void screen_handler::start_screen_init() {
         if (!client::instance().is_connected()) {
             if (client::instance().connect(client::instance().get_server_ip(),
                                            client::instance().get_server_port())) {
-//                screen_handler::instance().change_screen(screen_handler::screen_type::LOGIN_OR_AUTHORIZATION_CHOICE);
+                //                screen_handler::instance().change_screen(screen_handler::screen_type::LOGIN_OR_AUTHORIZATION_CHOICE);
                 client::instance().login();
                 screen_handler::instance().change_screen(screen_handler::screen_type::MULTIPLAYER);
                 application::instance().set_state(application::state::MULTIPLAYER);
