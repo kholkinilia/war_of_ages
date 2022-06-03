@@ -10,7 +10,7 @@ namespace war_of_ages::client {
 
 enum class action { BUY_UNIT, BUY_CANNON, SELL_CANNON };
 
-[[nodiscard]] tgui::String get_filename(action a, int i, age_type age) noexcept;
+[[nodiscard]] std::string get_renderer(action a, int i, age_type age) noexcept;
 
 struct screen_handler {
     enum class screen_type {
@@ -44,6 +44,7 @@ struct screen_handler {
 private:
     tgui::Gui m_gui;
     std::stack<screen_type> m_screen_stack;
+    tgui::Theme m_theme_buttons;
 
     static void place_widgets(std::vector<tgui::Widget::Ptr> &widgets,
                               int width = 40,
@@ -65,6 +66,7 @@ private:
     screen_handler();
 
 public:
+
     void init(sf::RenderWindow &window);
     void change_screen(screen_type new_screen);
 
@@ -73,6 +75,7 @@ public:
 
     void update_fps();
     void draw();
+    tgui::Theme &get_theme_buttons() noexcept;
 
     [[nodiscard]] static screen_handler &instance();
 };
