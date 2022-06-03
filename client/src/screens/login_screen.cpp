@@ -41,14 +41,15 @@ void screen_handler::login_choice_screen_init() {
     auto return_button = tgui::Button::create("В главное меню");
     return_button->setRenderer(black_theme.getRenderer("Button"));
     return_button->setTextSize(30);
-    return_button->onPress([&]() {
-        screen_handler::instance().change_screen(screen_handler::screen_type::START_SCREEN);
-    });
+    return_button->onPress(
+        [&]() { screen_handler::instance().change_screen(screen_handler::screen_type::START_SCREEN); });
     return_button->setPosition("30%", "86%");
     return_button->setSize("40%", "10%");
     login_screen_group->add(return_button, "return_button");
-    m_gui.add(login_screen_group, screen_handler::screen_id.at(screen_handler::screen_type::LOGIN_OR_AUTHORIZATION_CHOICE));
-    m_gui.get(screen_handler::screen_id.at(screen_handler::screen_type::LOGIN_OR_AUTHORIZATION_CHOICE))->setVisible(false);
+    m_gui.add(login_screen_group,
+              screen_handler::screen_id.at(screen_handler::screen_type::LOGIN_OR_AUTHORIZATION_CHOICE));
+    m_gui.get(screen_handler::screen_id.at(screen_handler::screen_type::LOGIN_OR_AUTHORIZATION_CHOICE))
+        ->setVisible(false);
 }
 
 void screen_handler::login_screen_init() {
@@ -71,7 +72,7 @@ void screen_handler::login_screen_init() {
     send_button->setRenderer(black_theme.getRenderer("Button"));
     send_button->setTextSize(30);
     send_button->onPress([&]() {
-        if(is_from_statistics) {
+        if (is_from_statistics) {
             screen_handler::instance().change_screen(screen_handler::screen_type::STATISTICS);
             is_from_statistics = false;
         } else {
@@ -113,7 +114,9 @@ void screen_handler::login_screen_init() {
     return_button->setSize("40%", "10%");
     login_screen_group->add(return_button, "return_button");
 
-    m_gui.add(login_screen_group, screen_handler::screen_id.at(screen_handler::screen_type::LOGIN_OR_AUTHORIZATION));
-    m_gui.get(screen_handler::screen_id.at(screen_handler::screen_type::LOGIN_OR_AUTHORIZATION))->setVisible(false);
+    m_gui.add(login_screen_group,
+              screen_handler::screen_id.at(screen_handler::screen_type::LOGIN_OR_AUTHORIZATION));
+    m_gui.get(screen_handler::screen_id.at(screen_handler::screen_type::LOGIN_OR_AUTHORIZATION))
+        ->setVisible(false);
 }
 }  // namespace war_of_ages::client

@@ -17,9 +17,8 @@ void screen_handler::statistics_screen_init() {
     auto return_button = tgui::Button::create("В главное меню");
     return_button->setRenderer(black_theme.getRenderer("Button"));
     return_button->setTextSize(30);
-    return_button->onPress([&]() {
-        screen_handler::instance().change_screen(screen_handler::screen_type::START_SCREEN);
-    });
+    return_button->onPress(
+        [&]() { screen_handler::instance().change_screen(screen_handler::screen_type::START_SCREEN); });
     return_button->setPosition("30%", "86%");
     return_button->setSize("40%", "10%");
     statistics_screen_group->add(return_button, "return_button");

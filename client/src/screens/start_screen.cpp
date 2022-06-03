@@ -38,7 +38,8 @@ void screen_handler::start_screen_init() {
         } else {
             screen_handler::instance().change_screen(screen_handler::screen_type::MULTIPLAYER);
             application::instance().set_state(application::state::MULTIPLAYER);
-        }*/
+        }
+        * /
     });
     start_screen_group->add(multiplayer_button);
 
