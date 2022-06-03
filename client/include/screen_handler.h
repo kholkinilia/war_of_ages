@@ -66,7 +66,6 @@ private:
     screen_handler();
 
 public:
-
     void init(sf::RenderWindow &window);
     void change_screen(screen_type new_screen);
 

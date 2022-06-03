@@ -35,16 +35,18 @@ static const std::unordered_map<age_type, std::string> age_to_string = {
     switch (a) {
         case action::BUY_UNIT:
             return "unit_" + age_to_string.at(age) + "_mini_" + std::to_string(i + 1);
-//            return tgui::String("../client/resources/game/units/" + age_to_string.at(age) + "/mini/") +
-//                   std::to_string(i + 1) + tgui::String(".png");
+            //            return tgui::String("../client/resources/game/units/" + age_to_string.at(age) +
+            //            "/mini/") +
+            //                   std::to_string(i + 1) + tgui::String(".png");
         case action::BUY_CANNON:
             return "cannon_" + age_to_string.at(age) + "_mini_" + std::to_string(i + 1);
-//            return tgui::String("../client/resources/game/cannons/" + age_to_string.at(age) + "/level") +
-//                   std::to_string(i + 1) + tgui::String(".png");
+            //            return tgui::String("../client/resources/game/cannons/" + age_to_string.at(age) +
+            //            "/level") +
+            //                   std::to_string(i + 1) + tgui::String(".png");
         case action::SELL_CANNON:
             return "sell_cannon_" + std::to_string(i + 1);
-//            return tgui::String("../client/resources/pictures/") + std::to_string(i + 1) +
-//                   tgui::String(".png");
+            //            return tgui::String("../client/resources/pictures/") + std::to_string(i + 1) +
+            //                   tgui::String(".png");
         default:
             assert(!"Unreachable code!");
     }
