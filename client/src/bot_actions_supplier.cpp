@@ -1,5 +1,5 @@
 #include "../include/bot_actions_supplier.h"
-#include <fstream>
+#include <filesystem>
 #include <iostream>
 #include <random>
 #include "../include/client.h"
@@ -150,7 +150,7 @@ void bot_actions_supplier::read_from_file() {
         300, std::vector<std::vector<float>>(300, std::vector<float>(static_cast<int>(action::NONE) + 1, 0)));
     std::string str;
     std::stringstream ss;
-    std::ifstream in("bot_config.txt");
+    std::ifstream in("../client/configs/bot_config.txt");
     for (auto &a : Q_table) {
         for (auto &b : a) {
             std::getline(in, str);
@@ -167,5 +167,18 @@ void bot_actions_supplier::read_from_file() {
 bot_actions_supplier &bot_actions_supplier::instance() {
     static bot_actions_supplier supplier;
     return supplier;
+}
+
+void bot_actions_supplier::write_to_file() {
+    std::ofstream out("bot_config.txt");
+    for (const auto &a : Q_table) {
+        for (const auto &b : a) {
+            for (float e : b) {
+                out << e << " ";
+            }
+            out << "\n";
+        }
+    }
+    out.close();
 }
 }  // namespace war_of_ages::client

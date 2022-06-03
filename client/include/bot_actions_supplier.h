@@ -56,6 +56,7 @@ public:
         const std::pair<player_snapshot, player_snapshot> &p);
 
     static void read_from_file();
+    static void write_to_file();
 
     static bot_actions_supplier &instance();
 };
