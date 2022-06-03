@@ -24,7 +24,7 @@
  * Participate in tournaments.
  * Make a bot play for you, so you can have a rest during the game (and, hopefully, not lose).
  * See your stats, i.e. rating, number of games won/lost online, etc.
- * **\[TO BE IMPLEMENTED (UNLIKELY)\]** Chat with your friends inplace during a tournament or a game.
+ * Chat with your friends inplace during a tournament or a game.
 
 ### Demo video
 

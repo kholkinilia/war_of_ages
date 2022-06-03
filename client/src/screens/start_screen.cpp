@@ -60,7 +60,8 @@ void screen_handler::start_screen_init() {
     place_widgets(widgets);
 
     tgui::Button::Ptr settings_screen_button = tgui::Button::create();
-    settings_screen_button->getRenderer()->setTexture("../client/resources/pictures/settings_icon.png");
+    auto &theme = screen_handler::instance().get_theme_buttons();
+    settings_screen_button->setRenderer(theme.getRenderer("settings_icon"));
     settings_screen_button->getRenderer()->setBorders(0);
     settings_screen_button->setSize("4.5%", "8%");
     settings_screen_button->setPosition("90%", "5%");

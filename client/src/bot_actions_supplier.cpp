@@ -1,9 +1,9 @@
 #include "../include/bot_actions_supplier.h"
+#include <filesystem>
 #include <iostream>
 #include <random>
 #include "../include/client.h"
 #include "../include/sprite_supplier.h"
-#include <filesystem>
 
 namespace war_of_ages::client {
 

@@ -77,7 +77,6 @@ const std::unordered_map<messages_type, std::uint32_t> valid_body_size = {
     {messages_type::ROOM_LEAVE, 0},
     {messages_type::ROOM_SWITCH_STATUS, 0},
 
-    // TODO: fill by Ilya
     {messages_type::TOURNAMENT_CREATE, -1},
     {messages_type::TOURNAMENT_JOIN, -1},
     {messages_type::TOURNAMENT_LEAVE, -1},

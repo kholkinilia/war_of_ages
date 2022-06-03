@@ -8,20 +8,13 @@
 
 namespace war_of_ages::client {
 
-static tgui::Texture ready_pic;
-static tgui::Texture not_ready_pic;
-
-room_handler::room_handler() noexcept {
-    ready_pic.load("../client/resources/pictures/ready.png");
-    not_ready_pic.load("../client/resources/pictures/not_ready.png");
-}
-
 room_handler &room_handler::instance() {
     static room_handler inst;
     return inst;
 }
 
 void room_handler::update_enemy(std::optional<player_info> enemy) {
+    auto &theme = screen_handler::instance().get_theme_buttons();
     if (enemy.has_value()) {
         if (!players[1].has_value()) {
             screen_handler::instance()
@@ -39,8 +32,7 @@ void room_handler::update_enemy(std::optional<player_info> enemy) {
             .get_gui()
             .get<tgui::Group>(screen_handler::screen_id.at(screen_handler::screen_type::ROOM_SCREEN))
             ->get<tgui::Picture>("enemy_readiness")
-            ->getRenderer()
-            ->setTexture(enemy->status == player_status::READY ? ready_pic : not_ready_pic);
+            ->setRenderer(theme.getRenderer(enemy->status == player_status::READY ? "ready" : "not_ready"));
         screen_handler::instance()
             .get_gui()
             .get<tgui::Group>(screen_handler::screen_id.at(screen_handler::screen_type::ROOM_SCREEN))
@@ -57,12 +49,12 @@ void room_handler::update_enemy(std::optional<player_info> enemy) {
 }
 
 void room_handler::update_me(player_info me) {
+    auto &theme = screen_handler::instance().get_theme_buttons();
     screen_handler::instance()
         .get_gui()
         .get<tgui::Group>(screen_handler::screen_id.at(screen_handler::screen_type::ROOM_SCREEN))
         ->get<tgui::Button>("my_readiness")
-        ->getRenderer()
-        ->setTexture(me.status == player_status::READY ? ready_pic : not_ready_pic);
+        ->setRenderer(theme.getRenderer(me.status == player_status::READY ? "ready" : "not_ready"));
     screen_handler::instance()
         .get_gui()
         .get<tgui::Group>(screen_handler::screen_id.at(screen_handler::screen_type::ROOM_SCREEN))
@@ -77,6 +69,7 @@ void room_handler::update_me(player_info me) {
 }
 
 void room_handler::change_enemy_status(player_status status) {
+    auto &theme = screen_handler::instance().get_theme_buttons();
     if (!players[1].has_value()) {
         return;
     }
@@ -85,18 +78,17 @@ void room_handler::change_enemy_status(player_status status) {
         .get_gui()
         .get<tgui::Group>(screen_handler::screen_id.at(screen_handler::screen_type::ROOM_SCREEN))
         ->get<tgui::Picture>("enemy_readiness")
-        ->getRenderer()
-        ->setTexture(status == player_status::READY ? ready_pic : not_ready_pic);
+        ->setRenderer(theme.getRenderer(status == player_status::READY ? "ready" : "not_ready"));
 }
 
 void room_handler::change_my_status(player_status status) {
+    auto &theme = screen_handler::instance().get_theme_buttons();
     players[0]->status = status;
     screen_handler::instance()
         .get_gui()
         .get<tgui::Group>(screen_handler::screen_id.at(screen_handler::screen_type::ROOM_SCREEN))
         ->get<tgui::Button>("my_readiness")
-        ->getRenderer()
-        ->setTexture(status == player_status::READY ? ready_pic : not_ready_pic);
+        ->setRenderer(theme.getRenderer(status == player_status::READY ? "ready" : "not_ready"));
 }
 
 void room_handler::switch_enemy_status() {

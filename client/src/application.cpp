@@ -114,7 +114,6 @@ void application::update_screens() {
                         screen_handler::instance().change_screen(screen_handler::screen_type::GAME_SCREEN);
                         sound_player::instance().change(sound_player::sound_type::LOBBY,
                                                         sound_player::sound_type::BATTLE);
-                        // TODO: dodelat
                     } break;
                     case messages_type::GAME_FINISHED: {
                         std::cerr << "GOT GAME_FINISHED" << std::endl;
