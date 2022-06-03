@@ -14,9 +14,11 @@
 
 namespace war_of_ages::client {
 
-static void setup_button(tgui::Button::Ptr &button, tgui::String name = "") {
-    if (name != "") {
-        button->getRenderer()->setTexture(tgui::String(std::move(name)));
+static void setup_button(tgui::Button::Ptr &button, std::string name = "") {
+    auto &theme = screen_handler::instance().get_theme_buttons();
+
+    if (!name.empty()) {
+        button->setRenderer(theme.getRenderer(std::move(name)));
     }
     button->getRenderer()->setBorders(0);
 }
@@ -29,17 +31,22 @@ static const std::unordered_map<age_type, std::string> age_to_string = {
     // {age_type::FUTURE, "future"},
 };
 
-[[nodiscard]] tgui::String get_filename(action a, int i, age_type age) noexcept {
+[[nodiscard]] std::string get_renderer(action a, int i, age_type age) noexcept {
     switch (a) {
         case action::BUY_UNIT:
-            return tgui::String("../client/resources/game/units/" + age_to_string.at(age) + "/mini/") +
-                   std::to_string(i + 1) + tgui::String(".png");
+            return "unit_" + age_to_string.at(age) + "_mini_" + std::to_string(i + 1);
+            //            return tgui::String("../client/resources/game/units/" + age_to_string.at(age) +
+            //            "/mini/") +
+            //                   std::to_string(i + 1) + tgui::String(".png");
         case action::BUY_CANNON:
-            return tgui::String("../client/resources/game/cannons/" + age_to_string.at(age) + "/level") +
-                   std::to_string(i + 1) + tgui::String(".png");
+            return "cannon_" + age_to_string.at(age) + "_mini_" + std::to_string(i + 1);
+            //            return tgui::String("../client/resources/game/cannons/" + age_to_string.at(age) +
+            //            "/level") +
+            //                   std::to_string(i + 1) + tgui::String(".png");
         case action::SELL_CANNON:
-            return tgui::String("../client/resources/pictures/") + std::to_string(i + 1) +
-                   tgui::String(".png");
+            return "sell_cannon_" + std::to_string(i + 1);
+            //            return tgui::String("../client/resources/pictures/") + std::to_string(i + 1) +
+            //                   tgui::String(".png");
         default:
             assert(!"Unreachable code!");
     }
@@ -64,7 +71,7 @@ static void setup_buttons_cluster(std::vector<tgui::Group::Ptr> &groups, action 
     for (int i = 0; i < n; i++, k++) {
         groups[i] = tgui::Group::create();
         auto button = tgui::Button::create();
-        setup_button(button, get_filename(a, i, age_type::STONE));
+        setup_button(button, get_renderer(a, i, age_type::STONE));
         button->setPosition(BACKGROUND_WIDTH - DELTA_X * k, BUTTON_Y);
         button->setSize(BUTTON_WIDTH, BUTTON_HEIGHT);
         button->onPress([i, a]() {
@@ -168,7 +175,7 @@ void screen_handler::game_screen_init() {
     auto game_screen_group = tgui::Group::create();
 
     auto autobattle_button = tgui::Button::create();
-    setup_button(autobattle_button, "../client/resources/pictures/logo.png");
+    setup_button(autobattle_button, "logo");
     autobattle_button->setPosition(BACKGROUND_WIDTH - DELTA_X, BUTTON_Y);
     autobattle_button->setSize(BUTTON_WIDTH, BUTTON_HEIGHT);
     autobattle_button->onPress([]() {
@@ -179,7 +186,7 @@ void screen_handler::game_screen_init() {
     });
 
     auto new_era_button = tgui::Button::create();
-    setup_button(new_era_button, "../client/resources/pictures/new_era.png");
+    setup_button(new_era_button, "new_era");
     new_era_button->setPosition(BACKGROUND_WIDTH - DELTA_X * 2, BUTTON_Y);
     new_era_button->setSize(BUTTON_WIDTH, BUTTON_HEIGHT);
     new_era_button->onPress([&]() {
@@ -199,7 +206,7 @@ void screen_handler::game_screen_init() {
     });
 
     auto plus_place_cannon_button = tgui::Button::create();
-    setup_button(plus_place_cannon_button, "../client/resources/pictures/plus_embrasure.png");
+    setup_button(plus_place_cannon_button, "plus_embrasure");
     plus_place_cannon_button->setPosition(BACKGROUND_WIDTH - DELTA_X * 3, BUTTON_Y);
     plus_place_cannon_button->setSize(BUTTON_WIDTH, BUTTON_HEIGHT);
     plus_place_cannon_button->onPress([]() {
@@ -245,7 +252,7 @@ void screen_handler::game_screen_init() {
     }
 
     auto pause_button = tgui::Button::create();
-    setup_button(pause_button, "../client/resources/pictures/settings_icon.png");
+    setup_button(pause_button, "settings_icon");
     pause_button->setPosition(0, FPS_LABEL_HEIGHT);
     pause_button->setSize(BUTTON_WIDTH, BUTTON_HEIGHT);
     pause_button->onPress(
