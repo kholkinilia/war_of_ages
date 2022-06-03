@@ -14,7 +14,6 @@
 
 namespace war_of_ages::client {
 void screen_handler::settings_screen_init() {
-    // TODO: try make this shit more readable and well-formed
     auto settings_screen_group = tgui::Group::create();
 
     tgui::Theme black_theme("../client/resources/tgui_themes/Black.txt");

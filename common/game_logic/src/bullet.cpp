@@ -6,7 +6,6 @@
 
 namespace war_of_ages {
 
-// TODO: maybe move this function somewhere else?
 [[nodiscard]] static bool detect_collision(vec2f pos1, vec2f size1, vec2f pos2, vec2f size2) noexcept {
     /// AABB - AABB collision
     bool collision_x = pos1.x >= pos2.x && pos1.x - size1.x <= pos2.x + size2.x;
