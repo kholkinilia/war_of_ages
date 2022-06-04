@@ -42,7 +42,3 @@ Click on them:
 * boost::asio
 * SQLite3
 
-### How to install
-
-We don't recommend installing it because it may harm your health.
-You are more likely to die than to install it. :(
