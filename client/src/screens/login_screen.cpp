@@ -45,7 +45,7 @@ void screen_handler::login_screen_init() {
     auto login_screen_group = tgui::Group::create();
 
     auto login_box = tgui::EditBox::create();
-    login_box->setInputValidator("[a-zA-Z0-9]{0,20}");
+    login_box->setInputValidator("[a-zA-Z0-9]{0,10}");
     login_box->setTextSize(30);
     login_box->setDefaultText("Логин");
     login_screen_group->add(login_box, "login_box");
