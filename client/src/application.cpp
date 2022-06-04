@@ -319,7 +319,7 @@ void application::update_screens() {
                                 break;
                             }
                         }
-                    }
+                    } break;
                     case messages_type::STATS_RESPONSE: {
                         screen_handler::instance().change_screen(screen_handler::screen_type::STATISTICS);
                         auto panel =
@@ -384,7 +384,7 @@ void application::update_screens() {
                                 ->cast<tgui::Label>()
                                 ->setText(std::to_string(opponent_rating));
                         }
-                    }
+                    } break;
                     default:
                         break;
                 }
