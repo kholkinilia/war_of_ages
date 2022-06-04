@@ -28,7 +28,7 @@ public:
 
     void init_sum_lock_held();
 
-    [[nodiscard]] chat_handler get_chat() const noexcept;
+    [[nodiscard]] chat_handler &get_chat() noexcept;
 
     void update_grid(const tgui::Grid::Ptr &grid);
     void set_tournament(const tournament_snapshot &snapshot);

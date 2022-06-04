@@ -38,7 +38,7 @@ void tournament_handler::leave(const std::string &handle) {
     }
     m_tournament[m_key_by_handle[handle]].remove_participant(handle);
 
-    chat_handler::instance().add_member(m_key_by_handle[handle], handle);
+    chat_handler::instance().remove_member(m_key_by_handle[handle], handle);
     m_key_by_handle.erase(handle);
 }
 

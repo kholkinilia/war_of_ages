@@ -4,6 +4,7 @@
 /TGUI/
 /build/
 /config.txt
+/client/configs/client_config.txt
 
 # Music
 *.wav
