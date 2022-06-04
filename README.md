@@ -44,5 +44,5 @@ Click on them:
 
 ### How to install
 
-We don't recommend you to install it because it may harm your health. 
+We don't recommend installing it because it may harm your health.
 You are more likely to die than to install it. :(
