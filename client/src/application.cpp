@@ -341,7 +341,7 @@ void application::update_screens() {
                             ->setText("Хендл: " + client::instance().get_handle() +
                                       "\t\tРейтинг: " + std::to_string(my_current_rating));
                         std::string opponent_handle;
-                        for (int i = 0; i < 20; ++i) {
+                        for (int i = 0; i < 15; i++) {
                             if (i >= size) {
                                 panel->get("background_" + std::to_string(i))
                                     ->cast<tgui::Panel>()
@@ -351,34 +351,34 @@ void application::update_screens() {
 
                             msg >> rating >> opponent_handle >> opponent_rating >> result;
 
-                            panel->get("background_" + std::to_string(i))
+                            panel->get("background_" + std::to_string(15 - i))
                                 ->cast<tgui::Panel>()
                                 ->setVisible(true);
 
-                            panel->get("background_" + std::to_string(i))
+                            panel->get("background_" + std::to_string(15 - i))
                                 ->cast<tgui::Panel>()
                                 ->getRenderer()
                                 ->setBackgroundColor(result == 0 ? tgui::Color::Red : tgui::Color::Green);
 
-                            panel->get("background_" + std::to_string(i))
+                            panel->get("background_" + std::to_string(15 - i))
                                 ->cast<tgui::Panel>()
                                 ->get("my_handle")
                                 ->cast<tgui::Label>()
                                 ->setText(client::instance().get_handle());
 
-                            panel->get("background_" + std::to_string(i))
+                            panel->get("background_" + std::to_string(15 - i))
                                 ->cast<tgui::Panel>()
                                 ->get("my_rating")
                                 ->cast<tgui::Label>()
                                 ->setText(std::to_string(rating));
 
-                            panel->get("background_" + std::to_string(i))
+                            panel->get("background_" + std::to_string(15 - i))
                                 ->cast<tgui::Panel>()
                                 ->get("opponent_handle")
                                 ->cast<tgui::Label>()
                                 ->setText(opponent_handle);
 
-                            panel->get("background_" + std::to_string(i))
+                            panel->get("background_" + std::to_string(15 - i))
                                 ->cast<tgui::Panel>()
                                 ->get("opponent_rating")
                                 ->cast<tgui::Label>()
