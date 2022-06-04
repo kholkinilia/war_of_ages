@@ -167,7 +167,7 @@ static void setup_buttons_cluster(std::vector<tgui::Group::Ptr> &groups, action 
             default:
                 assert(!"Unreachable code!");
         }
-        groups[i]->add(coin_label, "coin_label");
+        groups[i]->add(coin_label, "coin_label" + std::to_string(i));
     }
 }
 
