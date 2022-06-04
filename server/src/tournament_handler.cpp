@@ -11,34 +11,37 @@ void tournament_handler::create(const std::string &handle, const std::string &to
     std::unique_lock lock(m_mutex);
     std::string key = gen_key();
 
+    chat_handler::instance().create_chat(key);
+    chat_handler::instance().add_member(key, handle);
+
     server_tournament &t = m_tournament[key];
     m_key_by_handle[handle] = key;
     t.set_key(key);
     t.set_name(tournament_name);
     t.add_participant(handle);
-
-    chat_handler::instance().create_chat(key);
-    chat_handler::instance().add_member(key, handle);
 }
 
 void tournament_handler::join(const std::string &handle, const std::string &key) {
     std::unique_lock lock(m_mutex);
+
+    chat_handler::instance().add_member(key, handle);
+
     if (m_tournament.count(key)) {
         m_tournament[key].add_participant(handle);
         m_key_by_handle[handle] = key;
     }
-
-    chat_handler::instance().add_member(key, handle);
 }
 
 void tournament_handler::leave(const std::string &handle) {
     std::unique_lock lock(m_mutex);
+
+    chat_handler::instance().remove_member(m_key_by_handle[handle], handle);
+
     if (m_key_by_handle.count(handle) == 0) {
         return;
     }
     m_tournament[m_key_by_handle[handle]].remove_participant(handle);
 
-    chat_handler::instance().remove_member(m_key_by_handle[handle], handle);
     m_key_by_handle.erase(handle);
 }
 
@@ -60,8 +63,6 @@ std::string tournament_handler::gen_key() {
 
 void tournament_handler::add_result(const std::string &winner, const std::string &loser) {
     std::unique_lock lock(m_mutex);
-    //    std::cerr << "Adding the result: (winner: "<< winner << ", loser: " << loser << ")" << std::endl;
-    //    std::cerr << "Kay of " << winner << ": " << m_key_by_handle[winner] << std::endl;
     m_tournament[m_key_by_handle[winner]].add_result(winner, loser);
 }
 

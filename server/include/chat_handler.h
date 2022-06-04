@@ -20,6 +20,9 @@ public:
 
     void add_member(const std::string &chat_id, const std::string &handle);
     void add_message(const std::string &chat_id, const std::string &handle, const std::string &content);
+    void add_system_message(const std::string &chat_id,
+                            const std::string &system_name,
+                            const std::string &content);
     void remove_member(const std::string &chat_id, const std::string &handle);
 
     static chat_handler &instance();

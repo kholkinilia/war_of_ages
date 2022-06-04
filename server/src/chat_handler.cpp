@@ -25,6 +25,17 @@ void chat_handler::add_message(const std::string &chat_id,
     m_chat.at(chat_id).add_message(handle, content);
 }
 
+void chat_handler::add_system_message(const std::string &chat_id,
+                                      const std::string &system_name,
+                                      const std::string &content) {
+    std::unique_lock lock(m_mutex);
+    if (m_chat.find(chat_id) == m_chat.end()) {
+        std::cerr << "No such chat, moron" << std::endl;
+        return;
+    }
+    m_chat.at(chat_id).add_system_message(system_name, content);
+}
+
 void chat_handler::remove_member(const std::string &chat_id, const std::string &handle) {
     std::unique_lock lock(m_mutex);
     if (m_chat.find(chat_id) == m_chat.end()) {

@@ -10,7 +10,7 @@ struct application {
         MULTIPLAYER,
     };
 
-    enum class multiplayer_handler {
+    enum class multiplayer_state {
         NONE,
         RANDOM,
         ROOM,
@@ -19,16 +19,17 @@ struct application {
 
 private:
     state m_state;
-    multiplayer_handler m_multiplayer_handler = multiplayer_handler::NONE;
+    multiplayer_state m_multiplayer_state = multiplayer_state::NONE;
     void update_screens();
 
 public:
     static void init();
     void run();
     void set_state(state new_state);
+    void set_multiplayer_state(multiplayer_state new_state) noexcept;
 
     [[nodiscard]] state get_state() const noexcept;
-    [[nodiscard]] multiplayer_handler get_multiplayer_handler() const noexcept;
+    [[nodiscard]] multiplayer_state get_multiplayer_state() const noexcept;
 
     [[nodiscard]] static application &instance();
 };

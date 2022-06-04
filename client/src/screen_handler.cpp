@@ -96,6 +96,30 @@ void screen_handler::change_screen(screen_handler::screen_type new_screen) {
     }
     m_screen_stack.push(new_screen);
 
+    // handling multiplayer_state
+
+    switch (new_screen) {
+        case screen_type::TOURNAMENT_MAIN: {
+            application::instance().set_multiplayer_state(application::multiplayer_state::TOURNAMENT);
+        } break;
+        case screen_type::ROOM_SCREEN: {
+            application::instance().set_multiplayer_state(application::multiplayer_state::ROOM);
+        } break;
+        case screen_type::WAIT_OPPONENT: {
+            application::instance().set_multiplayer_state(application::multiplayer_state::RANDOM);
+        } break;
+        case screen_type::TOURNAMENT_JOINING:
+        case screen_type::TOURNAMENT_CREATION:
+        case screen_type::START_SCREEN:
+        case screen_type::MULTIPLAYER: {
+            application::instance().set_multiplayer_state(application::multiplayer_state::NONE);
+        } break;
+        default:
+            break;
+    }
+
+    // handling state
+
     switch (new_screen) {
         case screen_type::GAME_SCREEN: {
             if (prev_screen == screen_type::START_SCREEN) {

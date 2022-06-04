@@ -15,6 +15,7 @@ public:
     explicit chat(std::string chat_id);
 
     void add_message(const std::string &handle, const std::string &content);
+    void add_system_message(const std::string &system_name, const std::string &content);
     void add_member(const std::string &handle);
     void remove_member(const std::string &handle);
 };
