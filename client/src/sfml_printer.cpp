@@ -151,7 +151,7 @@ void sfml_printer::print_game(const std::pair<player_snapshot, player_snapshot> 
                          ->cast<tgui::Group>()
                          ->get("sell_cannon_" + std::to_string(i))
                          ->cast<tgui::Group>()
-                         ->get("coin_label")
+                         ->get("coin_label" + std::to_string(i))
                          ->cast<tgui::Label>();
         if (i < p1.cannons.size()) {
             label->setText('+' + std::to_string(p1.cannons[i].stats().cost / 2));
@@ -221,11 +221,32 @@ void sfml_printer::print_game(const std::pair<player_snapshot, player_snapshot> 
             ->setRenderer(theme.getRenderer(get_renderer(action::BUY_UNIT, i, p1.age)));
         gui.get(screen_handler::screen_id.at(screen_handler::screen_type::GAME_SCREEN))
             ->cast<tgui::Group>()
+            ->get("unit_" + std::to_string(i))
+            ->cast<tgui::Group>()
+            ->get("coin_label" + std::to_string(i))
+            ->cast<tgui::Label>()
+            ->setText(std::to_string(
+                unit::get_stats(
+                    static_cast<unit_type>(static_cast<int>(p1.age) * static_cast<int>(UNITS_PER_AGE) + i))
+                    .cost));
+
+        gui.get(screen_handler::screen_id.at(screen_handler::screen_type::GAME_SCREEN))
+            ->cast<tgui::Group>()
             ->get("cannon_" + std::to_string(i))
             ->cast<tgui::Group>()
             ->get(std::to_string(i))
             ->cast<tgui::Button>()
             ->setRenderer(theme.getRenderer(get_renderer(action::BUY_CANNON, i, p1.age)));
+        gui.get(screen_handler::screen_id.at(screen_handler::screen_type::GAME_SCREEN))
+            ->cast<tgui::Group>()
+            ->get("cannon_" + std::to_string(i))
+            ->cast<tgui::Group>()
+            ->get("coin_label" + std::to_string(i))
+            ->cast<tgui::Label>()
+            ->setText(std::to_string(
+                unit::get_stats(
+                    static_cast<unit_type>(static_cast<int>(p1.age) * static_cast<int>(UNITS_PER_AGE) + i))
+                    .cost));
     }
 
     auto road = sprite_supplier::get_instance().get_road_sprite(p1.age);
