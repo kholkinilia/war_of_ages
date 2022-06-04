@@ -22,12 +22,6 @@ client::client() : client_interface() {
     std::ifstream login_password("../client/configs/client_config.txt");
     std::getline(login_password, m_handle);
     std::getline(login_password, m_password);
-    if (!m_handle.empty()) {
-        if (connect(m_server_ip, m_server_port)) {
-            application::instance().set_state(application::state::MULTIPLAYER);
-            login_or_authorize(true);
-        }
-    }
 }
 
 std::vector<owned_message<messages_type>> client::retrieve_messages() {

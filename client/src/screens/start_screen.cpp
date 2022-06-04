@@ -4,7 +4,6 @@
 // TGUI widgets
 #include <TGUI/Widgets/Button.hpp>
 #include <TGUI/Widgets/Group.hpp>
-#include <fstream>
 #include "../../include/application.h"
 #include "../../include/client.h"
 #include "../../include/sfml_printer.h"
@@ -27,72 +26,29 @@ void screen_handler::start_screen_init() {
     tgui::Button::Ptr multiplayer_button = tgui::Button::create("Мультиплеер");
     multiplayer_button->setTextSize(30);
     multiplayer_button->onPress([&]() {
-        if (!client::instance().get_is_authorized()) {
-            screen_handler::instance().change_screen(screen_handler::screen_type::UNAUTHORIZED_SCREEN);
-        } else {
-            screen_handler::instance().change_screen(screen_handler::screen_type::MULTIPLAYER);
-            application::instance().set_state(application::state::MULTIPLAYER);
+        if (client::instance().get_is_authorized())
+            screen_handler::instance().change_screen(screen_type::MULTIPLAYER);
+        else {
+            if (client::instance().is_connected() ||
+                client::instance().connect(client::instance().get_server_ip(),
+                                           client::instance().get_server_port())) {
+                if (client::instance().get_handle().empty()) {
+                    screen_handler::instance().change_screen(screen_type::LOGIN_OR_AUTHORIZATION);
+                } else {
+                    client::instance().login_or_authorize(true);
+                    screen_handler::instance().change_screen(screen_type::WAITING_FOR_SERVER);
+                }
+            }
         }
     });
     start_screen_group->add(multiplayer_button);
-
-    tgui::Button::Ptr statistics_button = tgui::Button::create("Статистика");
-    statistics_button->setTextSize(30);
-    statistics_button->onPress([&]() {
-        if (!client::instance().get_is_authorized()) {
-            screen_handler::instance().change_screen(screen_handler::screen_type::UNAUTHORIZED_SCREEN);
-        } else {
-            screen_handler::instance().change_screen(screen_handler::screen_type::STATISTICS);
-        }
-    });
-    start_screen_group->add(statistics_button);
 
     tgui::Button::Ptr exit_button = tgui::Button::create("Выйти из приложения");
     exit_button->setTextSize(30);
     exit_button->onPress([]() { sfml_printer::instance().get_window().close(); });
     start_screen_group->add(exit_button);
 
-    auto login_button = tgui::Button::create("Войти в аккаунт");
-    login_button->setTextSize(30);
-    login_button->onPress([&]() {
-        if (client::instance().get_is_authorized())
-            return;
-        application::instance().set_state(application::state::MULTIPLAYER);
-        screen_handler::is_login = true;
-        screen_handler::instance().change_screen(screen_handler::screen_type::LOGIN_OR_AUTHORIZATION);
-    });
-    auto signup_button = tgui::Button::create("Зарегистрироваться");
-    signup_button->setTextSize(30);
-    signup_button->onPress([&]() {
-        if (client::instance().get_is_authorized())
-            return;
-        application::instance().set_state(application::state::MULTIPLAYER);
-        screen_handler::is_login = false;
-        screen_handler::instance().change_screen(screen_handler::screen_type::LOGIN_OR_AUTHORIZATION);
-    });
-    auto sign_out_button = tgui::Button::create("Выйти из аккаунта");
-    sign_out_button->setTextSize(30);
-    sign_out_button->onPress([&]() {
-        if (!client::instance().get_is_authorized())
-            return;
-
-        client::instance().set_is_authorized(false);
-        client::instance().set_handle("");
-        client::instance().set_password("");
-        std::ofstream login_password("../client/configs/client_config.txt");
-        login_password << std::endl;
-        message<messages_type> msg;
-        msg.header.id = messages_type::AUTH_LOGOUT;
-        client::instance().send_message(msg);
-    });
-
-    start_screen_group->add(login_button);
-    start_screen_group->add(signup_button);
-    start_screen_group->add(sign_out_button);
-
-    std::vector<tgui::Widget::Ptr> widgets{singleplayer_button, multiplayer_button, statistics_button,
-                                           login_button,        signup_button,      sign_out_button,
-                                           exit_button};
+    std::vector<tgui::Widget::Ptr> widgets{singleplayer_button, multiplayer_button, exit_button};
     place_widgets(widgets);
 
     tgui::Button::Ptr settings_screen_button = tgui::Button::create();

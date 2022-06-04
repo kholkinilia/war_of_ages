@@ -17,8 +17,6 @@
 namespace war_of_ages::client {
 
 void application::init() {
-    client::instance().clear_messages();  // FIXME: It is here, because otherwise server isn't fast enough to
-                                          // login client and response.
     sprite_supplier::start_reading_Q_table();
     sfml_printer::instance().init();
     screen_handler::instance().init(sfml_printer::instance().get_window());
@@ -98,34 +96,6 @@ void application::update_screens() {
                     case messages_type::AUTH_LOGIN_FAILED: {
                         if (screen_handler::instance().get_screen_type() ==
                             screen_handler::screen_type::LOGIN_OR_AUTHORIZATION) {
-                            screen_handler::instance()
-                                .get_gui()
-                                .get(screen_handler::screen_id.at(
-                                    screen_handler::screen_type::LOGIN_OR_AUTHORIZATION))
-                                ->cast<tgui::Group>()
-                                ->get("wrong_password_label")
-                                ->cast<tgui::Label>()
-                                ->setVisible(true);
-                        } else {
-                            set_state(state::MENU);
-                        }
-                        client::instance().set_is_authorized(false);
-                    } break;
-                    case messages_type::AUTH_REGISTER_FAILED: {
-                        screen_handler::instance()
-                            .get_gui()
-                            .get(screen_handler::screen_id.at(
-                                screen_handler::screen_type::LOGIN_OR_AUTHORIZATION))
-                            ->cast<tgui::Group>()
-                            ->get("existing_name_label")
-                            ->cast<tgui::Label>()
-                            ->setVisible(true);
-                        client::instance().set_is_authorized(false);
-                    } break;
-                    case messages_type::AUTH_LOGIN_SUCCEEDED:
-                    case messages_type::AUTH_REGISTER_SUCCEEDED: {
-                        if (screen_handler::instance().get_screen_type() ==
-                            screen_handler::screen_type::LOGIN_OR_AUTHORIZATION) {
                             screen_handler::instance().change_screen(
                                 screen_handler::screen_type::UNAUTHORIZED_SCREEN);
                             screen_handler::instance()
@@ -135,13 +105,38 @@ void application::update_screens() {
                                 ->cast<tgui::Group>()
                                 ->get("unauthorized_label")
                                 ->cast<tgui::Label>()
-                                ->setText("Вы успешно вошли в сеть");
+                                ->setText("Неверный логин/пароль.");
+                        } else {
+                            screen_handler::instance().change_screen(
+                                screen_handler::screen_type::LOGIN_OR_AUTHORIZATION);
+                            set_state(state::MULTIPLAYER);
+                        }
+                        client::instance().set_is_authorized(false);
+                    } break;
+                    case messages_type::AUTH_REGISTER_FAILED: {
+                        screen_handler::instance().change_screen(
+                            screen_handler::screen_type::UNAUTHORIZED_SCREEN);
+                        screen_handler::instance()
+                            .get_gui()
+                            .get(screen_handler::screen_id.at(
+                                screen_handler::screen_type::UNAUTHORIZED_SCREEN))
+                            ->cast<tgui::Group>()
+                            ->get("unauthorized_label")
+                            ->cast<tgui::Label>()
+                            ->setText("Такое имя уже есть.");
+                        client::instance().set_is_authorized(false);
+                    } break;
+                    case messages_type::AUTH_LOGIN_SUCCEEDED:
+                    case messages_type::AUTH_REGISTER_SUCCEEDED: {
+                        if (screen_handler::instance().get_screen_type() ==
+                            screen_handler::screen_type::LOGIN_OR_AUTHORIZATION) {
                             std::ofstream login_password("../client/configs/client_config.txt");
                             login_password << client::instance().get_handle() << std::endl;
                             login_password << client::instance().get_password();
                         } else {
-                            set_state(state::MENU);
+                            set_state(state::MULTIPLAYER);
                         }
+                        screen_handler::instance().change_screen(screen_handler::screen_type::MULTIPLAYER);
                         client::instance().set_is_authorized(true);
                     } break;
                     case messages_type::GAME_START: {
