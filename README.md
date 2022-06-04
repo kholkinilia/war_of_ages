@@ -45,4 +45,4 @@ Click on them:
 ### How to install
 
 We don't recommend you to install it because it may harm your health. 
-You are more likely to die than installing it. :(
+You are more likely to die than to install it. :(
