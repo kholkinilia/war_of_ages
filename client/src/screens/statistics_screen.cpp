@@ -25,7 +25,7 @@ void screen_handler::statistics_screen_init() {
     auto panel = tgui::ScrollablePanel::create();
     tgui::Panel::Ptr background;
     tgui::Label::Ptr my_handle, my_rating, opponent_handle, opponent_rating;
-    for (int i = 0; i < 15; i++) {
+    for (int i = 0; i < 16; i++) {
         background = tgui::Panel::create({"60%", "10%"});
         my_handle = tgui::Label::create("my_handle");
         my_rating = tgui::Label::create("my_rating");
