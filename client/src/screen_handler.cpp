@@ -102,6 +102,8 @@ void screen_handler::change_screen(screen_handler::screen_type new_screen) {
                 application::instance().set_state(application::state::SINGLE_PLAYER_GAME);
             }
         } break;
+        case screen_type::WAITING_FOR_SERVER:
+        case screen_type::LOGIN_OR_AUTHORIZATION:
         case screen_type::MULTIPLAYER: {
             application::instance().set_state(application::state::MULTIPLAYER);
         } break;
@@ -137,16 +139,6 @@ void screen_handler::change_screen(screen_handler::screen_type new_screen) {
     }
 
     if (new_screen == screen_type::LOGIN_OR_AUTHORIZATION) {
-        m_gui.get(screen_id.at(screen_type::LOGIN_OR_AUTHORIZATION))
-            ->cast<tgui::Group>()
-            ->get("existing_name_label")
-            ->cast<tgui::Label>()
-            ->setVisible(false);
-        m_gui.get(screen_id.at(screen_type::LOGIN_OR_AUTHORIZATION))
-            ->cast<tgui::Group>()
-            ->get("wrong_password_label")
-            ->cast<tgui::Label>()
-            ->setVisible(false);
         m_gui.get(screen_id.at(screen_type::LOGIN_OR_AUTHORIZATION))
             ->cast<tgui::Group>()
             ->get("login_box")

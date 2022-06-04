@@ -74,8 +74,6 @@ private:
 
     screen_handler();
 
-    static inline bool is_login = false;
-
 public:
     void init(sf::RenderWindow &window);
     void change_screen(screen_type new_screen);
