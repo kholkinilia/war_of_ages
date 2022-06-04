@@ -7,8 +7,12 @@
 namespace war_of_ages {
 enum class messages_type {
     AUTH_LOGIN,
+    AUTH_LOGIN_FAILED,
+    AUTH_LOGIN_SUCCEEDED,
     AUTH_LOGOUT,
     AUTH_REGISTER,
+    AUTH_REGISTER_FAILED,
+    AUTH_REGISTER_SUCCEEDED,
     AUTH_ALREADY_USING,
 
     GAME_BUY_UNIT,
@@ -54,8 +58,12 @@ enum class messages_type {
 
 const std::unordered_map<messages_type, std::uint32_t> valid_body_size = {
     {messages_type::AUTH_LOGIN, -1},
+    {messages_type::AUTH_LOGIN_FAILED, -1},
+    {messages_type::AUTH_LOGIN_SUCCEEDED, -1},
     {messages_type::AUTH_LOGOUT, 0},
     {messages_type::AUTH_REGISTER, -1},
+    {messages_type::AUTH_REGISTER_FAILED, -1},
+    {messages_type::AUTH_REGISTER_SUCCEEDED, -1},
     {messages_type::AUTH_ALREADY_USING, 0},
 
     {messages_type::GAME_BUY_UNIT, 1},

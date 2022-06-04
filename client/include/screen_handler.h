@@ -27,7 +27,7 @@ struct screen_handler {
         END_GAME,
         STATISTICS,
         LOGIN_OR_AUTHORIZATION,
-        LOGIN_OR_AUTHORIZATION_CHOICE,
+        UNAUTHORIZED_SCREEN,
         PREVIOUS,  // grandmaster move
         PREVIOUS_MENU,
     };
@@ -45,7 +45,7 @@ struct screen_handler {
         {screen_type::END_GAME, "end_game_screen"},
         {screen_type::STATISTICS, "statistics_screen"},
         {screen_type::LOGIN_OR_AUTHORIZATION, "login_screen"},
-        {screen_type::LOGIN_OR_AUTHORIZATION_CHOICE, "login_choice_screen"}};
+        {screen_type::UNAUTHORIZED_SCREEN, "unauthorized_screen"}};
 
 private:
     tgui::Gui m_gui;
@@ -69,14 +69,14 @@ private:
     void end_game_screen_init();
     void statistics_screen_init();
     void login_screen_init();
-    void login_choice_screen_init();
+    void unauthorized_screen_init();
     void wait_for_server_screen_init();
 
     screen_handler();
 
-public:
-    bool is_from_statistics;
+    static inline bool is_login = false;
 
+public:
     void init(sf::RenderWindow &window);
     void change_screen(screen_type new_screen);
 

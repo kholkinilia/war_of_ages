@@ -30,9 +30,9 @@ void client::clear_messages() {
     get_messages_received().clear();
 }
 
-void client::login() {
+void client::login_or_authorize(bool is_login) {
     message<messages_type> msg;
-    msg.header.id = messages_type::AUTH_LOGIN;
+    msg.header.id = is_login ? messages_type::AUTH_LOGIN : messages_type::AUTH_REGISTER;
     std::unique_lock l(m_mutex_handle_n_password);
     msg.insert_container(m_handle);
     msg.insert_container(m_password);
@@ -73,6 +73,14 @@ std::string client::get_server_ip() const {
 std::uint16_t client::get_server_port() const {
     std::unique_lock l(m_mutex_handle_n_password);
     return m_server_port;
+}
+
+bool client::get_is_authorized() const {
+    return m_is_authorized;
+}
+
+void client::set_is_authorized(bool value) {
+    m_is_authorized = value;
 }
 
 }  // namespace war_of_ages::client

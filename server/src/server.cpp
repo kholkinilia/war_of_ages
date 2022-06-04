@@ -1,6 +1,7 @@
 #include "../include/server.h"
 #include <cassert>
 #include "../include/chat_handler.h"
+#include "../include/database_handler.h"
 #include "../include/game_handler.h"
 #include "../include/random_matchmaker.h"
 #include "../include/room_matchmaker.h"
@@ -107,7 +108,25 @@ void server::on_message(std::shared_ptr<connection<messages_type>> client, messa
 
         //---------------------------
         // TODO: handle login/register attempt
-
+        message<messages_type> response;
+        if (msg.header.id == messages_type::AUTH_LOGIN) {
+            if (!database_handler::get_instance().sign_in(user_handle, user_password)) {
+                response.header.id = messages_type::AUTH_LOGIN_FAILED;
+            } else {
+                response.header.id = messages_type::AUTH_LOGIN_SUCCEEDED;
+            }
+        } else {
+            if (!database_handler::get_instance().registration(user_handle, user_password)) {
+                response.header.id = messages_type::AUTH_REGISTER_FAILED;
+            } else {
+                response.header.id = messages_type::AUTH_REGISTER_SUCCEEDED;
+            }
+        }
+        server_interface::send_message(client, response);
+        if (response.header.id == messages_type::AUTH_REGISTER_FAILED ||
+            response.header.id == messages_type::AUTH_LOGIN_FAILED) {
+            return;
+        }
         //---------------------------
 
         // Success (server logic):
@@ -142,7 +161,8 @@ void server::on_message(std::shared_ptr<connection<messages_type>> client, messa
 
     switch (msg.header.id) {
         case messages_type::AUTH_LOGOUT: {
-            // TODO
+            m_id_by_handle.erase(m_handle_by_id[uid]);
+            m_handle_by_id.erase(uid);
         } break;
         case messages_type::GAME_BUY_UNIT: {
             std::uint8_t unit_lvl;

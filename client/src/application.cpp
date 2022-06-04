@@ -93,8 +93,37 @@ void application::update_screens() {
             for (auto &owned_msg : messages) {
                 auto &msg = owned_msg.msg;
                 switch (msg.header.id) {
-                    case messages_type::AUTH_LOGIN: {
-                        // TODO
+                    case messages_type::AUTH_LOGIN_FAILED: {
+                        screen_handler::instance()
+                        .get_gui()
+                        .get(screen_handler::screen_id.at(screen_handler::screen_type::LOGIN_OR_AUTHORIZATION))
+                        ->cast<tgui::Group>()
+                        ->get("wrong_password_label")
+                        ->cast<tgui::Label>()
+                        ->setVisible(true);
+                        client::instance().set_is_authorized(false);
+                    } break;
+                    case messages_type::AUTH_REGISTER_FAILED: {
+                        screen_handler::instance()
+                        .get_gui()
+                        .get(screen_handler::screen_id.at(screen_handler::screen_type::LOGIN_OR_AUTHORIZATION))
+                        ->cast<tgui::Group>()
+                        ->get("existing_name_label")
+                        ->cast<tgui::Label>()
+                        ->setVisible(true);
+                        client::instance().set_is_authorized(false);
+                    } break;
+                    case messages_type::AUTH_LOGIN_SUCCEEDED:
+                    case messages_type::AUTH_REGISTER_SUCCEEDED: {
+                        screen_handler::instance().change_screen(screen_handler::screen_type::UNAUTHORIZED_SCREEN);
+                        screen_handler::instance()
+                        .get_gui()
+                        .get(screen_handler::screen_id.at(screen_handler::screen_type::UNAUTHORIZED_SCREEN))
+                        ->cast<tgui::Group>()
+                        ->get("unauthorized_label")
+                        ->cast<tgui::Label>()
+                        ->setText("Вы успешно вошли в сеть");
+                        client::instance().set_is_authorized(true);
                     } break;
                     case messages_type::GAME_START: {
                         std::cerr << "GOT GAME_START" << std::endl;

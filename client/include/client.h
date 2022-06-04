@@ -20,7 +20,7 @@ public:
     void clear_messages();
     [[nodiscard]] std::vector<owned_message<messages_type>> retrieve_messages();
 
-    void login();
+    void login_or_authorize(bool is_login);
     void ignore_server();
     void set_handle(std::string handle);
     void set_password(std::string password);
@@ -29,6 +29,8 @@ public:
     [[nodiscard]] std::string get_password() const;
     [[nodiscard]] std::string get_server_ip() const;
     [[nodiscard]] std::uint16_t get_server_port() const;
+    [[nodiscard]] bool get_is_authorized() const;
+    void set_is_authorized(bool value);
 
 private:
     client();
@@ -36,6 +38,7 @@ private:
     std::string m_password;
     std::string m_server_ip;
     std::uint16_t m_server_port;
+    bool m_is_authorized;
     mutable std::mutex m_mutex_handle_n_password;
 };
 

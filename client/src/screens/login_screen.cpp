@@ -11,31 +11,18 @@
 
 namespace war_of_ages::client {
 
-int is_login = -1;
-
-void screen_handler::login_choice_screen_init() {
-    auto login_screen_group = tgui::Group::create();
+void screen_handler::unauthorized_screen_init() {
+    auto unauthorized_screen_group = tgui::Group::create();
     tgui::Theme black_theme("../client/resources/tgui_themes/Black.txt");
 
-    auto login_button = tgui::Button::create("Войти");
-    login_button->setRenderer(black_theme.getRenderer("Button"));
-    login_button->setTextSize(30);
-    login_button->onPress([&]() {
-        screen_handler::instance().change_screen(screen_handler::screen_type::LOGIN_OR_AUTHORIZATION);
-        is_login = 1;
-    });
-    login_screen_group->add(login_button, "login_button");
+    auto unauthorized_label = tgui::Label::create();
+    unauthorized_label->getRenderer()->setTextSize(35);
+    unauthorized_label->setHorizontalAlignment(tgui::Label::HorizontalAlignment::Center);
+    unauthorized_label->getRenderer()->setTextColor(tgui::Color::White);
+    unauthorized_label->setText("Вы не вошли в сеть");
+    unauthorized_screen_group->add(unauthorized_label, "unauthorized_label");
 
-    auto authorization_button = tgui::Button::create("Зарегистрироваться");
-    authorization_button->setRenderer(black_theme.getRenderer("Button"));
-    authorization_button->setTextSize(30);
-    authorization_button->onPress([&]() {
-        screen_handler::instance().change_screen(screen_handler::screen_type::LOGIN_OR_AUTHORIZATION);
-        is_login = 0;
-    });
-    login_screen_group->add(authorization_button, "authorization_button");
-
-    std::vector<tgui::Widget::Ptr> widgets = {login_button, authorization_button};
+    std::vector<tgui::Widget::Ptr> widgets = {unauthorized_label};
     place_widgets(widgets);
 
     auto return_button = tgui::Button::create("В главное меню");
@@ -45,16 +32,16 @@ void screen_handler::login_choice_screen_init() {
         [&]() { screen_handler::instance().change_screen(screen_handler::screen_type::START_SCREEN); });
     return_button->setPosition("30%", "86%");
     return_button->setSize("40%", "10%");
-    login_screen_group->add(return_button, "return_button");
-    m_gui.add(login_screen_group,
-              screen_handler::screen_id.at(screen_handler::screen_type::LOGIN_OR_AUTHORIZATION_CHOICE));
-    m_gui.get(screen_handler::screen_id.at(screen_handler::screen_type::LOGIN_OR_AUTHORIZATION_CHOICE))
+    unauthorized_screen_group->add(return_button, "return_button");
+
+    m_gui.add(unauthorized_screen_group,
+              screen_handler::screen_id.at(screen_handler::screen_type::UNAUTHORIZED_SCREEN));
+    m_gui.get(screen_handler::screen_id.at(screen_handler::screen_type::UNAUTHORIZED_SCREEN))
         ->setVisible(false);
 }
 
 void screen_handler::login_screen_init() {
     auto login_screen_group = tgui::Group::create();
-    tgui::Theme black_theme("../client/resources/tgui_themes/Black.txt");
 
     auto login_box = tgui::EditBox::create();
     login_box->setInputValidator("[a-zA-Z0-9]{0,20}");
@@ -69,15 +56,30 @@ void screen_handler::login_screen_init() {
     login_screen_group->add(password_box, "password_box");
 
     auto send_button = tgui::Button::create("Войти");
-    send_button->setRenderer(black_theme.getRenderer("Button"));
     send_button->setTextSize(30);
     send_button->onPress([&]() {
-        if (is_from_statistics) {
-            screen_handler::instance().change_screen(screen_handler::screen_type::STATISTICS);
-            is_from_statistics = false;
+        client::instance().clear_messages();
+
+        client::instance().set_handle(
+            static_cast<std::string>(m_gui.get(screen_id.at(screen_type::LOGIN_OR_AUTHORIZATION))
+                                         ->cast<tgui::Group>()
+                                         ->get("login_box")
+                                         ->cast<tgui::EditBox>()
+                                         ->getText()));
+        client::instance().set_password(
+            static_cast<std::string>(m_gui.get(screen_id.at(screen_type::LOGIN_OR_AUTHORIZATION))
+                                         ->cast<tgui::Group>()
+                                         ->get("password_box")
+                                         ->cast<tgui::EditBox>()
+                                         ->getText()));
+        client::instance().clear_messages();
+        if (!client::instance().is_connected()) {
+            if (client::instance().connect(client::instance().get_server_ip(),
+                                           client::instance().get_server_port())) {
+                client::instance().login_or_authorize(is_login);
+            }
         } else {
-            screen_handler::instance().change_screen(screen_handler::screen_type::MULTIPLAYER);
-            application::instance().set_state(application::state::MULTIPLAYER);
+            client::instance().login_or_authorize(is_login);
         }
     });
     login_screen_group->add(send_button, "send_button");
@@ -87,7 +89,6 @@ void screen_handler::login_screen_init() {
     existing_name->setHorizontalAlignment(tgui::Label::HorizontalAlignment::Center);
     existing_name->getRenderer()->setTextColor(tgui::Color::White);
     existing_name->setText("Такое имя уже существует");
-    existing_name->setVisible(false);
     login_screen_group->add(existing_name, "existing_name_label");
 
     auto wrong_password = tgui::Label::create();
@@ -95,20 +96,15 @@ void screen_handler::login_screen_init() {
     wrong_password->setHorizontalAlignment(tgui::Label::HorizontalAlignment::Center);
     wrong_password->getRenderer()->setTextColor(tgui::Color::White);
     wrong_password->setText("Неверный логин/пароль");
-    wrong_password->setVisible(false);
     login_screen_group->add(wrong_password, "wrong_password_label");
 
-    std::vector<tgui::Widget::Ptr> widgets = {login_box, password_box, send_button, wrong_password};
+    std::vector<tgui::Widget::Ptr> widgets = {login_box, password_box, send_button, wrong_password, existing_name};
     place_widgets(widgets);
 
-    existing_name->setSize(wrong_password->getSize());
-    existing_name->setPosition(wrong_password->getPosition());
-
     auto return_button = tgui::Button::create("Назад");
-    return_button->setRenderer(black_theme.getRenderer("Button"));
     return_button->setTextSize(30);
     return_button->onPress([&]() {
-        screen_handler::instance().change_screen(screen_handler::screen_type::LOGIN_OR_AUTHORIZATION_CHOICE);
+        screen_handler::instance().change_screen(screen_handler::screen_type::START_SCREEN);
     });
     return_button->setPosition("30%", "86%");
     return_button->setSize("40%", "10%");

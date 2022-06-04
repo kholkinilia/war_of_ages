@@ -34,7 +34,7 @@ void screen_handler::init(sf::RenderWindow &window) {
     wait_for_server_screen_init();
     statistics_screen_init();
     login_screen_init();
-    login_choice_screen_init();
+    unauthorized_screen_init();
 
     //    static chat_handler chat;
     //    chat.show();
@@ -134,6 +134,29 @@ void screen_handler::change_screen(screen_handler::screen_type new_screen) {
             default:
                 break;
         }
+    }
+
+    if (new_screen == screen_type::LOGIN_OR_AUTHORIZATION) {
+        m_gui.get(screen_id.at(screen_type::LOGIN_OR_AUTHORIZATION))
+            ->cast<tgui::Group>()
+            ->get("existing_name_label")
+            ->cast<tgui::Label>()
+            ->setVisible(false);
+        m_gui.get(screen_id.at(screen_type::LOGIN_OR_AUTHORIZATION))
+            ->cast<tgui::Group>()
+            ->get("wrong_password_label")
+            ->cast<tgui::Label>()
+            ->setVisible(false);
+        m_gui.get(screen_id.at(screen_type::LOGIN_OR_AUTHORIZATION))
+        ->cast<tgui::Group>()
+        ->get("login_box")
+        ->cast<tgui::EditBox>()
+        ->setText("");
+        m_gui.get(screen_id.at(screen_type::LOGIN_OR_AUTHORIZATION))
+        ->cast<tgui::Group>()
+        ->get("password_box")
+        ->cast<tgui::EditBox>()
+        ->setText("");
     }
 }
 

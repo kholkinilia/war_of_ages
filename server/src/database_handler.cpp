@@ -156,6 +156,9 @@ std::vector<database_handler::Statistics_game> database_handler::get_statistics(
 }
 
 bool database_handler::registration(const std::string &handle, const std::string &password) {
+    if (handle.empty())
+        return false;
+
     sqlite3 *database = open();
     char *messageError;
 
