@@ -44,5 +44,4 @@ void chat::remove_member(const std::string &handle) {
     m_members.erase(std::find(m_members.begin(), m_members.end(), handle));
 }
 
-
 }  // namespace war_of_ages::server

@@ -19,7 +19,6 @@ void tournament_handler::create(const std::string &handle, const std::string &to
     t.set_key(key);
     t.set_name(tournament_name);
     t.add_participant(handle);
-
 }
 
 void tournament_handler::join(const std::string &handle, const std::string &key) {
