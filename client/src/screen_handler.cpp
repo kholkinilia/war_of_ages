@@ -148,15 +148,15 @@ void screen_handler::change_screen(screen_handler::screen_type new_screen) {
             ->cast<tgui::Label>()
             ->setVisible(false);
         m_gui.get(screen_id.at(screen_type::LOGIN_OR_AUTHORIZATION))
-        ->cast<tgui::Group>()
-        ->get("login_box")
-        ->cast<tgui::EditBox>()
-        ->setText("");
+            ->cast<tgui::Group>()
+            ->get("login_box")
+            ->cast<tgui::EditBox>()
+            ->setText("");
         m_gui.get(screen_id.at(screen_type::LOGIN_OR_AUTHORIZATION))
-        ->cast<tgui::Group>()
-        ->get("password_box")
-        ->cast<tgui::EditBox>()
-        ->setText("");
+            ->cast<tgui::Group>()
+            ->get("password_box")
+            ->cast<tgui::EditBox>()
+            ->setText("");
     }
 }
 

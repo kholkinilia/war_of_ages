@@ -54,7 +54,7 @@ void screen_handler::start_screen_init() {
     auto login_button = tgui::Button::create("Войти в аккаунт");
     login_button->setTextSize(30);
     login_button->onPress([&]() {
-        if(client::instance().get_is_authorized())
+        if (client::instance().get_is_authorized())
             return;
         application::instance().set_state(application::state::MULTIPLAYER);
         screen_handler::is_login = true;
@@ -63,7 +63,7 @@ void screen_handler::start_screen_init() {
     auto signup_button = tgui::Button::create("Зарегистрироваться");
     signup_button->setTextSize(30);
     signup_button->onPress([&]() {
-        if(client::instance().get_is_authorized())
+        if (client::instance().get_is_authorized())
             return;
         application::instance().set_state(application::state::MULTIPLAYER);
         screen_handler::is_login = false;
@@ -72,7 +72,8 @@ void screen_handler::start_screen_init() {
     auto sign_out_button = tgui::Button::create("Выйти из аккаунта");
     sign_out_button->setTextSize(30);
     sign_out_button->onPress([&]() {
-        if(!client::instance().get_is_authorized()) return;
+        if (!client::instance().get_is_authorized())
+            return;
 
         client::instance().set_is_authorized(false);
         client::instance().disconnect();
@@ -88,7 +89,8 @@ void screen_handler::start_screen_init() {
     start_screen_group->add(sign_out_button);
 
     std::vector<tgui::Widget::Ptr> widgets{singleplayer_button, multiplayer_button, statistics_button,
-                                           login_button, signup_button, sign_out_button, exit_button};
+                                           login_button,        signup_button,      sign_out_button,
+                                           exit_button};
     place_widgets(widgets);
 
     tgui::Button::Ptr settings_screen_button = tgui::Button::create();
