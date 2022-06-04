@@ -16,7 +16,6 @@ private:
     chat_handler() = default;
 
 public:
-
     void create_chat(const std::string &chat_id);
 
     void add_member(const std::string &chat_id, const std::string &handle);
