@@ -84,5 +84,11 @@ bool client::get_is_authorized() const {
 void client::set_is_authorized(bool value) {
     m_is_authorized = value;
 }
+void client::ask_for_stats() {
+    message<messages_type> msg;
+    msg.header.id = messages_type::STATS_GET;
+    std::unique_lock l(m_mutex_stats);
+    send_message(msg);
+}
 
 }  // namespace war_of_ages::client

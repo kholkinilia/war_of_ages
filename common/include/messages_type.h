@@ -30,6 +30,9 @@ enum class messages_type {
     RANDOMGAME_JOIN,
     RANDOMGAME_LEAVE,
 
+    STATS_GET,
+    STATS_RESPONSE,
+
     // Client -> Server
     ROOM_JOIN,
     ROOM_LEAVE,
@@ -80,6 +83,9 @@ const std::unordered_map<messages_type, std::uint32_t> valid_body_size = {
 
     {messages_type::RANDOMGAME_JOIN, 0},
     {messages_type::RANDOMGAME_LEAVE, 0},
+
+    {messages_type::STATS_GET, -1},
+    {messages_type::STATS_RESPONSE, -1},
 
     {messages_type::ROOM_JOIN, -1},
     {messages_type::ROOM_LEAVE, 0},

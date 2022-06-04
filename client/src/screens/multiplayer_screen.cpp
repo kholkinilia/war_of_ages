@@ -47,8 +47,10 @@ void screen_handler::multiplayer_screen_init() {
 
     tgui::Button::Ptr statistics_button = tgui::Button::create("Статистика");
     statistics_button->setTextSize(30);
-    statistics_button->onPress(
-        [&]() { screen_handler::instance().change_screen(screen_handler::screen_type::STATISTICS); });
+    statistics_button->onPress([&]() {
+        client::instance().ask_for_stats();
+        screen_handler::instance().change_screen(screen_handler::screen_type::WAITING_FOR_SERVER);
+    });
     multiplayer_screen_group->add(statistics_button);
 
     tgui::Button::Ptr return_back_button = tgui::Button::create("Назад");
