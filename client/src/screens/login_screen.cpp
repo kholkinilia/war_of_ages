@@ -61,6 +61,8 @@ void screen_handler::login_screen_init() {
     make_visible_button->setSize("5.625%", "10%");
     make_visible_button->setPosition("64.375%", "30%");
     make_visible_button->getRenderer()->setTexture("../client/resources/menu/visible.png");
+    make_visible_button->getRenderer()->setTextureHover("../client/resources/menu/visible.png");
+    make_visible_button->getRenderer()->setTextureFocused("../client/resources/menu/visible.png");
     make_visible_button->onPress([&]() {
         auto button = screen_handler::instance()
                           .get_gui()
@@ -79,6 +81,22 @@ void screen_handler::login_screen_init() {
                 ->cast<tgui::Button>()
                 ->getRenderer()
                 ->setTexture("../client/resources/menu/invisible.png");
+            screen_handler::instance()
+                .get_gui()
+                .get(screen_id.at(screen_type::LOGIN_OR_AUTHORIZATION))
+                ->cast<tgui::Group>()
+                ->get("visibility_button")
+                ->cast<tgui::Button>()
+                ->getRenderer()
+                ->setTextureHover("../client/resources/menu/invisible.png");
+            screen_handler::instance()
+                .get_gui()
+                .get(screen_id.at(screen_type::LOGIN_OR_AUTHORIZATION))
+                ->cast<tgui::Group>()
+                ->get("visibility_button")
+                ->cast<tgui::Button>()
+                ->getRenderer()
+                ->setTextureFocused("../client/resources/menu/invisible.png");
         } else {
             button->setPasswordCharacter('*');
 
@@ -90,6 +108,22 @@ void screen_handler::login_screen_init() {
                 ->cast<tgui::Button>()
                 ->getRenderer()
                 ->setTexture("../client/resources/menu/visible.png");
+            screen_handler::instance()
+                .get_gui()
+                .get(screen_id.at(screen_type::LOGIN_OR_AUTHORIZATION))
+                ->cast<tgui::Group>()
+                ->get("visibility_button")
+                ->cast<tgui::Button>()
+                ->getRenderer()
+                ->setTextureHover("../client/resources/menu/visible.png");
+            screen_handler::instance()
+                .get_gui()
+                .get(screen_id.at(screen_type::LOGIN_OR_AUTHORIZATION))
+                ->cast<tgui::Group>()
+                ->get("visibility_button")
+                ->cast<tgui::Button>()
+                ->getRenderer()
+                ->setTextureFocused("../client/resources/menu/visible.png");
         }
         button->setText(button->getText());
     });
