@@ -73,7 +73,8 @@ void screen_handler::statistics_screen_init() {
     return_button->setPosition("30%", "86%");
     return_button->setSize("40%", "10%");
     statistics_screen_group->add(return_button, "return_button");
-    m_gui.add(statistics_screen_group, screen_handler::screen_id.at(screen_handler::screen_type::PREVIOUS_MENU));
+    m_gui.add(statistics_screen_group,
+              screen_handler::screen_id.at(screen_handler::screen_type::PREVIOUS_MENU));
     m_gui.get(screen_handler::screen_id.at(screen_handler::screen_type::STATISTICS))->setVisible(false);
 }
 }  // namespace war_of_ages::client
