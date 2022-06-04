@@ -38,8 +38,8 @@ application::state application::get_state() const noexcept {
     return m_state;
 }
 
-application::multiplayer_handler application::get_multiplayer_handler() const noexcept {
-    return m_multiplayer_handler;
+application::multiplayer_state application::get_multiplayer_state() const noexcept {
+    return m_multiplayer_state;
 }
 
 application &application::instance() {
@@ -169,7 +169,7 @@ void application::update_screens() {
                             ->get<tgui::Label>("result_label")
                             ->setText(we_won ? "Поздравляем, Вы победили!"
                                              : "Вы проиграли, повезет в следующий раз");
-                        if (m_multiplayer_handler == multiplayer_handler::ROOM) {
+                        if (m_multiplayer_state == multiplayer_state::ROOM) {
                             room_handler::instance().change_my_status(room_handler::player_status::NOT_READY);
                             room_handler::instance().change_enemy_status(
                                 room_handler::player_status::NOT_READY);
@@ -187,7 +187,7 @@ void application::update_screens() {
                             ->get<tgui::Label>("result_label")
                             ->setText(we_won ? "Поздравляем, Вы победили!\nСоперник сдался :)"
                                              : "Вы проиграли, повезет в следующий раз\nВы сдались :(");
-                        if (m_multiplayer_handler == multiplayer_handler::ROOM) {
+                        if (m_multiplayer_state == multiplayer_state::ROOM) {
                             room_handler::instance().change_my_status(room_handler::player_status::NOT_READY);
                             room_handler::instance().change_enemy_status(
                                 room_handler::player_status::NOT_READY);
@@ -205,7 +205,7 @@ void application::update_screens() {
                                 screen_handler::screen_id.at(screen_handler::screen_type::END_GAME))
                             ->get<tgui::Label>("result_label")
                             ->setText("Поздравляем, Вы победили!\nСоперник потерял соединение");
-                        if (m_multiplayer_handler == multiplayer_handler::ROOM) {
+                        if (m_multiplayer_state == multiplayer_state::ROOM) {
                             room_handler::instance().change_my_status(room_handler::player_status::NOT_READY);
                             room_handler::instance().change_enemy_status(
                                 room_handler::player_status::NOT_READY);
@@ -248,7 +248,6 @@ void application::update_screens() {
                                 enemy_rate});
                         }
                         screen_handler::instance().change_screen(screen_handler::screen_type::ROOM_SCREEN);
-                        m_multiplayer_handler = multiplayer_handler::ROOM;
                     } break;
                     case messages_type::ROOM_ENEMY_JOINED: {
                         std::cout << "got ROOM_ENEMY_JOINED" << std::endl;
@@ -266,7 +265,6 @@ void application::update_screens() {
                         std::cout << "GOT ROOM_LEAVE_SUCCESS" << std::endl;
                         room_handler::instance().update_enemy(std::nullopt);
                         screen_handler::instance().change_screen(screen_handler::screen_type::PREVIOUS_MENU);
-                        m_multiplayer_handler = multiplayer_handler::NONE;
                     } break;
                     case messages_type::ROOM_ENEMY_LEAVED: {
                         std::cout << "GOT ROOM_ENEMY_LEAVED" << std::endl;
@@ -310,10 +308,8 @@ void application::update_screens() {
                         tournament_handler::instance().match_participants(handle1, handle2);
                     } break;
                     case messages_type::CHAT_NEW_MESSAGE: {
-                        switch (screen_handler::instance().get_screen_type()) {
-                            case screen_handler::screen_type::TOURNAMENT_MAIN: {  // FIXME: change to
-                                                                                  // application state when
-                                                                                  // implemented by Vakhtang
+                        switch (m_multiplayer_state) {
+                            case multiplayer_state::TOURNAMENT: {
                                 std::string chat_id, handle, content;
                                 msg >> content >> handle >> chat_id;
                                 tournament_handler::instance().get_chat().add_message(handle, content);
@@ -352,6 +348,10 @@ void application::update_screens() {
         default:
             assert(!"Unreachable code!");
     }
+}
+
+void application::set_multiplayer_state(application::multiplayer_state new_state) noexcept {
+    m_multiplayer_state = new_state;
 }
 
 }  // namespace war_of_ages::client
