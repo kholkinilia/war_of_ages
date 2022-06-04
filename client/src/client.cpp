@@ -1,6 +1,7 @@
 #include "../include/client.h"
 #include <fstream>
 #include <iostream>
+#include "../include/application.h"
 #include "../include/bot_actions_supplier.h"
 
 namespace war_of_ages::client {
@@ -18,8 +19,15 @@ client::client() : client_interface() {
     std::getline(file, server_port_string);
     m_server_port = std::stoi(server_port_string);
 
-    std::getline(file, m_handle);
-    std::getline(file, m_password);
+    std::ifstream login_password("../client/configs/client_config.txt");
+    std::getline(login_password, m_handle);
+    std::getline(login_password, m_password);
+    if (!m_handle.empty()) {
+        if (connect(m_server_ip, m_server_port)) {
+            application::instance().set_state(application::state::MULTIPLAYER);
+            login_or_authorize(true);
+        }
+    }
 }
 
 std::vector<owned_message<messages_type>> client::retrieve_messages() {

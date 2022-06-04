@@ -1,4 +1,5 @@
 #include "../include/game.h"
+#include "../include/database_handler.h"
 #include "../include/game_handler.h"
 #include "../include/server.h"
 
@@ -134,6 +135,8 @@ void game::finish_game() {
     server::instance().send_message(winner, msg_winner);
     server::instance().send_message(loser, msg_loser);
     m_game_post_action(winner, loser);
+
+    database_handler::get_instance().add_game(database_handler::Result::WIN, winner, loser);
 }
 
 }  // namespace war_of_ages::server
