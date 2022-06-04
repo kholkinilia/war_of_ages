@@ -96,7 +96,8 @@ void application::update_screens() {
                     case messages_type::AUTH_LOGIN_FAILED: {
                         if (screen_handler::instance().get_screen_type() ==
                             screen_handler::screen_type::LOGIN_OR_AUTHORIZATION) {
-                            screen_handler::instance().change_screen(screen_handler::screen_type::UNAUTHORIZED_SCREEN);
+                            screen_handler::instance().change_screen(
+                                screen_handler::screen_type::UNAUTHORIZED_SCREEN);
                             screen_handler::instance()
                                 .get_gui()
                                 .get(screen_handler::screen_id.at(
@@ -106,17 +107,19 @@ void application::update_screens() {
                                 ->cast<tgui::Label>()
                                 ->setText("Неверный логин/пароль.");
                         } else {
-                            screen_handler::instance().change_screen(screen_handler::screen_type::LOGIN_OR_AUTHORIZATION);
+                            screen_handler::instance().change_screen(
+                                screen_handler::screen_type::LOGIN_OR_AUTHORIZATION);
                             set_state(state::MULTIPLAYER);
                         }
                         client::instance().set_is_authorized(false);
                     } break;
                     case messages_type::AUTH_REGISTER_FAILED: {
-                        screen_handler::instance().change_screen(screen_handler::screen_type::UNAUTHORIZED_SCREEN);
+                        screen_handler::instance().change_screen(
+                            screen_handler::screen_type::UNAUTHORIZED_SCREEN);
                         screen_handler::instance()
-                        .get_gui()
-                        .get(screen_handler::screen_id.at(
-                            screen_handler::screen_type::UNAUTHORIZED_SCREEN))
+                            .get_gui()
+                            .get(screen_handler::screen_id.at(
+                                screen_handler::screen_type::UNAUTHORIZED_SCREEN))
                             ->cast<tgui::Group>()
                             ->get("unauthorized_label")
                             ->cast<tgui::Label>()
@@ -133,8 +136,7 @@ void application::update_screens() {
                         } else {
                             set_state(state::MULTIPLAYER);
                         }
-                        screen_handler::instance().change_screen(
-                            screen_handler::screen_type::MULTIPLAYER);
+                        screen_handler::instance().change_screen(screen_handler::screen_type::MULTIPLAYER);
                         client::instance().set_is_authorized(true);
                     } break;
                     case messages_type::GAME_START: {

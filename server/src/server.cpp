@@ -161,7 +161,6 @@ void server::on_message(std::shared_ptr<connection<messages_type>> client, messa
 
     switch (msg.header.id) {
         case messages_type::AUTH_LOGOUT: {
-
         } break;
         case messages_type::GAME_BUY_UNIT: {
             std::uint8_t unit_lvl;
