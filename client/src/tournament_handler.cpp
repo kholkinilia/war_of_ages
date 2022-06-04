@@ -143,8 +143,6 @@ void tournament_handler::post_match_participants(const std::string &handle1, con
 
 void tournament_handler::set_tournament(const tournament_snapshot &snapshot) {
     std::unique_lock lock(m_mutex);
-    std::cerr << "Creating tournament" << std::endl;
-    std::cerr << snapshot.name << std::endl;
     m_name = snapshot.name;
     screen_handler::instance()
         .get_gui()
@@ -153,7 +151,6 @@ void tournament_handler::set_tournament(const tournament_snapshot &snapshot) {
         ->get("tournament_name")
         ->cast<tgui::Label>()
         ->setText("Название: " + m_name);
-    std::cerr << snapshot.key << std::endl;
     m_key = snapshot.key;
     auto key_box = screen_handler::instance()
                        .get_gui()
@@ -164,32 +161,10 @@ void tournament_handler::set_tournament(const tournament_snapshot &snapshot) {
     key_box->setReadOnly(false);
     key_box->setText(m_key);
     key_box->setReadOnly(true);
-    //    std::cerr << "participants" << std::endl;
     m_participants = snapshot.participants;
-    //    std::cerr << "match results" << std::endl;
     m_match_results = snapshot.match_results;
 
     chat.set_chat_id(m_key);
-
-    //    std::cerr << "fully copied" << std::endl;
-
-    //    int n = m_participants.size();
-
-    //    for (int i = 0; i < n; i++) {
-    //        std::cerr << i << ": " << m_participants[i] << "\n";
-    //    }
-
-    //    std::cerr << "match size: " << m_match_results.size() << "\n";
-
-    //    for (int i = 0; i < m_match_results.size(); i++) {
-    //        for (int j = 0; j < m_match_results[i].size(); j++) {
-    //            std::cerr << "(" << i << ", " << j << "): ";
-    //            std::cerr << (int)m_match_results[i][j] << " ";
-    //        }
-    //        std::cerr << "\n";
-    //    }
-
-    //    std::cerr << "print ended\n";
 
     init_sum_lock_held();
     update_places_lock_held();
@@ -211,7 +186,7 @@ void tournament_handler::init_sum_lock_held() {
     }
 }
 
-chat_handler tournament_handler::get_chat() const noexcept {
+chat_handler &tournament_handler::get_chat() noexcept {
     return chat;
 }
 

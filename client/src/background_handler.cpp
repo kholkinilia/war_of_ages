@@ -14,13 +14,15 @@ background_handler::background_handler() {
     m_layout_position.resize(GRID_DIM_SIZE, std::vector<sf::Vector2<float>>(GRID_DIM_SIZE));
     for (int i = 0; i < GRID_DIM_SIZE; i++) {
         for (int j = 0; j < GRID_DIM_SIZE; j++) {
-            m_layout_position[i][j] = {1.f * i * PIECE_WIDTH, 1.f * j * PIECE_HEIGHT};
+            m_layout_position[i][j] = {static_cast<float>(i * PIECE_WIDTH),
+                                       static_cast<float>(j * PIECE_HEIGHT)};
         }
     }
     m_buffer_position.resize(GRID_DIM_SIZE, std::vector<sf::Vector2<float>>(GRID_DIM_SIZE));
     for (int i = 0; i < GRID_DIM_SIZE; i++) {
         for (int j = 0; j < GRID_DIM_SIZE; j++) {
-            m_buffer_position[i][j] = {1.f * i * PIECE_WIDTH, SCREEN_HEIGHT + 1.f * j * PIECE_HEIGHT};
+            m_buffer_position[i][j] = {static_cast<float>(i * PIECE_WIDTH),
+                                       static_cast<float>(SCREEN_HEIGHT + j * PIECE_HEIGHT)};
         }
     }
     change_layout(m_buffer_layout);
@@ -70,15 +72,18 @@ void background_handler::start_animation() {
     for (int i = 0; i < GRID_DIM_SIZE; i++) {
         for (int j = 0; j < GRID_DIM_SIZE; j++) {
             m_buffer_layout[i][j] = get_rand_piece();
-            m_buffer_position[i][j] = {1.f * i * PIECE_WIDTH, 1.f * SCREEN_HEIGHT + j * SCREEN_HEIGHT};
-            m_layout_position[i][j] = {1.f * i * PIECE_WIDTH, 1.f * j * SCREEN_HEIGHT};
+            m_buffer_position[i][j] = {static_cast<float>(i * PIECE_WIDTH),
+                                       static_cast<float>(SCREEN_HEIGHT + j * SCREEN_HEIGHT)};
+            m_layout_position[i][j] = {static_cast<float>(i * PIECE_WIDTH),
+                                       static_cast<float>(j * SCREEN_HEIGHT)};
         }
     }
 }
 
 std::size_t background_handler::get_rand_piece() noexcept {
     static std::mt19937 rnd(clock());
-    return rnd() % NUMBER_OF_PIECES;
+    static std::uniform_int_distribution<> distribution(0, NUMBER_OF_PIECES - 1);
+    return distribution(rnd);
 }
 
 void background_handler::update_animation(float time) {
@@ -91,8 +96,10 @@ void background_handler::update_animation(float time) {
         m_current_layout = m_buffer_layout;
         for (int i = 0; i < GRID_DIM_SIZE; i++) {
             for (int j = 0; j < GRID_DIM_SIZE; j++) {
-                m_layout_position[i][j] = {1.f * i * PIECE_WIDTH, 1.f * j * PIECE_HEIGHT};
-                m_buffer_position[i][j] = {1.f * i * PIECE_WIDTH, 1.f * SCREEN_HEIGHT + j * PIECE_HEIGHT};
+                m_layout_position[i][j] = {static_cast<float>(i * PIECE_WIDTH),
+                                           static_cast<float>(j * PIECE_HEIGHT)};
+                m_buffer_position[i][j] = {static_cast<float>(i * PIECE_WIDTH),
+                                           static_cast<float>(SCREEN_HEIGHT + j * PIECE_HEIGHT)};
             }
         }
         return;

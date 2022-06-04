@@ -16,11 +16,6 @@ private:
     chat_handler() = default;
 
 public:
-    chat_handler(const chat_handler &) = delete;
-    chat_handler(chat_handler &&) = delete;
-    chat_handler &operator=(const chat_handler &) = delete;
-    chat_handler &operator=(chat_handler &&) = delete;
-    ~chat_handler() = default;
 
     void create_chat(const std::string &chat_id);
 
