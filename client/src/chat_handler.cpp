@@ -19,6 +19,11 @@ chat_handler::chat_handler() : m_used_colors(COLORS.size(), false) {
     m_chat_box->setPosition("0%", "0%");
     m_chat_box->setSize("100%", "80%");
 
+    tgui::Texture t;
+    t.load("../client/resources/pictures/chat_background.png");
+    m_chat_box->getRenderer()->setTextureBackground(t);
+    m_chat_box->setTextStyle(sf::Text::Bold);
+
     m_edit_box = tgui::EditBox::create();
     m_edit_box->setDefaultText("шитпостите на здоровье...");
     m_edit_box->setPosition("10%", "80%");

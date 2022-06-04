@@ -18,7 +18,7 @@ static void setup_button(tgui::Button::Ptr &button, std::string name = "") {
     auto &theme = screen_handler::instance().get_theme_buttons();
 
     if (!name.empty()) {
-        button->setRenderer(theme.getRenderer(std::move(name)));
+        button->setRenderer(theme.getRenderer(name));
     }
     button->getRenderer()->setBorders(0);
 }
