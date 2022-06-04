@@ -16,6 +16,9 @@
   <a href="https://github.com/kholkinilya/war_of_ages/blob/main/LICENSE">
     <img src="https://img.shields.io/github/license/kholkinilya/war_of_ages?style=flat-square">
   </a>
+  <a href="https://www.google.com/search?q=%D0%BA%D0%BE%D1%82%D1%8F%D1%82%D0%B0+%D0%B2+%D0%BA%D0%BE%D1%80%D0%B7%D0%B8%D0%BD%D0%BA%D0%B5&sxsrf=ALiCzsYMkSzTyIJ_FxOqX7Auo69DxZ0BPA:1654372913022&source=lnms&tbm=isch&sa=X&ved=2ahUKEwiq4rmuy5T4AhVLBxAIHUppCc8Q_AUoAXoECAEQAw&biw=1536&bih=714&dpr=1.25">
+    <img src="https://img.shields.io/github/commit-activity/y/kholkinilya/war_of_ages">
+  </a>
 </p>
 
 ### Features
@@ -38,3 +41,8 @@ Click on them:
 * TGUI
 * boost::asio
 * SQLite3
+
+### How to install
+
+We don't recommend you to install it because it may harm your health. 
+You are most likely to die than installing it. :(
