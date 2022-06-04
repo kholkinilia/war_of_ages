@@ -24,6 +24,7 @@ public:
     void ignore_server();
     void set_handle(std::string handle);
     void set_password(std::string password);
+    void ask_for_stats();
 
     [[nodiscard]] std::string get_handle() const;
     [[nodiscard]] std::string get_password() const;
@@ -40,6 +41,7 @@ private:
     std::uint16_t m_server_port;
     bool m_is_authorized;
     mutable std::mutex m_mutex_handle_n_password;
+    mutable std::mutex m_mutex_stats;
 };
 
 }  // namespace war_of_ages::client

@@ -161,7 +161,6 @@ void server::on_message(std::shared_ptr<connection<messages_type>> client, messa
 
     switch (msg.header.id) {
         case messages_type::AUTH_LOGOUT: {
-
         } break;
         case messages_type::GAME_BUY_UNIT: {
             std::uint8_t unit_lvl;
@@ -246,6 +245,18 @@ void server::on_message(std::shared_ptr<connection<messages_type>> client, messa
             std::string chat_id, content;
             msg >> content >> chat_id;
             chat_handler::instance().add_message(chat_id, handle, content);
+        }
+        case messages_type::STATS_GET: {
+            message<messages_type> message;
+            message.header.id = messages_type::STATS_RESPONSE;
+            auto statistics = database_handler::get_instance().get_statistics(handle);
+            for (const auto &game : statistics) {
+                message << static_cast<int8_t>(game.result) << static_cast<int16_t>(game.opponent_rating)
+                        << game.opponent_handle << static_cast<int16_t>(game.rating);
+            }
+            message << static_cast<int16_t>(database_handler::get_instance().get_rating(handle));
+            message << static_cast<int16_t>(statistics.size());
+            send_message(handle, message);
         }
         default:
             break;

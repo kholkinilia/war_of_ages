@@ -10,14 +10,14 @@ const int INITIAL_RATING = 100;
 
 struct database_handler {
 public:
-    enum class Result { LOSE, WIN };
+    enum class Result : std::int8_t { LOSE, WIN };
 
     struct Statistics_game {
         std::string opponent_handle;
-        int opponent_rating, rating;
+        std::int16_t opponent_rating, rating;
         Result result;
 
-        Statistics_game(std::string handle, int rating_, int opponent_rating_, Result res)
+        Statistics_game(std::string handle, int16_t rating_, int16_t opponent_rating_, Result res)
             : opponent_handle(std::move(handle)),
               opponent_rating(opponent_rating_),
               rating(rating_),

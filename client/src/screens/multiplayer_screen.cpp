@@ -48,7 +48,8 @@ void screen_handler::multiplayer_screen_init() {
     tgui::Button::Ptr statistics_button = tgui::Button::create("Статистика");
     statistics_button->setTextSize(30);
     statistics_button->onPress([&]() {
-        screen_handler::instance().change_screen(screen_handler::screen_type::STATISTICS);
+        client::instance().ask_for_stats();
+        screen_handler::instance().change_screen(screen_handler::screen_type::WAITING_FOR_SERVER);
     });
     multiplayer_screen_group->add(statistics_button);
 
@@ -57,8 +58,8 @@ void screen_handler::multiplayer_screen_init() {
     return_back_button->onPress([&]() { change_screen(screen_type::START_SCREEN); });
     multiplayer_screen_group->add(return_back_button);
 
-    std::vector<tgui::Widget::Ptr> widgets{random_game_button, room_id_editbox, join_room_button,
-                                           tournament_button, statistics_button, return_back_button};
+    std::vector<tgui::Widget::Ptr> widgets{random_game_button, room_id_editbox,   join_room_button,
+                                           tournament_button,  statistics_button, return_back_button};
 
     place_widgets(widgets);
     m_gui.add(multiplayer_screen_group, screen_id.at(screen_type::MULTIPLAYER));

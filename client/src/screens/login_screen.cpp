@@ -54,7 +54,46 @@ void screen_handler::login_screen_init() {
     password_box->setInputValidator("[a-zA-Z0-9]{0,20}");
     password_box->setTextSize(30);
     password_box->setDefaultText("Пароль");
+    password_box->setPasswordCharacter('*');
     login_screen_group->add(password_box, "password_box");
+
+    auto make_visible_button = tgui::Button::create();
+    make_visible_button->setSize("5.625%", "10%");
+    make_visible_button->setPosition("64.375%", "30%");
+    make_visible_button->getRenderer()->setTexture("../client/resources/menu/visible.png");
+    make_visible_button->onPress([&]() {
+        auto button = screen_handler::instance()
+                          .get_gui()
+                          .get(screen_id.at(screen_type::LOGIN_OR_AUTHORIZATION))
+                          ->cast<tgui::Group>()
+                          ->get("password_box")
+                          ->cast<tgui::EditBox>();
+        if (button->getPasswordCharacter() == '*') {
+            button->setPasswordCharacter('\0');
+
+            screen_handler::instance()
+                .get_gui()
+                .get(screen_id.at(screen_type::LOGIN_OR_AUTHORIZATION))
+                ->cast<tgui::Group>()
+                ->get("visibility_button")
+                ->cast<tgui::Button>()
+                ->getRenderer()
+                ->setTexture("../client/resources/menu/invisible.png");
+        } else {
+            button->setPasswordCharacter('*');
+
+            screen_handler::instance()
+            .get_gui()
+            .get(screen_id.at(screen_type::LOGIN_OR_AUTHORIZATION))
+            ->cast<tgui::Group>()
+            ->get("visibility_button")
+            ->cast<tgui::Button>()
+            ->getRenderer()
+            ->setTexture("../client/resources/menu/visible.png");
+        }
+        button->setText(button->getText());
+    });
+    login_screen_group->add(make_visible_button, "visibility_button");
 
     auto login_or_authorization = [](bool is_login) {
         client::instance().clear_messages();
@@ -94,6 +133,7 @@ void screen_handler::login_screen_init() {
     auto signup_button = tgui::Button::create("Зарегистрироваться");
     signup_button->setTextSize(30);
     signup_button->onPress([&]() { login_or_authorization(false); });
+    login_screen_group->add(signup_button, "login_button");
 
     auto return_button = tgui::Button::create("Назад");
     return_button->setTextSize(30);

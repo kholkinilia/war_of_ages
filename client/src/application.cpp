@@ -13,6 +13,7 @@
 // TGUI widgets
 #include <TGUI/Widgets/Group.hpp>
 #include <TGUI/Widgets/Label.hpp>
+#include <TGUI/Widgets/ScrollablePanel.hpp>
 
 namespace war_of_ages::client {
 
@@ -96,7 +97,8 @@ void application::update_screens() {
                     case messages_type::AUTH_LOGIN_FAILED: {
                         if (screen_handler::instance().get_screen_type() ==
                             screen_handler::screen_type::LOGIN_OR_AUTHORIZATION) {
-                            screen_handler::instance().change_screen(screen_handler::screen_type::UNAUTHORIZED_SCREEN);
+                            screen_handler::instance().change_screen(
+                                screen_handler::screen_type::UNAUTHORIZED_SCREEN);
                             screen_handler::instance()
                                 .get_gui()
                                 .get(screen_handler::screen_id.at(
@@ -106,17 +108,19 @@ void application::update_screens() {
                                 ->cast<tgui::Label>()
                                 ->setText("Неверный логин/пароль.");
                         } else {
-                            screen_handler::instance().change_screen(screen_handler::screen_type::LOGIN_OR_AUTHORIZATION);
+                            screen_handler::instance().change_screen(
+                                screen_handler::screen_type::LOGIN_OR_AUTHORIZATION);
                             set_state(state::MULTIPLAYER);
                         }
                         client::instance().set_is_authorized(false);
                     } break;
                     case messages_type::AUTH_REGISTER_FAILED: {
-                        screen_handler::instance().change_screen(screen_handler::screen_type::UNAUTHORIZED_SCREEN);
+                        screen_handler::instance().change_screen(
+                            screen_handler::screen_type::UNAUTHORIZED_SCREEN);
                         screen_handler::instance()
-                        .get_gui()
-                        .get(screen_handler::screen_id.at(
-                            screen_handler::screen_type::UNAUTHORIZED_SCREEN))
+                            .get_gui()
+                            .get(screen_handler::screen_id.at(
+                                screen_handler::screen_type::UNAUTHORIZED_SCREEN))
                             ->cast<tgui::Group>()
                             ->get("unauthorized_label")
                             ->cast<tgui::Label>()
@@ -133,8 +137,7 @@ void application::update_screens() {
                         } else {
                             set_state(state::MULTIPLAYER);
                         }
-                        screen_handler::instance().change_screen(
-                            screen_handler::screen_type::MULTIPLAYER);
+                        screen_handler::instance().change_screen(screen_handler::screen_type::MULTIPLAYER);
                         client::instance().set_is_authorized(true);
                     } break;
                     case messages_type::GAME_START: {
@@ -319,6 +322,71 @@ void application::update_screens() {
                             default: {
                                 break;
                             }
+                        }
+                    }
+                    case messages_type::STATS_RESPONSE: {
+                        screen_handler::instance().change_screen(screen_handler::screen_type::STATISTICS);
+                        auto panel =
+                            screen_handler::instance()
+                                .get_gui()
+                                .get(screen_handler::screen_id.at(screen_handler::screen_type::STATISTICS))
+                                ->cast<tgui::Group>()
+                                ->get("stats_panel")
+                                ->cast<tgui::ScrollablePanel>();
+                        int16_t size, my_current_rating, rating, opponent_rating;
+                        int8_t result;
+                        msg >> size >> my_current_rating;
+                        screen_handler::instance()
+                            .get_gui()
+                            .get(screen_handler::screen_id.at(screen_handler::screen_type::STATISTICS))
+                            ->cast<tgui::Group>()
+                            ->get("handle_rating_label")
+                            ->cast<tgui::Label>()
+                            ->setText("Хендл: " + client::instance().get_handle() +
+                                      "\t\tРейтинг: " + std::to_string(my_current_rating));
+                        std::string opponent_handle;
+                        for (int i = 0; i < 20; ++i) {
+                            if (i >= size) {
+                                panel->get("background_" + std::to_string(i))
+                                    ->cast<tgui::Panel>()
+                                    ->setVisible(false);
+                                continue;
+                            }
+
+                            msg >> rating >> opponent_handle >> opponent_rating >> result;
+
+                            panel->get("background_" + std::to_string(i))
+                            ->cast<tgui::Panel>()
+                            ->setVisible(true);
+
+                            panel->get("background_" + std::to_string(i))
+                            ->cast<tgui::Panel>()
+                            ->getRenderer()
+                            ->setBackgroundColor(result == 0 ? tgui::Color::Red : tgui::Color::Green);
+
+                            panel->get("background_" + std::to_string(i))
+                            ->cast<tgui::Panel>()
+                            ->get("my_handle")
+                            ->cast<tgui::Label>()
+                            ->setText(client::instance().get_handle());
+
+                            panel->get("background_" + std::to_string(i))
+                            ->cast<tgui::Panel>()
+                            ->get("my_rating")
+                            ->cast<tgui::Label>()
+                            ->setText(std::to_string(rating));
+
+                            panel->get("background_" + std::to_string(i))
+                            ->cast<tgui::Panel>()
+                            ->get("opponent_handle")
+                            ->cast<tgui::Label>()
+                            ->setText(opponent_handle);
+
+                            panel->get("background_" + std::to_string(i))
+                            ->cast<tgui::Panel>()
+                            ->get("opponent_rating")
+                            ->cast<tgui::Label>()
+                            ->setText(std::to_string(opponent_rating));
                         }
                     }
                     default:
