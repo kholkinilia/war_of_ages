@@ -4,6 +4,7 @@
 // TGUI widgets
 #include <TGUI/Widgets/Button.hpp>
 #include <TGUI/Widgets/Group.hpp>
+#include <fstream>
 #include "../../include/application.h"
 #include "../../include/client.h"
 #include "../../include/sfml_printer.h"
@@ -76,9 +77,10 @@ void screen_handler::start_screen_init() {
             return;
 
         client::instance().set_is_authorized(false);
-        client::instance().disconnect();
         client::instance().set_handle("");
         client::instance().set_password("");
+        std::ofstream login_password("../client/configs/client_config.txt");
+        login_password << std::endl;
         message<messages_type> msg;
         msg.header.id = messages_type::AUTH_LOGOUT;
         client::instance().send_message(msg);
