@@ -83,13 +83,13 @@ void screen_handler::login_screen_init() {
             button->setPasswordCharacter('*');
 
             screen_handler::instance()
-            .get_gui()
-            .get(screen_id.at(screen_type::LOGIN_OR_AUTHORIZATION))
-            ->cast<tgui::Group>()
-            ->get("visibility_button")
-            ->cast<tgui::Button>()
-            ->getRenderer()
-            ->setTexture("../client/resources/menu/visible.png");
+                .get_gui()
+                .get(screen_id.at(screen_type::LOGIN_OR_AUTHORIZATION))
+                ->cast<tgui::Group>()
+                ->get("visibility_button")
+                ->cast<tgui::Button>()
+                ->getRenderer()
+                ->setTexture("../client/resources/menu/visible.png");
         }
         button->setText(button->getText());
     });
