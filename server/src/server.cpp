@@ -245,7 +245,7 @@ void server::on_message(std::shared_ptr<connection<messages_type>> client, messa
             std::string chat_id, content;
             msg >> content >> chat_id;
             chat_handler::instance().add_message(chat_id, handle, content);
-        }
+        } break;
         case messages_type::STATS_GET: {
             message<messages_type> message;
             message.header.id = messages_type::STATS_RESPONSE;
@@ -257,7 +257,7 @@ void server::on_message(std::shared_ptr<connection<messages_type>> client, messa
             message << static_cast<int16_t>(database_handler::get_instance().get_rating(handle));
             message << static_cast<int16_t>(statistics.size());
             send_message(handle, message);
-        }
+        } break;
         default:
             break;
     }
