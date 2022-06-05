@@ -2,17 +2,19 @@
 #define WAR_OF_AGES_SPRITE_SUPPLIER_H
 
 #include <SFML/Graphics.hpp>
+#include <condition_variable>
 #include <fstream>
 #include <string>
+#include <thread>
 #include <unordered_map>
 #include <vector>
-#include "../../common/game_logic/include/age.h"
-#include "../../common/game_logic/include/bullet.h"
-#include "../../common/game_logic/include/cannon.h"
-#include "../../common/game_logic/include/unit.h"
 #include "../include/animation_supplier.h"
+#include "age.h"
+#include "bullet.h"
+#include "cannon.h"
+#include "unit.h"
 
-namespace war_of_ages {
+namespace war_of_ages::client {
 
 struct sprite_supplier {
 public:
@@ -36,6 +38,10 @@ public:
 
     [[nodiscard]] static sprite_supplier &get_instance();
 
+    static void start_reading_Q_table();
+    [[nodiscard]] static std::mutex &get_mutex();
+    [[nodiscard]] static std::condition_variable &get_cond_var();
+
 private:
     std::unordered_map<age_type, sf::Sprite> background_sprite;
     std::unordered_map<age_type, sf::Sprite> road_sprite;
@@ -52,8 +58,11 @@ private:
 
     static sf::Sprite create_sprite_instance(const std::string &filename, int width, int height);
     static sf::Sprite reflect_if_needed(sf::Sprite sprite, player_side side);
+
+    static inline std::condition_variable cond_var;
+    static inline std::mutex m;
 };
 
-}  // namespace war_of_ages
+}  // namespace war_of_ages::client
 
 #endif  // WAR_OF_AGES_SPRITE_SUPPLIER_H

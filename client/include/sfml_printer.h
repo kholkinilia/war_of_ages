@@ -3,9 +3,9 @@
 
 #include <SFML/Graphics/RenderWindow.hpp>
 #include <TGUI/Backend/SFML-Graphics.hpp>
-#include "../../common/game_logic/include/game_state.h"
+#include "game_state.h"
 
-namespace war_of_ages {
+namespace war_of_ages::client {
 
 struct sfml_printer {
 private:
@@ -28,6 +28,6 @@ public:
     [[nodiscard]] static sfml_printer &instance();
 };
 
-}  // namespace war_of_ages
+}  // namespace war_of_ages::client
 
 #endif  // WAR_OF_AGES_SFML_PRINTER_H

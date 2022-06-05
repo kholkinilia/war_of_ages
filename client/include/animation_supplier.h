@@ -5,7 +5,7 @@
 #include <tgui/Backend/SFML-Graphics.hpp>
 #include <vector>
 
-namespace war_of_ages {
+namespace war_of_ages::client {
 
 struct animation_supplier {
 private:
@@ -28,6 +28,6 @@ public:
     [[nodiscard]] sf::Sprite get_sprite(int line, float time) noexcept;
 };
 
-}  // namespace war_of_ages
+}  // namespace war_of_ages::client
 
 #endif  // WAR_OF_AGES_ANIMATION_SUPPLIER_H

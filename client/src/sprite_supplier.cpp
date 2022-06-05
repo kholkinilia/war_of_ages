@@ -1,11 +1,12 @@
 #include "../include/sprite_supplier.h"
-#include "../../common/game_logic/include/age.h"
-#include "../../common/game_logic/include/bullet.h"
-#include "../../common/game_logic/include/cannon.h"
-#include "../../common/game_logic/include/unit.h"
+#include "../include/bot_actions_supplier.h"
 #include "../include/game_object_size_constants.h"
+#include "age.h"
+#include "bullet.h"
+#include "cannon.h"
+#include "unit.h"
 
-namespace war_of_ages {
+namespace war_of_ages::client {
 
 sf::Sprite sprite_supplier::create_sprite_instance(const std::string &filename, int width, int height) {
     auto *texture = new sf::Texture();
@@ -18,11 +19,12 @@ sf::Sprite sprite_supplier::create_sprite_instance(const std::string &filename, 
 sprite_supplier::sprite_supplier() {
     std::string common_file_prefix = "../client/resources/game/";
 
-    static std::unordered_map<age_type, std::string> age_to_string{{age_type::STONE, "stone"},
-                                                                   {age_type::CASTLE, "castle"},
-                                                                   {age_type::RENAISSANCE, "renaissance"},
-                                                                   {age_type::MODERN, "modern"},
-                                                                   {age_type::FUTURE, "future"}};
+    static std::unordered_map<age_type, std::string> age_to_string{
+        {age_type::STONE, "stone"}, {age_type::CASTLE, "castle"},
+        // {age_type::RENAISSANCE, "renaissance"},
+        // {age_type::MODERN, "modern"},
+        // {age_type::FUTURE, "future"}
+    };
 
     static std::unordered_map<unit_type, std::string> unit_to_string{
         {unit_type::PEASANT, "peasant"},       {unit_type::ARCHER, "archer"},
@@ -54,7 +56,7 @@ sprite_supplier::sprite_supplier() {
 
     const static std::unordered_map<unit_type, std::pair<int, int>> animation_size{
         {unit_type::PEASANT, {3, 3}},   {unit_type::ARCHER, {4, 6}},     {unit_type::CHARIOT, {3, 6}},
-        {unit_type::SWORDSMAN, {3, 3}}, {unit_type::ARBALESTER, {4, 6}}, {unit_type::KNIGHT, {3, 6}}};
+        {unit_type::SWORDSMAN, {3, 6}}, {unit_type::ARBALESTER, {4, 6}}, {unit_type::KNIGHT, {3, 6}}};
 
     const static std::unordered_map<unit_type, std::vector<float>> animation_time_periods{
         {unit_type::PEASANT, {0.5, unit::get_stats(unit_type::PEASANT).attack_duration_s, 1}},
@@ -242,4 +244,22 @@ sprite_supplier::~sprite_supplier() {
         delete sprite.getTexture();
     }
 }
-}  // namespace war_of_ages
+
+void sprite_supplier::start_reading_Q_table() {
+    std::thread load_Q_table([]() {
+        std::unique_lock l(m);
+        bot_actions_supplier::read_from_file();
+        bot_actions_supplier::read_from_file();
+        cond_var.notify_all();
+    });
+    load_Q_table.detach();
+}
+
+std::mutex &sprite_supplier::get_mutex() {
+    return m;
+}
+
+std::condition_variable &sprite_supplier::get_cond_var() {
+    return cond_var;
+}
+}  // namespace war_of_ages::client

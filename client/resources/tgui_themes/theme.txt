@@ -1,0 +1,112 @@
+unit_stone_mini_1 {
+    Texture        = "../game/units/stone/mini/1.png";
+    TextureHover   = "../game/units/stone/mini/1_outlined.png";
+}
+
+unit_stone_mini_2 {
+    Texture        = "../game/units/stone/mini/2.png";
+    TextureHover   = "../game/units/stone/mini/2_outlined.png";
+}
+
+unit_stone_mini_3 {
+    Texture        = "../game/units/stone/mini/3.png";
+    TextureHover   = "../game/units/stone/mini/3_outlined.png";
+}
+
+unit_castle_mini_1 {
+    Texture        = "../game/units/castle/mini/1.png";
+    TextureHover   = "../game/units/castle/mini/1_outlined.png";
+}
+
+unit_castle_mini_2 {
+    Texture        = "../game/units/castle/mini/2.png";
+    TextureHover   = "../game/units/castle/mini/2_outlined.png";
+}
+
+unit_castle_mini_3 {
+    Texture        = "../game/units/castle/mini/3.png";
+    TextureHover   = "../game/units/castle/mini/3_outlined.png";
+}
+
+cannon_stone_mini_1 {
+    Texture        = "../game/cannons/stone/level1.png";
+    TextureHover   = "../game/cannons/stone/level1_outlined.png";
+}
+
+cannon_stone_mini_2 {
+    Texture        = "../game/cannons/stone/level2.png";
+    TextureHover   = "../game/cannons/stone/level2_outlined.png";
+}
+
+cannon_stone_mini_3 {
+    Texture        = "../game/cannons/stone/level3.png";
+    TextureHover   = "../game/cannons/stone/level3_outlined.png";
+}
+
+cannon_castle_mini_1 {
+    Texture        = "../game/cannons/castle/level1.png";
+    TextureHover   = "../game/cannons/castle/level1_outlined.png";
+}
+
+cannon_castle_mini_2 {
+    Texture        = "../game/cannons/castle/level2.png";
+    TextureHover   = "../game/cannons/castle/level2_outlined.png";
+}
+
+cannon_castle_mini_3 {
+    Texture        = "../game/cannons/castle/level3.png";
+    TextureHover   = "../game/cannons/castle/level3_outlined.png";
+}
+
+sell_cannon_1 {
+    Texture        = "../pictures/sell_cannon_1.png";
+    TextureHover   = "../pictures/sell_cannon_1_outlined.png";
+}
+
+sell_cannon_2 {
+    Texture        = "../pictures/sell_cannon_2.png";
+    TextureHover   = "../pictures/sell_cannon_2_outlined.png";
+}
+
+sell_cannon_3 {
+    Texture        = "../pictures/sell_cannon_3.png";
+    TextureHover   = "../pictures/sell_cannon_3_outlined.png";
+}
+
+new_era {
+    Texture        = "../pictures/new_era.png";
+    TextureHover   = "../pictures/new_era_outlined.png";
+}
+
+plus_embrasure {
+    Texture        = "../pictures/plus_embrasure.png";
+    TextureHover   = "../pictures/plus_embrasure_outlined.png";
+}
+
+logo {
+    Texture        = "../pictures/logo.png";
+    TextureHover   = "../pictures/logo_outlined.png";
+}
+
+ready {
+    Texture        = "../pictures/ready.png";
+    TextureHover   = "../pictures/ready_outlined.png";
+}
+
+not_ready {
+    Texture        = "../pictures/not_ready.png";
+    TextureHover   = "../pictures/not_ready_outlined.png";
+}
+
+ready_pic {
+    Texture        = "../pictures/ready.png";
+}
+
+not_ready_pic {
+    Texture        = "../pictures/not_ready.png";
+}
+
+settings_icon {
+    Texture        = "../pictures/settings_icon.png";
+    TextureHover   = "../pictures/settings_icon_outlined.png";
+}

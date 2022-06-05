@@ -1,7 +1,7 @@
 #include "../include/player_actions_supplier.h"
 #include <mutex>
 
-namespace war_of_ages {
+namespace war_of_ages::client {
 
 std::vector<std::unique_ptr<game_command>> player_actions_supplier::get_actions() {
     std::unique_lock lock(m_mutex);
@@ -29,4 +29,4 @@ player_actions_supplier &player_actions_supplier::instance() {
     return supplier;
 }
 
-}  // namespace war_of_ages
+}  // namespace war_of_ages::client

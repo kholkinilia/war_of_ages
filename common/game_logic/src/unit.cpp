@@ -29,11 +29,11 @@ unit_stats::unit_stats(float time_to_train_s_,
 const unit_stats &unit::get_stats(unit_type type) noexcept {
     const static std::unordered_map<unit_type, unit_stats> stats{
         {unit_type::PEASANT, unit_stats(2, 50, 0.5, 0.5, 0, 25, 25, {100, 200}, 100)},
-        {unit_type::ARCHER, unit_stats(3, 70, 1, 1, 500, 30, 50, {100, 200}, 100)},
-        {unit_type::CHARIOT, unit_stats(4, 100, 1.5, 1.25, 0, 40, 100, {200, 160}, 150)},
-        {unit_type::SWORDSMAN, unit_stats(4, 100, 1.5, 1.25, 0, 40, 100, {100, 200}, 150)},
-        {unit_type::ARBALESTER, unit_stats(4, 100, 1.5, 1.25, 0, 40, 100, {100, 200}, 150)},
-        {unit_type::KNIGHT, unit_stats(4, 100, 1.5, 1.25, 0, 40, 100, {200, 160}, 150)},
+        {unit_type::ARCHER, unit_stats(3, 70, 1, 1, 200, 20, 50, {100, 200}, 100)},
+        {unit_type::CHARIOT, unit_stats(4, 200, 1.5, 1.25, 0, 40, 100, {200, 160}, 150)},
+        {unit_type::SWORDSMAN, unit_stats(4, 100, 0.75, 0.75 * 5. / 6, 0, 40, 100, {100, 200}, 100)},
+        {unit_type::ARBALESTER, unit_stats(3, 100, 1, 1, 300, 40, 50, {100, 200}, 100)},
+        {unit_type::KNIGHT, unit_stats(4, 500, 1.5, 1.5 * 11 / 12, 0, 40, 100, {200, 160}, 150)},
         {unit_type::STONE_TOWER, unit_stats(0, 5000, 0, 0, 0, 0, 0, {0, 0}, 0)},
         {unit_type::CASTLE_TOWER, unit_stats(0, 5000, 0, 0, 0, 0, 0, {0, 0}, 0)}};
     return stats.at(type);
@@ -42,9 +42,8 @@ const unit_stats &unit::get_stats(unit_type type) noexcept {
 unit::unit(unit_type type) noexcept : m_type(type), m_remaining_hp(get_stats(type).initial_hp) {
 }
 
-void unit::attack(unit &enemy) noexcept {
+void unit::attack(unit &enemy) const noexcept {
     enemy.decrease_hp(stats().damage);
-    m_attack_progress_s = 0;
 }
 
 void unit::decrease_hp(int damage) noexcept {
@@ -61,7 +60,7 @@ void unit::update(unit &enemy, const std::optional<unit> &next_allied_unit, floa
     if (stats().attack_radius_pxls >= dist(enemy)) {
         m_attacking = true;
         m_attack_progress_s += dt;
-        if (m_attack_progress_s - dt <= stats().attack_time_s &&
+        if (m_attack_progress_s - dt < stats().attack_time_s &&
             stats().attack_time_s <= m_attack_progress_s) {
             attack(enemy);
         }

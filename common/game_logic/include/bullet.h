@@ -14,20 +14,21 @@ enum class bullet_type {
     CASTLE_LEVEL_1,
     CASTLE_LEVEL_2,
     CASTLE_LEVEL_3,
-    RENAISSANCE_LEVEL_1,
-    RENAISSANCE_LEVEL_2,
-    RENAISSANCE_LEVEL_3,
-    MODERN_LEVEL_1,
-    MODERN_LEVEL_2,
-    MODERN_LEVEL_3,
-    FUTURE_LEVEL_1,
-    FUTURE_LEVEL_2,
-    FUTURE_LEVEL_3,
+    //    RENAISSANCE_LEVEL_1,
+    //    RENAISSANCE_LEVEL_2,
+    //    RENAISSANCE_LEVEL_3,
+    //    MODERN_LEVEL_1,
+    //    MODERN_LEVEL_2,
+    //    MODERN_LEVEL_3,
+    //    FUTURE_LEVEL_1,
+    //    FUTURE_LEVEL_2,
+    //    FUTURE_LEVEL_3,
     STONE_ULT,
     CASTLE_ULT,
-    RENAISSANCE_ULT,
-    MODERN_ULT,
-    FUTURE_ULT,
+    //    RENAISSANCE_ULT,
+    //    MODERN_ULT,
+    //    FUTURE_ULT,,
+    NONE
 };
 
 struct bullet_stats {
@@ -39,6 +40,7 @@ struct bullet_stats {
 
 struct bullet {
     bullet(bullet_type type, const vec2f &start, const vec2f &target) noexcept;
+    bullet() = default;
 
     void update(std::deque<unit> &enemies, float dt);
 
@@ -56,7 +58,7 @@ private:
     [[nodiscard]] int damage() const noexcept;
     [[nodiscard]] float speed() const noexcept;
 
-    bullet_type m_type;
+    bullet_type m_type = bullet_type::STONE_ULT;
     vec2f m_pos;
     vec2f m_dir;
     bool m_is_alive = true;

@@ -1,11 +1,44 @@
-# War of Ages.
+<h1 align="center">
+  <br>
+  <a href="https://github.com/kholkinilya/war_of_ages"><img src="https://github.com/kholkinilya/war_of_ages/blob/multiplayer_debug/client/resources/pictures/logo.png?raw=true" alt="War of ages" width="200"></a>
+  <br>
+  War of Ages
+  <br>
+</h1>
 
-Just a clone of a well-known game [Age fo War](https://igroutka.ru/flesh-igry/28216-age-of-war.html).
+<h4 align="center"> A clone of well-known game <a href="https://igroutka.ru/flesh-igry/28216-age-of-war.html" target="_blank">Age of War</a>, extended with multiplayer.</h4>
 
-### Already implemented features:
-* Basic directory structure is set up (can be updated).
-* 3/3 Tournament screens are clickable.
-* Tournament struct is implemented.
-* CI is set to automatically format files (hopefully).
-* Game classes are defined (can be updated)
-* Settings, main window, matchmaking windows are clickable
+<p align="center">
+  <a href="https://github.com/kholkinilya/war_of_ages">
+    <img src="https://img.shields.io/github/languages/top/kholkinilya/war_of_ages?logo=github&style=flat-square"
+         alt="Github top language">
+  </a>
+  <a href="https://github.com/kholkinilya/war_of_ages/blob/main/LICENSE">
+    <img src="https://img.shields.io/github/license/kholkinilya/war_of_ages?style=flat-square">
+  </a>
+  <a href="https://www.google.com/search?q=%D0%BA%D0%BE%D1%82%D1%8F%D1%82%D0%B0+%D0%B2+%D0%BA%D0%BE%D1%80%D0%B7%D0%B8%D0%BD%D0%BA%D0%B5&sxsrf=ALiCzsYMkSzTyIJ_FxOqX7Auo69DxZ0BPA:1654372913022&source=lnms&tbm=isch&sa=X&ved=2ahUKEwiq4rmuy5T4AhVLBxAIHUppCc8Q_AUoAXoECAEQAw&biw=1536&bih=714&dpr=1.25">
+    <img src="https://img.shields.io/github/commit-activity/y/kholkinilya/war_of_ages">
+  </a>
+</p>
+
+### Features
+ * Play a single player game just like in Age of War.
+ * Play a game with your friend or a random dude.
+ * Participate in tournaments.
+ * Make a bot play for you, so you can have a rest during the game (and, hopefully, not lose).
+ * See your stats, i.e. rating, number of games won/lost online, etc.
+ * Chat with your friends inplace during a tournament or a game.
+
+### Demo video
+
+Click on them:
+
+[![Demo video](https://static8.depositphotos.com/1394326/864/i/600/depositphotos_8642715-stock-photo-six-in-a-basket.jpg)](https://youtu.be/-E0vVK4ZyDA)
+
+### Dependencies 
+
+* SFML 
+* TGUI
+* boost::asio
+* SQLite3
+

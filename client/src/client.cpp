@@ -1,17 +1,97 @@
 #include "../include/client.h"
+#include <fstream>
+#include <iostream>
+#include "../include/application.h"
 #include "../include/bot_actions_supplier.h"
 
-namespace war_of_ages {
+namespace war_of_ages::client {
 
-client_state::client_state(std::string handle_) : handle(std::move(handle_)) {
+client &client::instance() {
+    static client inst;
+    return inst;
 }
 
-std::string client_state::get_handle() const {
-    return handle;
+client::client() : client_interface() {
+    std::fstream file("../config.txt");
+
+    std::getline(file, m_server_ip);
+    std::string server_port_string;
+    std::getline(file, server_port_string);
+    m_server_port = std::stoi(server_port_string);
+
+    std::ifstream login_password("../client/configs/client_config.txt");
+    std::getline(login_password, m_handle);
+    std::getline(login_password, m_password);
 }
 
-std::shared_ptr<tournament> client_state::get_cur_tournament() const {
-    return cur_tournament;
+std::vector<owned_message<messages_type>> client::retrieve_messages() {
+    return get_messages_received().retrieve();
 }
 
-}  // namespace war_of_ages
+void client::clear_messages() {
+    get_messages_received().clear();
+}
+
+void client::login_or_authorize(bool is_login) {
+    message<messages_type> msg;
+    msg.header.id = is_login ? messages_type::AUTH_LOGIN : messages_type::AUTH_REGISTER;
+    std::unique_lock l(m_mutex_handle_n_password);
+    msg.insert_container(m_handle);
+    int key;
+    std::ifstream f("../common/configs/key.txt");
+    f >> key;
+    msg << static_cast<uint64_t>(std::hash<std::string>{}(m_password) ^ key);
+    send_message(msg);
+}
+
+void client::ignore_server() {
+    message<messages_type> msg;
+    msg.header.id = messages_type::SERVER_IGNORE;
+    send_message(msg);
+}
+
+void client::set_handle(std::string handle) {
+    std::unique_lock l(m_mutex_handle_n_password);
+    m_handle = std::move(handle);
+}
+
+void client::set_password(std::string password) {
+    std::unique_lock l(m_mutex_handle_n_password);
+    m_password = std::move(password);
+}
+
+std::string client::get_handle() const {
+    std::unique_lock l(m_mutex_handle_n_password);
+    return m_handle;
+}
+
+std::string client::get_password() const {
+    std::unique_lock l(m_mutex_handle_n_password);
+    return m_password;
+}
+
+std::string client::get_server_ip() const {
+    std::unique_lock l(m_mutex_handle_n_password);
+    return m_server_ip;
+}
+
+std::uint16_t client::get_server_port() const {
+    std::unique_lock l(m_mutex_handle_n_password);
+    return m_server_port;
+}
+
+bool client::get_is_authorized() const {
+    return m_is_authorized;
+}
+
+void client::set_is_authorized(bool value) {
+    m_is_authorized = value;
+}
+void client::ask_for_stats() {
+    message<messages_type> msg;
+    msg.header.id = messages_type::STATS_GET;
+    std::unique_lock l(m_mutex_stats);
+    send_message(msg);
+}
+
+}  // namespace war_of_ages::client

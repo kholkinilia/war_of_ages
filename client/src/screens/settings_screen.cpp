@@ -2,7 +2,9 @@
 #include "../../include/client.h"
 #include "../../include/screen_handler.h"
 #include "../../include/sfml_printer.h"
+#include "../../include/single_player_handler.h"
 #include "../../include/sound_player.h"
+#include "messages_type.h"
 
 // TGUI widgets
 #include <TGUI/Widgets/Button.hpp>
@@ -10,9 +12,8 @@
 #include <TGUI/Widgets/Label.hpp>
 #include <TGUI/Widgets/Slider.hpp>
 
-namespace war_of_ages {
-void screen_handler::settings_screen_init(sf::View &v) {
-    // TODO: try make this shit more readable and well-formed
+namespace war_of_ages::client {
+void screen_handler::settings_screen_init() {
     auto settings_screen_group = tgui::Group::create();
 
     tgui::Theme black_theme("../client/resources/tgui_themes/Black.txt");
@@ -62,31 +63,38 @@ void screen_handler::settings_screen_init(sf::View &v) {
     resume_button->setRenderer(black_theme.getRenderer("Button"));
     resume_button->setTextSize(30);
     resume_button->onPress([&]() {
-        m_gui.get("background_group")->setVisible(false);
-        // FIXME: make this work for multiplayer too
-        single_player_handler::instance().return_from_pause();
+        if (application::instance().get_state() == application::state::SINGLE_PLAYER_GAME) {
+            single_player_handler::instance().return_from_pause();
+        }
         screen_handler::instance().change_screen(screen_handler::screen_type::GAME_SCREEN);
     });
     resume_button->setPosition("30%", "73%");
     resume_button->setSize("40%", "10%");
     settings_screen_group->add(resume_button, "resume_button");
 
-    auto start_button = tgui::Button::create("В главное меню");
-    start_button->setRenderer(black_theme.getRenderer("Button"));
-    start_button->setTextSize(30);
-    start_button->onPress([&]() {
-        if (application::instance().get_state() == application::state::SINGLE_PLAYER_GAME) {
-            sound_player::instance().change(sound_player::sound_type::BATTLE,
-                                            sound_player::sound_type::LOBBY);
+    auto return_button = tgui::Button::create("В главное меню");
+    return_button->setRenderer(black_theme.getRenderer("Button"));
+    return_button->setTextSize(30);
+    return_button->onPress([&]() {
+        auto state = application::instance().get_state();
+        if (state == application::state::MULTIPLAYER) {
+            message<messages_type> msg;
+            msg.header.id = messages_type::GAME_GIVE_UP;
+            client::instance().send_message(msg);
+        } else {
+            application::instance().set_state(application::state::MENU);
+            screen_handler::instance().change_screen(screen_handler::screen_type::START_SCREEN);
+            if (state == application::state::SINGLE_PLAYER_GAME) {
+                sound_player::instance().change(sound_player::sound_type::BATTLE,
+                                                sound_player::sound_type::LOBBY);
+            }
         }
-        screen_handler::instance().change_screen(screen_handler::screen_type::START_SCREEN);
-        application::instance().set_state(application::state::MENU);
     });
-    start_button->setPosition("30%", "86%");
-    start_button->setSize("40%", "10%");
-    settings_screen_group->add(start_button);
+    return_button->setPosition("30%", "86%");
+    return_button->setSize("40%", "10%");
+    settings_screen_group->add(return_button, "return_button");
 
     m_gui.add(settings_screen_group, screen_handler::screen_id.at(screen_handler::screen_type::SETTINGS));
     m_gui.get(screen_handler::screen_id.at(screen_handler::screen_type::SETTINGS))->setVisible(false);
 }
-}  // namespace war_of_ages
+}  // namespace war_of_ages::client
