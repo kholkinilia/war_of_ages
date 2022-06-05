@@ -1,6 +1,7 @@
 #include "../include/room_matchmaker.h"
 #include <algorithm>
 #include <cassert>
+#include "../include/database_handler.h"
 #include "../include/game_handler.h"
 #include "../include/server.h"
 
@@ -27,14 +28,15 @@ bool room_matchmaker::add_user_to_room(const std::string &handle, const std::str
     m_users_in_rooms.insert({handle, {room_id, user_in_room::user_status::NOT_READY}});
 
     if (room.size() == 2) {
-        msg << static_cast<std::uint8_t>(0)
+        msg << static_cast<std::uint8_t>(database_handler::get_instance().get_rating(room[0]))
             << static_cast<std::uint8_t>(
                    m_users_in_rooms[room[0]].status == user_in_room::user_status::READY ? 1 : 0)
             << room[0];
 
         message<messages_type> msg2;
         msg2.header.id = messages_type::ROOM_ENEMY_JOINED;
-        msg2 << static_cast<std::uint8_t>(0) << static_cast<std::uint8_t>(0) << handle;
+        msg2 << static_cast<std::uint8_t>(database_handler::get_instance().get_rating(room[1]))
+             << static_cast<std::uint8_t>(0) << handle;
         server::instance().send_message(room[0], msg2);
     } else {
         msg << static_cast<std::string>("");
