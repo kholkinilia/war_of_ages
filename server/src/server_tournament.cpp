@@ -16,9 +16,7 @@ void war_of_ages::server::server_tournament::post_add_participant(const std::str
     std::vector<std::pair<std::string, std::string>> new_results;
 
     for (std::size_t i = 0; i < m_participants.size(); i++) {
-        std::cerr << m_participants[i] << ": " << m_is_in_tournament[i] << std::endl;
         if (part_pos != i && m_match_results[part_pos][i] == game_result::NONE && !m_is_in_tournament[i]) {
-            std::cerr << "adding result..." << std::endl;
             m_match_results[part_pos][i] = game_result::VICTORY;
             m_match_results[i][part_pos] = game_result::DEFEAT;
             new_results.emplace_back(m_participants[part_pos], m_participants[i]);
@@ -48,20 +46,14 @@ void war_of_ages::server::server_tournament::post_add_participant(const std::str
     }
 
     for (auto &[winner, loser] : new_results) {
-        std::cerr << "new result: " << winner << " " << loser << std::endl;
         message<messages_type> msg;
         msg.header.id = messages_type::TOURNAMENT_ADD_RESULT;
         msg << winner << loser;
 
         for (std::size_t i = 0; i < m_participants.size(); i++) {
-            std::cerr << "maybe send to " << m_participants[i] << "(" << m_is_in_tournament[i] << ")? "
-                      << std::endl;
             if (m_participants[i] == handle || !m_is_in_tournament[i]) {
-                std::cerr << "No" << std::endl;
                 continue;
             }
-
-            std::cerr << "Yes" << std::endl;
             server::instance().send_message(m_participants[i], msg);
         }
     }
@@ -72,8 +64,6 @@ void war_of_ages::server::server_tournament::post_add_participant(const std::str
 
 void war_of_ages::server::server_tournament::post_add_result(const std::string &winner,
                                                              const std::string &loser) {
-    //    std::cerr << "Made it up to post_add_result" << std::endl;
-
     message<messages_type> msg;
     msg.header.id = messages_type::TOURNAMENT_ADD_RESULT;
 
@@ -81,7 +71,6 @@ void war_of_ages::server::server_tournament::post_add_result(const std::string &
     msg.insert_container(loser);
 
     for (std::size_t i = 0; i < m_participants.size(); i++) {
-        //        std::cerr << "Sending the result to " << handle << std::endl;
         if (m_is_in_tournament[i]) {
             server::instance().send_message(m_participants[i], msg);
         }
