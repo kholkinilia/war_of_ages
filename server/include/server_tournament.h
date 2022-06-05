@@ -10,6 +10,7 @@ namespace war_of_ages::server {
 struct server_tournament : tournament {
 private:
     std::vector<bool> m_is_playing;
+    std::vector<bool> m_is_in_tournament;
 
     void post_add_participant(const std::string &handle) final;
     void post_add_result(const std::string &winner, const std::string &loser) final;

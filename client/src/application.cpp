@@ -301,6 +301,7 @@ void application::update_screens() {
                         std::string winner, loser;
                         msg.extract_container(loser);
                         msg.extract_container(winner);
+                        std::cerr << "Got new result: " << winner << " " << loser << std::endl;
                         tournament_handler::instance().add_result(winner, loser);
                     } break;
                     case messages_type::TOURNAMENT_ADD_MATCH: {
