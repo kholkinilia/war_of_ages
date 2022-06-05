@@ -35,11 +35,11 @@ void tournament_handler::join(const std::string &handle, const std::string &key)
 void tournament_handler::leave(const std::string &handle) {
     std::unique_lock lock(m_mutex);
 
-    chat_handler::instance().remove_member(m_key_by_handle[handle], handle);
-
     if (m_key_by_handle.count(handle) == 0) {
         return;
     }
+
+    chat_handler::instance().remove_member(m_key_by_handle[handle], handle);
     m_tournament[m_key_by_handle[handle]].remove_participant(handle);
 
     m_key_by_handle.erase(handle);
