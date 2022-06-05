@@ -53,9 +53,9 @@ void war_of_ages::server::server_tournament::post_add_participant(const std::str
         msg.header.id = messages_type::TOURNAMENT_ADD_RESULT;
         msg << winner << loser;
 
-
         for (std::size_t i = 0; i < m_participants.size(); i++) {
-            std::cerr << "maybe send to " << m_participants[i] << "(" << m_is_in_tournament[i] << ")? " << std::endl;
+            std::cerr << "maybe send to " << m_participants[i] << "(" << m_is_in_tournament[i] << ")? "
+                      << std::endl;
             if (m_participants[i] == handle || !m_is_in_tournament[i]) {
                 std::cerr << "No" << std::endl;
                 continue;
