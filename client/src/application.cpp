@@ -139,9 +139,8 @@ void application::update_screens() {
                         } else {
                             screen_handler::instance().change_screen(screen_handler::screen_type::SIGNOUT);
                             screen_handler::instance()
-                            .get_gui()
-                            .get(screen_handler::screen_id.at(
-                                screen_handler::screen_type::SIGNOUT))
+                                .get_gui()
+                                .get(screen_handler::screen_id.at(screen_handler::screen_type::SIGNOUT))
                                 ->cast<tgui::Group>()
                                 ->get("authorized_label")
                                 ->cast<tgui::Label>()
@@ -154,9 +153,9 @@ void application::update_screens() {
                         screen_handler::instance().change_screen(
                             screen_handler::screen_type::UNAUTHORIZED_SCREEN);
                         screen_handler::instance()
-                        .get_gui()
-                        .get(screen_handler::screen_id.at(
-                            screen_handler::screen_type::UNAUTHORIZED_SCREEN))
+                            .get_gui()
+                            .get(screen_handler::screen_id.at(
+                                screen_handler::screen_type::UNAUTHORIZED_SCREEN))
                             ->cast<tgui::Group>()
                             ->get("unauthorized_label")
                             ->cast<tgui::Label>()

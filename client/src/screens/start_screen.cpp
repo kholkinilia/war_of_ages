@@ -26,7 +26,7 @@ void screen_handler::start_screen_init() {
     tgui::Button::Ptr multiplayer_button = tgui::Button::create("Мультиплеер");
     multiplayer_button->setTextSize(30);
     multiplayer_button->onPress([&]() {
-        if(!client::instance().get_is_authorized())
+        if (!client::instance().get_is_authorized())
             screen_handler::instance().change_screen(screen_type::LOGIN_OR_AUTHORIZATION);
         else
             screen_handler::instance().change_screen(screen_type::MULTIPLAYER);

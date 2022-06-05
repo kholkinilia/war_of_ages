@@ -232,8 +232,8 @@ void screen_handler::login_screen_init() {
         [&]() { screen_handler::instance().change_screen(screen_handler::screen_type::START_SCREEN); });
     login_screen_group->add(return_button, "return_button");
 
-    std::vector<tgui::Widget::Ptr> widgets = {login_box, password_box, send_button, signup_button,
-                                              return_button, old_acc_button};
+    std::vector<tgui::Widget::Ptr> widgets = {login_box,     password_box,  send_button,
+                                              signup_button, return_button, old_acc_button};
     place_widgets(widgets);
 
     m_gui.add(login_screen_group,
