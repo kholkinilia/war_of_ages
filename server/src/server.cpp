@@ -230,21 +230,21 @@ void server::on_message(std::shared_ptr<connection<messages_type>> client, messa
             room_matchmaker::instance().switch_readiness(handle);
         } break;
         case messages_type::TOURNAMENT_CREATE: {
-            ensure_status(status, user_status::MENU, true);
+            //            ensure_status(status, user_status::MENU, true);
             std::string name;
             msg >> name;
             set_user_status(handle, user_status::TOURNAMENT);
             tournament_handler::instance().create(handle, name);
         } break;
         case messages_type::TOURNAMENT_JOIN: {
-            ensure_status(status, user_status::MENU, true);
+            //            ensure_status(status, user_status::MENU, true);
             std::string key;
             msg >> key;
             set_user_status(handle, user_status::TOURNAMENT);
             tournament_handler::instance().join(handle, key);
         } break;
         case messages_type::TOURNAMENT_LEAVE: {
-            ensure_status(status, user_status::TOURNAMENT, true);
+            //            ensure_status(status, user_status::TOURNAMENT, true);
             set_user_status(handle, user_status::MENU);
             tournament_handler::instance().leave(handle);
         } break;

@@ -264,7 +264,8 @@ void application::update_screens() {
                         std::string enemy_handle;
                         msg >> enemy_handle;
                         if (!enemy_handle.empty()) {
-                            std::uint8_t enemy_status, enemy_rate;
+                            std::uint8_t enemy_status;
+                            std::int32_t enemy_rate;
                             msg >> enemy_status >> enemy_rate;
                             room_handler::instance().update_enemy(room_handler::player_info{
                                 enemy_handle,
@@ -278,7 +279,8 @@ void application::update_screens() {
                         std::cout << "got ROOM_ENEMY_JOINED" << std::endl;
                         std::string enemy_handle;
                         msg >> enemy_handle;
-                        std::uint8_t enemy_status, enemy_rate;
+                        std::uint8_t enemy_status;
+                        std::int32_t enemy_rate;
                         msg >> enemy_status >> enemy_rate;
                         room_handler::instance().update_enemy(room_handler::player_info{
                             enemy_handle,
