@@ -24,9 +24,11 @@ void tournament_handler::create(const std::string &handle, const std::string &to
 void tournament_handler::join(const std::string &handle, const std::string &key) {
     std::unique_lock lock(m_mutex);
 
-    chat_handler::instance().add_member(key, handle);
 
     if (m_tournament.count(key)) {
+
+        chat_handler::instance().add_member(key, handle);
+
         m_tournament[key].add_participant(handle);
         m_key_by_handle[handle] = key;
     }
