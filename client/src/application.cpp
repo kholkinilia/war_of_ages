@@ -234,9 +234,11 @@ void application::update_screens() {
                                 ->setEnabled(false);
                             break;
                         }
-                        room_handler::instance().update_me(room_handler::player_info{
-                            client::instance().get_handle(), room_handler::player_status::NOT_READY,
-                            /*TODO: get rate from client*/ 0});
+                        std::int32_t my_rate;
+                        msg >> my_rate;
+                        room_handler::instance().update_me(
+                            room_handler::player_info{client::instance().get_handle(),
+                                                      room_handler::player_status::NOT_READY, my_rate});
                         std::string enemy_handle;
                         msg >> enemy_handle;
                         if (!enemy_handle.empty()) {
