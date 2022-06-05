@@ -37,7 +37,10 @@ void client::login_or_authorize(bool is_login) {
     msg.header.id = is_login ? messages_type::AUTH_LOGIN : messages_type::AUTH_REGISTER;
     std::unique_lock l(m_mutex_handle_n_password);
     msg.insert_container(m_handle);
-    msg.insert_container(m_password);
+    int key;
+    std::ifstream f("../common/configs/key.txt");
+    f >> key;
+    msg << static_cast<uint64_t>(std::hash<std::string>{}(m_password) ^ key);
     send_message(msg);
 }
 

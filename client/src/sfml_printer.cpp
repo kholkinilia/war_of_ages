@@ -244,8 +244,8 @@ void sfml_printer::print_game(const std::pair<player_snapshot, player_snapshot> 
             ->get("coin_label" + std::to_string(i))
             ->cast<tgui::Label>()
             ->setText(std::to_string(
-                unit::get_stats(
-                    static_cast<unit_type>(static_cast<int>(p1.age) * static_cast<int>(UNITS_PER_AGE) + i))
+                cannon::get_stats(
+                    static_cast<cannon_type>(static_cast<int>(p1.age) * static_cast<int>(UNITS_PER_AGE) + i))
                     .cost));
     }
 

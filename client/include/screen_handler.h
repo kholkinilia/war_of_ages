@@ -28,6 +28,7 @@ struct screen_handler {
         STATISTICS,
         LOGIN_OR_AUTHORIZATION,
         UNAUTHORIZED_SCREEN,
+        SIGNOUT,
         PREVIOUS,  // grandmaster move
         PREVIOUS_MENU,
     };
@@ -45,6 +46,7 @@ struct screen_handler {
         {screen_type::END_GAME, "end_game_screen"},
         {screen_type::STATISTICS, "statistics_screen"},
         {screen_type::LOGIN_OR_AUTHORIZATION, "login_screen"},
+        {screen_type::SIGNOUT, "signout_screen"},
         {screen_type::UNAUTHORIZED_SCREEN, "unauthorized_screen"}};
 
 private:
@@ -70,6 +72,7 @@ private:
     void statistics_screen_init();
     void login_screen_init();
     void unauthorized_screen_init();
+    void signout_screen_init();
     void wait_for_server_screen_init();
 
     screen_handler();

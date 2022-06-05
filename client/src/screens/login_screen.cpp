@@ -12,6 +12,48 @@
 
 namespace war_of_ages::client {
 
+void screen_handler::signout_screen_init() {
+    auto signout_screen_group = tgui::Group::create();
+    tgui::Theme black_theme("../client/resources/tgui_themes/Black.txt");
+
+    auto authorized_label = tgui::Label::create();
+    authorized_label->getRenderer()->setTextSize(35);
+    authorized_label->setHorizontalAlignment(tgui::Label::HorizontalAlignment::Center);
+    authorized_label->getRenderer()->setTextColor(tgui::Color::White);
+    authorized_label->setText("Вы вошли в сеть, как");
+    signout_screen_group->add(authorized_label, "authorized_label");
+
+    auto resume_button = tgui::Button::create("Продолжить");
+    resume_button->setTextSize(30);
+    resume_button->onPress([&]() { change_screen(screen_type::MULTIPLAYER); });
+    signout_screen_group->add(resume_button, "resume_button");
+
+    auto signout_button = tgui::Button::create("Выйти из аккаунта");
+    signout_button->setTextSize(30);
+    signout_button->onPress([&]() {
+        std::fstream f("../client/configs/client_config.txt");
+        client::instance().disconnect();
+        client::instance().set_is_authorized(false);
+        // client::instance().connect(client::instance().get_server_ip(),
+        // client::instance().get_server_port());
+        change_screen(screen_type::LOGIN_OR_AUTHORIZATION);
+    });
+    signout_screen_group->add(signout_button, "return_button");
+
+    auto return_button = tgui::Button::create("Назад");
+    return_button->setRenderer(black_theme.getRenderer("Button"));
+    return_button->setTextSize(30);
+    return_button->onPress(
+        [&]() { screen_handler::instance().change_screen(screen_handler::screen_type::PREVIOUS_MENU); });
+    signout_screen_group->add(return_button, "return_button");
+
+    std::vector<tgui::Widget::Ptr> widgets = {authorized_label, resume_button, signout_button, return_button};
+    place_widgets(widgets);
+
+    m_gui.add(signout_screen_group, screen_handler::screen_id.at(screen_handler::screen_type::SIGNOUT));
+    m_gui.get(screen_handler::screen_id.at(screen_handler::screen_type::SIGNOUT))->setVisible(false);
+}
+
 void screen_handler::unauthorized_screen_init() {
     auto unauthorized_screen_group = tgui::Group::create();
     tgui::Theme black_theme("../client/resources/tgui_themes/Black.txt");
@@ -59,7 +101,7 @@ void screen_handler::login_screen_init() {
 
     auto make_visible_button = tgui::Button::create();
     make_visible_button->setSize("5.625%", "10%");
-    make_visible_button->setPosition("64.375%", "30%");
+    make_visible_button->setPosition("64.375%", "22.4%");
     make_visible_button->getRenderer()->setTexture("../client/resources/menu/visible.png");
     make_visible_button->getRenderer()->setTextureHover("../client/resources/menu/visible.png");
     make_visible_button->getRenderer()->setTextureFocused("../client/resources/menu/visible.png");
@@ -169,6 +211,21 @@ void screen_handler::login_screen_init() {
     signup_button->onPress([&]() { login_or_authorization(false); });
     login_screen_group->add(signup_button, "login_button");
 
+    auto old_acc_button = tgui::Button::create("Войти с сохраненным аккаунтом");
+    old_acc_button->setTextSize(30);
+    old_acc_button->onPress([&]() {
+        client::instance().clear_messages();
+        if (!client::instance().is_connected()) {
+            if (client::instance().connect(client::instance().get_server_ip(),
+                                           client::instance().get_server_port())) {
+                client::instance().login_or_authorize(true);
+            }
+        } else {
+            client::instance().login_or_authorize(true);
+        }
+    });
+    login_screen_group->add(old_acc_button, "old_button");
+
     auto return_button = tgui::Button::create("Назад");
     return_button->setTextSize(30);
     return_button->onPress(
@@ -176,7 +233,7 @@ void screen_handler::login_screen_init() {
     login_screen_group->add(return_button, "return_button");
 
     std::vector<tgui::Widget::Ptr> widgets = {login_box, password_box, send_button, signup_button,
-                                              return_button};
+                                              return_button, old_acc_button};
     place_widgets(widgets);
 
     m_gui.add(login_screen_group,

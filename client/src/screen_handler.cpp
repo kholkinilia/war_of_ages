@@ -35,6 +35,7 @@ void screen_handler::init(sf::RenderWindow &window) {
     statistics_screen_init();
     login_screen_init();
     unauthorized_screen_init();
+    signout_screen_init();
 
     //    static chat_handler chat;
     //    chat.show();

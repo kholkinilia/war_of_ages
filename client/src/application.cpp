@@ -134,11 +134,34 @@ void application::update_screens() {
                             std::ofstream login_password("../client/configs/client_config.txt");
                             login_password << client::instance().get_handle() << std::endl;
                             login_password << client::instance().get_password();
+                            screen_handler::instance().change_screen(
+                                screen_handler::screen_type::MULTIPLAYER);
                         } else {
+                            screen_handler::instance().change_screen(screen_handler::screen_type::SIGNOUT);
+                            screen_handler::instance()
+                            .get_gui()
+                            .get(screen_handler::screen_id.at(
+                                screen_handler::screen_type::SIGNOUT))
+                                ->cast<tgui::Group>()
+                                ->get("authorized_label")
+                                ->cast<tgui::Label>()
+                                ->setText("Вы вошли в сеть, ваш хендл: " + client::instance().get_handle());
                             set_state(state::MULTIPLAYER);
                         }
-                        screen_handler::instance().change_screen(screen_handler::screen_type::MULTIPLAYER);
                         client::instance().set_is_authorized(true);
+                    } break;
+                    case messages_type::AUTH_ALREADY_USING: {
+                        screen_handler::instance().change_screen(
+                            screen_handler::screen_type::UNAUTHORIZED_SCREEN);
+                        screen_handler::instance()
+                        .get_gui()
+                        .get(screen_handler::screen_id.at(
+                            screen_handler::screen_type::UNAUTHORIZED_SCREEN))
+                            ->cast<tgui::Group>()
+                            ->get("unauthorized_label")
+                            ->cast<tgui::Label>()
+                            ->setText("Этот пользователь уже онлайн");
+                        client::instance().set_is_authorized(false);
                     } break;
                     case messages_type::GAME_START: {
                         std::cerr << "GOT GAME_START" << std::endl;

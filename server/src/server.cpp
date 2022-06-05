@@ -1,5 +1,6 @@
 #include "../include/server.h"
 #include <cassert>
+#include <fstream>
 #include "../include/chat_handler.h"
 #include "../include/database_handler.h"
 #include "../include/game_handler.h"
@@ -102,29 +103,35 @@ void server::on_message(std::shared_ptr<connection<messages_type>> client, messa
         }
         message<messages_type> msg_response;
 
-        std::string user_password, user_handle;
-        msg.extract_container(user_password);
+        std::string user_handle;
+        uint64_t password_hash;
+        msg >> password_hash;
         msg.extract_container(user_handle);
+
+        int key;
+        std::ifstream f("../common/configs/key.txt");
+        f >> key;
+        password_hash = password_hash ^ key;
 
         //---------------------------
         // TODO: handle login/register attempt
         message<messages_type> response;
         if (msg.header.id == messages_type::AUTH_LOGIN) {
-            if (!database_handler::get_instance().sign_in(user_handle, user_password)) {
+            if (!database_handler::get_instance().sign_in(user_handle, std::to_string(password_hash))) {
                 response.header.id = messages_type::AUTH_LOGIN_FAILED;
             } else {
                 response.header.id = messages_type::AUTH_LOGIN_SUCCEEDED;
             }
         } else {
-            if (!database_handler::get_instance().registration(user_handle, user_password)) {
+            if (!database_handler::get_instance().registration(user_handle, std::to_string(password_hash))) {
                 response.header.id = messages_type::AUTH_REGISTER_FAILED;
             } else {
                 response.header.id = messages_type::AUTH_REGISTER_SUCCEEDED;
             }
         }
-        server_interface::send_message(client, response);
         if (response.header.id == messages_type::AUTH_REGISTER_FAILED ||
             response.header.id == messages_type::AUTH_LOGIN_FAILED) {
+            server_interface::send_message(client, response);
             return;
         }
         //---------------------------
@@ -144,6 +151,8 @@ void server::on_message(std::shared_ptr<connection<messages_type>> client, messa
                 on_client_disconnect(other_connection);
             }
         }
+
+        server_interface::send_message(client, response);
 
         // wait for erasing old info
         m_finished_on_disconnect.wait(
