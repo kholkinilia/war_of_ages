@@ -89,7 +89,7 @@ void server::on_client_disconnect(std::shared_ptr<connection<messages_type>> cli
 }
 
 void server::on_message(std::shared_ptr<connection<messages_type>> client, message<messages_type> msg) {
-    //    std::cerr << "Received message: " << msg << std::endl;
+    //        std::cerr << "Received message: " << msg;
     if (std::uint32_t valid_size = valid_body_size.at(msg.header.id);
         msg.header.size != valid_size && valid_size != -1) {
         client->disconnect();

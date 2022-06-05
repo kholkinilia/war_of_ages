@@ -45,26 +45,17 @@ void tournament::add_participant(const std::string &handle) {
 }
 
 void tournament::add_result(const std::string &winner, const std::string &loser) {
-    //    std::cerr << "In result before lock" << std::endl;
     std::unique_lock lock(m_mutex);
-    //    std::cerr << "Lock taken" << std::endl;
     std::size_t winner_id = get_id(winner);
     std::size_t loser_id = get_id(loser);
-    //    std::cerr << "Adding result for '" << winner << "' and '" << loser << "'" << std::endl;
-    //    for (std::size_t i = 0; i < m_participants.size(); i++) {
-    //        std::cerr << i << ": " << m_participants[i] << std::endl;
-    //    }
     if (winner_id == m_participants.size() || loser_id == m_participants.size()) {
-        //        std::cerr << "One of the participants does not exist." << std::endl;
+        std::cerr << "wrong ids: " << winner_id << " " << loser_id << std::endl;
         return;
     }
     m_match_results[winner_id][loser_id] = game_result::VICTORY;
     m_match_results[loser_id][winner_id] = game_result::DEFEAT;
     m_sum[winner_id] += WIN_POINTS;
-    //    std::cerr << "Updating places..." << std::endl;
     update_places_lock_held();
-
-    //    std::cerr << "Places updated.\nRunning post_add_result..." << std::endl;
     post_add_result(winner, loser);
 }
 
@@ -77,17 +68,14 @@ void tournament::remove_participant(const std::string &handle) {
     }
 
     for (std::size_t i = 0; i < m_participants.size(); i++) {
-        if (m_match_results[remove_id][i] == game_result::DEFEAT) {
-            m_sum[i] -= WIN_POINTS;
+        if (i == remove_id) {
+            continue;
+        }
+        if (m_match_results[remove_id][i] == game_result::NONE) {
+            m_match_results[remove_id][i] = game_result::DEFEAT;
+            m_match_results[i][remove_id] = game_result::VICTORY;
         }
     }
-    for (auto &part_results : m_match_results) {
-        part_results.erase(part_results.begin() + remove_id);
-    }
-    m_match_results.erase(m_match_results.begin() + remove_id);
-    m_sum.erase(m_sum.begin() + remove_id);
-    m_place.erase(m_place.begin() + remove_id);
-    m_participants.erase(m_participants.begin() + remove_id);
     update_places_lock_held();
 
     post_remove_participant(handle, remove_id);

@@ -32,7 +32,8 @@ void room_handler::update_enemy(std::optional<player_info> enemy) {
             .get_gui()
             .get<tgui::Group>(screen_handler::screen_id.at(screen_handler::screen_type::ROOM_SCREEN))
             ->get<tgui::Picture>("enemy_readiness")
-            ->setRenderer(theme.getRenderer(enemy->status == player_status::READY ? "ready" : "not_ready"));
+            ->setRenderer(
+                theme.getRenderer(enemy->status == player_status::READY ? "ready_pic" : "not_ready_pic"));
         screen_handler::instance()
             .get_gui()
             .get<tgui::Group>(screen_handler::screen_id.at(screen_handler::screen_type::ROOM_SCREEN))
@@ -78,7 +79,7 @@ void room_handler::change_enemy_status(player_status status) {
         .get_gui()
         .get<tgui::Group>(screen_handler::screen_id.at(screen_handler::screen_type::ROOM_SCREEN))
         ->get<tgui::Picture>("enemy_readiness")
-        ->setRenderer(theme.getRenderer(status == player_status::READY ? "ready" : "not_ready"));
+        ->setRenderer(theme.getRenderer(status == player_status::READY ? "ready_pic" : "not_ready_pic"));
 }
 
 void room_handler::change_my_status(player_status status) {
