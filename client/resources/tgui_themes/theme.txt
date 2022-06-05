@@ -98,6 +98,14 @@ not_ready {
     TextureHover   = "../pictures/not_ready_outlined.png";
 }
 
+ready_pic {
+    Texture        = "../pictures/ready.png";
+}
+
+not_ready_pic {
+    Texture        = "../pictures/not_ready.png";
+}
+
 settings_icon {
     Texture        = "../pictures/settings_icon.png";
     TextureHover   = "../pictures/settings_icon_outlined.png";
