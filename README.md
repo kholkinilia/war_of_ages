@@ -80,6 +80,6 @@ war_of_ages.exe
 ```
 
 Last beat is to install music (it's optional actually).
-Just put the music you like to play during the lobby in `client/resources/sounds/lobby_music.{whatever extention is (except of mp3)}`.
-And also you can install a battle music into `client/resources/sounds/battle_music.{whatever extention is (except of mp3)}`.
+Just put the music you like to play during the lobby in `client/resources/sounds/lobby_music.{wav, ogg, flac}`.
+And also you can install a battle music into `client/resources/sounds/battle_music.{wav, ogg, flac}`.
 
