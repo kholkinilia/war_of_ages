@@ -46,8 +46,10 @@ Click on them:
 ### Install on Windows
 
 You will need `MSYS2`, which you can install [here](https://www.msys2.org/#installation).
+It is supposed that you already have `cmake` and `git`. If not here is the 
+[link](https://wiki.compscicenter.ru/index.php/C%2B%2B_1MIT_%D0%B2%D0%B5%D1%81%D0%BD%D0%B0_1_2022), where you can see how to install it.
 
-Once you've installed it, run the following lines in `MSYS2` to install all libs except of TGUI:
+Once you've installed it, run the following lines in `MSYS2` to install all libs except of `TGUI`:
 
 ```
 pacman -S mingw-w64-x86_64-sfml 
@@ -56,7 +58,7 @@ pacman -S mingw-w64-x86_64-sqlite3
 ```
 
 Now open cmd and just run the following lines in your cmd
-from an empty directory to install TGUI and build project:
+from an empty directory to install `TGUI` and to build the project:
 
 ``` 
 git clone https://github.com/kholkinilya/war_of_ages.git
