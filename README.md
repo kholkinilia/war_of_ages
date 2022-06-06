@@ -22,23 +22,71 @@
 </p>
 
 ### Features
- * Play a single player game just like in Age of War.
- * Play a game with your friend or a random dude.
- * Participate in tournaments.
- * Make a bot play for you, so you can have a rest during the game (and, hopefully, not lose).
- * See your stats, i.e. rating, number of games won/lost online, etc.
- * Chat with your friends inplace during a tournament or a game.
+
+* Play a single player game just like in Age of War.
+* Play a game with your friend or a random dude.
+* Participate in tournaments.
+* Make a bot play for you, so you can have a rest during the game (and, hopefully, not lose).
+* See your stats, i.e. rating, number of games won/lost online, etc.
+* Chat with your friends inplace during a tournament or a game.
 
 ### Demo video
 
 Click on them:
 
-[![Demo video](https://static8.depositphotos.com/1394326/864/i/600/depositphotos_8642715-stock-photo-six-in-a-basket.jpg)](https://youtu.be/-E0vVK4ZyDA)
+[![Demo video](https://static8.depositphotos.com/1394326/864/i/600/depositphotos_8642715-stock-photo-six-in-a-basket.jpg)](https://www.youtube.com/watch?v=k8IB5wZuL_I&t=0s)
 
-### Dependencies 
+### Dependencies
 
-* SFML 
+* SFML
 * TGUI
 * boost::asio
 * SQLite3
+
+### Install on Windows
+
+You will need `MSYS2`, which you can install [here](https://www.msys2.org/#installation).
+It is supposed that you already have `cmake` and `git`. If not here is the 
+[link](https://wiki.compscicenter.ru/index.php/C%2B%2B_1MIT_%D0%B2%D0%B5%D1%81%D0%BD%D0%B0_1_2022), where you can see how to install it.
+
+Once you've installed it, run the following lines in `MSYS2` to install all libs except of `TGUI`:
+
+```
+pacman -S mingw-w64-x86_64-sfml 
+pacman -S mingw-w64-x86_64-boost
+pacman -S mingw-w64-x86_64-sqlite3 
+```
+
+Now open cmd and just run the following code line by line from an empty
+directory to install `TGUI` and build the project:
+
+``` 
+git clone https://github.com/kholkinilya/war_of_ages.git
+mkdir build
+cd war_of_ages\build
+
+git clone https://github.com/texus/TGUI.git
+mkdir TGUI\build
+cd TGUI\build
+cmake .. -G="MSYS Makefiles" -DCMAKE_BUILD_TYPE=Debug -DTGUI_CXX_STANDARD=17 -DTGUI_BACKEND=SFML_GRAPHICS -DTGUI_BUILD_GUI_BUILDER=0
+make -j4
+cd ..\..
+
+cmake .. -G="MSYS Makefiles" -DTGUI_DIR=.\TGUI\build
+make -j4  
+
+cp TGUI/build/lib/tgui-d.dll .
+mkdir -p ../client/resources/sounds/music/
+
+war_of_ages.exe
+```
+
+Last beat is to install music (it's optional actually).
+* Just put the music you'd like to play while in lobby in `client/resources/sounds/lobby_music.{wav, ogg, flac}`.
+
+* Also, you can install a battle music into `client/resources/sounds/battle_music.{wav, ogg, flac}`.
+
+### Install on Linux
+
+Seems to us that you are capable of installing it yourself since you are a Linux user.
 
