@@ -57,8 +57,8 @@ pacman -S mingw-w64-x86_64-boost
 pacman -S mingw-w64-x86_64-sqlite3 
 ```
 
-Now open cmd and just run the following lines in your cmd
-from an empty directory to install `TGUI` and to build the project:
+Now open cmd and just run the following code line by line from an empty
+directory to install `TGUI` and build the project:
 
 ``` 
 git clone https://github.com/kholkinilya/war_of_ages.git
@@ -82,6 +82,11 @@ war_of_ages.exe
 ```
 
 Last beat is to install music (it's optional actually).
-Just put the music you like to play during the lobby in `client/resources/sounds/lobby_music.{wav, ogg, flac}`.
-And also you can install a battle music into `client/resources/sounds/battle_music.{wav, ogg, flac}`.
+* Just put the music you'd like to play while in lobby in `client/resources/sounds/lobby_music.{wav, ogg, flac}`.
+
+* Also, you can install a battle music into `client/resources/sounds/battle_music.{wav, ogg, flac}`.
+
+### Install on Linux
+
+Seems to us that you are capable of installing it yourself since you are a Linux user.
 
