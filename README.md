@@ -57,16 +57,22 @@ pacman -S mingw-w64-x86_64-boost
 pacman -S mingw-w64-x86_64-sqlite3 
 ```
 
+If you are getting error while installing packages from `MSYS2` try updating packages info with:
+
+```
+pacman -Syyu
+```
+
 Now open cmd and just run the following code line by line from an empty
 directory to install `TGUI` and build the project:
 
 ``` 
 git clone https://github.com/kholkinilya/war_of_ages.git
-mkdir build
+mkdir -p war_of_ages\build
 cd war_of_ages\build
 
 git clone https://github.com/texus/TGUI.git
-mkdir TGUI\build
+mkdir -p TGUI\build
 cd TGUI\build
 cmake .. -G="MSYS Makefiles" -DCMAKE_BUILD_TYPE=Debug -DTGUI_CXX_STANDARD=17 -DTGUI_BACKEND=SFML_GRAPHICS -DTGUI_BUILD_GUI_BUILDER=0
 make -j4
