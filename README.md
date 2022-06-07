@@ -38,18 +38,24 @@ Click on them:
 
 ### Dependencies
 
-* SFML
-* TGUI
-* boost::asio
-* SQLite3
+* [SFML](https://www.sfml-dev.org/)
+* [TGUI](https://tgui.eu/)
+* [boost::asio](https://www.boost.org/doc/libs/1_75_0/doc/html/boost_asio.html)
+* [SQLite3](https://www.sqlite.org/index.html)
 
 ### Install on Windows
 
-You will need `MSYS2`, which you can install [here](https://www.msys2.org/#installation).
-It is supposed that you already have `cmake` and `git`. If not here is the 
-[link](https://wiki.compscicenter.ru/index.php/C%2B%2B_1MIT_%D0%B2%D0%B5%D1%81%D0%BD%D0%B0_1_2022), where you can see how to install it.
+Sorry, we didn't manage to make it easy to install all dependencies with CMake, so 
+you will need to ~~suffer~~ try hard to install the project.
+To be clear, we don't guarantee that the method below works. For example, we 
+didn't manage to install War of Ages on a random computer run on Windows in 1.5 hours. :(
 
-Once you've installed it, run the following lines in `MSYS2` to install all libs except of `TGUI`:
+So, good luck!
+
+You will need `MSYS2`, which you can install [here](https://www.msys2.org/#installation).
+You will also need [CMake](https://cmake.org/) and [git](https://git-scm.com/).
+
+Once you've installed them, run the following lines in `MSYS2` to install all libs except of `TGUI`:
 
 ```
 pacman -S mingw-w64-x86_64-sfml 
@@ -63,7 +69,7 @@ If you are getting error while installing packages from `MSYS2` try updating pac
 pacman -Syyu
 ```
 
-Now open cmd and just run the following code line by line from an empty
+Now open cmd and just run the following code line by line (passing commentaries obviously) from an empty
 directory to install `TGUI` and build the project:
 
 ``` 
@@ -74,12 +80,14 @@ cd war_of_ages\build
 git clone https://github.com/texus/TGUI.git
 mkdir -p TGUI\build
 cd TGUI\build
-cmake .. -G="MSYS Makefiles" -DCMAKE_BUILD_TYPE=Debug -DTGUI_CXX_STANDARD=17 -DTGUI_BACKEND=SFML_GRAPHICS -DTGUI_BUILD_GUI_BUILDER=0
-make -j4
+
+# MSYS Makefiles is one of possible generators, you can use another one
+cmake .. -G="MSYS Makefiles" -DCMAKE_BUILD_TYPE=Debug -DTGUI_CXX_STANDARD=17 -DTGUI_BACKEND=SFML_GRAPHICS -DTGUI_BUILD_GUI_BUILDER=0 
+cmake --build . -j4
 cd ..\..
 
 cmake .. -G="MSYS Makefiles" -DTGUI_DIR=.\TGUI\build
-make -j4  
+cmake --build . -j4
 
 cp TGUI/build/lib/tgui-d.dll .
 mkdir -p ../client/resources/sounds/music/
