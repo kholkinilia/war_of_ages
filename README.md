@@ -47,9 +47,10 @@ Click on them:
 
 Sorry, we didn't manage to make it easy to install all dependencies with CMake, so 
 you will need to ~~suffer~~ try hard to install the project.
-To be clear, we don't guarantee that the method below works. For example, we 
-didn't manage to install War of Ages on a random computer run on Windows in 1.5 hours. :(
-On the other computer everything went smoothly and the project was installed in 7 minutes.
+To be clear, we don't guarantee that the method below works. 
+
+For example, we didn't manage to install War of Ages on a random computer run on Windows in 1.5 hours. `:(`
+Whereas, on another computer everything went smoothly and the project was installed in 7 minutes.
 
 So, good luck!
 
@@ -111,4 +112,3 @@ We personally recommend [this one](https://www.chosic.com/download-audio/29678/)
 ### Install on Linux
 
 Seems to us that you are capable of installing it yourself since you are a Linux user.
-
