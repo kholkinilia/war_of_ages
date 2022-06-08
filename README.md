@@ -49,6 +49,7 @@ Sorry, we didn't manage to make it easy to install all dependencies with CMake, 
 you will need to ~~suffer~~ try hard to install the project.
 To be clear, we don't guarantee that the method below works. For example, we 
 didn't manage to install War of Ages on a random computer run on Windows in 1.5 hours. :(
+On the other computer everything went smoothly and the project was installed in 7 minutes.
 
 So, good luck!
 
@@ -57,7 +58,12 @@ You will also need [CMake](https://cmake.org/) and [git](https://git-scm.com/).
 
 Once you've installed them, run the following lines in `MSYS2` to install all libs except of `TGUI`:
 
-```
+```shell
+# to install cmake with recommended generator
+pacman -S mingw-w64-x86_64-cmake 
+pacman -S make
+
+# to install libraries
 pacman -S mingw-w64-x86_64-sfml 
 pacman -S mingw-w64-x86_64-boost
 pacman -S mingw-w64-x86_64-sqlite3 
@@ -65,14 +71,14 @@ pacman -S mingw-w64-x86_64-sqlite3
 
 If you are getting error while installing packages from `MSYS2` try updating packages info with:
 
-```
+```shell
 pacman -Syyu
 ```
 
 Now open cmd and just run the following code line by line (passing commentaries obviously) from an empty
 directory to install `TGUI` and build the project:
 
-``` 
+```shell
 git clone https://github.com/kholkinilya/war_of_ages.git
 mkdir -p war_of_ages\build
 cd war_of_ages\build
@@ -89,8 +95,8 @@ cd ..\..
 cmake .. -G="MSYS Makefiles" -DTGUI_DIR=.\build\TGUI\build
 cmake --build . -j4
 
-cp TGUI/build/lib/tgui-d.dll .
-mkdir -p ../client/resources/sounds/music/
+cp TGUI\build\lib\tgui-d.dll .
+mkdir -p ..\client\resources\sounds\music
 
 war_of_ages.exe
 ```
@@ -99,6 +105,8 @@ Last beat is to install music (it's optional actually).
 * Just put the music you'd like to play while in lobby in `client/resources/sounds/lobby_music.{wav, ogg, flac}`.
 
 * Also, you can install a battle music into `client/resources/sounds/battle_music.{wav, ogg, flac}`.
+
+We personally recommend [this one](https://www.chosic.com/download-audio/29678/) for lobby and [this one](https://opengameart.org/content/campaign-more-music-inside?destination=node/25538) (`Middle_age_RPG_Theme_1.ogg`) for battle.
 
 ### Install on Linux
 
