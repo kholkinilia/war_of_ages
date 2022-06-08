@@ -86,7 +86,7 @@ cmake .. -G="MSYS Makefiles" -DCMAKE_BUILD_TYPE=Debug -DTGUI_CXX_STANDARD=17 -DT
 cmake --build . -j4
 cd ..\..
 
-cmake .. -G="MSYS Makefiles" -DTGUI_DIR=.\TGUI\build
+cmake .. -G="MSYS Makefiles" -DTGUI_DIR=.\build\TGUI\build
 cmake --build . -j4
 
 cp TGUI/build/lib/tgui-d.dll .
