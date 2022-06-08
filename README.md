@@ -57,14 +57,18 @@ So, good luck!
 You will need `MSYS2`, which you can install [here](https://www.msys2.org/#installation).
 You will also need [CMake](https://cmake.org/) and [git](https://git-scm.com/).
 
+To install `CMake` you could use `MSYS2` also:
+
+```shell
+pacman -S mingw-w64-x86_64-cmake 
+pacman -S make
+```
+
+Also, make sure you've added directories with `cmake.exe` and `make.exe` to your `PATH` variable.
+
 Once you've installed them, run the following lines in `MSYS2` to install all libs except of `TGUI`:
 
 ```shell
-# to install cmake with recommended generator
-pacman -S mingw-w64-x86_64-cmake 
-pacman -S make
-
-# to install libraries
 pacman -S mingw-w64-x86_64-sfml 
 pacman -S mingw-w64-x86_64-boost
 pacman -S mingw-w64-x86_64-sqlite3 
