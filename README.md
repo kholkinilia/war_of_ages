@@ -100,7 +100,7 @@ cd ..\..
 cmake .. -G="MSYS Makefiles" -DTGUI_DIR=.\build\TGUI\build
 cmake --build . -j4
 
-cp TGUI\build\lib\tgui-d.dll .
+cp TGUI\build\lib\tgui-d.dll .\client
 mkdir -p ..\client\resources\sounds\music
 
 war_of_ages.exe
