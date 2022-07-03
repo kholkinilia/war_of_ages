@@ -10,7 +10,7 @@ namespace war_of_ages::client {
 void screen_handler::room_screen_init() {
     auto room_screen_group = tgui::Group::create();
 
-    tgui::Texture rate_texture("../client/resources/pictures/rate.png");
+    tgui::Texture rate_texture("../../client/resources/pictures/rate.png");
 
     auto readiness_button = tgui::Button::create();
     readiness_button->setPosition({"37%", "45%"});

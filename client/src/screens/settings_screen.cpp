@@ -16,7 +16,7 @@ namespace war_of_ages::client {
 void screen_handler::settings_screen_init() {
     auto settings_screen_group = tgui::Group::create();
 
-    tgui::Theme black_theme("../client/resources/tgui_themes/Black.txt");
+    tgui::Theme black_theme("../../client/resources/tgui_themes/Black.txt");
 
     tgui::Label::Ptr battle_music_volume_label = tgui::Label::create("Громкость музыки в бою");
     tgui::Label::Ptr battle_sounds_volume_label = tgui::Label::create("Громкость звуков в бою");

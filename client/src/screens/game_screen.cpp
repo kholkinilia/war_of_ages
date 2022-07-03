@@ -35,17 +35,17 @@ static const std::unordered_map<age_type, std::string> age_to_string = {
     switch (a) {
         case action::BUY_UNIT:
             return "unit_" + age_to_string.at(age) + "_mini_" + std::to_string(i + 1);
-            //            return tgui::String("../client/resources/game/units/" + age_to_string.at(age) +
+            //            return tgui::String("../../client/resources/game/units/" + age_to_string.at(age) +
             //            "/mini/") +
             //                   std::to_string(i + 1) + tgui::String(".png");
         case action::BUY_CANNON:
             return "cannon_" + age_to_string.at(age) + "_mini_" + std::to_string(i + 1);
-            //            return tgui::String("../client/resources/game/cannons/" + age_to_string.at(age) +
+            //            return tgui::String("../../client/resources/game/cannons/" + age_to_string.at(age) +
             //            "/level") +
             //                   std::to_string(i + 1) + tgui::String(".png");
         case action::SELL_CANNON:
             return "sell_cannon_" + std::to_string(i + 1);
-            //            return tgui::String("../client/resources/pictures/") + std::to_string(i + 1) +
+            //            return tgui::String("../../client/resources/pictures/") + std::to_string(i + 1) +
             //                   tgui::String(".png");
         default:
             assert(!"Unreachable code!");
@@ -146,7 +146,7 @@ static void setup_buttons_cluster(std::vector<tgui::Group::Ptr> &groups, action 
         });
         groups[i]->add(button, std::to_string(i));
 
-        auto coin_image = tgui::Picture::create("../client/resources/pictures/dollar.png");
+        auto coin_image = tgui::Picture::create("../../client/resources/pictures/dollar.png");
         coin_image->setPosition(BACKGROUND_WIDTH - DELTA_X * k, FPS_LABEL_HEIGHT);
         coin_image->setSize(COST_WIDTH, COST_HEIGHT);
         groups[i]->add(coin_image, "coin_image");
@@ -224,7 +224,7 @@ void screen_handler::game_screen_init() {
                 assert(!"Unreachable code!");
         }
     });
-    auto plus_place_cannon_coin_image = tgui::Picture::create("../client/resources/pictures/dollar.png");
+    auto plus_place_cannon_coin_image = tgui::Picture::create("../../client/resources/pictures/dollar.png");
     plus_place_cannon_coin_image->setPosition(BACKGROUND_WIDTH - DELTA_X * 3, FPS_LABEL_HEIGHT);
     plus_place_cannon_coin_image->setSize(COST_WIDTH, COST_HEIGHT);
 
@@ -279,7 +279,7 @@ void screen_handler::game_screen_init() {
         }
     });
 
-    auto coin_image = tgui::Picture::create("../client/resources/pictures/dollar.png");
+    auto coin_image = tgui::Picture::create("../../client/resources/pictures/dollar.png");
     coin_image->setPosition(BUTTON_WIDTH, FPS_LABEL_HEIGHT);
     coin_image->setSize(COIN_WIDTH, COIN_HEIGHT);
 
@@ -287,7 +287,7 @@ void screen_handler::game_screen_init() {
     coin_label->getRenderer()->setTextSize(0.75 * COIN_HEIGHT);
     coin_label->setPosition(BUTTON_WIDTH + COIN_WIDTH, FPS_LABEL_HEIGHT + 1.5 * COIN_HEIGHT / COST_HEIGHT);
 
-    auto exp_image = tgui::Picture::create("../client/resources/pictures/exp.png");
+    auto exp_image = tgui::Picture::create("../../client/resources/pictures/exp.png");
     exp_image->setPosition(BUTTON_WIDTH, FPS_LABEL_HEIGHT + COIN_HEIGHT);
     exp_image->setSize(COIN_WIDTH, COIN_HEIGHT);
 

@@ -131,7 +131,7 @@ void application::update_screens() {
                     case messages_type::AUTH_REGISTER_SUCCEEDED: {
                         if (screen_handler::instance().get_screen_type() ==
                             screen_handler::screen_type::LOGIN_OR_AUTHORIZATION) {
-                            std::ofstream login_password("../client/configs/client_config.txt");
+                            std::ofstream login_password("../../client/configs/client_config.txt");
                             login_password << client::instance().get_handle() << std::endl;
                             login_password << client::instance().get_password();
                             screen_handler::instance().change_screen(

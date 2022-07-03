@@ -12,14 +12,14 @@ client &client::instance() {
 }
 
 client::client() : client_interface() {
-    std::fstream file("../config.txt");
+    std::fstream file("../../config.txt");
 
     std::getline(file, m_server_ip);
     std::string server_port_string;
     std::getline(file, server_port_string);
     m_server_port = std::stoi(server_port_string);
 
-    std::ifstream login_password("../client/configs/client_config.txt");
+    std::ifstream login_password("../../client/configs/client_config.txt");
     std::getline(login_password, m_handle);
     std::getline(login_password, m_password);
 }
@@ -38,7 +38,7 @@ void client::login_or_authorize(bool is_login) {
     std::unique_lock l(m_mutex_handle_n_password);
     msg.insert_container(m_handle);
     int key;
-    std::ifstream f("../common/configs/key.txt");
+    std::ifstream f("../../common/configs/key.txt");
     f >> key;
     msg << static_cast<uint64_t>(std::hash<std::string>{}(m_password) ^ key);
     send_message(msg);

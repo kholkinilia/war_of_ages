@@ -109,7 +109,7 @@ void server::on_message(std::shared_ptr<connection<messages_type>> client, messa
         msg.extract_container(user_handle);
 
         int key;
-        std::ifstream f("../common/configs/key.txt");
+        std::ifstream f("../../common/configs/key.txt");
         f >> key;
         password_hash = password_hash ^ key;
 

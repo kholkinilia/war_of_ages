@@ -78,7 +78,7 @@ void screen_handler::statistics_screen_init() {
     panel->setHorizontalScrollbarPolicy(tgui::Scrollbar::Policy::Never);
     statistics_screen_group->add(panel, "stats_panel");
 
-    tgui::Theme black_theme("../client/resources/tgui_themes/Black.txt");
+    tgui::Theme black_theme("../../client/resources/tgui_themes/Black.txt");
     auto return_button = tgui::Button::create("Назад");
     return_button->setRenderer(black_theme.getRenderer("Button"));
     return_button->setTextSize(30);

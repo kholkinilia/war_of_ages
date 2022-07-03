@@ -17,8 +17,8 @@ screen_handler &screen_handler::instance() {
 
 void screen_handler::init(sf::RenderWindow &window) {
     m_gui.setWindow(window);
-    tgui::Theme::setDefault("../client/resources/tgui_themes/Black.txt");
-    m_theme_buttons.load("../client/resources/tgui_themes/theme.txt");
+    tgui::Theme::setDefault("../../client/resources/tgui_themes/Black.txt");
+    m_theme_buttons.load("../../client/resources/tgui_themes/theme.txt");
 
     background_handler::init();
     tournament_screen_init();

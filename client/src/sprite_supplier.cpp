@@ -17,7 +17,7 @@ sf::Sprite sprite_supplier::create_sprite_instance(const std::string &filename, 
 }
 
 sprite_supplier::sprite_supplier() {
-    std::string common_file_prefix = "../client/resources/game/";
+    std::string common_file_prefix = "../../client/resources/game/";
 
     static std::unordered_map<age_type, std::string> age_to_string{
         {age_type::STONE, "stone"}, {age_type::CASTLE, "castle"},

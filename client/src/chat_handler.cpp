@@ -20,7 +20,7 @@ chat_handler::chat_handler() : m_used_colors(COLORS.size(), false) {
     m_chat_box->setSize("100%", "80%");
 
     tgui::Texture t;
-    t.load("../client/resources/pictures/chat_background.png");
+    t.load("../../client/resources/pictures/chat_background.png");
     m_chat_box->getRenderer()->setTextureBackground(t);
     m_chat_box->setTextStyle(sf::Text::Bold);
 
