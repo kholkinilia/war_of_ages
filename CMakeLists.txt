@@ -14,5 +14,12 @@ endif ()
 
 add_subdirectory(common)
 
+option(BUILD_CLIENT "Build the client" ON)
+option(BUILD_SERVER "Build the server" OFF)
+
+if (BUILD_CLIENT)
 add_subdirectory(client)
+endif()
+if (BUILD_SERVER)
 add_subdirectory(server)
+endif()
