@@ -80,7 +80,7 @@ If you are getting error while installing packages from `MSYS2` try updating pac
 pacman -Syyu
 ```
 
-Now open cmd and just run the following code line by line (passing commentaries obviously) from an empty
+Now open cmd and just run the following code line by line (skipping comments obviously) from an empty
 directory to install `TGUI` and build the project:
 
 ```shell
