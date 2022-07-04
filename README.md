@@ -103,7 +103,7 @@ cmake --build . -j4
 cp TGUI\build\lib\tgui-d.dll .\client
 mkdir -p ..\client\resources\sounds\music
 
-war_of_ages.exe
+client\war_of_ages_client.exe
 ```
 
 Last beat is to install music (it's optional actually).

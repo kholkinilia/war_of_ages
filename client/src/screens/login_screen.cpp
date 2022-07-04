@@ -1,7 +1,7 @@
 #include <fstream>
-#include "../../include/application.h"
-#include "../../include/client.h"
-#include "../../include/screen_handler.h"
+#include "application.h"
+#include "client.h"
+#include "screen_handler.h"
 #include "messages_type.h"
 
 // TGUI widgets

@@ -1,7 +1,7 @@
-#include "../include/background_handler.h"
+#include "background_handler.h"
 #include <TGUI/Widgets/Group.hpp>
 #include <random>
-#include "../include/screen_handler.h"
+#include "screen_handler.h"
 
 namespace war_of_ages::client {
 

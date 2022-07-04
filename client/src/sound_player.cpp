@@ -1,4 +1,4 @@
-#include "../include/sound_player.h"
+#include "sound_player.h"
 #include <filesystem>
 
 namespace war_of_ages::client {

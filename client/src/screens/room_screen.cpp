@@ -2,9 +2,9 @@
 #include <TGUI/Widgets/Group.hpp>
 #include <TGUI/Widgets/Label.hpp>
 #include <TGUI/Widgets/Picture.hpp>
-#include "../../include/client.h"
-#include "../../include/room_handler.h"
-#include "../../include/screen_handler.h"
+#include "client.h"
+#include "room_handler.h"
+#include "screen_handler.h"
 
 namespace war_of_ages::client {
 void screen_handler::room_screen_init() {

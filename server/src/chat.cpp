@@ -1,6 +1,6 @@
-#include "../include/chat.h"
+#include "chat.h"
 #include <utility>
-#include "../include/server.h"
+#include "server.h"
 #include "message.h"
 #include "messages_type.h"
 

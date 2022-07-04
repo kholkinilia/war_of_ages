@@ -3,14 +3,14 @@
 #include <TGUI/Widgets/Label.hpp>
 #include <TGUI/Widgets/Picture.hpp>
 #include <unordered_map>
-#include "../../include/application.h"
-#include "../../include/bot_actions_supplier.h"
-#include "../../include/client.h"
-#include "../../include/multiplayer_snapshots_handler.h"
-#include "../../include/player_actions_supplier.h"
-#include "../../include/screen_handler.h"
-#include "../../include/sfml_printer.h"
-#include "../../include/single_player_handler.h"
+#include "application.h"
+#include "bot_actions_supplier.h"
+#include "client.h"
+#include "multiplayer_snapshots_handler.h"
+#include "player_actions_supplier.h"
+#include "screen_handler.h"
+#include "sfml_printer.h"
+#include "single_player_handler.h"
 
 namespace war_of_ages::client {
 

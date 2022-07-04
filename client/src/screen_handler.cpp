@@ -1,12 +1,12 @@
-#include "../include/screen_handler.h"
+#include "screen_handler.h"
 #include <TGUI/Widgets/Button.hpp>
 #include <TGUI/Widgets/Group.hpp>
 #include <TGUI/Widgets/Label.hpp>
-#include "../include/application.h"
-#include "../include/background_handler.h"
-#include "../include/chat_handler.h"
-#include "../include/sfml_printer.h"
-#include "../include/single_player_handler.h"
+#include "application.h"
+#include "background_handler.h"
+#include "chat_handler.h"
+#include "sfml_printer.h"
+#include "single_player_handler.h"
 
 namespace war_of_ages::client {
 

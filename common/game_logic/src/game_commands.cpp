@@ -1,5 +1,5 @@
-#include "../include/game_commands.h"
-#include "../include/player.h"
+#include "game_commands.h"
+#include "player.h"
 
 namespace war_of_ages {
 

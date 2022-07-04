@@ -1,4 +1,4 @@
-#include "../include/game_handler.h"
+#include "game_handler.h"
 #include <thread>
 
 namespace war_of_ages::server {

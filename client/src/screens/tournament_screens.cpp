@@ -1,6 +1,6 @@
-#include "../../include/client.h"
-#include "../../include/screen_handler.h"
-#include "../../include/tournament_handler.h"
+#include "client.h"
+#include "screen_handler.h"
+#include "tournament_handler.h"
 #include "messages_type.h"
 
 // TGUI widgets

@@ -1,11 +1,11 @@
-#include "../include/sfml_printer.h"
+#include "sfml_printer.h"
 #include <TGUI/Widgets/Button.hpp>
 #include <TGUI/Widgets/Group.hpp>
 #include <TGUI/Widgets/Label.hpp>
 #include <utility>
-#include "../include/game_object_size_constants.h"
-#include "../include/screen_handler.h"
-#include "../include/sprite_supplier.h"
+#include "game_object_size_constants.h"
+#include "screen_handler.h"
+#include "sprite_supplier.h"
 
 namespace war_of_ages::client {
 

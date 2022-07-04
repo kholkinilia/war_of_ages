@@ -1,8 +1,8 @@
-#include "../include/client.h"
+#include "client.h"
 #include <fstream>
 #include <iostream>
-#include "../include/application.h"
-#include "../include/bot_actions_supplier.h"
+#include "application.h"
+#include "bot_actions_supplier.h"
 
 namespace war_of_ages::client {
 

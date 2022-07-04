@@ -1,9 +1,17 @@
-project(war_of_ages_client CXX)
+project(war_of_ages_client VERSION 1.0 LANGUAGES CXX)
+
+# ==== version configuration
+
+configure_file(configs/woa_client_version.h.in woa_client_version.h)
+
+# ==== searching for packages
 
 find_package(TGUI 0.10 COMPONENTS tgui)
 
 find_package(SFML 2.5 COMPONENTS system window graphics audio REQUIRED)
 add_definitions(-DSFML_STATIC)
+
+# ==== setting sources and libs
 
 set(CLIENT_PROJECT_SOURCES
         src/main.cpp
@@ -34,6 +42,17 @@ set(CLIENT_PROJECT_SOURCES
         src/screens/wait_for_server_screen.cpp
         src/background_handler.cpp
         )
-set(CLIENT_LIBS sfml-system sfml-window sfml-graphics sfml-audio tgui)
+
+set(CLIENT_LIBS
+        sfml-system
+        sfml-window
+        sfml-graphics
+        sfml-audio
+        tgui
+        )
+
+# adding executable and targeting everything
+
 add_executable(war_of_ages_client ${CLIENT_PROJECT_SOURCES})
 target_link_libraries(war_of_ages_client ${CLIENT_LIBS} ${NETWORKING_LIBS} common)
+target_include_directories(war_of_ages_client PUBLIC "${PROJECT_BINARY_DIR}" "include")

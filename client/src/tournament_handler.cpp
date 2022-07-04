@@ -1,9 +1,9 @@
-#include "../include/tournament_handler.h"
+#include "tournament_handler.h"
 #include <TGUI/Widgets/EditBox.hpp>
 #include <TGUI/Widgets/Group.hpp>
 #include <TGUI/Widgets/Label.hpp>
-#include "../include/client.h"
-#include "../include/screen_handler.h"
+#include "client.h"
+#include "screen_handler.h"
 
 namespace war_of_ages::client {
 

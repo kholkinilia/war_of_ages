@@ -1,4 +1,4 @@
-#include "../include/animation_supplier.h"
+#include "animation_supplier.h"
 namespace war_of_ages::client {
 
 animation_supplier::animation_supplier(const std::string &texture_filename,

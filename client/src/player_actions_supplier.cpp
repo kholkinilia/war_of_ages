@@ -1,4 +1,4 @@
-#include "../include/player_actions_supplier.h"
+#include "player_actions_supplier.h"
 #include <mutex>
 
 namespace war_of_ages::client {

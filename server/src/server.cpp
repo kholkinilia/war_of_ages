@@ -1,12 +1,12 @@
-#include "../include/server.h"
+#include "server.h"
 #include <cassert>
 #include <fstream>
-#include "../include/chat_handler.h"
-#include "../include/database_handler.h"
-#include "../include/game_handler.h"
-#include "../include/random_matchmaker.h"
-#include "../include/room_matchmaker.h"
-#include "../include/tournament_handler.h"
+#include "chat_handler.h"
+#include "database_handler.h"
+#include "game_handler.h"
+#include "random_matchmaker.h"
+#include "room_matchmaker.h"
+#include "tournament_handler.h"
 #include "network.h"
 
 #define ensure_status(status, valid_status, is_true) \

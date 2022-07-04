@@ -1,9 +1,9 @@
-#include "../include/room_matchmaker.h"
+#include "room_matchmaker.h"
 #include <algorithm>
 #include <cassert>
-#include "../include/database_handler.h"
-#include "../include/game_handler.h"
-#include "../include/server.h"
+#include "database_handler.h"
+#include "game_handler.h"
+#include "server.h"
 
 namespace war_of_ages::server {
 room_matchmaker &room_matchmaker::instance() {

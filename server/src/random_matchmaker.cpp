@@ -1,7 +1,7 @@
-#include "../include/random_matchmaker.h"
+#include "random_matchmaker.h"
 #include <algorithm>
-#include "../include/game_handler.h"
-#include "../include/server.h"
+#include "game_handler.h"
+#include "server.h"
 
 namespace war_of_ages::server {
 random_matchmaker &random_matchmaker::instance() {
