@@ -1,5 +1,5 @@
-#include "../../include/client.h"
-#include "../../include/screen_handler.h"
+#include "client.h"
+#include "screen_handler.h"
 
 // TGUI widgets
 #include <TGUI/Widgets/Button.hpp>
@@ -10,7 +10,7 @@ namespace war_of_ages::client {
 
 void screen_handler::opponent_waiting_screen_init() {
     auto opponent_waiting_screen_group = tgui::Group::create();
-    auto loading = tgui::Picture::create("../client/resources/pictures/loading.png");
+    auto loading = tgui::Picture::create("../../client/resources/pictures/loading.png");
     opponent_waiting_screen_group->add(loading, "image");
 
     auto return_button = tgui::Button::create("В главное меню");

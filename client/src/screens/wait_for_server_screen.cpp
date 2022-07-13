@@ -2,7 +2,7 @@
 #include <TGUI/Widgets/EditBox.hpp>
 #include <TGUI/Widgets/Group.hpp>
 #include <TGUI/Widgets/Label.hpp>
-#include "../../include/screen_handler.h"
+#include "screen_handler.h"
 
 namespace war_of_ages::client {
 

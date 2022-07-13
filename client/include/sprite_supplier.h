@@ -8,7 +8,7 @@
 #include <thread>
 #include <unordered_map>
 #include <vector>
-#include "../include/animation_supplier.h"
+#include "animation_supplier.h"
 #include "age.h"
 #include "bullet.h"
 #include "cannon.h"

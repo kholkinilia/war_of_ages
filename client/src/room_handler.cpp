@@ -1,10 +1,10 @@
-#include "../include/room_handler.h"
+#include "room_handler.h"
 #include <TGUI/Widgets/Button.hpp>
 #include <TGUI/Widgets/Group.hpp>
 #include <TGUI/Widgets/Label.hpp>
 #include <TGUI/Widgets/Picture.hpp>
-#include "../include/client.h"
-#include "../include/screen_handler.h"
+#include "client.h"
+#include "screen_handler.h"
 
 namespace war_of_ages::client {
 

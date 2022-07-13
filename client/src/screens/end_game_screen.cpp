@@ -1,6 +1,6 @@
-#include "../../include/bot_actions_supplier.h"
-#include "../../include/screen_handler.h"
-#include "../../include/sound_player.h"
+#include "bot_actions_supplier.h"
+#include "screen_handler.h"
+#include "sound_player.h"
 
 // TGUI widgets
 #include <TGUI/Widgets/Button.hpp>

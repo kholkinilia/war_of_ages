@@ -1,14 +1,14 @@
-#include "../include/background_handler.h"
+#include "background_handler.h"
 #include <TGUI/Widgets/Group.hpp>
 #include <random>
-#include "../include/screen_handler.h"
+#include "screen_handler.h"
 
 namespace war_of_ages::client {
 
 background_handler::background_handler() {
     m_pieces_texture.resize(NUMBER_OF_PIECES);
     for (int i = 0; i < NUMBER_OF_PIECES; i++) {
-        m_pieces_texture[i].loadFromFile("../client/resources/menu/background_pieces/" + std::to_string(i) +
+        m_pieces_texture[i].loadFromFile("../../client/resources/menu/background_pieces/" + std::to_string(i) +
                                          ".png");
     }
     m_layout_position.resize(GRID_DIM_SIZE, std::vector<sf::Vector2<float>>(GRID_DIM_SIZE));

@@ -3,8 +3,8 @@
 
 #include <mutex>
 #include <unordered_map>
-#include "../include/server.h"
-#include "../include/server_tournament.h"
+#include "server.h"
+#include "server_tournament.h"
 
 namespace war_of_ages::server {
 

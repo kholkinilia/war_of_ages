@@ -1,5 +1,5 @@
-#include "../../common/network/include/network.h"
-#include "../include/server.h"
+#include "network.h"
+#include "server.h"
 
 int main() {
     war_of_ages::server::server::set_port(12345);

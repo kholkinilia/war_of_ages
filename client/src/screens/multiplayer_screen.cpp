@@ -1,5 +1,5 @@
-#include "../../include/client.h"
-#include "../../include/screen_handler.h"
+#include "client.h"
+#include "screen_handler.h"
 
 // TGUI widgets
 #include <TGUI/Widgets/Button.hpp>

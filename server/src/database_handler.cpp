@@ -1,4 +1,4 @@
-#include "../include/database_handler.h"
+#include "database_handler.h"
 #include <random>
 #include <stdexcept>
 

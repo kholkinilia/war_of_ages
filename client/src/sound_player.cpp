@@ -1,4 +1,4 @@
-#include "../include/sound_player.h"
+#include "sound_player.h"
 #include <filesystem>
 
 namespace war_of_ages::client {
@@ -11,7 +11,7 @@ sound_player::sound_player() {
     for (int i = 0; i < static_cast<int>(sound_type::ENUM_END); i++) {
         auto cur_sound = static_cast<sound_type>(i);
         namespace fs = std::filesystem;
-        auto it = fs::directory_iterator("../client/resources/sounds/music/");
+        auto it = fs::directory_iterator("../../client/resources/sounds/music/");
         auto sound_file =
             std::find_if(fs::begin(it), fs::end(it), [cur_sound](const fs::directory_entry &entry) {
                 return entry.path().filename().replace_extension().string() ==

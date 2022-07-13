@@ -1,4 +1,4 @@
-#include "../include/tournament.h"
+#include "tournament.h"
 #include <algorithm>
 #include <cassert>
 #include <cstddef>

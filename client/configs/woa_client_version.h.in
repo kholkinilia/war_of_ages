@@ -1,0 +1,2 @@
+#define war_of_ages_client_VERSION_MAJOR @war_of_ages_client_VERSION_MAJOR@
+#define war_of_ages_client_VERSION_MINOR @war_of_ages_client_VERSION_MINOR@

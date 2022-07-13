@@ -1,14 +1,14 @@
-#include "../include/application.h"
-#include "../include/background_handler.h"
-#include "../include/client.h"
-#include "../include/multiplayer_snapshots_handler.h"
-#include "../include/room_handler.h"
-#include "../include/screen_handler.h"
-#include "../include/sfml_printer.h"
-#include "../include/single_player_handler.h"
-#include "../include/sound_player.h"
-#include "../include/sprite_supplier.h"
-#include "../include/tournament_handler.h"
+#include "application.h"
+#include "background_handler.h"
+#include "client.h"
+#include "multiplayer_snapshots_handler.h"
+#include "room_handler.h"
+#include "screen_handler.h"
+#include "sfml_printer.h"
+#include "single_player_handler.h"
+#include "sound_player.h"
+#include "sprite_supplier.h"
+#include "tournament_handler.h"
 
 // TGUI widgets
 #include <TGUI/Widgets/Group.hpp>
@@ -131,7 +131,7 @@ void application::update_screens() {
                     case messages_type::AUTH_REGISTER_SUCCEEDED: {
                         if (screen_handler::instance().get_screen_type() ==
                             screen_handler::screen_type::LOGIN_OR_AUTHORIZATION) {
-                            std::ofstream login_password("../client/configs/client_config.txt");
+                            std::ofstream login_password("../../client/configs/client_config.txt");
                             login_password << client::instance().get_handle() << std::endl;
                             login_password << client::instance().get_password();
                             screen_handler::instance().change_screen(

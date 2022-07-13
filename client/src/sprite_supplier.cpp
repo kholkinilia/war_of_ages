@@ -1,6 +1,6 @@
-#include "../include/sprite_supplier.h"
-#include "../include/bot_actions_supplier.h"
-#include "../include/game_object_size_constants.h"
+#include "sprite_supplier.h"
+#include "bot_actions_supplier.h"
+#include "game_object_size_constants.h"
 #include "age.h"
 #include "bullet.h"
 #include "cannon.h"
@@ -17,7 +17,7 @@ sf::Sprite sprite_supplier::create_sprite_instance(const std::string &filename, 
 }
 
 sprite_supplier::sprite_supplier() {
-    std::string common_file_prefix = "../client/resources/game/";
+    std::string common_file_prefix = "../../client/resources/game/";
 
     static std::unordered_map<age_type, std::string> age_to_string{
         {age_type::STONE, "stone"}, {age_type::CASTLE, "castle"},

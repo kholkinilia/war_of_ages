@@ -1,7 +1,7 @@
 #include <fstream>
-#include "../../include/application.h"
-#include "../../include/client.h"
-#include "../../include/screen_handler.h"
+#include "application.h"
+#include "client.h"
+#include "screen_handler.h"
 #include "messages_type.h"
 
 // TGUI widgets
@@ -14,7 +14,7 @@ namespace war_of_ages::client {
 
 void screen_handler::signout_screen_init() {
     auto signout_screen_group = tgui::Group::create();
-    tgui::Theme black_theme("../client/resources/tgui_themes/Black.txt");
+    tgui::Theme black_theme("../../client/resources/tgui_themes/Black.txt");
 
     auto authorized_label = tgui::Label::create();
     authorized_label->getRenderer()->setTextSize(35);
@@ -31,7 +31,7 @@ void screen_handler::signout_screen_init() {
     auto signout_button = tgui::Button::create("Выйти из аккаунта");
     signout_button->setTextSize(30);
     signout_button->onPress([&]() {
-        std::fstream f("../client/configs/client_config.txt");
+        std::fstream f("../../client/configs/client_config.txt");
         client::instance().disconnect();
         client::instance().set_is_authorized(false);
         // client::instance().connect(client::instance().get_server_ip(),
@@ -56,7 +56,7 @@ void screen_handler::signout_screen_init() {
 
 void screen_handler::unauthorized_screen_init() {
     auto unauthorized_screen_group = tgui::Group::create();
-    tgui::Theme black_theme("../client/resources/tgui_themes/Black.txt");
+    tgui::Theme black_theme("../../client/resources/tgui_themes/Black.txt");
 
     auto unauthorized_label = tgui::Label::create();
     unauthorized_label->getRenderer()->setTextSize(35);
@@ -102,9 +102,9 @@ void screen_handler::login_screen_init() {
     auto make_visible_button = tgui::Button::create();
     make_visible_button->setSize("5.625%", "10%");
     make_visible_button->setPosition("64.375%", "22.4%");
-    make_visible_button->getRenderer()->setTexture("../client/resources/menu/visible.png");
-    make_visible_button->getRenderer()->setTextureHover("../client/resources/menu/visible.png");
-    make_visible_button->getRenderer()->setTextureFocused("../client/resources/menu/visible.png");
+    make_visible_button->getRenderer()->setTexture("../../client/resources/menu/visible.png");
+    make_visible_button->getRenderer()->setTextureHover("../../client/resources/menu/visible.png");
+    make_visible_button->getRenderer()->setTextureFocused("../../client/resources/menu/visible.png");
     make_visible_button->onPress([&]() {
         auto button = screen_handler::instance()
                           .get_gui()
@@ -122,7 +122,7 @@ void screen_handler::login_screen_init() {
                 ->get("visibility_button")
                 ->cast<tgui::Button>()
                 ->getRenderer()
-                ->setTexture("../client/resources/menu/invisible.png");
+                ->setTexture("../../client/resources/menu/invisible.png");
             screen_handler::instance()
                 .get_gui()
                 .get(screen_id.at(screen_type::LOGIN_OR_AUTHORIZATION))
@@ -130,7 +130,7 @@ void screen_handler::login_screen_init() {
                 ->get("visibility_button")
                 ->cast<tgui::Button>()
                 ->getRenderer()
-                ->setTextureHover("../client/resources/menu/invisible.png");
+                ->setTextureHover("../../client/resources/menu/invisible.png");
             screen_handler::instance()
                 .get_gui()
                 .get(screen_id.at(screen_type::LOGIN_OR_AUTHORIZATION))
@@ -138,7 +138,7 @@ void screen_handler::login_screen_init() {
                 ->get("visibility_button")
                 ->cast<tgui::Button>()
                 ->getRenderer()
-                ->setTextureFocused("../client/resources/menu/invisible.png");
+                ->setTextureFocused("../../client/resources/menu/invisible.png");
         } else {
             button->setPasswordCharacter('*');
 
@@ -149,7 +149,7 @@ void screen_handler::login_screen_init() {
                 ->get("visibility_button")
                 ->cast<tgui::Button>()
                 ->getRenderer()
-                ->setTexture("../client/resources/menu/visible.png");
+                ->setTexture("../../client/resources/menu/visible.png");
             screen_handler::instance()
                 .get_gui()
                 .get(screen_id.at(screen_type::LOGIN_OR_AUTHORIZATION))
@@ -157,7 +157,7 @@ void screen_handler::login_screen_init() {
                 ->get("visibility_button")
                 ->cast<tgui::Button>()
                 ->getRenderer()
-                ->setTextureHover("../client/resources/menu/visible.png");
+                ->setTextureHover("../../client/resources/menu/visible.png");
             screen_handler::instance()
                 .get_gui()
                 .get(screen_id.at(screen_type::LOGIN_OR_AUTHORIZATION))
@@ -165,7 +165,7 @@ void screen_handler::login_screen_init() {
                 ->get("visibility_button")
                 ->cast<tgui::Button>()
                 ->getRenderer()
-                ->setTextureFocused("../client/resources/menu/visible.png");
+                ->setTextureFocused("../../client/resources/menu/visible.png");
         }
         button->setText(button->getText());
     });

@@ -1,4 +1,4 @@
-#include "../include/game_state.h"
+#include "game_state.h"
 #include <ctime>
 #include <memory>
 #include <vector>

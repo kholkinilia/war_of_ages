@@ -1,4 +1,4 @@
-#include "../include/vec2f.h"
+#include "vec2f.h"
 #include <iostream>
 
 namespace war_of_ages {

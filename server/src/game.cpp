@@ -1,7 +1,7 @@
-#include "../include/game.h"
-#include "../include/database_handler.h"
-#include "../include/game_handler.h"
-#include "../include/server.h"
+#include "game.h"
+#include "database_handler.h"
+#include "game_handler.h"
+#include "server.h"
 
 namespace war_of_ages::server {
 game::game(std::size_t id,

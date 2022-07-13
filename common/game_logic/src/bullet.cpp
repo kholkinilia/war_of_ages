@@ -1,8 +1,8 @@
-#include "../include/bullet.h"
+#include "bullet.h"
 #include <algorithm>
 #include <cassert>
 #include <unordered_map>
-#include "../include/game_constants.h"
+#include "game_constants.h"
 
 namespace war_of_ages {
 

@@ -1,8 +1,8 @@
-#include "../include/unit.h"
+#include "unit.h"
 #include <algorithm>
 #include <optional>
 #include <unordered_map>
-#include "../include/game_constants.h"
+#include "game_constants.h"
 
 namespace war_of_ages {
 

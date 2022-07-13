@@ -1,9 +1,9 @@
-#include "../../include/application.h"
-#include "../../include/client.h"
-#include "../../include/screen_handler.h"
-#include "../../include/sfml_printer.h"
-#include "../../include/single_player_handler.h"
-#include "../../include/sound_player.h"
+#include "application.h"
+#include "client.h"
+#include "screen_handler.h"
+#include "sfml_printer.h"
+#include "single_player_handler.h"
+#include "sound_player.h"
 #include "messages_type.h"
 
 // TGUI widgets
@@ -16,7 +16,7 @@ namespace war_of_ages::client {
 void screen_handler::settings_screen_init() {
     auto settings_screen_group = tgui::Group::create();
 
-    tgui::Theme black_theme("../client/resources/tgui_themes/Black.txt");
+    tgui::Theme black_theme("../../client/resources/tgui_themes/Black.txt");
 
     tgui::Label::Ptr battle_music_volume_label = tgui::Label::create("Громкость музыки в бою");
     tgui::Label::Ptr battle_sounds_volume_label = tgui::Label::create("Громкость звуков в бою");

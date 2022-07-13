@@ -1,4 +1,4 @@
-#include "../include/chat_handler.h"
+#include "chat_handler.h"
 #include <iostream>
 
 // "A lot of copypaste gives u extra lines in GitHub stats" (c) Sun Tzu "The Art of War"

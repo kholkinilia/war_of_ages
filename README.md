@@ -80,7 +80,7 @@ If you are getting error while installing packages from `MSYS2` try updating pac
 pacman -Syyu
 ```
 
-Now open cmd and just run the following code line by line (passing commentaries obviously) from an empty
+Now open cmd and just run the following code line by line (skipping comments obviously) from an empty
 directory to install `TGUI` and build the project:
 
 ```shell
@@ -100,10 +100,10 @@ cd ..\..
 cmake .. -G="MSYS Makefiles" -DTGUI_DIR=.\build\TGUI\build
 cmake --build . -j4
 
-cp TGUI\build\lib\tgui-d.dll .
+cp TGUI\build\lib\tgui-d.dll .\client
 mkdir -p ..\client\resources\sounds\music
 
-war_of_ages.exe
+client\war_of_ages_client.exe
 ```
 
 Last beat is to install music (it's optional actually).
