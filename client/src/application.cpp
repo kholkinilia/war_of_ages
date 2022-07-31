@@ -412,6 +412,15 @@ void application::update_screens() {
                                 ->setText(std::to_string(opponent_rating));
                         }
                     } break;
+                    case messages_type::SERVER_CONNECTED: {
+                        client::instance().set_connecting_status(false);
+                        if (!client::instance().get_is_authorized())
+                            screen_handler::instance().change_screen(
+                                screen_handler::screen_type::LOGIN_OR_AUTHORIZATION);
+                        else
+                            screen_handler::instance().change_screen(
+                                screen_handler::screen_type::MULTIPLAYER);
+                    } break;
                     default:
                         break;
                 }

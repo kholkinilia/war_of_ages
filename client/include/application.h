@@ -18,7 +18,7 @@ struct application {
     };
 
 private:
-    state m_state;
+    state m_state = state::MENU;
     multiplayer_state m_multiplayer_state = multiplayer_state::NONE;
     void update_screens();
 

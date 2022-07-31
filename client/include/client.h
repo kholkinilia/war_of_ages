@@ -24,6 +24,7 @@ public:
     void ignore_server();
     void set_handle(std::string handle);
     void set_password(std::string password);
+    void set_connecting_status(bool status);
     void ask_for_stats();
 
     [[nodiscard]] std::string get_handle() const;
@@ -31,6 +32,7 @@ public:
     [[nodiscard]] std::string get_server_ip() const;
     [[nodiscard]] std::uint16_t get_server_port() const;
     [[nodiscard]] bool get_is_authorized() const;
+    [[nodiscard]] bool is_connected();
     void set_is_authorized(bool value);
 
 private:
@@ -39,6 +41,7 @@ private:
     std::string m_password;
     std::string m_server_ip;
     std::uint16_t m_server_port;
+    bool m_is_connecting;
     bool m_is_authorized;
     mutable std::mutex m_mutex_handle_n_password;
     mutable std::mutex m_mutex_stats;

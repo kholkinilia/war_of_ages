@@ -4,10 +4,10 @@
 #include "chat_handler.h"
 #include "database_handler.h"
 #include "game_handler.h"
+#include "network.h"
 #include "random_matchmaker.h"
 #include "room_matchmaker.h"
 #include "tournament_handler.h"
-#include "network.h"
 
 #define ensure_status(status, valid_status, is_true) \
     if (((status) == (valid_status)) != (is_true))   \
@@ -57,6 +57,9 @@ void server::on_client_validated(std::shared_ptr<connection<messages_type>> clie
 }
 
 bool server::on_client_connect(std::shared_ptr<connection<messages_type>> client) {
+    message<messages_type> msg;
+    msg.header.id = messages_type::SERVER_CONNECTED;
+    client->send(msg);
     return true;
 }
 
