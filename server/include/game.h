@@ -5,8 +5,8 @@
 #include <functional>
 #include <optional>
 #include <string>
-#include "message.h"
 #include "game_state.h"
+#include "message.h"
 #include "messages_type.h"
 
 namespace war_of_ages::server {
@@ -23,6 +23,7 @@ struct game {
     void user_gave_up(const std::string &handle);
     void user_disconnected(const std::string &handle);
     void finish_game();
+    void send_snapshots();
 
     [[nodiscard]] std::size_t get_id() const;
     [[nodiscard]] bool is_finished() const;

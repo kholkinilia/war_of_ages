@@ -178,4 +178,16 @@ player_snapshot player::snapshot() const {
     return {m_units, m_bullets, m_cannons,      m_units_to_train,    m_age,
             m_exp,   m_money,   m_ult_cooldown, m_training_time_left};
 }
+
+void player::set_snapshot(const player_snapshot &snapshot) {
+    m_age = snapshot.age;
+    m_exp = snapshot.exp;
+    m_money = snapshot.money;
+    m_ult_cooldown = snapshot.m_ult_cooldown;
+    m_units = snapshot.units;
+    m_units_to_train = snapshot.units_to_train;
+    m_bullets = snapshot.bullets;
+    m_training_time_left = snapshot.m_training_time_left;
+}
+
 }  // namespace war_of_ages

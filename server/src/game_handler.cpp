@@ -19,12 +19,17 @@ void game_handler::add_game(
                                                 std::move(game_post_action));
 
     std::thread([cur_game = m_games[m_free_id]]() {
-        float prev_time = 0;
+        float prev_update_time = 0;
+        float prev_send_time = 0;
         while (!cur_game->is_finished()) {
             auto cur_time = static_cast<float>(clock()) / CLOCKS_PER_SEC;
-            if (cur_time - prev_time >= 0.003) {
-                prev_time = cur_time;
+            if (cur_time - prev_update_time >= 0.003) {
+                prev_update_time = cur_time;
                 cur_game->update();
+            }
+            if (cur_time - prev_send_time >= 0.2) {
+                prev_send_time = cur_time;
+                cur_game->send_snapshots();
             }
         }
         game_handler::instance().remove_game(cur_game->get_id());

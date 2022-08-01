@@ -35,6 +35,8 @@ struct player {
     void upgrade_age();
     void clear_dead_objects();
 
+    void set_snapshot(const player_snapshot &snapshot);
+
     // Getters
 
     [[nodiscard]] enum age_type age() const;

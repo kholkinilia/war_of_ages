@@ -45,4 +45,9 @@ void game_state::return_from_pause() noexcept {
     state_time = return_time;
 }
 
+void game_state::set_state(const player_snapshot &p1_snap, const player_snapshot &p2_snap) {
+    p1.set_snapshot(p1_snap);
+    p2.set_snapshot(p2_snap);
+}
+
 }  // namespace war_of_ages

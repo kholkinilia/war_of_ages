@@ -165,6 +165,7 @@ void application::update_screens() {
                     case messages_type::GAME_START: {
                         std::cerr << "GOT GAME_START" << std::endl;
                         multiplayer_snapshots_handler::instance().reset();
+                        multiplayer_snapshots_handler::instance().start_game();
 
                         std::string enemy_handle;
                         msg.extract_container(enemy_handle);
@@ -428,6 +429,7 @@ void application::update_screens() {
             switch (screen_handler::instance().get_screen_type()) {
                 case screen_handler::screen_type::GAME_SCREEN: {
                     if (multiplayer_snapshots_handler::instance().is_snapshot_initialized()) {
+                        multiplayer_snapshots_handler::instance().update_game();
                         sfml_printer::instance().print_game(
                             multiplayer_snapshots_handler::instance().get_snapshots());
                     }

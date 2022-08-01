@@ -21,6 +21,7 @@ public:
                 const std::vector<std::unique_ptr<game_command>> &p2_commands);
     [[nodiscard]] std::pair<player_snapshot, player_snapshot> snapshot_players() const;
     [[nodiscard]] game_status get_game_status() const;
+    void set_state(const player_snapshot &p1_snap, const player_snapshot &p2_snap);
     void return_from_pause() noexcept;
 };
 

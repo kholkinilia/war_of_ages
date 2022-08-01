@@ -1,5 +1,6 @@
 #include <mutex>
 #include <utility>
+#include "game_state.h"
 #include "player.h"
 
 #ifndef WAR_OF_AGES_MULTIPLAYER_SNAPSHOTS_HANDLER_H
@@ -17,12 +18,17 @@ struct multiplayer_snapshots_handler {
     void set_snapshots(std::pair<player_snapshot, player_snapshot> new_snapshots);
     [[nodiscard]] std::pair<player_snapshot, player_snapshot> get_snapshots() const;
 
+    void start_game();
+    void update_game();
+
     [[nodiscard]] bool is_snapshot_initialized() const;
     void reset();
 
 private:
     multiplayer_snapshots_handler() = default;
     std::pair<player_snapshot, player_snapshot> m_snapshots;
+    std::unique_ptr<game_state> m_cur_game;
+
     bool m_snapshot_initialized = false;
     mutable std::mutex m_mutex;
 };

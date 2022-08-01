@@ -31,6 +31,12 @@ void game::apply_command(const std::string &handle, std::unique_ptr<game_command
     } else {
         m_state.update({}, current_player_actions);
     }
+    if (m_state.get_game_status() != game_status::PROCESSING) {
+        // std::cerr << "GAME [" << m_id << "]: GAME_STATE: NOT PROCESSING, ASSIGN RESULT & FINISH\n";
+        m_result = m_state.get_game_status();
+    } else {
+        send_snapshots_lock_held();
+    }
 }
 
 void game::update() {
@@ -41,8 +47,6 @@ void game::update() {
     if (m_state.get_game_status() != game_status::PROCESSING) {
         // std::cerr << "GAME [" << m_id << "]: GAME_STATE: NOT PROCESSING, ASSIGN RESULT & FINISH\n";
         m_result = m_state.get_game_status();
-    } else {
-        send_snapshots_lock_held();
     }
 }
 
@@ -137,6 +141,11 @@ void game::finish_game() {
     m_game_post_action(winner, loser);
 
     database_handler::get_instance().add_game(database_handler::Result::WIN, winner, loser);
+}
+
+void game::send_snapshots() {
+    std::unique_lock l(m_mutex);
+    send_snapshots_lock_held();
 }
 
 }  // namespace war_of_ages::server
