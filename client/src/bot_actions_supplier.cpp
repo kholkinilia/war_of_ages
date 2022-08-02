@@ -74,6 +74,10 @@ bot_actions_supplier::action bot_actions_supplier::get_action(state state) {
 
 std::vector<std::unique_ptr<game_command>> bot_actions_supplier::get_actions(
     const std::pair<player_snapshot, player_snapshot> &p) {
+    //    std::vector<std::unique_ptr<game_command>> res;          // uncomment if you need a stupid bot
+    //    res.push_back(std::make_unique<buy_unit_command>(0));
+    //
+    //    return res;
     auto new_state = get_state(p);
     if (last_state.damage.first != -1) {
         float reward = get_reward(last_state, new_state);

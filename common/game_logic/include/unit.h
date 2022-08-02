@@ -33,6 +33,8 @@ struct unit_stats {
 
 struct unit {
 private:
+    const static inline float BERSERK_INTERVAL = 0.05;
+
     unit_type m_type = unit_type::STONE_TOWER;
     int m_remaining_hp;
     float m_attack_progress_s = 0;
@@ -50,6 +52,7 @@ public:
 
     void update(unit &enemy, const std::optional<unit> &next_allied_unit, float dt) noexcept;
     void attack(unit &enemy) const noexcept;
+    void berserk(unit &enemy) const noexcept;
     void decrease_hp(int damage) noexcept;
     [[nodiscard]] bool is_alive() const noexcept;
     [[nodiscard]] float dist(unit &enemy) const noexcept;

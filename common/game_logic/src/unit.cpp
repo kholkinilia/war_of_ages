@@ -124,4 +124,16 @@ float unit::attack_progress() const noexcept {
     return m_attack_progress_s;
 }
 
+void unit::berserk(unit &enemy) const noexcept {
+    /// units who are already dead and who are close to the attack time execute the last attack
+    if (is_alive()) {
+        return;
+    }
+
+    if (stats().attack_radius_pxls >= dist(enemy) && m_attack_progress_s < stats().attack_time_s &&
+        stats().attack_time_s - m_attack_progress_s <= BERSERK_INTERVAL) {
+        attack(enemy);
+    }
+}
+
 }  // namespace war_of_ages

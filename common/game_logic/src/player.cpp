@@ -21,15 +21,6 @@ void player::update(player &enemy, float dt) {
         }
     }
 
-    for (const auto &unit_ : enemies) {
-        if (!unit_.is_alive()) {
-            int cost = unit_.stats().cost;
-            m_money += static_cast<int>(1.5f * static_cast<float>(cost));
-            m_exp += static_cast<int>((1.0f + (FIELD_LENGTH_PXLS - unit_.position()) / FIELD_LENGTH_PXLS) *
-                                      static_cast<float>(cost));
-        }
-    }
-
     m_ult_cooldown = std::max(m_ult_cooldown - dt, 0.0f);
     m_training_time_left = std::max(m_training_time_left - dt, 0.0f);
     if (m_training_time_left == 0.0 && !m_units_to_train.empty()) {
@@ -188,6 +179,24 @@ void player::set_snapshot(const player_snapshot &snapshot) {
     m_units_to_train = snapshot.units_to_train;
     m_bullets = snapshot.bullets;
     m_training_time_left = snapshot.m_training_time_left;
+}
+
+void player::berserk_units(player &enemy) {
+    auto &enemies = enemy.m_units;
+    for (auto unit_it = m_units.rbegin(); unit_it + 1 != m_units.rend(); ++unit_it) {
+        unit_it->berserk(enemies.back());
+    }
+}
+
+void player::collect_profit(player &enemy) {
+    for (const auto &unit_ : enemy.units()) {
+        if (!unit_.is_alive()) {
+            int cost = unit_.stats().cost;
+            m_money += static_cast<int>(1.5f * static_cast<float>(cost));
+            m_exp += static_cast<int>((1.0f + (FIELD_LENGTH_PXLS - unit_.position()) / FIELD_LENGTH_PXLS) *
+                                      static_cast<float>(cost));
+        }
+    }
 }
 
 }  // namespace war_of_ages

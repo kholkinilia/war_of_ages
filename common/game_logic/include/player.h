@@ -33,6 +33,8 @@ struct player {
     void sell_cannon(int slot);
     void use_ult();
     void upgrade_age();
+    void berserk_units(player &enemy);
+    void collect_profit(player &enemy);
     void clear_dead_objects();
 
     void set_snapshot(const player_snapshot &snapshot);

@@ -10,6 +10,16 @@ void game_state::update(const std::vector<std::unique_ptr<game_command>> &p1_com
     float time = static_cast<float>(std::clock()) / CLOCKS_PER_SEC;
     p1.update(p2, time - state_time);
     p2.update(p1, time - state_time);
+
+    p1.berserk_units(p2);
+    p2.berserk_units(p1);
+
+    p1.collect_profit(p2);
+    p2.collect_profit(p1);
+
+    p1.clear_dead_objects();
+    p2.clear_dead_objects();
+
     state_time = time;
 
     for (auto &command : p1_commands) {
@@ -19,8 +29,6 @@ void game_state::update(const std::vector<std::unique_ptr<game_command>> &p1_com
         command->apply(p2);
     }
 
-    p1.clear_dead_objects();
-    p2.clear_dead_objects();
 }
 
 std::pair<player_snapshot, player_snapshot> game_state::snapshot_players() const {
