@@ -1,5 +1,4 @@
 #include "game_state.h"
-#include <ctime>
 #include <memory>
 #include <vector>
 
@@ -7,9 +6,9 @@ namespace war_of_ages {
 
 void game_state::update(const std::vector<std::unique_ptr<game_command>> &p1_commands,
                         const std::vector<std::unique_ptr<game_command>> &p2_commands) {
-    float time = static_cast<float>(std::clock()) / CLOCKS_PER_SEC;
-    p1.update(p2, time - m_state_time);
-    p2.update(p1, time - m_state_time);
+    std::uint64_t time = get_ms();
+    p1.update(p2, static_cast<float>(time - m_state_time) / MS_PER_SEC);
+    p2.update(p1, static_cast<float>(time - m_state_time) / MS_PER_SEC);
 
     p1.berserk_units(p2);
     p2.berserk_units(p1);
@@ -35,7 +34,7 @@ std::pair<player_snapshot, player_snapshot> game_state::snapshot_players() const
 }
 
 game_state::game_state()
-    : m_state_time(static_cast<float>(std::clock()) / CLOCKS_PER_SEC), m_start_time(m_state_time) {
+    : m_state_time(get_ms()), m_start_time(m_state_time) {
 }
 
 game_status game_state::get_game_status() const {
@@ -49,8 +48,7 @@ game_status game_state::get_game_status() const {
 }
 
 void game_state::return_from_pause() noexcept {
-    float return_time = static_cast<float>(std::clock()) / CLOCKS_PER_SEC;
-    m_state_time = return_time;
+    m_state_time = get_ms();
 }
 
 void game_state::set_state(const player_snapshot &p1_snap, const player_snapshot &p2_snap) {
@@ -58,8 +56,12 @@ void game_state::set_state(const player_snapshot &p1_snap, const player_snapshot
     p2.set_snapshot(p2_snap);
 }
 
-game_state::game_state(float start_time)
-    : m_state_time(static_cast<float>(std::clock()) / CLOCKS_PER_SEC), m_start_time(start_time) {
+game_state::game_state(std::uint64_t start_time)
+    : m_state_time(get_ms()), m_start_time(start_time) {
+}
+
+std::uint64_t game_state::get_start_time() const noexcept {
+    return m_state_time;
 }
 
 }  // namespace war_of_ages
