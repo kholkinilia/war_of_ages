@@ -13,10 +13,13 @@ enum class game_status { P1_WON, PROCESSING, P2_WON };
 struct game_state {
 private:
     player p1, p2;
-    float state_time;
+    float m_state_time;
+    float m_start_time;
 
 public:
     game_state();
+    game_state(float start_time);
+
     void update(const std::vector<std::unique_ptr<game_command>> &p1_commands,
                 const std::vector<std::unique_ptr<game_command>> &p2_commands);
     [[nodiscard]] std::pair<player_snapshot, player_snapshot> snapshot_players() const;
