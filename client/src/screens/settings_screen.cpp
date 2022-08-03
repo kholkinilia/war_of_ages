@@ -1,10 +1,10 @@
 #include "application.h"
 #include "client.h"
+#include "messages_type.h"
 #include "screen_handler.h"
 #include "sfml_printer.h"
 #include "single_player_handler.h"
 #include "sound_player.h"
-#include "messages_type.h"
 
 // TGUI widgets
 #include <TGUI/Widgets/Button.hpp>

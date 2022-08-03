@@ -1,8 +1,8 @@
 #include <fstream>
 #include "application.h"
 #include "client.h"
-#include "screen_handler.h"
 #include "messages_type.h"
+#include "screen_handler.h"
 
 // TGUI widgets
 #include <TGUI/Widgets/Button.hpp>

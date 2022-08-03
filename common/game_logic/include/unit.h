@@ -1,9 +1,9 @@
 #ifndef WAR_OF_AGES_UNIT_H
 #define WAR_OF_AGES_UNIT_H
 
+#include <memory>
 #include <optional>
 #include <string>
-#include <memory>
 #include "vec2f.h"
 
 namespace war_of_ages {

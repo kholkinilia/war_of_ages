@@ -28,7 +28,7 @@ void bullet::update(std::deque<std::shared_ptr<unit>> &enemies, float dt) {
         m_is_alive = false;
         return;
     }
-    auto enemy = std::find_if(enemies.rbegin(), enemies.rend(), [this](const std::shared_ptr<unit>u) {
+    auto enemy = std::find_if(enemies.rbegin(), enemies.rend(), [this](const std::shared_ptr<unit> u) {
         return detect_collision(m_pos, stats().size, {FIELD_LENGTH_PXLS - u->position(), 0.0f},
                                 u->stats().size);
     });

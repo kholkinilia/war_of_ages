@@ -1,7 +1,7 @@
 #include "single_player_handler.h"
 #include "bot_actions_supplier.h"
-#include "player_actions_supplier.h"
 #include "client_unit.h"
+#include "player_actions_supplier.h"
 
 namespace war_of_ages::client {
 

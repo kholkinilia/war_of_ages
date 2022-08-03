@@ -25,7 +25,7 @@ void game_handler::add_game(
             auto cur_time = static_cast<float>(clock()) / CLOCKS_PER_SEC;
             if (cur_time - prev_send_time >= 0.5) {
                 prev_send_time = cur_time;
-//                cur_game->send_snapshots();
+                //                cur_game->send_snapshots();
             }
             if (cur_time - prev_update_time >= 0.003) {
                 prev_update_time = cur_time;

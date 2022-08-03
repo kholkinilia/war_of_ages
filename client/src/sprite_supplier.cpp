@@ -1,9 +1,9 @@
 #include "sprite_supplier.h"
-#include "bot_actions_supplier.h"
-#include "game_object_size_constants.h"
 #include "age.h"
+#include "bot_actions_supplier.h"
 #include "bullet.h"
 #include "cannon.h"
+#include "game_object_size_constants.h"
 #include "unit.h"
 
 namespace war_of_ages::client {
@@ -179,7 +179,8 @@ sf::Sprite sprite_supplier::get_cannon_slot_sprite(std::pair<age_type, int> cs_t
     return reflect_if_needed(cannon_slots_sprite[cs_type], side);
 }
 
-sf::Sprite sprite_supplier::get_unit_sprite(const std::shared_ptr<unit>& source_unit, sprite_supplier::player_side side) {
+sf::Sprite sprite_supplier::get_unit_sprite(const std::shared_ptr<unit> &source_unit,
+                                            sprite_supplier::player_side side) {
     const static int WALKING = 0;
     const static int ATTACKING = 1;
     const static int STANDING = 2;
@@ -187,9 +188,9 @@ sf::Sprite sprite_supplier::get_unit_sprite(const std::shared_ptr<unit>& source_
     // TODO: avoid copy-paste
     if (source_unit->is_walking()) {
         if (source_unit->is_attacking()) {
-            return reflect_if_needed(
-                unit_sprite[source_unit->type()].get_sprite(WALKING_ATTACKING, source_unit->attack_progress()),
-                side);
+            return reflect_if_needed(unit_sprite[source_unit->type()].get_sprite(
+                                         WALKING_ATTACKING, source_unit->attack_progress()),
+                                     side);
         }
         return reflect_if_needed(
             unit_sprite[source_unit->type()].get_sprite(WALKING, source_unit->walking_time()), side);

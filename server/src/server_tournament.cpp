@@ -2,8 +2,8 @@
 #include <algorithm>
 #include "chat_handler.h"
 #include "game_handler.h"
-#include "tournament_handler.h"
 #include "messages_type.h"
+#include "tournament_handler.h"
 
 void war_of_ages::server::server_tournament::post_add_participant(const std::string &handle) {
     std::size_t part_pos =

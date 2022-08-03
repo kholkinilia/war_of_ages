@@ -2,6 +2,7 @@
 #define WAR_OF_AGES_PLAYER_H
 
 #include <deque>
+#include <functional>
 #include <mutex>
 #include <vector>
 #include "age.h"
@@ -9,7 +10,6 @@
 #include "cannon.h"
 #include "game_constants.h"
 #include "unit.h"
-#include <functional>
 
 namespace war_of_ages {
 

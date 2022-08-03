@@ -1,7 +1,7 @@
 #include "multiplayer_snapshots_handler.h"
-#include "client_unit.h"
 #include <cassert>
 #include "client.h"
+#include "client_unit.h"
 
 namespace war_of_ages::client {
 multiplayer_snapshots_handler &multiplayer_snapshots_handler::instance() {

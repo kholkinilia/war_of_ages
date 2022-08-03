@@ -1,9 +1,9 @@
 #include "tournament_handler.h"
 #include <random>
-#include "message.h"
 #include "chat_handler.h"
-#include "server.h"
+#include "message.h"
 #include "messages_type.h"
+#include "server.h"
 
 namespace war_of_ages::server {
 

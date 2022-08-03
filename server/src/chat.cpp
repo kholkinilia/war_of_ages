@@ -1,8 +1,8 @@
 #include "chat.h"
 #include <utility>
-#include "server.h"
 #include "message.h"
 #include "messages_type.h"
+#include "server.h"
 
 namespace war_of_ages::server {
 
