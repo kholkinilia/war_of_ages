@@ -241,6 +241,57 @@ void application::update_screens() {
                         player_snapshot snapshot_p1 = get_snapshot_from_msg(msg);
                         multiplayer_snapshots_handler::instance().set_snapshots({snapshot_p1, snapshot_p2});
                     } break;
+                    case messages_type::GAME_BUY_UNIT: {
+                        std::uint8_t unit_lvl;
+                        std::string handle;
+                        msg >> unit_lvl >> handle;
+
+                        multiplayer_snapshots_handler::instance().apply_command(
+                            handle, std::make_unique<buy_unit_command>(unit_lvl));
+
+                    } break;
+                    case messages_type::GAME_BUY_CANNON: {
+                        std::uint8_t cannon_lvl, slot;
+                        std::string handle;
+                        msg >> slot >> cannon_lvl >> handle;
+
+                        multiplayer_snapshots_handler::instance().apply_command(
+                            handle, std::make_unique<buy_cannon_command>(cannon_lvl, slot));
+
+                    } break;
+                    case messages_type::GAME_BUY_CANNON_SLOT: {
+                        std::string handle;
+                        msg >> handle;
+
+                        multiplayer_snapshots_handler::instance().apply_command(
+                            handle, std::make_unique<buy_cannon_slot_command>());
+
+                    } break;
+                    case messages_type::GAME_SELL_CANNON: {
+                        std::uint8_t slot;
+                        std::string handle;
+                        msg >> slot >> handle;
+
+                        multiplayer_snapshots_handler::instance().apply_command(
+                            handle, std::make_unique<sell_cannon_command>(slot));
+
+                    } break;
+                    case messages_type::GAME_USE_ULT: {
+                        std::string handle;
+                        msg >> handle;
+
+                        multiplayer_snapshots_handler::instance().apply_command(
+                            handle, std::make_unique<use_ult_command>());
+
+                    } break;
+                    case messages_type::GAME_UPGRADE_AGE: {
+                        std::string handle;
+
+                        msg >> handle;
+                        multiplayer_snapshots_handler::instance().apply_command(
+                            handle, std::make_unique<upgrade_age_command>());
+
+                    } break;
                     case messages_type::ROOM_JOIN_RESPONSE: {
                         std::cout << "got ROOM_JOIN_RESPONSE" << std::endl;
                         std::uint8_t success;

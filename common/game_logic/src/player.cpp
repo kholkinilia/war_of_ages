@@ -33,66 +33,70 @@ void player::update(player &enemy, float dt) {
     }
 }
 
-void player::buy_unit(int unit_level) {
+bool player::buy_unit(int unit_level) {
     assert(0 <= unit_level && unit_level < UNITS_PER_AGE);
     if (m_units_to_train.size() >= UNITS_QUEUE_SIZE) {
-        return;
+        return false;
     }
     auto type = static_cast<unit_type>(static_cast<int>(m_age) * UNITS_PER_AGE + unit_level);
     auto stats = unit::get_stats(type);
     if (m_money < stats.cost) {
-        return;
+        return false;
     }
     m_money -= stats.cost;
     if (m_units_to_train.empty()) {
         m_training_time_left = stats.time_to_train_s;
     }
     m_units_to_train.emplace_back(type);
+    return true;
 }
 
-void player::buy_cannon(int cannon_level, int slot) {
+bool player::buy_cannon(int cannon_level, int slot) {
     assert(0 <= cannon_level && cannon_level < CANNONS_PER_AGE);
     assert(0 <= slot && slot < m_cannons.size());
     if (m_cannons[slot].type() != cannon_type::NONE) {
-        return;
+        return false;
     }
     auto type = static_cast<cannon_type>(static_cast<int>(m_age) * CANNONS_PER_AGE + cannon_level);
     int cost = cannon::get_stats(type).cost;
     if (m_money < cost) {
-        return;
+        return false;
     }
     m_money -= cost;
     m_cannons[slot] = cannon{type, {CANNONS_SLOTS_COORD_X[slot], CANNONS_SLOTS_COORD_Y[slot]}};
+    return true;
 }
 
-void player::buy_cannon_slot() {
+bool player::buy_cannon_slot() {
     std::size_t slot = m_cannons.size();
     if (slot >= MAX_CANNON_SLOTS) {
-        return;
+        return false;
     }
     int cost = CANNONS_SLOTS_COSTS[slot];
     if (m_money < cost) {
-        return;
+        return false;
     }
     m_money -= cost;
     m_cannons.emplace_back(cannon_type::NONE,
                            vec2f{CANNONS_SLOTS_COORD_X[slot], CANNONS_SLOTS_COORD_Y[slot]});
+    return true;
 }
 
-void player::sell_cannon(int slot) {
+bool player::sell_cannon(int slot) {
     assert(0 <= slot && slot < CANNONS_PER_AGE);
     if (slot >= m_cannons.size() || m_cannons[slot].type() == cannon_type::NONE) {
-        return;
+        return false;
     }
     m_money += m_cannons[slot].stats().cost / 2;
     m_cannons[slot] =
         cannon{cannon_type::NONE,
                {CANNONS_SLOTS_COORD_X[m_cannons.size()], CANNONS_SLOTS_COORD_Y[m_cannons.size()]}};
+    return true;
 }
 
-void player::use_ult() {
+bool player::use_ult() {
     if (m_ult_cooldown > 0) {
-        return;
+        return false;
     }
     m_ult_cooldown = ULT_COOLDOWN;
     auto ult_type = static_cast<bullet_type>(NUM_OF_CANNONS + static_cast<int>(m_age));
@@ -108,15 +112,17 @@ void player::use_ult() {
                                      FIELD_HEIGHT_PXLS + static_cast<float>(y_offset(gen))},
                                vec2f{FIELD_LENGTH_PXLS / bullets_amount * static_cast<float>(i), 0.0f});
     }
+    return true;
 }
 
-void player::upgrade_age() {
+bool player::upgrade_age() {
     int age_num = static_cast<int>(m_age);
     if (age_num + 1 == NUM_OF_AGES || m_exp < NEXT_AGE_EXP[age_num]) {
-        return;
+        return false;
     }
     m_age = static_cast<age_type>(age_num + 1);
     m_units[0] = unit{static_cast<unit_type>(static_cast<int>(m_units[0].type()) + 1)};
+    return true;
 }
 
 void player::clear_dead_objects() {

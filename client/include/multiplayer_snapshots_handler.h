@@ -20,6 +20,7 @@ struct multiplayer_snapshots_handler {
 
     void start_game();
     void update_game();
+    bool apply_command(const std::string &handle, std::unique_ptr<game_command> cmd);
 
     [[nodiscard]] bool is_snapshot_initialized() const;
     void reset();

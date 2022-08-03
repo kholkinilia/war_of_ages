@@ -91,6 +91,19 @@ void server::on_client_disconnect(std::shared_ptr<connection<messages_type>> cli
     }).detach();
 }
 
+static void process_game_message(std::unique_ptr<game_command> cmd,
+                                 const std::string &handle,
+                                 const message<messages_type> &cmd_msg) {
+    if (game_handler::instance().apply_command(handle, std::move(cmd))) {
+        std::string enemy_handle = game_handler::instance().get_enemy_handle(handle);
+        if (enemy_handle.empty()) {
+            return;
+        }
+        server::instance().send_message(handle, cmd_msg);
+        server::instance().send_message(enemy_handle, cmd_msg);
+    }
+}
+
 void server::on_message(std::shared_ptr<connection<messages_type>> client, message<messages_type> msg) {
     //        std::cerr << "Received message: " << msg;
     if (std::uint32_t valid_size = valid_body_size.at(msg.header.id);
@@ -177,27 +190,60 @@ void server::on_message(std::shared_ptr<connection<messages_type>> client, messa
         case messages_type::GAME_BUY_UNIT: {
             std::uint8_t unit_lvl;
             msg >> unit_lvl;
-            game_handler::instance().apply_command(handle, std::make_unique<buy_unit_command>(unit_lvl));
+
+            message<messages_type> cmd_msg;
+            cmd_msg.header.id = msg.header.id;
+            cmd_msg << handle;
+
+            cmd_msg << unit_lvl;
+
+            process_game_message(std::make_unique<buy_unit_command>(unit_lvl), handle, cmd_msg);
+
         } break;
         case messages_type::GAME_BUY_CANNON: {
             std::uint8_t cannon_lvl, slot;
             msg >> slot >> cannon_lvl;
-            game_handler::instance().apply_command(handle,
-                                                   std::make_unique<buy_cannon_command>(cannon_lvl, slot));
+
+            message<messages_type> cmd_msg;
+            cmd_msg.header.id = msg.header.id;
+            cmd_msg << handle;
+
+            cmd_msg << cannon_lvl << slot;
+
+            process_game_message(std::make_unique<buy_cannon_command>(cannon_lvl, slot), handle, cmd_msg);
         } break;
         case messages_type::GAME_BUY_CANNON_SLOT: {
-            game_handler::instance().apply_command(handle, std::make_unique<buy_cannon_slot_command>());
+            message<messages_type> cmd_msg;
+            cmd_msg.header.id = msg.header.id;
+            cmd_msg << handle;
+
+            process_game_message(std::make_unique<buy_cannon_slot_command>(), handle, cmd_msg);
         } break;
         case messages_type::GAME_SELL_CANNON: {
             std::uint8_t slot;
             msg >> slot;
-            game_handler::instance().apply_command(handle, std::make_unique<sell_cannon_command>(slot));
+
+            message<messages_type> cmd_msg;
+            cmd_msg.header.id = msg.header.id;
+            cmd_msg << handle;
+
+            cmd_msg << slot;
+
+            process_game_message(std::make_unique<sell_cannon_command>(slot), handle, cmd_msg);
         } break;
         case messages_type::GAME_USE_ULT: {
-            game_handler::instance().apply_command(handle, std::make_unique<use_ult_command>());
+            message<messages_type> cmd_msg;
+            cmd_msg.header.id = msg.header.id;
+            cmd_msg << handle;
+
+            process_game_message(std::make_unique<use_ult_command>(), handle, cmd_msg);
         } break;
         case messages_type::GAME_UPGRADE_AGE: {
-            game_handler::instance().apply_command(handle, std::make_unique<upgrade_age_command>());
+            message<messages_type> cmd_msg;
+            cmd_msg.header.id = msg.header.id;
+            cmd_msg << handle;
+
+            process_game_message(std::make_unique<upgrade_age_command>(), handle, cmd_msg);
         } break;
         case messages_type::GAME_GIVE_UP: {
             ensure_status(status, user_status::MENU, false);

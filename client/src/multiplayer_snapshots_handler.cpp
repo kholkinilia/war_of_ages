@@ -1,5 +1,6 @@
 #include "multiplayer_snapshots_handler.h"
 #include <cassert>
+#include "client.h"
 
 namespace war_of_ages::client {
 multiplayer_snapshots_handler &multiplayer_snapshots_handler::instance() {
@@ -42,6 +43,13 @@ void multiplayer_snapshots_handler::update_game() {
     std::unique_lock l(m_mutex);
     assert(m_cur_game != nullptr);
     m_cur_game->update({}, {});
+}
+
+bool multiplayer_snapshots_handler::apply_command(const std::string &handle,
+                                                  std::unique_ptr<game_command> cmd) {
+    return m_cur_game->apply_command(
+        handle == client::instance().get_handle() ? game_state::side::FIRST : game_state::side::SECOND,
+        std::move(cmd));
 }
 
 }  // namespace war_of_ages::client

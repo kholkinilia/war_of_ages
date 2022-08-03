@@ -3,9 +3,9 @@
 
 #include <memory>
 #include <vector>
-#include "woa_time.h"
 #include "game_commands.h"
 #include "player.h"
+#include "woa_time.h"
 
 namespace war_of_ages {
 
@@ -18,11 +18,15 @@ private:
     std::uint64_t m_start_time;
 
 public:
+    enum class side { FIRST, SECOND };
+
     game_state();
     explicit game_state(std::uint64_t start_time);
 
     void update(const std::vector<std::unique_ptr<game_command>> &p1_commands,
                 const std::vector<std::unique_ptr<game_command>> &p2_commands);
+    bool apply_command(side player_side, std::unique_ptr<game_command> cmd);
+
     [[nodiscard]] std::pair<player_snapshot, player_snapshot> snapshot_players() const;
     [[nodiscard]] game_status get_game_status() const;
     void set_state(const player_snapshot &p1_snap, const player_snapshot &p2_snap);

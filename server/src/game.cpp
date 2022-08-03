@@ -21,22 +21,22 @@ game::game(std::size_t id,
     server::instance().send_message(m_handle_p2, msg_p2);
 }
 
-void game::apply_command(const std::string &handle, std::unique_ptr<game_command> command) {
+bool game::apply_command(const std::string &handle, std::unique_ptr<game_command> command) {
     std::unique_lock l(m_mutex);
     assert(handle == m_handle_p1 || handle == m_handle_p2);
-    std::vector<std::unique_ptr<game_command>> current_player_actions;
-    current_player_actions.push_back(std::move(command));
+    bool result = false;
     if (handle == m_handle_p1) {
-        m_state.update(current_player_actions, {});
+        result = m_state.apply_command(game_state::side::FIRST, std::move(command));
     } else {
-        m_state.update({}, current_player_actions);
+        result = m_state.apply_command(game_state::side::SECOND, std::move(command));
     }
     if (m_state.get_game_status() != game_status::PROCESSING) {
         // std::cerr << "GAME [" << m_id << "]: GAME_STATE: NOT PROCESSING, ASSIGN RESULT & FINISH\n";
         m_result = m_state.get_game_status();
     } else {
-        send_snapshots_lock_held();
+//        send_snapshots_lock_held();
     }
+    return result;
 }
 
 void game::update() {
@@ -146,6 +146,11 @@ void game::finish_game() {
 void game::send_snapshots() {
     std::unique_lock l(m_mutex);
     send_snapshots_lock_held();
+}
+
+std::string game::get_enemy_handle(const std::string &handle) const {
+    std::unique_lock l(m_mutex);
+    return m_handle_p1 == handle ? m_handle_p2 : m_handle_p1;
 }
 
 }  // namespace war_of_ages::server

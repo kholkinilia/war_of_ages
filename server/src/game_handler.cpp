@@ -25,7 +25,7 @@ void game_handler::add_game(
             auto cur_time = static_cast<float>(clock()) / CLOCKS_PER_SEC;
             if (cur_time - prev_send_time >= 0.5) {
                 prev_send_time = cur_time;
-                cur_game->send_snapshots();
+//                cur_game->send_snapshots();
             }
             if (cur_time - prev_update_time >= 0.003) {
                 prev_update_time = cur_time;
@@ -39,12 +39,12 @@ void game_handler::add_game(
     m_free_id++;
 }
 
-void game_handler::apply_command(const std::string &handle, std::unique_ptr<game_command> command) {
+bool game_handler::apply_command(const std::string &handle, std::unique_ptr<game_command> command) {
     std::unique_lock l(m_mutex);
     if (!user_exists_lock_held(handle)) {
-        return;
+        return false;
     }
-    m_games[m_game_id_by_handle.at(handle)]->apply_command(handle, std::move(command));
+    return m_games[m_game_id_by_handle.at(handle)]->apply_command(handle, std::move(command));
 }
 
 void game_handler::user_gave_up(const std::string &handle) {
@@ -74,4 +74,13 @@ void game_handler::remove_game(std::size_t game_id) {
     m_game_id_by_handle.erase(game_->get_handle_p2());
     m_games.erase(game_id);
 }
+
+std::string game_handler::get_enemy_handle(const std::string &handle) {
+    std::unique_lock l(m_mutex);
+    if (!user_exists_lock_held(handle)) {
+        return "";
+    }
+    return m_games[m_game_id_by_handle[handle]]->get_enemy_handle(handle);
+}
+
 }  // namespace war_of_ages::server

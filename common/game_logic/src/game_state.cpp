@@ -64,4 +64,11 @@ std::uint64_t game_state::get_start_time() const noexcept {
     return m_state_time;
 }
 
+bool game_state::apply_command(game_state::side player_side, std::unique_ptr<game_command> cmd) {
+    if (player_side == side::FIRST) {
+        return cmd->apply(p1);
+    }
+    return cmd->apply(p2);
+}
+
 }  // namespace war_of_ages

@@ -24,10 +24,12 @@ struct game_handler {
                   std::string handle_p2,
                   std::function<void(const std::string &handle_winner, const std::string &handle_loser)>
                       game_post_action);
-    void apply_command(const std::string &handle, std::unique_ptr<game_command> command);
+    bool apply_command(const std::string &handle, std::unique_ptr<game_command> command);
 
     void user_gave_up(const std::string &handle);
     void user_disconnected(const std::string &handle);
+
+    [[nodiscard]] std::string get_enemy_handle(const std::string &handle);
 
 private:
     game_handler() noexcept = default;

@@ -27,15 +27,16 @@ struct player_snapshot {
 
 struct player {
     void update(player &enemy, float dt);
-    void buy_unit(int unit_level);
-    void buy_cannon(int cannon_level, int slot);
-    void buy_cannon_slot();
-    void sell_cannon(int slot);
-    void use_ult();
-    void upgrade_age();
     void berserk_units(player &enemy);
     void collect_profit(player &enemy);
     void clear_dead_objects();
+
+    bool buy_unit(int unit_level);
+    bool buy_cannon(int cannon_level, int slot);
+    bool buy_cannon_slot();
+    bool sell_cannon(int slot);
+    bool use_ult();
+    bool upgrade_age();
 
     void set_snapshot(const player_snapshot &snapshot);
 
