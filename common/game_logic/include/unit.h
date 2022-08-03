@@ -3,6 +3,7 @@
 
 #include <optional>
 #include <string>
+#include <memory>
 #include "vec2f.h"
 
 namespace war_of_ages {
@@ -32,11 +33,11 @@ struct unit_stats {
 };
 
 struct unit {
-private:
+protected:
     const static inline float BERSERK_INTERVAL = 0.05;
 
     unit_type m_type = unit_type::STONE_TOWER;
-    int m_remaining_hp;
+    int m_remaining_hp = 0;
     float m_attack_progress_s = 0;
     float m_walking_time = 0;
     float m_lifetime = 0;
@@ -50,12 +51,12 @@ public:
     explicit unit(unit_type type) noexcept;
     unit() = default;
 
-    void update(unit &enemy, const std::optional<unit> &next_allied_unit, float dt) noexcept;
-    void attack(unit &enemy) const noexcept;
-    void berserk(unit &enemy) const noexcept;
+    void update(std::shared_ptr<unit> enemy, std::shared_ptr<unit> next_allied_unit, float dt) noexcept;
+    void attack(std::shared_ptr<unit> enemy) const noexcept;
+    void berserk(std::shared_ptr<unit> enemy) const noexcept;
     void decrease_hp(int damage) noexcept;
     [[nodiscard]] bool is_alive() const noexcept;
-    [[nodiscard]] float dist(unit &enemy) const noexcept;
+    [[nodiscard]] float dist(std::shared_ptr<unit> enemy) const noexcept;
 
     [[nodiscard]] float position() const noexcept;
     [[nodiscard]] int remaining_hp() const noexcept;
@@ -65,6 +66,10 @@ public:
     [[nodiscard]] bool is_attacking() const noexcept;
     [[nodiscard]] float walking_time() const noexcept;
     [[nodiscard]] float attack_progress() const noexcept;
+
+    virtual void post_create_action() const = 0;
+    virtual void post_attack_action() const = 0;
+    virtual void post_death_action() const = 0;
 
     [[nodiscard]] const static unit_stats &get_stats(unit_type type) noexcept;
 };

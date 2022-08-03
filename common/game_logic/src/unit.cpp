@@ -42,19 +42,24 @@ const unit_stats &unit::get_stats(unit_type type) noexcept {
 unit::unit(unit_type type) noexcept : m_type(type), m_remaining_hp(get_stats(type).initial_hp) {
 }
 
-void unit::attack(unit &enemy) const noexcept {
-    enemy.decrease_hp(stats().damage);
+void unit::attack(std::shared_ptr<unit> enemy) const noexcept {
+    enemy->decrease_hp(stats().damage);
+    post_attack_action();
 }
 
 void unit::decrease_hp(int damage) noexcept {
+    bool was_alive = is_alive();
     m_remaining_hp -= damage;
+    if (was_alive && !is_alive()) {
+        post_death_action();
+    }
 }
 
 bool unit::is_alive() const noexcept {
     return m_remaining_hp > 0;
 }
 
-void unit::update(unit &enemy, const std::optional<unit> &next_allied_unit, float dt) noexcept {
+void unit::update(std::shared_ptr<unit> enemy, std::shared_ptr<unit> next_allied_unit, float dt) noexcept {
     m_lifetime += dt;
     m_attacking = m_walking = false;
     if (stats().attack_radius_pxls >= dist(enemy)) {
@@ -71,7 +76,7 @@ void unit::update(unit &enemy, const std::optional<unit> &next_allied_unit, floa
         m_attack_progress_s = 0;
     }
     if (!next_allied_unit) {
-        move(dt, FIELD_LENGTH_PXLS - enemy.position());
+        move(dt, FIELD_LENGTH_PXLS - enemy->position());
     } else {
         move(dt, next_allied_unit->position() - next_allied_unit->stats().size.x);
     }
@@ -85,8 +90,8 @@ int unit::remaining_hp() const noexcept {
     return m_remaining_hp;
 }
 
-float unit::dist(unit &enemy) const noexcept {
-    return std::max(0.f, (FIELD_LENGTH_PXLS - enemy.position()) - position());
+float unit::dist(std::shared_ptr<unit> enemy) const noexcept {
+    return std::max(0.f, (FIELD_LENGTH_PXLS - enemy->position()) - position());
 }
 
 unit_type unit::type() const noexcept {
@@ -124,7 +129,7 @@ float unit::attack_progress() const noexcept {
     return m_attack_progress_s;
 }
 
-void unit::berserk(unit &enemy) const noexcept {
+void unit::berserk(std::shared_ptr<unit> enemy) const noexcept {
     /// units who are already dead and who are close to the attack time execute the last attack
     if (is_alive()) {
         return;

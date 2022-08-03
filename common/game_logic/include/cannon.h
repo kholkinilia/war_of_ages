@@ -35,7 +35,7 @@ public:
     cannon(cannon_type type, vec2f muzzle_position) noexcept;
     cannon() = default;
 
-    [[nodiscard]] std::optional<bullet> update(unit &enemy, float dt) noexcept;
+    [[nodiscard]] std::optional<bullet> update(std::shared_ptr<unit> enemy, float dt) noexcept;
     [[nodiscard]] cannon_type type() const noexcept;
     [[nodiscard]] const cannon_stats &stats() const noexcept;
     [[nodiscard]] vec2f muzzle_position() const noexcept;

@@ -1,4 +1,5 @@
 #include "multiplayer_snapshots_handler.h"
+#include "client_unit.h"
 #include <cassert>
 #include "client.h"
 
@@ -34,7 +35,7 @@ void multiplayer_snapshots_handler::reset() {
 
 void multiplayer_snapshots_handler::start_game() {
     std::unique_lock l(m_mutex);
-    m_cur_game = std::make_unique<game_state>();
+    m_cur_game = std::make_unique<game_state>(client_unit_factory);
     m_snapshots = m_cur_game->snapshot_players();
     m_snapshot_initialized = true;
 }

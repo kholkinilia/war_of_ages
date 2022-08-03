@@ -42,7 +42,7 @@ struct bullet {
     bullet(bullet_type type, const vec2f &start, const vec2f &target) noexcept;
     bullet() = default;
 
-    void update(std::deque<unit> &enemies, float dt);
+    void update(std::deque<std::shared_ptr<unit>> &enemies, float dt);
 
     // Getters
 

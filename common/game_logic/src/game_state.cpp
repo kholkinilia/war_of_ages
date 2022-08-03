@@ -33,8 +33,8 @@ std::pair<player_snapshot, player_snapshot> game_state::snapshot_players() const
     return {p1.snapshot(), p2.snapshot()};
 }
 
-game_state::game_state()
-    : m_state_time(get_ms()), m_start_time(m_state_time) {
+game_state::game_state(const std::function<std::shared_ptr<unit>(unit_type)> &unit_factory)
+    : m_state_time(get_ms()), m_start_time(m_state_time), p1(unit_factory), p2(unit_factory) {
 }
 
 game_status game_state::get_game_status() const {
@@ -56,8 +56,9 @@ void game_state::set_state(const player_snapshot &p1_snap, const player_snapshot
     p2.set_snapshot(p2_snap);
 }
 
-game_state::game_state(std::uint64_t start_time)
-    : m_state_time(get_ms()), m_start_time(start_time) {
+game_state::game_state(std::uint64_t start_time,
+                       const std::function<std::shared_ptr<unit>(unit_type)> &unit_factory)
+    : m_state_time(get_ms()), m_start_time(start_time), p1(unit_factory), p2(unit_factory) {
 }
 
 std::uint64_t game_state::get_start_time() const noexcept {

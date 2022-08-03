@@ -2,14 +2,14 @@
 #include <algorithm>
 #include <cassert>
 #include <random>
+#include <utility>
 
 namespace war_of_ages {
 
 void player::update(player &enemy, float dt) {
     auto &enemies = enemy.m_units;
     for (auto unit_it = m_units.rbegin(); unit_it + 1 != m_units.rend(); ++unit_it) {
-        unit_it->update(enemies.back(),
-                        (unit_it != m_units.rbegin() ? *(unit_it - 1) : std::optional<unit>{}), dt);
+        (*unit_it)->update(enemies.back(), (unit_it != m_units.rbegin() ? *(unit_it - 1) : nullptr), dt);
     }
     for (auto &bullet_ : m_bullets) {
         bullet_.update(enemies, dt);
@@ -26,9 +26,10 @@ void player::update(player &enemy, float dt) {
     if (m_training_time_left == 0.0 && !m_units_to_train.empty()) {
         m_units.push_front(m_units_to_train[0]);
         std::swap(m_units[0], m_units[1]);  // swap with tower
+        m_units[1]->post_create_action();
         m_units_to_train.pop_front();
         if (!m_units_to_train.empty()) {
-            m_training_time_left = m_units_to_train[0].stats().time_to_train_s;
+            m_training_time_left = m_units_to_train[0]->stats().time_to_train_s;
         }
     }
 }
@@ -47,7 +48,7 @@ bool player::buy_unit(int unit_level) {
     if (m_units_to_train.empty()) {
         m_training_time_left = stats.time_to_train_s;
     }
-    m_units_to_train.emplace_back(type);
+    m_units_to_train.push_back(m_unit_factory(type));
     return true;
 }
 
@@ -121,7 +122,7 @@ bool player::upgrade_age() {
         return false;
     }
     m_age = static_cast<age_type>(age_num + 1);
-    m_units[0] = unit{static_cast<unit_type>(static_cast<int>(m_units[0].type()) + 1)};
+    m_units[0] = m_unit_factory(static_cast<unit_type>(static_cast<int>(m_units[0]->type()) + 1));
     return true;
 }
 
@@ -132,7 +133,7 @@ void player::clear_dead_objects() {
     // FIXME: remove '+1' when implemented tower class
     // DO NOT CLEAR TOWER!
     m_units.erase(std::remove_if(m_units.begin() + 1, m_units.end(),
-                                 [](const unit &unit_) { return !unit_.is_alive(); }),
+                                 [](std::shared_ptr<unit> unit_) { return !unit_->is_alive(); }),
                   m_units.end());
 }
 
@@ -150,7 +151,7 @@ int player::money() const {
     return m_money;
 }
 
-std::deque<unit> player::units() const {
+std::deque<std::shared_ptr<unit>> player::units() const {
     return m_units;
 }
 
@@ -162,13 +163,13 @@ std::vector<cannon> player::cannons() const {
     return m_cannons;
 }
 
-std::deque<unit> player::units_to_train() const {
+std::deque<std::shared_ptr<unit>> player::units_to_train() const {
     return m_units_to_train;
 }
 
 bool player::is_alive() const {
     assert(!m_units.empty());  // at least tower exists, we don't clear it even if it's dead
-    return m_units.front().is_alive();
+    return m_units.front()->is_alive();
 }
 
 player_snapshot player::snapshot() const {
@@ -190,19 +191,24 @@ void player::set_snapshot(const player_snapshot &snapshot) {
 void player::berserk_units(player &enemy) {
     auto &enemies = enemy.m_units;
     for (auto unit_it = m_units.rbegin(); unit_it + 1 != m_units.rend(); ++unit_it) {
-        unit_it->berserk(enemies.back());
+        (*unit_it)->berserk(enemies.back());
     }
 }
 
 void player::collect_profit(player &enemy) {
     for (const auto &unit_ : enemy.units()) {
-        if (!unit_.is_alive()) {
-            int cost = unit_.stats().cost;
+        if (!unit_->is_alive()) {
+            int cost = unit_->stats().cost;
             m_money += static_cast<int>(1.5f * static_cast<float>(cost));
-            m_exp += static_cast<int>((1.0f + (FIELD_LENGTH_PXLS - unit_.position()) / FIELD_LENGTH_PXLS) *
+            m_exp += static_cast<int>((1.0f + (FIELD_LENGTH_PXLS - unit_->position()) / FIELD_LENGTH_PXLS) *
                                       static_cast<float>(cost));
         }
     }
+}
+
+player::player(std::function<std::shared_ptr<unit>(unit_type)> unit_factory)
+    : m_unit_factory(std::move(unit_factory)) {
+    m_units.push_back(m_unit_factory(unit_type::STONE_TOWER));
 }
 
 }  // namespace war_of_ages

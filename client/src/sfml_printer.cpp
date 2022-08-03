@@ -20,29 +20,29 @@ static void print_units(sf::RenderWindow *window,
         else
             unit_hp_in.setFillColor({255, 0, 0, 255});
 
-        float x_pos = unit.position() + TOWER_WIDTH, y_pos, hp_len;
+        float x_pos = unit->position() + TOWER_WIDTH, y_pos, hp_len;
         if (side == sprite_supplier::player_side::RIGHT) {
             x_pos = ROAD_WIDTH - x_pos;
         }
 
-        if (unit.type() >= unit_type::STONE_TOWER) {
+        if (unit->type() >= unit_type::STONE_TOWER) {
             y_pos = BACKGROUND_HEIGHT - TOWER_HEIGHT;
             unit_picture = sprite_supplier::get_instance().get_tower_sprite(p.age, p.cannons.size(), side);
             unit_picture.setPosition(x_pos, y_pos);
             window->draw(unit_picture);
             continue;
         } else {
-            y_pos = BACKGROUND_HEIGHT - Y_COORD_DELTA - unit.stats().size.y;
+            y_pos = BACKGROUND_HEIGHT - Y_COORD_DELTA - unit->stats().size.y;
             unit_picture = sprite_supplier::get_instance().get_unit_sprite(unit, side);
-            hp_len = unit.stats().size.x * 0.7;
-            float delta = unit.stats().size.x;
+            hp_len = unit->stats().size.x * 0.7;
+            float delta = unit->stats().size.x;
             if (side == sprite_supplier::player_side::RIGHT) {
                 delta = 0;
             }
-            unit_hp_out.setPosition(x_pos + 0.15 * unit.stats().size.x - delta, y_pos - Y_COORD_DELTA);
-            unit_hp_in.setPosition(x_pos + 0.15 * unit.stats().size.x - delta, y_pos - Y_COORD_DELTA);
+            unit_hp_out.setPosition(x_pos + 0.15 * unit->stats().size.x - delta, y_pos - Y_COORD_DELTA);
+            unit_hp_in.setPosition(x_pos + 0.15 * unit->stats().size.x - delta, y_pos - Y_COORD_DELTA);
             unit_hp_out.setSize({hp_len, HP_HEIGHT});
-            unit_hp_in.setSize({hp_len * unit.remaining_hp() / unit.stats().initial_hp, HP_HEIGHT});
+            unit_hp_in.setSize({hp_len * unit->remaining_hp() / unit->stats().initial_hp, HP_HEIGHT});
             unit_picture.setPosition(x_pos, y_pos);
         }
 
@@ -66,7 +66,7 @@ static void print_tower_front(sf::RenderWindow *window,
 
     auto unit = p.units[0];
 
-    float x_pos = unit.position() + TOWER_WIDTH, y_pos, hp_len;
+    float x_pos = unit->position() + TOWER_WIDTH, y_pos, hp_len;
     if (side == sprite_supplier::player_side::RIGHT) {
         x_pos = ROAD_WIDTH - x_pos;
     }
@@ -79,9 +79,9 @@ static void print_tower_front(sf::RenderWindow *window,
     }
     unit_hp_out.setPosition(hp_x, y_pos - Y_COORD_DELTA + static_cast<float>(TOWER_HEIGHT) / 2 - hp_len);
     unit_hp_in.setPosition(hp_x, y_pos - Y_COORD_DELTA + static_cast<float>(TOWER_HEIGHT) / 2 -
-                                     hp_len * unit.remaining_hp() / unit.stats().initial_hp);
+                                     hp_len * unit->remaining_hp() / unit->stats().initial_hp);
     unit_hp_out.setSize({HP_HEIGHT, hp_len});
-    unit_hp_in.setSize({HP_HEIGHT, hp_len * unit.remaining_hp() / unit.stats().initial_hp});
+    unit_hp_in.setSize({HP_HEIGHT, hp_len * unit->remaining_hp() / unit->stats().initial_hp});
     tower_front.setPosition(x_pos, y_pos);
 
     window->draw(tower_front);
@@ -174,7 +174,7 @@ void sfml_printer::print_game(const std::pair<player_snapshot, player_snapshot> 
         auto unit = p1.units_to_train[i];
         queued_unit_out.setFillColor(sf::Color::White);
         queued_unit_out.setSize({BUTTON_WIDTH, HP_HEIGHT});
-        int unit_no = static_cast<int>(unit.type()) - 3 * static_cast<int>(p1.age);
+        int unit_no = static_cast<int>(unit->type()) - 3 * static_cast<int>(p1.age);
         if (unit_no < 0)
             unit_no += (abs(unit_no / 3) + 1) * 3;
         x_pos = BACKGROUND_WIDTH - 7 * DELTA_X - unit_no * DELTA_X;
@@ -187,7 +187,7 @@ void sfml_printer::print_game(const std::pair<player_snapshot, player_snapshot> 
         if (i == 0) {
             queued_unit_in.setSize(
                 {BUTTON_WIDTH *
-                     (1 - p1.m_training_time_left / p1.units_to_train.front().stats().time_to_train_s),
+                     (1 - p1.m_training_time_left / p1.units_to_train.front()->stats().time_to_train_s),
                  HP_HEIGHT});
             queued_unit_in.setPosition({x_pos + (m_window.getView().getCenter().x - BACKGROUND_WIDTH / 2),
                                         BUTTON_HEIGHT + BUTTON_Y + HP_HEIGHT});

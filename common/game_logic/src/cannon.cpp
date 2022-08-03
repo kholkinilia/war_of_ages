@@ -24,11 +24,11 @@ cannon::cannon(cannon_type type, vec2f cannon_position) noexcept
           vec2f{cannon_position.x, cannon_position.y + static_cast<float>(client::CANNON_HEIGHT) / 2}) {
 }
 
-std::optional<bullet> cannon::update(unit &enemy, float dt) noexcept {
+std::optional<bullet> cannon::update(std::shared_ptr<unit> enemy, float dt) noexcept {
     if (m_type == cannon_type::NONE) {
         return std::nullopt;
     }
-    float dist = FIELD_LENGTH_PXLS - enemy.position() - m_muzzle_position.x;
+    float dist = FIELD_LENGTH_PXLS - enemy->position() - m_muzzle_position.x;
     if (dist <= get_stats(m_type).attack_radius_pxls) {
         m_attack_progress_s += dt;
         if (m_attack_progress_s - dt <= stats().attack_time_s &&
@@ -37,7 +37,7 @@ std::optional<bullet> cannon::update(unit &enemy, float dt) noexcept {
                 m_attack_progress_s -= stats().attack_duration_s;
             }
             return bullet(stats().b_type, m_muzzle_position,
-                          {FIELD_LENGTH_PXLS - enemy.position(), unit::get_stats(enemy.type()).size.y / 2});
+                          {FIELD_LENGTH_PXLS - enemy->position(), unit::get_stats(enemy->type()).size.y / 2});
         }
         if (m_attack_progress_s >= stats().attack_duration_s) {
             m_attack_progress_s -= stats().attack_duration_s;

@@ -25,7 +25,7 @@ public:
     sf::Sprite get_tower_sprite(age_type a_type, std::size_t number_of_slots, player_side side);
     sf::Sprite get_tower_front_sprite(age_type a_type, std::size_t number_of_slots, player_side side);
     sf::Sprite get_cannon_slot_sprite(std::pair<age_type, int> cs_type, player_side side);
-    sf::Sprite get_unit_sprite(const unit &source_unit, player_side side);
+    sf::Sprite get_unit_sprite(const std::shared_ptr<unit>& source_unit, player_side side);
     sf::Sprite get_cannon_sprite(cannon_type c_type, player_side side);
     sf::Sprite get_bullet_sprite(bullet_type b_type, player_side side);
 

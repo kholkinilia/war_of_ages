@@ -23,16 +23,16 @@ state bot_actions_supplier::get_state(const std::pair<player_snapshot, player_sn
     state answer;
     answer.damage = {0, 0};
     for (auto unit : p.first.units) {
-        answer.damage.first += unit.stats().damage;
+        answer.damage.first += unit->stats().damage;
     }
     for (auto unit : p.second.units) {
-        answer.damage.second += unit.stats().damage;
+        answer.damage.second += unit->stats().damage;
     }
     for (auto unit : p.first.units_to_train) {
-        answer.damage.first += unit.stats().damage;
+        answer.damage.first += unit->stats().damage;
     }
     for (auto unit : p.second.units_to_train) {
-        answer.damage.second += unit.stats().damage;
+        answer.damage.second += unit->stats().damage;
     }
     for (auto cannon : p.first.cannons) {
         answer.damage.first += bullet::get_stats(cannon.stats().b_type).damage;

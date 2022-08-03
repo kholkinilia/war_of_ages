@@ -1,6 +1,7 @@
 #include "single_player_handler.h"
 #include "bot_actions_supplier.h"
 #include "player_actions_supplier.h"
+#include "client_unit.h"
 
 namespace war_of_ages::client {
 
@@ -10,7 +11,7 @@ single_player_handler &single_player_handler::instance() {
 }
 
 void single_player_handler::start_game() {
-    m_game_state = std::make_unique<game_state>();
+    m_game_state = std::make_unique<game_state>(client_unit_factory);
 }
 
 void single_player_handler::update_game() {
