@@ -1,7 +1,6 @@
 #ifndef WAR_OF_AGES_CLIENT_BULLET_H
 #define WAR_OF_AGES_CLIENT_BULLET_H
 
-
 #include "bullet.h"
 
 namespace war_of_ages::client {
@@ -16,6 +15,5 @@ struct client_bullet : bullet {
 };
 
 }  // namespace war_of_ages::client
-
 
 #endif  // WAR_OF_AGES_CLIENT_BULLET_H

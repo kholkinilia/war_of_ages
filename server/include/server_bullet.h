@@ -16,5 +16,4 @@ struct server_bullet : bullet {
 
 }  // namespace war_of_ages::server
 
-
 #endif  // WAR_OF_AGES_SERVER_BULLET_H

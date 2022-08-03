@@ -1,9 +1,9 @@
 #ifndef WAR_OF_AGES_CANNON_H
 #define WAR_OF_AGES_CANNON_H
 
-#include <optional>
 #include <functional>
 #include <memory>
+#include <optional>
 #include "bullet.h"
 #include "unit.h"
 

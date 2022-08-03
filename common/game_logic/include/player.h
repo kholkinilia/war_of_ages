@@ -27,8 +27,9 @@ struct player_snapshot {
 };
 
 struct player {
-    explicit player(std::function<std::shared_ptr<unit>(unit_type)> unit_factory,
-                    std::function<std::shared_ptr<bullet>(bullet_type, const vec2f&, const vec2f&)> bullet_factory);
+    explicit player(
+        std::function<std::shared_ptr<unit>(unit_type)> unit_factory,
+        std::function<std::shared_ptr<bullet>(bullet_type, const vec2f &, const vec2f &)> bullet_factory);
 
     void update(player &enemy, float dt);
     void berserk_units(player &enemy);
@@ -69,7 +70,7 @@ private:
     std::deque<std::shared_ptr<unit>> m_units_to_train = {};
 
     std::function<std::shared_ptr<unit>(unit_type)> m_unit_factory;
-    std::function<std::shared_ptr<bullet>(bullet_type, const vec2f&, const vec2f&)> m_bullet_factory;
+    std::function<std::shared_ptr<bullet>(bullet_type, const vec2f &, const vec2f &)> m_bullet_factory;
 };
 }  // namespace war_of_ages
 

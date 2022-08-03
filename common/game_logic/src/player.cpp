@@ -210,8 +210,9 @@ void player::collect_profit(player &enemy) {
     }
 }
 
-player::player(std::function<std::shared_ptr<unit>(unit_type)> unit_factory,
-               std::function<std::shared_ptr<bullet>(bullet_type, const vec2f&, const vec2f&)> bullet_factory)
+player::player(
+    std::function<std::shared_ptr<unit>(unit_type)> unit_factory,
+    std::function<std::shared_ptr<bullet>(bullet_type, const vec2f &, const vec2f &)> bullet_factory)
     : m_unit_factory(std::move(unit_factory)), m_bullet_factory(std::move(bullet_factory)) {
     m_units.push_back(m_unit_factory(unit_type::STONE_TOWER));
 }
