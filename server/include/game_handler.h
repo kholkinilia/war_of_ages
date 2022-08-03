@@ -30,6 +30,7 @@ struct game_handler {
     void user_disconnected(const std::string &handle);
 
     [[nodiscard]] std::string get_enemy_handle(const std::string &handle);
+    [[nodiscard]] std::string get_enemy_handle_lock_held(const std::string &handle);
 
 private:
     game_handler() noexcept = default;

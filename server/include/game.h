@@ -30,6 +30,7 @@ struct game {
     [[nodiscard]] const std::string &get_handle_p1() const;
     [[nodiscard]] const std::string &get_handle_p2() const;
     [[nodiscard]] std::string get_enemy_handle(const std::string &handle) const;
+    [[nodiscard]] std::string get_enemy_handle_lock_held(const std::string &handle) const;
 
 private:
     static void fill_body_with_snapshot(message<messages_type> &msg,

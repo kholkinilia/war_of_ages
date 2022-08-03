@@ -280,7 +280,7 @@ void application::update_screens() {
                         std::string handle;
                         bullet_snapshot snapshot;
                         msg >> snapshot >> handle;
-
+                        std::cerr << "Got ADD_BULLET\n";
                         multiplayer_snapshots_handler::instance().apply_command(
                             handle, std::make_unique<add_bullet_command>(snapshot));
 

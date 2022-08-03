@@ -1,4 +1,5 @@
 #include "server_bullet.h"
+#include "game_handler.h"
 #include "message.h"
 #include "messages_type.h"
 #include "server.h"
@@ -9,11 +10,15 @@ void server_bullet::post_collision_action() const {
 }
 
 void server_bullet::post_create_action(std::string owner_handle) const {
-    if (std::count(ult_bullet_types.begin(), ult_bullet_types.end(), m_type) != 0) {
+    std::cerr << "Create bullet: " << (int)m_type << std::endl;
+    if (std::find(ult_bullet_types.begin(), ult_bullet_types.end(), m_type) != ult_bullet_types.end()) {
+        std::cerr << "This is actually an ult bullet: " << owner_handle << std::endl;
         message<messages_type> msg;
         msg.header.id = messages_type::GAME_ADD_BULLET;
         msg << owner_handle << get_snapshot();
         server::instance().send_message(owner_handle, msg);
+        server::instance().send_message(game_handler::instance().get_enemy_handle_lock_held(owner_handle),
+                                        msg);
     }
 }
 

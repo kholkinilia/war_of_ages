@@ -16,7 +16,7 @@ game::game(std::size_t id,
       m_handle_p1(std::move(handle_p1)),
       m_handle_p2(std::move(handle_p2)),
       m_game_post_action(std::move(game_post_action)),
-      m_state(server_unit_factory, server_bullet_factory, server_cannon_factory) {
+      m_state(server_unit_factory, server_bullet_factory, server_cannon_factory, m_handle_p1, m_handle_p2) {
     message<messages_type> msg_p1, msg_p2;
     msg_p1.header.id = msg_p2.header.id = messages_type::GAME_START;
     msg_p1.insert_container(m_handle_p2);
@@ -154,6 +154,10 @@ void game::send_snapshots() {
 
 std::string game::get_enemy_handle(const std::string &handle) const {
     std::unique_lock l(m_mutex);
+    return get_enemy_handle_lock_held(handle);
+}
+
+std::string game::get_enemy_handle_lock_held(const std::string &handle) const {
     return m_handle_p1 == handle ? m_handle_p2 : m_handle_p1;
 }
 

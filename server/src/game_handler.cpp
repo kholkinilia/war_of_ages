@@ -83,4 +83,11 @@ std::string game_handler::get_enemy_handle(const std::string &handle) {
     return m_games[m_game_id_by_handle[handle]]->get_enemy_handle(handle);
 }
 
+std::string game_handler::get_enemy_handle_lock_held(const std::string &handle) {
+    if (!user_exists_lock_held(handle)) {
+        return "";
+    }
+    return m_games[m_game_id_by_handle[handle]]->get_enemy_handle_lock_held(handle);
+}
+
 }  // namespace war_of_ages::server
