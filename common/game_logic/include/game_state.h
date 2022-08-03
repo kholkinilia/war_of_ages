@@ -24,13 +24,17 @@ public:
         const std::function<std::shared_ptr<unit>(unit_type)> &unit_factory,
         const std::function<std::shared_ptr<bullet>(bullet_type, const vec2f &, const vec2f &)>
             &bullet_factory,
-        const std::function<std::shared_ptr<cannon>(cannon_type, const vec2f &)> &cannon_factory);
+        const std::function<std::shared_ptr<cannon>(cannon_type, const vec2f &)> &cannon_factory,
+        std::string handle1 = "",
+        std::string handle2 = "");
     explicit game_state(
         std::uint64_t start_time,
         const std::function<std::shared_ptr<unit>(unit_type)> &unit_factory,
         const std::function<std::shared_ptr<bullet>(bullet_type, const vec2f &, const vec2f &)>
             &bullet_factory,
-        const std::function<std::shared_ptr<cannon>(cannon_type, const vec2f &)> &cannon_factory);
+        const std::function<std::shared_ptr<cannon>(cannon_type, const vec2f &)> &cannon_factory,
+        std::string handle1 = "",
+        std::string handle2 = "");
 
     void update(const std::vector<std::unique_ptr<game_command>> &p1_commands,
                 const std::vector<std::unique_ptr<game_command>> &p2_commands);

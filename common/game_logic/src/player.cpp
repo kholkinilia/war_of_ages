@@ -17,7 +17,7 @@ void player::update(player &enemy, float dt) {
     for (auto &cannon_ : m_cannons) {
         auto bullet_ = cannon_->update(enemies.back(), dt, m_bullet_factory);
         if (bullet_) {
-            bullet_->post_create_action();
+            bullet_->post_create_action(m_handle);
             m_bullets.push_back(bullet_);
         }
     }
@@ -115,7 +115,7 @@ bool player::use_ult() {
                                        static_cast<float>(x_offset(gen)),
                                    FIELD_HEIGHT_PXLS + static_cast<float>(y_offset(gen))},
                              vec2f{FIELD_LENGTH_PXLS / bullets_amount * static_cast<float>(i), 0.0f}));
-        m_bullets.back()->post_create_action();
+        m_bullets.back()->post_create_action(m_handle);
     }
     return true;
 }
@@ -214,13 +214,22 @@ void player::collect_profit(player &enemy) {
 player::player(
     std::function<std::shared_ptr<unit>(unit_type)> unit_factory,
     std::function<std::shared_ptr<bullet>(bullet_type, const vec2f &, const vec2f &)> bullet_factory,
-    std::function<std::shared_ptr<cannon>(cannon_type, const vec2f &)> cannon_factory)
+    std::function<std::shared_ptr<cannon>(cannon_type, const vec2f &)> cannon_factory,
+    std::string handle)
     : m_unit_factory(std::move(unit_factory)),
       m_bullet_factory(std::move(bullet_factory)),
-      m_cannon_factory(std::move(cannon_factory)) {
+      m_cannon_factory(std::move(cannon_factory)),
+      m_handle(std::move(handle)) {
     m_units.push_back(m_unit_factory(unit_type::STONE_TOWER));
     m_cannons.push_back(
         m_cannon_factory(cannon_type::NONE, {CANNONS_SLOTS_COORD_X[0], CANNONS_SLOTS_COORD_Y[0]}));
+}
+
+bool player::add_bullet(bullet_snapshot snapshot) {
+    m_bullets.push_back(m_bullet_factory(snapshot.type, {snapshot.x_start, snapshot.y_start},
+                                         {snapshot.x_target, snapshot.y_target}));
+    m_bullets.back()->post_create_action(m_handle);
+    return true;
 }
 
 }  // namespace war_of_ages

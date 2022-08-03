@@ -30,7 +30,7 @@ struct player {
     explicit player(
         std::function<std::shared_ptr<unit>(unit_type)> unit_factory,
         std::function<std::shared_ptr<bullet>(bullet_type, const vec2f &, const vec2f &)> bullet_factory,
-        std::function<std::shared_ptr<cannon>(cannon_type, const vec2f &)> cannon_factory);
+        std::function<std::shared_ptr<cannon>(cannon_type, const vec2f &)> cannon_factory, std::string handle = "");
 
     void update(player &enemy, float dt);
     void berserk_units(player &enemy);
@@ -43,6 +43,7 @@ struct player {
     bool sell_cannon(int slot);
     bool use_ult();
     bool upgrade_age();
+    bool add_bullet(bullet_snapshot snapshot);
 
     void set_snapshot(const player_snapshot &snapshot);
 
@@ -68,6 +69,7 @@ private:
     std::vector<std::shared_ptr<cannon>> m_cannons = {};
     float m_training_time_left = 0.0;
     std::deque<std::shared_ptr<unit>> m_units_to_train = {};
+    std::string m_handle;
 
     std::function<std::shared_ptr<unit>(unit_type)> m_unit_factory;
     std::function<std::shared_ptr<bullet>(bullet_type, const vec2f &, const vec2f &)> m_bullet_factory;

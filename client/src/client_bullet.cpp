@@ -5,7 +5,7 @@ namespace war_of_ages::client {
 void client_bullet::post_collision_action() const {
 }
 
-void client_bullet::post_create_action() const {
+void client_bullet::post_create_action(std::string owner_handle) const {
 }
 
 client_bullet::client_bullet(bullet_type type, const vec2f &start, const vec2f &target)

@@ -276,12 +276,13 @@ void application::update_screens() {
                             handle, std::make_unique<sell_cannon_command>(slot));
 
                     } break;
-                    case messages_type::GAME_USE_ULT: {
+                    case messages_type::GAME_ADD_BULLET: {
                         std::string handle;
-                        msg >> handle;
+                        bullet_snapshot snapshot;
+                        msg >> snapshot >> handle;
 
                         multiplayer_snapshots_handler::instance().apply_command(
-                            handle, std::make_unique<use_ult_command>());
+                            handle, std::make_unique<add_bullet_command>(snapshot));
 
                     } break;
                     case messages_type::GAME_UPGRADE_AGE: {

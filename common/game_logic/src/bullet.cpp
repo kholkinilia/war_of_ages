@@ -95,4 +95,9 @@ int bullet::damage() const noexcept {
 float bullet::speed() const noexcept {
     return stats().speed;
 }
+
+bullet_snapshot bullet::get_snapshot() const noexcept {
+    return {m_type, m_pos.x, m_pos.y, m_pos.x + m_dir.x, m_pos.y + m_dir.y};
+}
+
 }  // namespace war_of_ages

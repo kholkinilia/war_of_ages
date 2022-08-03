@@ -54,6 +54,14 @@ public:
     bool apply(player &p) final;
 };
 
+struct add_bullet_command : game_command {
+private:
+    bullet_snapshot snapshot;
+public:
+    explicit add_bullet_command(bullet_snapshot);
+    bool apply(player &p) final;
+};
+
 }  // namespace war_of_ages
 
 #endif  // WAR_OF_AGES_GAME_COMMANDS_H

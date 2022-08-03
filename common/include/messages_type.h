@@ -20,6 +20,7 @@ enum class messages_type {
     GAME_BUY_CANNON_SLOT,
     GAME_SELL_CANNON,
     GAME_USE_ULT,
+    GAME_ADD_BULLET,
     GAME_UPGRADE_AGE,
     GAME_GIVE_UP,
     GAME_DISCONNECTED,
@@ -75,6 +76,7 @@ const std::unordered_map<messages_type, std::uint32_t> valid_body_size = {
     {messages_type::GAME_BUY_CANNON_SLOT, 0},
     {messages_type::GAME_SELL_CANNON, 1},
     {messages_type::GAME_USE_ULT, 0},
+    {messages_type::GAME_ADD_BULLET, 0},
     {messages_type::GAME_UPGRADE_AGE, 0},
     {messages_type::GAME_GIVE_UP, 0},
 

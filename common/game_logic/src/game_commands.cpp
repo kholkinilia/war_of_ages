@@ -27,12 +27,18 @@ bool upgrade_age_command::apply(player &p) {
     return p.upgrade_age();
 }
 
+bool add_bullet_command::apply(player &p) {
+    return p.add_bullet(snapshot);
+}
+
 // TODO: think of getting rid of constructors
 buy_unit_command::buy_unit_command(int level_) : level(level_) {
 }
 buy_cannon_command::buy_cannon_command(int level_, int slot_) : level(level_), slot(slot_) {
 }
 sell_cannon_command::sell_cannon_command(int slot_) : slot(slot_) {
+}
+add_bullet_command::add_bullet_command(bullet_snapshot snapshot_) : snapshot(snapshot_) {
 }
 
 }  // namespace war_of_ages

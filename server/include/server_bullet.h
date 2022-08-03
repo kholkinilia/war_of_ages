@@ -10,7 +10,7 @@ std::shared_ptr<bullet> server_bullet_factory(bullet_type type, const vec2f &sta
 struct server_bullet : bullet {
     server_bullet(bullet_type type, const vec2f &start, const vec2f &target);
 
-    void post_create_action() const override;
+    void post_create_action(std::string owner_handle) const override;
     void post_collision_action() const override;
 };
 

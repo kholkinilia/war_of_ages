@@ -41,7 +41,10 @@ set(CLIENT_PROJECT_SOURCES
         src/chat_handler.cpp
         src/screens/wait_for_server_screen.cpp
         src/background_handler.cpp
-        src/client_unit.cpp src/client_bullet.cpp src/client_cannon.cpp)
+        src/client_unit.cpp
+        src/client_bullet.cpp
+        src/client_cannon.cpp
+        )
 
 set(CLIENT_LIBS
         sfml-system
