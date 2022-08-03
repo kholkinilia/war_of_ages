@@ -54,7 +54,10 @@ struct bullet {
 
     [[nodiscard]] static const bullet_stats &get_stats(bullet_type type);
 
-private:
+    virtual void post_create_action() const = 0;
+    virtual void post_collision_action() const = 0;
+
+protected:
     [[nodiscard]] int damage() const noexcept;
     [[nodiscard]] float speed() const noexcept;
 

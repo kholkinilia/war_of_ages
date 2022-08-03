@@ -13,7 +13,7 @@ constexpr int UNITS_QUEUE_SIZE = 5;
 constexpr int NUM_OF_UNITS = NUM_OF_AGES * UNITS_PER_AGE;
 constexpr int NUM_OF_CANNONS = NUM_OF_AGES * CANNONS_PER_AGE;
 
-constexpr int INITIAL_MONEY = 200;
+constexpr int INITIAL_MONEY = 20000;
 
 constexpr int CANNONS_SLOTS_COORD_X[MAX_CANNON_SLOTS] = {-100, -100, -100};
 constexpr int CANNONS_SLOTS_COORD_Y[MAX_CANNON_SLOTS] = {

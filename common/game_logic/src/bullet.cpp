@@ -26,6 +26,7 @@ void bullet::update(std::deque<std::shared_ptr<unit>> &enemies, float dt) {
     m_pos += m_dir * speed() * dt;
     if (m_pos.y < 0) {
         m_is_alive = false;
+        post_collision_action();
         return;
     }
     auto enemy = std::find_if(enemies.rbegin(), enemies.rend(), [this](const std::shared_ptr<unit> u) {
@@ -35,6 +36,7 @@ void bullet::update(std::deque<std::shared_ptr<unit>> &enemies, float dt) {
     if (enemy != enemies.rend()) {
         (*enemy)->decrease_hp(damage());
         m_is_alive = false;
+        post_collision_action();
     }
 }
 

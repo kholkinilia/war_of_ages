@@ -20,9 +20,15 @@ private:
 public:
     enum class side { FIRST, SECOND };
 
-    explicit game_state(const std::function<std::shared_ptr<unit>(unit_type)> &unit_factory);
-    explicit game_state(std::uint64_t start_time,
-                        const std::function<std::shared_ptr<unit>(unit_type)> &unit_factory);
+    explicit game_state(
+        const std::function<std::shared_ptr<unit>(unit_type)> &unit_factory,
+        const std::function<std::shared_ptr<bullet>(bullet_type, const vec2f &, const vec2f &)>
+            &bullet_factory);
+    explicit game_state(
+        std::uint64_t start_time,
+        const std::function<std::shared_ptr<unit>(unit_type)> &unit_factory,
+        const std::function<std::shared_ptr<bullet>(bullet_type, const vec2f &, const vec2f &)>
+            &bullet_factory);
 
     void update(const std::vector<std::unique_ptr<game_command>> &p1_commands,
                 const std::vector<std::unique_ptr<game_command>> &p2_commands);

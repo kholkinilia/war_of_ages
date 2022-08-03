@@ -12,12 +12,13 @@ void player::update(player &enemy, float dt) {
         (*unit_it)->update(enemies.back(), (unit_it != m_units.rbegin() ? *(unit_it - 1) : nullptr), dt);
     }
     for (auto &bullet_ : m_bullets) {
-        bullet_.update(enemies, dt);
+        bullet_->update(enemies, dt);
     }
     for (auto &cannon_ : m_cannons) {
-        auto bullet_ = cannon_.update(enemies.back(), dt);
-        if (bullet_.has_value()) {
-            m_bullets.push_back(bullet_.value());
+        auto bullet_ = cannon_.update(enemies.back(), dt, m_bullet_factory);
+        if (bullet_) {
+            bullet_->post_create_action();
+            m_bullets.push_back(bullet_);
         }
     }
 
@@ -107,11 +108,13 @@ bool player::use_ult() {
     std::uniform_real_distribution y_offset(0.0, 20.0 * ult_size.y);
     const int bullets_amount = 10;
     for (int i = 0; i < bullets_amount; ++i) {
-        m_bullets.emplace_back(ult_type,
-                               vec2f{FIELD_LENGTH_PXLS / bullets_amount * static_cast<float>(i) +
-                                         static_cast<float>(x_offset(gen)),
-                                     FIELD_HEIGHT_PXLS + static_cast<float>(y_offset(gen))},
-                               vec2f{FIELD_LENGTH_PXLS / bullets_amount * static_cast<float>(i), 0.0f});
+        m_bullets.push_back(
+            m_bullet_factory(ult_type,
+                             vec2f{FIELD_LENGTH_PXLS / bullets_amount * static_cast<float>(i) +
+                                       static_cast<float>(x_offset(gen)),
+                                   FIELD_HEIGHT_PXLS + static_cast<float>(y_offset(gen))},
+                             vec2f{FIELD_LENGTH_PXLS / bullets_amount * static_cast<float>(i), 0.0f}));
+        m_bullets.back()->post_create_action();
     }
     return true;
 }
@@ -127,13 +130,14 @@ bool player::upgrade_age() {
 }
 
 void player::clear_dead_objects() {
-    m_bullets.erase(std::remove_if(m_bullets.begin(), m_bullets.end(),
-                                   [](const bullet &bullet_) { return !bullet_.is_alive(); }),
-                    m_bullets.end());
+    m_bullets.erase(
+        std::remove_if(m_bullets.begin(), m_bullets.end(),
+                       [](const std::shared_ptr<bullet> &bullet_) { return !bullet_->is_alive(); }),
+        m_bullets.end());
     // FIXME: remove '+1' when implemented tower class
     // DO NOT CLEAR TOWER!
     m_units.erase(std::remove_if(m_units.begin() + 1, m_units.end(),
-                                 [](std::shared_ptr<unit> unit_) { return !unit_->is_alive(); }),
+                                 [](const std::shared_ptr<unit> &unit_) { return !unit_->is_alive(); }),
                   m_units.end());
 }
 
@@ -155,7 +159,7 @@ std::deque<std::shared_ptr<unit>> player::units() const {
     return m_units;
 }
 
-std::vector<bullet> player::bullets() const {
+std::vector<std::shared_ptr<bullet>> player::bullets() const {
     return m_bullets;
 }
 
@@ -206,8 +210,9 @@ void player::collect_profit(player &enemy) {
     }
 }
 
-player::player(std::function<std::shared_ptr<unit>(unit_type)> unit_factory)
-    : m_unit_factory(std::move(unit_factory)) {
+player::player(std::function<std::shared_ptr<unit>(unit_type)> unit_factory,
+               std::function<std::shared_ptr<bullet>(bullet_type, const vec2f&, const vec2f&)> bullet_factory)
+    : m_unit_factory(std::move(unit_factory)), m_bullet_factory(std::move(bullet_factory)) {
     m_units.push_back(m_unit_factory(unit_type::STONE_TOWER));
 }
 

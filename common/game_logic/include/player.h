@@ -15,7 +15,7 @@ namespace war_of_ages {
 
 struct player_snapshot {
     std::deque<std::shared_ptr<unit>> units;
-    std::vector<bullet> bullets;
+    std::vector<std::shared_ptr<bullet>> bullets;
     std::vector<cannon> cannons;
     std::deque<std::shared_ptr<unit>> units_to_train;
 
@@ -27,7 +27,8 @@ struct player_snapshot {
 };
 
 struct player {
-    explicit player(std::function<std::shared_ptr<unit>(unit_type)> unit_factory);
+    explicit player(std::function<std::shared_ptr<unit>(unit_type)> unit_factory,
+                    std::function<std::shared_ptr<bullet>(bullet_type, const vec2f&, const vec2f&)> bullet_factory);
 
     void update(player &enemy, float dt);
     void berserk_units(player &enemy);
@@ -49,7 +50,7 @@ struct player {
     [[nodiscard]] int exp() const;
     [[nodiscard]] int money() const;
     [[nodiscard]] std::deque<std::shared_ptr<unit>> units() const;
-    [[nodiscard]] std::vector<bullet> bullets() const;
+    [[nodiscard]] std::vector<std::shared_ptr<bullet>> bullets() const;
     [[nodiscard]] std::vector<cannon> cannons() const;
     [[nodiscard]] std::deque<std::shared_ptr<unit>> units_to_train() const;
     [[nodiscard]] bool is_alive() const;
@@ -61,13 +62,14 @@ private:
     int m_money = INITIAL_MONEY;
     float m_ult_cooldown = 0.0f;
     std::deque<std::shared_ptr<unit>> m_units;
-    std::vector<bullet> m_bullets = {};
+    std::vector<std::shared_ptr<bullet>> m_bullets = {};
     std::vector<cannon> m_cannons = {
         cannon{cannon_type::NONE, {CANNONS_SLOTS_COORD_X[0], CANNONS_SLOTS_COORD_Y[0]}}};
     float m_training_time_left = 0.0;
     std::deque<std::shared_ptr<unit>> m_units_to_train = {};
 
     std::function<std::shared_ptr<unit>(unit_type)> m_unit_factory;
+    std::function<std::shared_ptr<bullet>(bullet_type, const vec2f&, const vec2f&)> m_bullet_factory;
 };
 }  // namespace war_of_ages
 

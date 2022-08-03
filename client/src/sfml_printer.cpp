@@ -90,14 +90,14 @@ static void print_tower_front(sf::RenderWindow *window,
 }
 
 static void print_bullets(sf::RenderWindow *window,
-                          const std::vector<bullet> &bullets,
+                          const std::vector<std::shared_ptr<bullet>> &bullets,
                           sprite_supplier::player_side side) {
     sf::Sprite bullet_picture;
     for (auto bullet : bullets) {
-        bullet_picture = sprite_supplier::get_instance().get_bullet_sprite(bullet.type(), side);
+        bullet_picture = sprite_supplier::get_instance().get_bullet_sprite(bullet->type(), side);
 
-        float x_pos = bullet.pos().x + TOWER_WIDTH,
-              y_pos = BACKGROUND_HEIGHT - Y_COORD_DELTA - bullet.pos().y - bullet.stats().size.y;
+        float x_pos = bullet->pos().x + TOWER_WIDTH,
+              y_pos = BACKGROUND_HEIGHT - Y_COORD_DELTA - bullet->pos().y - bullet->stats().size.y;
         if (side == sprite_supplier::player_side::RIGHT) {
             x_pos = ROAD_WIDTH - x_pos;
         }
