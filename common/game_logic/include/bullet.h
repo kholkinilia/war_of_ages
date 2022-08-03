@@ -33,7 +33,7 @@ enum class bullet_type : std::int16_t {
     NONE
 };
 
-const inline std::vector<bullet_type> ult_bullet_types { bullet_type::STONE_ULT, bullet_type::CASTLE_ULT };
+const inline std::vector<bullet_type> ult_bullet_types{bullet_type::STONE_ULT, bullet_type::CASTLE_ULT};
 
 struct bullet_snapshot {
     bullet_type type;

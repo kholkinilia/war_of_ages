@@ -57,6 +57,7 @@ public:
 struct add_bullet_command : game_command {
 private:
     bullet_snapshot snapshot;
+
 public:
     explicit add_bullet_command(bullet_snapshot);
     bool apply(player &p) final;

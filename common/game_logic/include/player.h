@@ -30,7 +30,8 @@ struct player {
     explicit player(
         std::function<std::shared_ptr<unit>(unit_type)> unit_factory,
         std::function<std::shared_ptr<bullet>(bullet_type, const vec2f &, const vec2f &)> bullet_factory,
-        std::function<std::shared_ptr<cannon>(cannon_type, const vec2f &)> cannon_factory, std::string handle = "");
+        std::function<std::shared_ptr<cannon>(cannon_type, const vec2f &)> cannon_factory,
+        std::string handle = "");
 
     void update(player &enemy, float dt);
     void berserk_units(player &enemy);
