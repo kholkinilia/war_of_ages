@@ -95,37 +95,25 @@ private:
     }
 
     void write_validation() {
-        if (m_owner == owner::server) {
-            boost::asio::async_write(m_socket,
-                                     boost::asio::buffer(reinterpret_cast<std::uint8_t *>(&m_handshake_out),
-                                                         sizeof(std::uint64_t)),
-                                     [this](std::error_code ec, std::size_t length) {
-                                         if (ec) {
-                                             std::cerr << "[" << m_id << "] Validation failed\n"
-                                                       << ec.message() << std::endl;
-                                             m_socket.close();
-                                         }
-                                     });
-        } else {
-            boost::system::error_code ec;
-            m_socket.template write_some(
-                boost::asio::buffer(reinterpret_cast<std::uint8_t *>(&m_handshake_out),
-                                    sizeof(std::uint64_t)),
-                ec);
-            if (!ec) {
-                read_header();
-            } else {
-                std::cerr << "[" << m_id << "] Validation failed\n" << ec.message() << std::endl;
-                m_socket.close();
-            }
-        }
+        boost::asio::async_write(
+            m_socket,
+            boost::asio::buffer(reinterpret_cast<std::uint8_t *>(&m_handshake_out), sizeof(std::uint64_t)),
+            [this](std::error_code ec, std::size_t length) {
+                if (ec) {
+                    std::cerr << "[" << m_id << "] Validation failed\n" << ec.message() << std::endl;
+                    m_socket.close();
+                }
+                if (m_owner == owner::client) {
+                    read_header();
+                }
+            });
     }
 
     void read_validation(server_interface<T> *server = nullptr) {
-        if (m_owner == owner::server) {
-            boost::asio::async_read(
-                m_socket, boost::asio::buffer(&m_handshake_in, sizeof(std::uint64_t)),
-                [this, server](std::error_code ec, std::size_t length) {
+        boost::asio::async_read(
+            m_socket, boost::asio::buffer(&m_handshake_in, sizeof(std::uint64_t)),
+            [this, server](std::error_code ec, std::size_t length) {
+                if (m_owner == owner::server) {
                     if (!ec) {
                         if (m_handshake_in == m_handshake_expected) {
                             std::cerr << "[" << m_id << "] Validation succeeded" << std::endl;
@@ -143,18 +131,16 @@ private:
                                   << ec.message() << std::endl;
                         m_socket.close();
                     }
-                });
-        } else {
-            boost::system::error_code ec;
-            m_socket.template read_some(boost::asio::buffer(&m_handshake_in, sizeof(std::uint64_t)), ec);
-            if (!ec) {
-                m_handshake_out = scramble(m_handshake_in);
-                write_validation();
-            } else {
-                std::cerr << "[Client] Failed reading validation\n" << ec.message() << std::endl;
-                m_socket.close();
-            }
-        }
+                } else {
+                    if (!ec) {
+                        m_handshake_out = scramble(m_handshake_in);
+                        write_validation();
+                    } else {
+                        std::cerr << "[Client] Failed reading validation\n" << ec.message() << std::endl;
+                        m_socket.close();
+                    }
+                }
+            });
     }
 
     std::uint64_t scramble(std::uint64_t x) {  // some complex function
@@ -190,14 +176,15 @@ public:
 
     void connect_to_server(const boost::asio::ip::tcp::resolver::results_type &endpoints) {
         if (m_owner == owner::client) {
-            boost::system::error_code ec;
-            m_socket.connect(endpoints->endpoint(), ec);
-            if (!ec) {
-                read_validation();
-            } else {
-                m_socket.close();
-                std::cerr << "Failed to connect to server.\n" << ec.message() << std::endl;
-            }
+            boost::asio::async_connect(
+                m_socket, endpoints, [this](std::error_code ec, const boost::asio::ip::tcp::endpoint &) {
+                    if (!ec) {
+                        read_validation();
+                    } else {
+                        m_socket.close();
+                        std::cerr << "Failed to connect to server.\n" << ec.message() << std::endl;
+                    }
+                });
         }
     }
 

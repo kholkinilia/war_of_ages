@@ -18,6 +18,9 @@ set(SERVER_PROJECT_SOURCES
         src/database_handler.cpp
         src/chat_handler.cpp
         src/chat.cpp
+        src/server_unit.cpp
+        src/server_bullet.cpp
+        src/server_cannon.cpp
         )
 
 # adding executable and targeting everything

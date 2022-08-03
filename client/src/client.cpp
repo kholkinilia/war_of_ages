@@ -94,4 +94,15 @@ void client::ask_for_stats() {
     send_message(msg);
 }
 
+void client::set_connecting_status(bool status) {
+    m_is_connecting = status;
+}
+
+bool client::is_connected() {
+    if (!client_interface::is_connected()) {
+        m_is_connecting = false;
+    }
+    return !m_is_connecting && client_interface::is_connected();
+}
+
 }  // namespace war_of_ages::client

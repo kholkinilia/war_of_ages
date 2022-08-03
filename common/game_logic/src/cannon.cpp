@@ -18,17 +18,21 @@ const cannon_stats &cannon::get_stats(cannon_type type) noexcept {
     return stats.at(type);
 }
 
-cannon::cannon(cannon_type type, vec2f cannon_position) noexcept
+cannon::cannon(cannon_type type, const vec2f &cannon_position) noexcept
     : m_type(type),
       m_muzzle_position(
           vec2f{cannon_position.x, cannon_position.y + static_cast<float>(client::CANNON_HEIGHT) / 2}) {
 }
 
-std::optional<bullet> cannon::update(unit &enemy, float dt) noexcept {
+std::shared_ptr<bullet> cannon::update(
+    std::shared_ptr<unit> enemy,
+    float dt,
+    const std::function<std::shared_ptr<bullet>(bullet_type, const vec2f &, const vec2f &)>
+        &bullet_factory) noexcept {
     if (m_type == cannon_type::NONE) {
-        return std::nullopt;
+        return nullptr;
     }
-    float dist = FIELD_LENGTH_PXLS - enemy.position() - m_muzzle_position.x;
+    float dist = FIELD_LENGTH_PXLS - enemy->position() - m_muzzle_position.x;
     if (dist <= get_stats(m_type).attack_radius_pxls) {
         m_attack_progress_s += dt;
         if (m_attack_progress_s - dt <= stats().attack_time_s &&
@@ -36,8 +40,9 @@ std::optional<bullet> cannon::update(unit &enemy, float dt) noexcept {
             if (m_attack_progress_s >= stats().attack_duration_s) {
                 m_attack_progress_s -= stats().attack_duration_s;
             }
-            return bullet(stats().b_type, m_muzzle_position,
-                          {FIELD_LENGTH_PXLS - enemy.position(), unit::get_stats(enemy.type()).size.y / 2});
+            return bullet_factory(
+                stats().b_type, m_muzzle_position,
+                {FIELD_LENGTH_PXLS - enemy->position(), unit::get_stats(enemy->type()).size.y / 2});
         }
         if (m_attack_progress_s >= stats().attack_duration_s) {
             m_attack_progress_s -= stats().attack_duration_s;
@@ -45,7 +50,7 @@ std::optional<bullet> cannon::update(unit &enemy, float dt) noexcept {
     } else {
         m_attack_progress_s = 0;
     }
-    return std::nullopt;
+    return nullptr;
 }
 
 cannon_type cannon::type() const noexcept {

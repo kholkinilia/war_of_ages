@@ -165,6 +165,7 @@ void application::update_screens() {
                     case messages_type::GAME_START: {
                         std::cerr << "GOT GAME_START" << std::endl;
                         multiplayer_snapshots_handler::instance().reset();
+                        multiplayer_snapshots_handler::instance().start_game();
 
                         std::string enemy_handle;
                         msg.extract_container(enemy_handle);
@@ -239,6 +240,58 @@ void application::update_screens() {
                         player_snapshot snapshot_p2 = get_snapshot_from_msg(msg);
                         player_snapshot snapshot_p1 = get_snapshot_from_msg(msg);
                         multiplayer_snapshots_handler::instance().set_snapshots({snapshot_p1, snapshot_p2});
+                    } break;
+                    case messages_type::GAME_BUY_UNIT: {
+                        std::uint8_t unit_lvl;
+                        std::string handle;
+                        msg >> unit_lvl >> handle;
+
+                        multiplayer_snapshots_handler::instance().apply_command(
+                            handle, std::make_unique<buy_unit_command>(unit_lvl));
+
+                    } break;
+                    case messages_type::GAME_BUY_CANNON: {
+                        std::uint8_t cannon_lvl, slot;
+                        std::string handle;
+                        msg >> slot >> cannon_lvl >> handle;
+
+                        multiplayer_snapshots_handler::instance().apply_command(
+                            handle, std::make_unique<buy_cannon_command>(cannon_lvl, slot));
+
+                    } break;
+                    case messages_type::GAME_BUY_CANNON_SLOT: {
+                        std::string handle;
+                        msg >> handle;
+
+                        multiplayer_snapshots_handler::instance().apply_command(
+                            handle, std::make_unique<buy_cannon_slot_command>());
+
+                    } break;
+                    case messages_type::GAME_SELL_CANNON: {
+                        std::uint8_t slot;
+                        std::string handle;
+                        msg >> slot >> handle;
+
+                        multiplayer_snapshots_handler::instance().apply_command(
+                            handle, std::make_unique<sell_cannon_command>(slot));
+
+                    } break;
+                    case messages_type::GAME_ADD_BULLET: {
+                        std::string handle;
+                        bullet_snapshot snapshot;
+                        msg >> snapshot >> handle;
+                        std::cerr << "Got ADD_BULLET\n";
+                        multiplayer_snapshots_handler::instance().apply_command(
+                            handle, std::make_unique<add_bullet_command>(snapshot));
+
+                    } break;
+                    case messages_type::GAME_UPGRADE_AGE: {
+                        std::string handle;
+
+                        msg >> handle;
+                        multiplayer_snapshots_handler::instance().apply_command(
+                            handle, std::make_unique<upgrade_age_command>());
+
                     } break;
                     case messages_type::ROOM_JOIN_RESPONSE: {
                         std::cout << "got ROOM_JOIN_RESPONSE" << std::endl;
@@ -412,6 +465,15 @@ void application::update_screens() {
                                 ->setText(std::to_string(opponent_rating));
                         }
                     } break;
+                    case messages_type::SERVER_CONNECTED: {
+                        client::instance().set_connecting_status(false);
+                        if (!client::instance().get_is_authorized())
+                            screen_handler::instance().change_screen(
+                                screen_handler::screen_type::LOGIN_OR_AUTHORIZATION);
+                        else
+                            screen_handler::instance().change_screen(
+                                screen_handler::screen_type::MULTIPLAYER);
+                    } break;
                     default:
                         break;
                 }
@@ -419,6 +481,7 @@ void application::update_screens() {
             switch (screen_handler::instance().get_screen_type()) {
                 case screen_handler::screen_type::GAME_SCREEN: {
                     if (multiplayer_snapshots_handler::instance().is_snapshot_initialized()) {
+                        multiplayer_snapshots_handler::instance().update_game();
                         sfml_printer::instance().print_game(
                             multiplayer_snapshots_handler::instance().get_snapshots());
                     }

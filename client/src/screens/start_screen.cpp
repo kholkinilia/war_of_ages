@@ -1,3 +1,4 @@
+#include "application.h"
 #include "screen_handler.h"
 #include "single_player_handler.h"
 
@@ -26,16 +27,26 @@ void screen_handler::start_screen_init() {
     tgui::Button::Ptr multiplayer_button = tgui::Button::create("Мультиплеер");
     multiplayer_button->setTextSize(30);
     multiplayer_button->onPress([&]() {
-        if (!client::instance().get_is_authorized())
-            screen_handler::instance().change_screen(screen_type::LOGIN_OR_AUTHORIZATION);
-        else
-            screen_handler::instance().change_screen(screen_type::MULTIPLAYER);
+        if (!client::instance().is_connected()) {
+            client::instance().set_connecting_status(true);
+            screen_handler::instance().change_screen(screen_handler::screen_type::WAITING_FOR_SERVER);
+            client::instance().connect(client::instance().get_server_ip(),
+                                       client::instance().get_server_port());
+        } else {
+            if (!client::instance().get_is_authorized())
+                screen_handler::instance().change_screen(screen_type::LOGIN_OR_AUTHORIZATION);
+            else
+                screen_handler::instance().change_screen(screen_type::MULTIPLAYER);
+        }
     });
     start_screen_group->add(multiplayer_button);
 
     tgui::Button::Ptr exit_button = tgui::Button::create("Выйти из приложения");
     exit_button->setTextSize(30);
-    exit_button->onPress([]() { sfml_printer::instance().get_window().close(); });
+    exit_button->onPress([]() {
+        client::instance().disconnect();
+        sfml_printer::instance().get_window().close();
+    });
     start_screen_group->add(exit_button);
 
     std::vector<tgui::Widget::Ptr> widgets{singleplayer_button, multiplayer_button, exit_button};

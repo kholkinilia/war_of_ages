@@ -23,22 +23,22 @@ state bot_actions_supplier::get_state(const std::pair<player_snapshot, player_sn
     state answer;
     answer.damage = {0, 0};
     for (auto unit : p.first.units) {
-        answer.damage.first += unit.stats().damage;
+        answer.damage.first += unit->stats().damage;
     }
     for (auto unit : p.second.units) {
-        answer.damage.second += unit.stats().damage;
+        answer.damage.second += unit->stats().damage;
     }
     for (auto unit : p.first.units_to_train) {
-        answer.damage.first += unit.stats().damage;
+        answer.damage.first += unit->stats().damage;
     }
     for (auto unit : p.second.units_to_train) {
-        answer.damage.second += unit.stats().damage;
+        answer.damage.second += unit->stats().damage;
     }
     for (auto cannon : p.first.cannons) {
-        answer.damage.first += bullet::get_stats(cannon.stats().b_type).damage;
+        answer.damage.first += bullet::get_stats(cannon->stats().b_type).damage;
     }
     for (auto cannon : p.second.cannons) {
-        answer.damage.second += bullet::get_stats(cannon.stats().b_type).damage;
+        answer.damage.second += bullet::get_stats(cannon->stats().b_type).damage;
     }
     answer.damage.first = std::min(answer.damage.first / 5, static_cast<int>(Q_table[0].size()) - 1);
     answer.damage.second = std::min(answer.damage.second / 5, static_cast<int>(Q_table[0].size()) - 1);
@@ -74,6 +74,10 @@ bot_actions_supplier::action bot_actions_supplier::get_action(state state) {
 
 std::vector<std::unique_ptr<game_command>> bot_actions_supplier::get_actions(
     const std::pair<player_snapshot, player_snapshot> &p) {
+    //    std::vector<std::unique_ptr<game_command>> res;          // uncomment if you need a stupid bot
+    //    res.push_back(std::make_unique<buy_unit_command>(0));
+    //
+    //    return res;
     auto new_state = get_state(p);
     if (last_state.damage.first != -1) {
         float reward = get_reward(last_state, new_state);
@@ -88,7 +92,7 @@ std::vector<std::unique_ptr<game_command>> bot_actions_supplier::get_actions(
     auto cannons = p.first.cannons;
     for (int j = 0; j < cannons.size(); j++) {
         auto c = cannons[j];
-        if (c.type() == cannon_type::NONE) {
+        if (c->type() == cannon_type::NONE) {
             slot = j;
             break;
         }

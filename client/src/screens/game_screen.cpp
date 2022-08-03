@@ -88,7 +88,7 @@ static void setup_buttons_cluster(std::vector<tgui::Group::Ptr> &groups, action 
                             auto cannons = single_player_handler::instance().get_snapshot().first.cannons;
                             for (int j = 0; j < cannons.size(); j++) {
                                 auto c = cannons[j];
-                                if (c.type() == cannon_type::NONE) {
+                                if (c->type() == cannon_type::NONE) {
                                     slot = j;
                                     break;
                                 }
@@ -120,7 +120,7 @@ static void setup_buttons_cluster(std::vector<tgui::Group::Ptr> &groups, action 
                                 multiplayer_snapshots_handler::instance().get_snapshots().first.cannons;
                             for (int j = 0; j < cannons.size(); j++) {
                                 auto c = cannons[j];
-                                if (c.type() == cannon_type::NONE) {
+                                if (c->type() == cannon_type::NONE) {
                                     slot = j;
                                     break;
                                 }
@@ -167,6 +167,7 @@ static void setup_buttons_cluster(std::vector<tgui::Group::Ptr> &groups, action 
             default:
                 assert(!"Unreachable code!");
         }
+        coin_label->getRenderer()->setTextColor(tgui::Color::Black);
         groups[i]->add(coin_label, "coin_label" + std::to_string(i));
     }
 }
@@ -232,6 +233,7 @@ void screen_handler::game_screen_init() {
     plus_place_cannon_coin_label->getRenderer()->setTextSize(0.6 * COST_HEIGHT);
     plus_place_cannon_coin_label->setPosition(BACKGROUND_WIDTH - DELTA_X * 3 + COST_WIDTH,
                                               FPS_LABEL_HEIGHT + 3);
+    plus_place_cannon_coin_label->getRenderer()->setTextColor(tgui::Color::Black);
 
     std::vector<tgui::Group::Ptr> cannon_groups(CANNONS_PER_AGE);
     setup_buttons_cluster(cannon_groups, action::BUY_CANNON);
@@ -286,6 +288,7 @@ void screen_handler::game_screen_init() {
     auto coin_label = tgui::Label::create();
     coin_label->getRenderer()->setTextSize(0.75 * COIN_HEIGHT);
     coin_label->setPosition(BUTTON_WIDTH + COIN_WIDTH, FPS_LABEL_HEIGHT + 1.5 * COIN_HEIGHT / COST_HEIGHT);
+    coin_label->getRenderer()->setTextColor(tgui::Color::Black);
 
     auto exp_image = tgui::Picture::create("../../client/resources/pictures/exp.png");
     exp_image->setPosition(BUTTON_WIDTH, FPS_LABEL_HEIGHT + COIN_HEIGHT);
@@ -295,6 +298,7 @@ void screen_handler::game_screen_init() {
     exp_label->getRenderer()->setTextSize(0.75 * COIN_HEIGHT);
     exp_label->setPosition(BUTTON_WIDTH + COIN_WIDTH,
                            FPS_LABEL_HEIGHT + 1.5 * COIN_HEIGHT / COST_HEIGHT + COIN_HEIGHT);
+    exp_label->getRenderer()->setTextColor(tgui::Color::Black);
 
     // FIXME: get rid of literal constants
     auto enemy_handle_label = tgui::Label::create();

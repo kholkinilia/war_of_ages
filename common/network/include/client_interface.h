@@ -39,6 +39,10 @@ public:
 
     bool connect(const std::string &host, const uint16_t port) {
         try {
+            if (m_context_thread.joinable()) {
+                m_context_thread.join();
+            }
+
             boost::asio::ip::tcp::resolver resolver(m_context);
             boost::asio::ip::tcp::resolver::results_type endpoints =
                 resolver.resolve(host, std::to_string(port));
@@ -48,16 +52,16 @@ public:
                                                 boost::asio::ip::tcp::socket(m_context), m_messages_received);
 
             m_connection->connect_to_server(endpoints);
-            if (!is_connected()) {
-                return false;
-            }
-            std::cerr << "Connected to the server: " << endpoints->endpoint() << std::endl;
-            m_context_thread = std::thread([this]() { m_context.run(); });
-            return true;
+
+            m_context_thread = std::thread([this]() {
+                m_context.run();
+                m_context.restart();
+            });
         } catch (std::exception &e) {
             std::cerr << "Client exception: " << e.what() << "\n";
             return false;
         }
+        return true;
     };
 
     void disconnect() {
@@ -74,7 +78,7 @@ public:
     }
 
     [[nodiscard]] bool is_connected() const {
-        return (m_connection && m_connection->is_connected());
+        return m_connection && m_connection->is_connected();
     }
 
     ts_deque<owned_message<T>> &get_messages_received() {

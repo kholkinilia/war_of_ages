@@ -1,6 +1,8 @@
 #ifndef WAR_OF_AGES_CANNON_H
 #define WAR_OF_AGES_CANNON_H
 
+#include <functional>
+#include <memory>
 #include <optional>
 #include "bullet.h"
 #include "unit.h"
@@ -26,22 +28,29 @@ struct cannon_stats {
 };
 
 struct cannon {
-private:
+protected:
     cannon_type m_type = cannon_type::NONE;
     float m_attack_progress_s = 0;
     vec2f m_muzzle_position;
 
 public:
-    cannon(cannon_type type, vec2f muzzle_position) noexcept;
+    cannon(cannon_type type, const vec2f &muzzle_position) noexcept;
     cannon() = default;
 
-    [[nodiscard]] std::optional<bullet> update(unit &enemy, float dt) noexcept;
+    [[nodiscard]] std::shared_ptr<bullet> update(
+        std::shared_ptr<unit> enemy,
+        float dt,
+        const std::function<std::shared_ptr<bullet>(bullet_type, const vec2f &, const vec2f &)>
+            &bullet_factory) noexcept;
     [[nodiscard]] cannon_type type() const noexcept;
     [[nodiscard]] const cannon_stats &stats() const noexcept;
     [[nodiscard]] vec2f muzzle_position() const noexcept;
     [[nodiscard]] float attack_progress() const noexcept;
 
     [[nodiscard]] const static cannon_stats &get_stats(cannon_type type) noexcept;
+
+    virtual void post_buy_action() const = 0;
+    virtual void post_sell_action() const = 0;
 };
 
 }  // namespace war_of_ages

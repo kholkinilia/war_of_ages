@@ -5,6 +5,7 @@
 #include "application.h"
 #include "background_handler.h"
 #include "chat_handler.h"
+#include "client.h"
 #include "sfml_printer.h"
 #include "single_player_handler.h"
 
@@ -119,7 +120,7 @@ void screen_handler::change_screen(screen_handler::screen_type new_screen) {
             break;
     }
 
-    // handling state
+    // handling application::state
 
     switch (new_screen) {
         case screen_type::GAME_SCREEN: {

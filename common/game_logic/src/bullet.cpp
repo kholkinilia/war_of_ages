@@ -21,20 +21,22 @@ bullet::bullet(bullet_type type, const vec2f &start, const vec2f &target) noexce
     : m_type{type}, m_pos{start}, m_dir{vec2f{target - start}.normalize()} {
 }
 
-void bullet::update(std::deque<unit> &enemies, float dt) {
+void bullet::update(std::deque<std::shared_ptr<unit>> &enemies, float dt) {
     assert(m_is_alive);  // otherwise, it must be deleted by player::clear_dead_objects()
     m_pos += m_dir * speed() * dt;
     if (m_pos.y < 0) {
         m_is_alive = false;
+        post_collision_action();
         return;
     }
-    auto enemy = std::find_if(enemies.rbegin(), enemies.rend(), [this](const unit &u) {
-        return detect_collision(m_pos, stats().size, {FIELD_LENGTH_PXLS - u.position(), 0.0f},
-                                u.stats().size);
+    auto enemy = std::find_if(enemies.rbegin(), enemies.rend(), [this](const std::shared_ptr<unit> u) {
+        return detect_collision(m_pos, stats().size, {FIELD_LENGTH_PXLS - u->position(), 0.0f},
+                                u->stats().size);
     });
     if (enemy != enemies.rend()) {
-        enemy->decrease_hp(damage());
+        (*enemy)->decrease_hp(damage());
         m_is_alive = false;
+        post_collision_action();
     }
 }
 
@@ -93,4 +95,9 @@ int bullet::damage() const noexcept {
 float bullet::speed() const noexcept {
     return stats().speed;
 }
+
+bullet_snapshot bullet::get_snapshot() const noexcept {
+    return {m_type, m_pos.x, m_pos.y, m_pos.x + m_dir.x, m_pos.y + m_dir.y};
+}
+
 }  // namespace war_of_ages

@@ -2,8 +2,8 @@
 #define WAR_OF_AGES_SERVER_TOURNAMENT_H
 
 #include <vector>
-#include "tournament.h"
 #include "server.h"
+#include "tournament.h"
 
 namespace war_of_ages::server {
 

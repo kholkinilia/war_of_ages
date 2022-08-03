@@ -5,8 +5,8 @@
 #include <functional>
 #include <optional>
 #include <string>
-#include "message.h"
 #include "game_state.h"
+#include "message.h"
 #include "messages_type.h"
 
 namespace war_of_ages::server {
@@ -18,16 +18,19 @@ struct game {
          std::function<void(const std::string &handle_winner, const std::string &handle_loser)>
              game_post_action) noexcept;
 
-    void apply_command(const std::string &handle, std::unique_ptr<game_command> command);
+    bool apply_command(const std::string &handle, std::unique_ptr<game_command> command);
     void update();
     void user_gave_up(const std::string &handle);
     void user_disconnected(const std::string &handle);
     void finish_game();
+    void send_snapshots();
 
     [[nodiscard]] std::size_t get_id() const;
     [[nodiscard]] bool is_finished() const;
     [[nodiscard]] const std::string &get_handle_p1() const;
     [[nodiscard]] const std::string &get_handle_p2() const;
+    [[nodiscard]] std::string get_enemy_handle(const std::string &handle) const;
+    [[nodiscard]] std::string get_enemy_handle_lock_held(const std::string &handle) const;
 
 private:
     static void fill_body_with_snapshot(message<messages_type> &msg,

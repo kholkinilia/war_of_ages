@@ -2,12 +2,14 @@
 #define WAR_OF_AGES_BULLET_H
 
 #include <deque>
+#include <vector>
 #include "age.h"
 #include "unit.h"
 #include "vec2f.h"
 
 namespace war_of_ages {
-enum class bullet_type {
+
+enum class bullet_type : std::int16_t {
     STONE_LEVEL_1,
     STONE_LEVEL_2,
     STONE_LEVEL_3,
@@ -31,6 +33,16 @@ enum class bullet_type {
     NONE
 };
 
+const inline std::vector<bullet_type> ult_bullet_types{bullet_type::STONE_ULT, bullet_type::CASTLE_ULT};
+
+struct bullet_snapshot {
+    bullet_type type;
+    float x_start;
+    float y_start;
+    float x_target;
+    float y_target;
+};
+
 struct bullet_stats {
     int damage;
     float speed;
@@ -42,7 +54,7 @@ struct bullet {
     bullet(bullet_type type, const vec2f &start, const vec2f &target) noexcept;
     bullet() = default;
 
-    void update(std::deque<unit> &enemies, float dt);
+    void update(std::deque<std::shared_ptr<unit>> &enemies, float dt);
 
     // Getters
 
@@ -51,10 +63,14 @@ struct bullet {
     [[nodiscard]] vec2f dir() const noexcept;
     [[nodiscard]] bool is_alive() const noexcept;
     [[nodiscard]] const bullet_stats &stats() const noexcept;
+    [[nodiscard]] bullet_snapshot get_snapshot() const noexcept;
 
     [[nodiscard]] static const bullet_stats &get_stats(bullet_type type);
 
-private:
+    virtual void post_create_action(std::string owner_handle) const = 0;
+    virtual void post_collision_action() const = 0;
+
+protected:
     [[nodiscard]] int damage() const noexcept;
     [[nodiscard]] float speed() const noexcept;
 
