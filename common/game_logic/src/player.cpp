@@ -15,7 +15,7 @@ void player::update(player &enemy, float dt) {
         bullet_->update(enemies, dt);
     }
     for (auto &cannon_ : m_cannons) {
-        auto bullet_ = cannon_.update(enemies.back(), dt, m_bullet_factory);
+        auto bullet_ = cannon_->update(enemies.back(), dt, m_bullet_factory);
         if (bullet_) {
             bullet_->post_create_action();
             m_bullets.push_back(bullet_);
@@ -56,7 +56,7 @@ bool player::buy_unit(int unit_level) {
 bool player::buy_cannon(int cannon_level, int slot) {
     assert(0 <= cannon_level && cannon_level < CANNONS_PER_AGE);
     assert(0 <= slot && slot < m_cannons.size());
-    if (m_cannons[slot].type() != cannon_type::NONE) {
+    if (m_cannons[slot]->type() != cannon_type::NONE) {
         return false;
     }
     auto type = static_cast<cannon_type>(static_cast<int>(m_age) * CANNONS_PER_AGE + cannon_level);
@@ -65,7 +65,8 @@ bool player::buy_cannon(int cannon_level, int slot) {
         return false;
     }
     m_money -= cost;
-    m_cannons[slot] = cannon{type, {CANNONS_SLOTS_COORD_X[slot], CANNONS_SLOTS_COORD_Y[slot]}};
+    m_cannons[slot] = m_cannon_factory(type, {CANNONS_SLOTS_COORD_X[slot], CANNONS_SLOTS_COORD_Y[slot]});
+    m_cannons[slot]->post_buy_action();
     return true;
 }
 
@@ -79,20 +80,20 @@ bool player::buy_cannon_slot() {
         return false;
     }
     m_money -= cost;
-    m_cannons.emplace_back(cannon_type::NONE,
-                           vec2f{CANNONS_SLOTS_COORD_X[slot], CANNONS_SLOTS_COORD_Y[slot]});
+    m_cannons.push_back(
+        m_cannon_factory(cannon_type::NONE, vec2f{CANNONS_SLOTS_COORD_X[slot], CANNONS_SLOTS_COORD_Y[slot]}));
     return true;
 }
 
 bool player::sell_cannon(int slot) {
     assert(0 <= slot && slot < CANNONS_PER_AGE);
-    if (slot >= m_cannons.size() || m_cannons[slot].type() == cannon_type::NONE) {
+    if (slot >= m_cannons.size() || m_cannons[slot]->type() == cannon_type::NONE) {
         return false;
     }
-    m_money += m_cannons[slot].stats().cost / 2;
-    m_cannons[slot] =
-        cannon{cannon_type::NONE,
-               {CANNONS_SLOTS_COORD_X[m_cannons.size()], CANNONS_SLOTS_COORD_Y[m_cannons.size()]}};
+    m_money += m_cannons[slot]->stats().cost / 2;
+    m_cannons[slot] = m_cannon_factory(cannon_type::NONE, {CANNONS_SLOTS_COORD_X[m_cannons.size()],
+                                                           CANNONS_SLOTS_COORD_Y[m_cannons.size()]});
+    m_cannons[slot]->post_sell_action();
     return true;
 }
 
@@ -163,7 +164,7 @@ std::vector<std::shared_ptr<bullet>> player::bullets() const {
     return m_bullets;
 }
 
-std::vector<cannon> player::cannons() const {
+std::vector<std::shared_ptr<cannon>> player::cannons() const {
     return m_cannons;
 }
 
@@ -212,9 +213,14 @@ void player::collect_profit(player &enemy) {
 
 player::player(
     std::function<std::shared_ptr<unit>(unit_type)> unit_factory,
-    std::function<std::shared_ptr<bullet>(bullet_type, const vec2f &, const vec2f &)> bullet_factory)
-    : m_unit_factory(std::move(unit_factory)), m_bullet_factory(std::move(bullet_factory)) {
+    std::function<std::shared_ptr<bullet>(bullet_type, const vec2f &, const vec2f &)> bullet_factory,
+    std::function<std::shared_ptr<cannon>(cannon_type, const vec2f &)> cannon_factory)
+    : m_unit_factory(std::move(unit_factory)),
+      m_bullet_factory(std::move(bullet_factory)),
+      m_cannon_factory(std::move(cannon_factory)) {
     m_units.push_back(m_unit_factory(unit_type::STONE_TOWER));
+    m_cannons.push_back(
+        m_cannon_factory(cannon_type::NONE, {CANNONS_SLOTS_COORD_X[0], CANNONS_SLOTS_COORD_Y[0]}));
 }
 
 }  // namespace war_of_ages

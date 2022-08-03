@@ -1,5 +1,5 @@
 #include "client_bullet.h"
-#include <iostream>
+
 namespace war_of_ages::client {
 
 void client_bullet::post_collision_action() const {

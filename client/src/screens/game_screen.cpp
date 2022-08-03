@@ -88,7 +88,7 @@ static void setup_buttons_cluster(std::vector<tgui::Group::Ptr> &groups, action 
                             auto cannons = single_player_handler::instance().get_snapshot().first.cannons;
                             for (int j = 0; j < cannons.size(); j++) {
                                 auto c = cannons[j];
-                                if (c.type() == cannon_type::NONE) {
+                                if (c->type() == cannon_type::NONE) {
                                     slot = j;
                                     break;
                                 }
@@ -120,7 +120,7 @@ static void setup_buttons_cluster(std::vector<tgui::Group::Ptr> &groups, action 
                                 multiplayer_snapshots_handler::instance().get_snapshots().first.cannons;
                             for (int j = 0; j < cannons.size(); j++) {
                                 auto c = cannons[j];
-                                if (c.type() == cannon_type::NONE) {
+                                if (c->type() == cannon_type::NONE) {
                                     slot = j;
                                     break;
                                 }

@@ -108,12 +108,12 @@ static void print_bullets(sf::RenderWindow *window,
 }
 
 static void print_cannons(sf::RenderWindow *window,
-                          const std::vector<cannon> &cannons,
+                          const std::vector<std::shared_ptr<cannon>> &cannons,
                           sprite_supplier::player_side side) {
     sf::Sprite cannon_picture;
     for (int i = 0; i < cannons.size(); i++) {
         auto cannon = cannons[i];
-        cannon_picture = sprite_supplier::get_instance().get_cannon_sprite(cannon.type(), side);
+        cannon_picture = sprite_supplier::get_instance().get_cannon_sprite(cannon->type(), side);
 
         float x_pos = TOWER_WIDTH + CANNONS_SLOTS_COORD_X[i],
               y_pos = CANNONS_SLOTS_COORD_Y[i] + Y_COORD_DELTA + CANNON_HEIGHT;
@@ -154,7 +154,7 @@ void sfml_printer::print_game(const std::pair<player_snapshot, player_snapshot> 
                          ->get("coin_label" + std::to_string(i))
                          ->cast<tgui::Label>();
         if (i < p1.cannons.size()) {
-            label->setText('+' + std::to_string(p1.cannons[i].stats().cost / 2));
+            label->setText('+' + std::to_string(p1.cannons[i]->stats().cost / 2));
         } else {
             label->setText("+0");
         }

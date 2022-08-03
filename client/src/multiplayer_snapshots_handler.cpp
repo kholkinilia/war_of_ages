@@ -2,6 +2,7 @@
 #include <cassert>
 #include "client.h"
 #include "client_bullet.h"
+#include "client_cannon.h"
 #include "client_unit.h"
 
 namespace war_of_ages::client {
@@ -36,7 +37,8 @@ void multiplayer_snapshots_handler::reset() {
 
 void multiplayer_snapshots_handler::start_game() {
     std::unique_lock l(m_mutex);
-    m_cur_game = std::make_unique<game_state>(client_unit_factory, client_bullet_factory);
+    m_cur_game =
+        std::make_unique<game_state>(client_unit_factory, client_bullet_factory, client_cannon_factory);
     m_snapshots = m_cur_game->snapshot_players();
     m_snapshot_initialized = true;
 }

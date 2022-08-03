@@ -18,7 +18,7 @@ const cannon_stats &cannon::get_stats(cannon_type type) noexcept {
     return stats.at(type);
 }
 
-cannon::cannon(cannon_type type, vec2f cannon_position) noexcept
+cannon::cannon(cannon_type type, const vec2f &cannon_position) noexcept
     : m_type(type),
       m_muzzle_position(
           vec2f{cannon_position.x, cannon_position.y + static_cast<float>(client::CANNON_HEIGHT) / 2}) {

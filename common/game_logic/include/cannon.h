@@ -28,13 +28,13 @@ struct cannon_stats {
 };
 
 struct cannon {
-private:
+protected:
     cannon_type m_type = cannon_type::NONE;
     float m_attack_progress_s = 0;
     vec2f m_muzzle_position;
 
 public:
-    cannon(cannon_type type, vec2f muzzle_position) noexcept;
+    cannon(cannon_type type, const vec2f &muzzle_position) noexcept;
     cannon() = default;
 
     [[nodiscard]] std::shared_ptr<bullet> update(
@@ -48,6 +48,9 @@ public:
     [[nodiscard]] float attack_progress() const noexcept;
 
     [[nodiscard]] const static cannon_stats &get_stats(cannon_type type) noexcept;
+
+    virtual void post_buy_action() const = 0;
+    virtual void post_sell_action() const = 0;
 };
 
 }  // namespace war_of_ages
