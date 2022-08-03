@@ -229,6 +229,9 @@ bool player::add_bullet(bullet_snapshot snapshot) {
     m_bullets.push_back(m_bullet_factory(snapshot.type, {snapshot.x_start, snapshot.y_start},
                                          {snapshot.x_target, snapshot.y_target}));
     m_bullets.back()->post_create_action(m_handle);
+    if (m_ult_cooldown <= 0) {
+        m_ult_cooldown = ULT_COOLDOWN;
+    }
     return true;
 }
 
